@@ -58,7 +58,7 @@ export default function Product(props) {
           <div class="row justify-content-center">
             {props.data.map((item) => {
               return (
-                <div class="col-3 card-product mx-3 p-3">
+                <div class="col-3 card-product mx-3 p-3 mb-4">
                   <img
                     src={item.image}
                     alt="Shoes-1"
