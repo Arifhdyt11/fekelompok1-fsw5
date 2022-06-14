@@ -20,6 +20,13 @@
         "name":"Vans Old Skool Black White",
         "category":"Casual",
         "price":"7000000"
+      },
+      {
+        "id" : 4,
+        "image":"./images/shoes-4.png",
+        "name":"Vans Old Skool Black White",
+        "category":"Boots",
+        "price":"5500000"
       }
     ]
   }
