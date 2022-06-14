@@ -1,4 +1,4 @@
-import React from "react";
+import Button from "../../elements/Button";
 
 export default function Product() {
   return (
@@ -7,21 +7,51 @@ export default function Product() {
         <div className="category mb-5">
           <h3>Kategori</h3>
           <div className="d-flex justify-content-start my-3">
-            <a href="" className="btn btn-filter active  me-3" type="submit">
-              Semua
-            </a>
-            <a href="" className="btn btn-filter  me-3" type="submit">
+            <Button
+              className="btn active me-3"
+              hasShadow
+              isSecondary
+              href="/"
+              type="link"
+            >
+              Masuk
+            </Button>
+            <Button
+              className="btn me-3"
+              hasShadow
+              isSecondary
+              href="/filter?filter=Sneakers"
+              type="link"
+            >
               Sneakers
-            </a>
-            <a href="" className="btn btn-filter me-3" type="submit">
+            </Button>
+            <Button
+              className="btn me-3"
+              hasShadow
+              isSecondary
+              href="/filter?filter=Boots"
+              type="link"
+            >
               Boots
-            </a>
-            <a href="" className="btn btn-filter me-3 " type="submit">
-              Sport
-            </a>
-            <a href="" className="btn btn-filter me-3" type="submit">
+            </Button>
+            <Button
+              className="btn me-3"
+              hasShadow
+              isSecondary
+              href="/filter?filter=Sports"
+              type="link"
+            >
+              Sports
+            </Button>
+            <Button
+              className="btn me-3"
+              hasShadow
+              isSecondary
+              href="/filter?filter=Casual"
+              type="link"
+            >
               Casual
-            </a>
+            </Button>
           </div>
         </div>
         <div className="product">

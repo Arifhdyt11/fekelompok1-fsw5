@@ -4,6 +4,39 @@ body {
     font-style: normal;
 }
 
+.btn-shadow {
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+}
+
+.btn-primary {
+    background: #3252df;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #203fcb;
+    border-color: #1e3cc0;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: #3252df;
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+
+.btn-secondary:hover {
+    background: #748eff;
+    color: #ffff;
+}
+
 .navbar {
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -29,15 +62,6 @@ body {
     color: #152c5b;
 }
 
-.btn-login {
-    background: #3252df;
-    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
-    border-radius: 4px;
-    font-weight: 500;
-    font-size: 16px;
-    color: #ffffff;
-}
-
 section {
     margin-top: 40px;
 }
@@ -54,16 +78,6 @@ section {
     color: #b0b0b0;
 }
 
-.btn-filter {
-    border-color: #3252df;
-    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
-    border-radius: 4px;
-
-    font-weight: 500;
-    font-size: 16px;
-    color: #000;
-}
-
 .section-product h3 {
     font-weight: 500;
     font-size: 24px;
@@ -78,11 +92,6 @@ section {
 
     font-weight: 500;
     font-size: 16px;
-    color: #ffff;
-}
-
-.btn-filter:hover {
-    background: #748eff;
     color: #ffff;
 }
 

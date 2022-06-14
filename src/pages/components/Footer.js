@@ -1,5 +1,5 @@
 import Button from "../../elements/Button";
-
+import IconText from "./IconText";
 export default function Footer() {
   return (
     <>
@@ -7,9 +7,7 @@ export default function Footer() {
         <div className="container">
           <div className="row">
             <div className="col-auto" style={{ width: 350 }}>
-              <a className="navbar-brand" href="#">
-                NavbarLogo
-              </a>
+                <IconText />
               <p className="brand-tagline">Be Trend And In Style.</p>
             </div>
             <div className="col-auto mr-5">

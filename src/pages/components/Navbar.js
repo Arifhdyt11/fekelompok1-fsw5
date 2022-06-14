@@ -17,7 +17,7 @@ export default function Navbar(props) {
           </form>
 
           <Button
-            className="btn btn-login ms-auto px-3 py-2"
+            className="btn ms-auto px-3 py-2"
             hasShadow
             isPrimary
             href="/login"

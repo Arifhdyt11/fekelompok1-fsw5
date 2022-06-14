@@ -1,8 +1,14 @@
-import React from "react";
+import Button from "../../elements/Button";
 
 import ImageHero from "../../assets/images/img-hero.png";
 
-export default function Hero() {
+export default function Hero(props) {
+  function showMostPicked() {
+    window.scrollTo({
+      top: props.refMostPicked.current.offsetTop - 30,
+      behavior: "smooth",
+    });
+  }
   return (
     <section className="container section-hero">
       <div className="row">
@@ -18,9 +24,15 @@ export default function Hero() {
             Explore the latest shoes for every sport, workout and everyday look.
             Built for ultimate performance and sneaker style.
           </p>
-          <a className="btn btn-login ms-auto px-3 py-2" type="submit">
-            Mulai Belanja
-          </a>
+          <Button
+            className="btn ms-auto px-3 py-2"
+            hasShadow
+            isPrimary
+            href="#product"
+            type="link"
+          >
+            Show Me Now
+          </Button>
         </div>
 
         <div className="col-6 pl-5">
