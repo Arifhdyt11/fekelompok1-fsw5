@@ -21,16 +21,15 @@ export default function Hero() {
           <a className="btn btn-login ms-auto px-3 py-2" type="submit">
             Mulai Belanja
           </a>
-          <div className="row" style={{ marginTop: 80 }}></div>
         </div>
 
         <div className="col-6 pl-5">
-          <div style={{ width: 545, height: 491 }}>
+          <div style={{ width: 552, height: 437 }}>
             <img
               src={ImageHero}
               alt="Room with couches"
               className="img-fluid position-absolute "
-              style={{ margin: "0px 0px 0px 0px", zIndex: 1 }}
+              style={{ zIndex: 1 }}
             />
           </div>
         </div>

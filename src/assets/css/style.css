@@ -1,6 +1,7 @@
 body {
     background-color: #ffff;
     font-family: "Poppins", sans-serif;
+    font-style: normal;
 }
 
 .header {
@@ -18,26 +19,81 @@ body {
     background: #3252df;
     box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
     border-radius: 4px;
-    font-style: normal;
     font-weight: 500;
     font-size: 16px;
     color: #ffffff;
 }
 
 section {
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 .section-hero h1 {
-    font-style: normal;
     font-weight: 700;
     font-size: 42px;
     color: #152c5b;
 }
 
 .section-hero p {
-    font-style: normal;
     font-weight: 300;
     font-size: 18px;
+    color: #b0b0b0;
+}
+
+.btn-filter {
+    border-color: #3252df;
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+    border-radius: 4px;
+
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+
+.section-product h3 {
+    font-weight: 500;
+    font-size: 24px;
+    color: #152c5b;
+}
+
+.section-product .active {
+    background: #748eff;
+    border-color: transparent;
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+    border-radius: 4px;
+
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffff;
+}
+
+.btn-filter:hover {
+    background: #748eff;
+    color: #ffff;
+}
+
+.section-product .card-product {
+    width: 250px;
+    min-height: 200px;
+    background: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.section-product .card-product h4,
+p {
+    margin-bottom: 5px;
+}
+
+.section-product .card-product h4 {
+    font-weight: 500;
+    font-size: 15px;
+    color: #152c5b;
+}
+.section-product .card-product p {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 22px;
     color: #b0b0b0;
 }
