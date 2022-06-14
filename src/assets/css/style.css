@@ -97,3 +97,36 @@ p {
     line-height: 22px;
     color: #b0b0b0;
 }
+
+footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 50px;
+}
+
+footer .brand-tagline {
+    margin-top: 8px;
+    color: #adb5bd;
+    font-weight: 300;
+}
+
+footer .list-group-item {
+    padding: 0.3125rem 0;
+    border: 0;
+}
+
+footer .list-group-item a,
+span {
+    color: #adb5bd;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+footer .list-group-item a:hover {
+    color: #343a40;
+}
+
+footer .copyrights {
+    margin: 50px 0;
+    font-weight: 300;
+    color: #adb5bd;
+}
