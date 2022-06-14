@@ -1,0 +1,158 @@
+body {
+    background-color: #ffff;
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+}
+
+.btn-shadow {
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+}
+
+.btn-primary {
+    background: #3252df;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #203fcb;
+    border-color: #1e3cc0;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border-color: #3252df;
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+
+.btn-secondary:hover {
+    background: #748eff;
+    color: #ffff;
+}
+
+.navbar {
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-light input {
+    background: #eeeeee;
+    border-radius: 16px;
+    width: 300px;
+}
+.brand-text-icon {
+    font-size: 26px;
+    font-weight: 500;
+    color: #3252df;
+    text-decoration: none;
+}
+.brand-text-icon :hover {
+    color: #3252df;
+    text-decoration: none;
+}
+
+.text-gray-900 {
+    color: #152c5b;
+}
+
+section {
+    margin-top: 40px;
+}
+
+.section-hero h1 {
+    font-weight: 700;
+    font-size: 42px;
+    color: #152c5b;
+}
+
+.section-hero p {
+    font-weight: 300;
+    font-size: 18px;
+    color: #b0b0b0;
+}
+
+.section-product h3 {
+    font-weight: 500;
+    font-size: 24px;
+    color: #152c5b;
+}
+
+.section-product .active {
+    background: #748eff;
+    border-color: transparent;
+    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+    border-radius: 4px;
+
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffff;
+}
+
+.section-product .card-product {
+    width: 250px;
+    background: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.section-product .card-product .product-name {
+    min-height: 40px;
+}
+
+.section-product .card-product h4,
+p {
+    margin-bottom: 5px;
+}
+
+.section-product .card-product h4 {
+    font-weight: 500;
+    font-size: 15px;
+    color: #152c5b;
+}
+.section-product .card-product p {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 22px;
+    color: #b0b0b0;
+}
+
+footer {
+    border-top: 1px solid #e9ecef;
+    padding-top: 50px;
+}
+
+footer .brand-tagline {
+    margin-top: 8px;
+    color: #adb5bd;
+    font-weight: 300;
+}
+
+footer .list-group-item {
+    padding: 0.3125rem 0;
+    border: 0;
+}
+
+footer .list-group-item a,
+span {
+    color: #adb5bd;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+footer .list-group-item a:hover {
+    color: #343a40;
+}
+
+footer .copyrights {
+    margin: 50px 0;
+    font-weight: 300;
+    color: #adb5bd;
+}

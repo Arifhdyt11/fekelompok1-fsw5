@@ -1,0 +1,19 @@
+{
+    "product": [
+      {
+        "id" : 1,
+        "image":"./images/shoes-1.png",
+        "name":"Jordan 1 Retro High Obsidian UNC",
+        "category":"Sneakers",
+        "price":"2400000"
+      },
+      {
+        "id" : 2,
+        "image":"./images/shoes-2.png",
+        "name":"Vans Old Skool Black White",
+        "category":"Casual",
+        "price":"700000"
+      }
+    ]
+  }
+  
