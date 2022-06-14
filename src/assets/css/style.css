@@ -97,11 +97,14 @@ section {
 
 .section-product .card-product {
     width: 250px;
-    min-height: 200px;
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.section-product .card-product .product-name {
+    min-height: 40px;
 }
 
 .section-product .card-product h4,

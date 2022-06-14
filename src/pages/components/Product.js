@@ -1,6 +1,6 @@
 import Button from "../../elements/Button";
 
-export default function Product() {
+export default function Product(props) {
   return (
     <>
       <section className="container section-product mt-0 mb-5">
@@ -14,7 +14,7 @@ export default function Product() {
               href="/"
               type="link"
             >
-              Masuk
+              All
             </Button>
             <Button
               className="btn me-3"
@@ -56,16 +56,22 @@ export default function Product() {
         </div>
         <div className="product">
           <div class="row justify-content-center">
-            <div class="col-3 card-product mx-3 p-3">
-              <img
-                src="./images/shoes-1.png"
-                alt="Shoes-1"
-                className="img-fluid mb-3"
-              />
-              <h4>Jordan 1 Retro High Obsidian UNC</h4>
-              <p>Sneakers</p>
-              <h4>Rp. 2.900.000</h4>
-            </div>
+            {props.data.map((item) => {
+              return (
+                <div class="col-3 card-product mx-3 p-3">
+                  <img
+                    src="./images/shoes-1.png"
+                    alt="Shoes-1"
+                    className="img-fluid mb-3"
+                  />
+                  <div className="product-name">
+                    <h4>{item.name}</h4>
+                  </div>
+                  <p>{item.category}</p>
+                  <h4>Rp. {item.price}</h4>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
