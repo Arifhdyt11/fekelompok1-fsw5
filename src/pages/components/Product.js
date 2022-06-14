@@ -60,7 +60,7 @@ export default function Product(props) {
               return (
                 <div class="col-3 card-product mx-3 p-3">
                   <img
-                    src="./images/shoes-1.png"
+                    src={item.image}
                     alt="Shoes-1"
                     className="img-fluid mb-3"
                   />
