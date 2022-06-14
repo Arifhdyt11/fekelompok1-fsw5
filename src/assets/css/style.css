@@ -23,3 +23,21 @@ body {
     font-size: 16px;
     color: #ffffff;
 }
+
+section {
+    margin-top: 50px;
+}
+
+.section-hero h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 42px;
+    color: #152c5b;
+}
+
+.section-hero p {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 18px;
+    color: #b0b0b0;
+}
