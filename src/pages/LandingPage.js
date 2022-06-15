@@ -10,7 +10,7 @@ export default class LandingPage extends Component {
   render() {
     return (
       <>
-        <Navbar></Navbar>
+        <Navbar isSearch="yes"></Navbar>
         <Hero></Hero>
         <Product data={landingPage.product}></Product>
         <Footer></Footer>
