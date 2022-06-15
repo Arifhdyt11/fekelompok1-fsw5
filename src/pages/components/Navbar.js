@@ -1,7 +1,7 @@
 import Button from "../../elements/Button";
 import BrandIcon from "./IconText";
 
-export default function Navbar(props) {
+export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-light py-3">
       <div className="container">

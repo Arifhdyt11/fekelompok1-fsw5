@@ -55,7 +55,7 @@ export default function Product(props) {
           </div>
         </div>
         <div className="product">
-          <div class="row justify-content-center">
+          <div className="row justify-content-center">
             {props.data.map((item) => {
               return (
                 <Button
@@ -63,6 +63,7 @@ export default function Product(props) {
                   href={`/product/${item.id}`}
                   className="col-3 card-product mx-3 p-3 mb-4"
                   style={{ textDecoration: "none" }}
+                  key={item.id}
                 >
                   <img
                     src={item.image}

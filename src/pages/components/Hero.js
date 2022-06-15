@@ -2,13 +2,7 @@ import Button from "../../elements/Button";
 
 import ImageHero from "../../assets/images/img-hero.png";
 
-export default function Hero(props) {
-  function showMostPicked() {
-    window.scrollTo({
-      top: props.refMostPicked.current.offsetTop - 30,
-      behavior: "smooth",
-    });
-  }
+export default function Hero() {
   return (
     <section className="container section-hero">
       <div className="row">
@@ -24,13 +18,7 @@ export default function Hero(props) {
             Explore the latest shoes for every sport, workout and everyday look.
             Built for ultimate performance and sneaker style.
           </p>
-          <Button
-            className="btn ms-auto px-3 py-2"
-            hasShadow
-            isPrimary
-            href="#product"
-            type="link"
-          >
+          <Button className="btn ms-auto px-3 py-2" hasShadow isPrimary>
             Show Me Now
           </Button>
         </div>
