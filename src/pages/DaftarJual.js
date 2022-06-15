@@ -15,7 +15,7 @@ function DaftarJual() {
     return (
         <>
             <Navbar />
-            <div class="container my-5">
+            <div className="container my-5">
                 <ProductHeader />
                 <ProductBody product={product} setProduct={setProduct} />
             </div>

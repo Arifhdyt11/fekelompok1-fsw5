@@ -5,7 +5,7 @@ import ProductList from "./ProductList";
 
 function ProductBody({ product }) {
     return (
-        <div class="row">
+        <div className="row">
             <ProductSidebar />
             <ProductList product={product} />
         </div>
