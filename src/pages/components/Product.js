@@ -4,7 +4,7 @@ export default function Product(props) {
   return (
     <>
       <section className="container section-product mt-0 mb-5">
-        <div className="category mb-5">
+        <div className="filter mb-5">
           <h3>Kategori</h3>
           <div className="d-flex justify-content-start my-3">
             <Button
