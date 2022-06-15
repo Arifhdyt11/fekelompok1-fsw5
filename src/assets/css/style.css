@@ -4,8 +4,42 @@ body {
     font-style: normal;
 }
 
+h1 {
+    font-weight: 700;
+    font-size: 42px;
+    color: #152c5b;
+}
+
+h2 {
+    font-weight: 600;
+    font-size: 26px;
+    color: #152c5b;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 22px;
+    color: #152c5b;
+}
+
+h4 {
+    font-weight: 500;
+    font-size: 15px;
+    color: #152c5b;
+}
+
+p {
+    font-weight: 300;
+    font-size: 15px;
+    color: #b0b0b0;
+}
+
 .btn-shadow {
     box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
+}
+
+.btn-block {
+    width: 100%;
 }
 
 .btn-primary {
@@ -55,7 +89,6 @@ body {
 }
 .brand-text-icon :hover {
     color: #3252df;
-    text-decoration: none;
 }
 
 .text-gray-900 {
@@ -66,22 +99,8 @@ section {
     margin-top: 40px;
 }
 
-.section-hero h1 {
-    font-weight: 700;
-    font-size: 42px;
-    color: #152c5b;
-}
-
 .section-hero p {
-    font-weight: 300;
     font-size: 18px;
-    color: #b0b0b0;
-}
-
-.section-product h3 {
-    font-weight: 500;
-    font-size: 24px;
-    color: #152c5b;
 }
 
 .section-product .active {
@@ -112,16 +131,29 @@ p {
     margin-bottom: 5px;
 }
 
-.section-product .card-product h4 {
-    font-weight: 500;
-    font-size: 15px;
-    color: #152c5b;
+.section-title-product .product-title p {
+    font-size: 18px;
 }
-.section-product .card-product p {
-    font-weight: 300;
-    font-size: 15px;
-    line-height: 22px;
-    color: #b0b0b0;
+
+.section-detail-product .description-product p {
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.section-detail-product .card-detail-right {
+    width: 400px;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+}
+
+.section-detail-product .card-detail-right .seller-image {
+    width: 48px;
+    height: 48px;
+}
+
+.section-detail-product .card-detail-right h3 {
+    color: #1abc9c;
 }
 
 footer {
