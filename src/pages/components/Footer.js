@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="container">
           <div className="row">
             <div className="col-auto" style={{ width: 350 }}>
-                <IconText />
+              <IconText />
               <p className="brand-tagline">Be Trend And In Style.</p>
             </div>
-            <div className="col-auto mr-5">
+            <div className="col-auto me-5">
               <h6 className="mt-2">For Beinners</h6>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
@@ -30,7 +30,7 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-            <div className="col-2 mr-5">
+            <div className="col-2 me-5">
               <h6 className="mt-2">Explore Us</h6>
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
