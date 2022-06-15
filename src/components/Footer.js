@@ -1,12 +1,13 @@
-import Button from "../../elements/Button";
-import IconText from "./IconText";
+import Button from "../elements/Button";
+import BrandIcon from "./IconText";
+
 export default function Footer() {
   return (
     <footer>
       <div className="container">
         <div className="row">
           <div className="col-auto" style={{ width: 350 }}>
-            <IconText />
+            <BrandIcon />
             <p className="brand-tagline">Be Trend And In Style.</p>
           </div>
           <div className="col-auto me-5">

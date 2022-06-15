@@ -1,9 +1,9 @@
-import ActionDetail from "./components/ActionDetail";
-import DescriptionProduct from "./components/DescriptionProduct";
-import Footer from "./components/Footer";
-import Galery from "./components/Galery";
-import Navbar from "./components/Navbar";
-import ProductTitle from "./components/ProductTitle";
+import ActionDetail from "../components/ActionDetail";
+import DescriptionProduct from "../components/DescriptionProduct";
+import Footer from "../components/Footer";
+import Galery from "../components/Galery";
+import Navbar from "../components/Navbar";
+import ProductTitle from "../components/ProductTitle";
 
 export default function Product() {
   return (

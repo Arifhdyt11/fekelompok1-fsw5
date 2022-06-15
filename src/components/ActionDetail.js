@@ -1,5 +1,5 @@
-import Seller from "../../assets/images/seller-1.png";
-import Button from "../../elements/Button";
+import Seller from "../assets/images/seller-1.png";
+import Button from "../elements/Button";
 
 export default function ActionDetail() {
   return (

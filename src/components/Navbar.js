@@ -1,4 +1,4 @@
-import Button from "../../elements/Button";
+import Button from "../elements/Button";
 import BrandIcon from "./IconText";
 
 function CheckSearch(props) {
@@ -20,7 +20,7 @@ function CheckSearch(props) {
 }
 function CheckLogin(props) {
   const { isLogin } = props;
-  if (isLogin == "yes") {
+  if (isLogin === "yes") {
     return <></>;
   } else {
     return (
