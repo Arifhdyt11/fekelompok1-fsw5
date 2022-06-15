@@ -29,7 +29,7 @@ function Login() {
                                     <div className="input-group">
                                         <input type="password" className="form-control form-control-password" placeholder="Masukkan password" />
                                         <span className="input-group-text " id="basic-addon2">
-                                            <i className="fa-regular fa-eye"></i>
+                                            <i className="uil uil-eye"></i>
                                         </span>
                                     </div>
                                 </div>

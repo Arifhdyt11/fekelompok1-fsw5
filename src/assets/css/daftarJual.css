@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.content-header .header-title {
+    margin-bottom: 24px;
+}
+
+.content-header .header-title h3 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    color: #152C5B;
+    line-height: 30px;
+}
+
+.content-header .img-user img {
+    border-radius: 12px;
+    width: 48px;
+    height: 45px;
+    object-fit: cover;
+    object-position: center;
+    margin-right: 16px;
+}
+
+.content-header .btn-edit {
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    border: 1px solid #3252DF;
+}
+
+.content-header .user-details h6 {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #152C5B;
+}
+
+.content-header .user-details .kota {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 14px;
+    color: #8A8A8A;
+}
+
+.content-header .header-body {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.section-sidebar {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.section-sidebar h5 {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: #152C5B;
+}
+
+.section-sidebar .category {
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.section-sidebar .item-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.section-sidebar .list-group-item {
+    border: none;
+    padding: 0.5rem 0rem;
+}
+
+.section-produk .card {
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15) !important;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.section-produk .card-plus {
+    background: #FFFFFF;
+    border: 2px dashed #D0D0D0;
+    border-radius: 4px;
+    height: 301px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.section-produk .icon-plus {
+    font-size: 20px;
+    color: #8A8A8A;
+}
+
+
+.section-produk .card .img-sepatu {
+    border-radius: 4px;
+    height: 155px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    margin-bottom: 15px;
+}
+
+.section-produk .card .product-name {
+    font-weight: 500;
+    font-size: 15px;
+    color: #152c5b;
+}
+
+.section-produk .card .kategori {
+    font-weight: 300;
+    font-size: 15px;
+    color: #b0b0b0;
+    margin-top: 10px;
+    margin-bottom: 2px;
+}
+
+.section-produk .card .harga {
+    font-weight: 500;
+    font-size: 15px;
+    color: #152c5b;
+}
