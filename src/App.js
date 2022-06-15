@@ -3,7 +3,10 @@ import "./assets/css/style.css";
 import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Product from "./pages/Product";
+import DaftarJual from "./pages/DaftarJual";
 import DetailProduct from "./pages/DetailProduct";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -13,6 +16,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/seller/daftar-jual" element={<DaftarJual />} />
         <Route path="/product/:id" element={<DetailProduct />} />
       </Routes>
     </Router>
