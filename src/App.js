@@ -7,6 +7,7 @@ import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Wishlist from "pages/Wishlist";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/product/:id" element={<DetailProduct />} />
         <Route path="/seller/daftar-jual" element={<DaftarJual />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
 
         <Route
           path="/seller/product/:id"
