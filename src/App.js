@@ -7,6 +7,7 @@ import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import InfoPenawarPage from "./pages/InfoPenawar";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/seller" element={<DaftarJual />} />
         <Route path="/seller/daftar-jual" element={<DaftarJual />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/transaction" element={<InfoPenawarPage />} />
         <Route
           path="/seller/product/:id"
           element={<DetailProduct isSeller="yes" />}
