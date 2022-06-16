@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../assets/css/login.css";
-import BrandIcon from "../components/IconText";
+import "assets/css/login.css";
+import BrandIcon from "components/IconText";
 
 function Login() {
   return (

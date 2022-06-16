@@ -1,4 +1,4 @@
-import Button from "../elements/Button";
+import Button from "elements/Button";
 import BrandIcon from "./IconText";
 
 function CheckSearch(props) {

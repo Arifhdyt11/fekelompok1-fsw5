@@ -1,5 +1,5 @@
-import SellerImg from "../assets/images/seller-1.png";
-import Button from "../elements/Button";
+import SellerImg from "assets/images/seller-1.png";
+import Button from "elements/Button";
 
 function CheckButton(props) {
   const { isSeller } = props;

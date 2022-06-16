@@ -1,6 +1,6 @@
-import Button from "../elements/Button";
-import Shadow from "../assets/images/shadow-img.png";
-import Cover from "../assets/images/cover-img.png";
+import Button from "elements/Button";
+import Shadow from "assets/images/shadow-img.png";
+import Cover from "assets/images/cover-img.png";
 
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";

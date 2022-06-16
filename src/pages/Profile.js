@@ -1,9 +1,9 @@
 import React from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import fotoProfile from "../assets/images/fotoProfile.png";
-import "../assets/css/profile.css";
-import Button from "../elements/Button";
+import Footer from "components/Footer";
+import Navbar from "components/Navbar";
+import fotoProfile from "assets/images/fotoProfile.png";
+import "assets/css/profile.css";
+import Button from "elements/Button";
 
 export default function ProfilePage() {
   return (

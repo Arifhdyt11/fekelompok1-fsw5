@@ -1,9 +1,9 @@
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Product from "../components/Product";
-import Footer from "../components/Footer";
+import Navbar from "components/Navbar";
+import Hero from "components/Hero";
+import Product from "components/Product";
+import Footer from "components/Footer";
 
-import landingPage from "../json/landingPage.json";
+import landingPage from "json/landingPage.json";
 
 export default function LandingPage() {
   return (

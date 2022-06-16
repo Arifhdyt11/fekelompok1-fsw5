@@ -1,5 +1,4 @@
-import React from "react";
-import gambar from "../../assets/images/login2.png";
+import gambar from "assets/images/login2.png";
 
 function ProductHeader() {
   return (
