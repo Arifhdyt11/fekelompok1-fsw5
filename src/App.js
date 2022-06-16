@@ -1,11 +1,11 @@
-import "./assets/css/style.css";
+import "assets/css/style.css";
 
-import LandingPage from "./pages/LandingPage";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import DaftarJual from "./pages/DaftarJual";
+import LandingPage from "pages/LandingPage";
+import Register from "pages/Register";
+import Login from "pages/Login";
+import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
-import DetailProduct from "./pages/DetailProduct";
+import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
