@@ -2,6 +2,17 @@ import React from "react";
 import ProductItem from "./ProductItem";
 
 function ProductList({ product }) {
+
+    // const large = product.filter(status => {
+    //     return status.status === "Terjual";
+    // })
+    // const large2 = product.filter(status => {
+    //     return status.status === "Diminati";
+    // })
+
+    // let diminati = large2.length;
+    // let terjual = large.length;
+
     return (
 
         <div className="col-lg-9 col-md-8 col-12">
@@ -14,11 +25,17 @@ function ProductList({ product }) {
                             </div>
                         </a>
                     </div>
+
                     {
-                        product.map((item) => (
-                            <ProductItem key={item.id} {...item} />
-                        ))
+                        product.length === 0 ? (
+                            <p className="text-danger">Datanya kosong</p>
+                        ) : (
+                            product.map((item) => (
+                                <ProductItem key={item.id} {...item} />
+                            ))
+                        )
                     }
+
                 </div>
             </div>
         </div>
