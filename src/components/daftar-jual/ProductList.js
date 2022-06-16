@@ -1,41 +1,29 @@
 import React from "react";
 import ProductItem from "./ProductItem";
+import img from "assets/images/ilustrasi.svg"
+
 
 function ProductList({ product }) {
-
-    // const large = product.filter(status => {
-    //     return status.status === "Terjual";
-    // })
-    // const large2 = product.filter(status => {
-    //     return status.status === "Diminati";
-    // })
-
-    // let diminati = large2.length;
-    // let terjual = large.length;
 
     return (
 
         <div className="col-lg-9 col-md-8 col-12">
             <div className="section-produk my-2">
                 <div className="row">
-                    <div className="col-lg-4 col-md-6 col-6">
-                        <a href=" ">
-                            <div className="card-plus p-3 mb-4 my-auto">
-                                <i className="uil uil-plus icon-plus"></i>
-                            </div>
-                        </a>
-                    </div>
-
                     {
                         product.length === 0 ? (
-                            <p className="text-danger">Datanya kosong</p>
+                            <div className="d-flex justify-content-center null-illustration p-5">
+                                <div>
+                                    <img src={img} alt="" className="img-fluid mb-3" />
+                                    <p>Produk tidak ditemukan</p>
+                                </div>
+                            </div>
                         ) : (
                             product.map((item) => (
                                 <ProductItem key={item.id} {...item} />
                             ))
                         )
                     }
-
                 </div>
             </div>
         </div>

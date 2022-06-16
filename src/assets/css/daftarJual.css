@@ -139,3 +139,7 @@ body {
     font-size: 15px;
     color: #152c5b;
 }
+
+.null-illustration img {
+    width: 200px;
+}

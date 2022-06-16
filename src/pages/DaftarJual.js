@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../assets/css/daftarJual.css";
+
 import Navbar from "../components/Navbar";
 import ProductHeader from "../components/daftar-jual/ProductHeader";
 import ProductBody from "../components/daftar-jual/ProductBody";
 import Footer from "../components/Footer";
+import Button from "elements/Button";
 
 import { getInitialData } from "../json/data.js";
 
@@ -25,6 +27,19 @@ function DaftarJual() {
       <Navbar />
       <div className="container my-5">
         <ProductHeader />
+        
+        <div className="d-flex flex-row-reverse">
+          <Button
+            className="btn active my-4"
+            hasShadow
+            isPrimary
+            href="/"
+            type="link"
+          >
+            Tambah Produk
+          </Button>
+        </div>
+
         <ProductBody
           product={product}
           setProduct={setProduct}
