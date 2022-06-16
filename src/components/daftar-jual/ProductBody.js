@@ -3,10 +3,14 @@ import React from "react";
 import ProductSidebar from "./ProductSidebar";
 import ProductList from "./ProductList";
 
-function ProductBody({ product }) {
+function ProductBody({ product, filterItem, setProduct, menuItems }) {
     return (
         <div className="row">
-            <ProductSidebar />
+            <ProductSidebar
+                filterItem={filterItem}
+                setProduct={setProduct}
+                menuItems={menuItems}
+            />
             <ProductList product={product} />
         </div>
     );

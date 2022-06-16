@@ -11,12 +11,26 @@ function DaftarJual() {
   // getdata
   const [product, setProduct] = useState(getInitialData());
 
+  const menuItems = [...new Set(getInitialData().map((Val) => Val.status))];
+
+  const filterItem = (curcat) => {
+    const newItem = getInitialData().filter((newVal) => {
+      return newVal.status === curcat;
+    });
+    setProduct(newItem);
+  };
+
   return (
     <>
       <Navbar />
       <div className="container my-5">
         <ProductHeader />
-        <ProductBody product={product} setProduct={setProduct} />
+        <ProductBody
+          product={product}
+          setProduct={setProduct}
+          filterItem={filterItem}
+          menuItems={menuItems}
+        />
       </div>
       <Footer />
     </>

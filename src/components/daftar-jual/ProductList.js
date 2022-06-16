@@ -6,7 +6,6 @@ function ProductList({ product }) {
 
         <div className="col-lg-9 col-md-8 col-12">
             <div className="section-produk my-2">
-
                 <div className="row">
                     <div className="col-lg-4 col-md-6 col-6">
                         <a href=" ">
@@ -17,12 +16,10 @@ function ProductList({ product }) {
                     </div>
                     {
                         product.map((item) => (
-                            <ProductItem key={product.id} {...item} />
+                            <ProductItem key={item.id} {...item} />
                         ))
                     }
-
                 </div>
-
             </div>
         </div>
 
