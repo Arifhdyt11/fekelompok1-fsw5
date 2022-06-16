@@ -17,7 +17,7 @@ function ProductList({ product }) {
                     </div>
                     {
                         product.map((item) => (
-                            <ProductItem {...item} />
+                            <ProductItem key={product.id} {...item} />
                         ))
                     }
 

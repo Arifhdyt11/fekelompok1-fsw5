@@ -2,7 +2,7 @@ const getInitialData = () => ([
   {
     "id": 1,
     "image": "../images/shoes-1.png",
-    "name": "Jordan 1 Retro High Obsidian",
+    "name": "Jordan 1 Retro High Obsidian JDR",
     "category": "Sneakers",
     "price": "2400000"
   },

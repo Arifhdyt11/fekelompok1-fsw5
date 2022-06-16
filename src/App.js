@@ -15,7 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
-        <Route path="/seller/daftar-jual" element={<DaftarJual />} />
+        <Route path="/seller" element={<DaftarJual />} />
         <Route
           path="/seller/product/:id"
           element={<DetailProduct isSeller="yes" />}
