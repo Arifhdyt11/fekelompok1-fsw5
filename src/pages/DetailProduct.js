@@ -5,7 +5,8 @@ import Galery from "../components/Galery";
 import Navbar from "../components/Navbar";
 import ProductTitle from "../components/ProductTitle";
 
-export default function Product() {
+export default function Product(props) {
+  const { isSeller } = props;
   return (
     <>
       <Navbar />
@@ -17,7 +18,7 @@ export default function Product() {
             <DescriptionProduct />
           </div>
           <div className="col-5 d-flex align-items-center">
-            <ActionDetail />
+            <ActionDetail isSeller={isSeller} />
           </div>
         </div>
       </section>
