@@ -28,55 +28,55 @@ export default function NavbarDropdown(props) {
   return (
     <>
       <div className="d-flex justify-content-center ms-auto">
-        <div class="dropdown menu me-4">
+        <div className="dropdown menu me-4">
           <button
-            class=" btn-none-style"
+            className=" btn-none-style"
             type="button"
             id="dropdownbell"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="fa-solid fa-bars fa-lg"></i>
+            <i className="fa-solid fa-bars fa-lg"></i>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownbell">
+          <ul className="dropdown-menu" aria-labelledby="dropdownbell">
             <li>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 Action
               </a>
             </li>
           </ul>
         </div>
-        <div class="dropdown notification me-4">
+        <div className="dropdown notification me-4">
           <button
-            class=" btn-none-style"
+            className=" btn-none-style"
             type="button"
             id="dropdownbell"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="fa-solid fa-bell fa-lg"></i>
+            <i className="fa-solid fa-bell fa-lg"></i>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownbell">
+          <ul className="dropdown-menu" aria-labelledby="dropdownbell">
             <li>
-              <a class="dropdown-item" href="#">
+              <a className="dropdown-item" href="#">
                 Action
               </a>
             </li>
           </ul>
         </div>
-        <div class="dropdown user">
+        <div className="dropdown user">
           <button
-            class=" btn-none-style "
+            className=" btn-none-style "
             type="button"
             id="dropdownuser"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <i class="fa-solid fa-user fa-lg"></i>
+            <i className="fa-solid fa-user fa-lg"></i>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownuser">
+          <ul className="dropdown-menu" aria-labelledby="dropdownuser">
             <li>
-              <a class="dropdown-item" href="/profile">
+              <a className="dropdown-item" href="/profile">
                 Edit Profile
               </a>
             </li>
