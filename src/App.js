@@ -1,6 +1,8 @@
 import "assets/css/style.css";
 import "assets/fontawesome/css/all.css";
 
+import "assets/css/global.css";
+
 import LandingPage from "pages/LandingPage";
 import Register from "pages/Register";
 import Login from "pages/Login";

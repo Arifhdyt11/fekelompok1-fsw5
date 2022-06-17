@@ -13,7 +13,7 @@ export default function Product(props) {
   const { isSeller, isLogin } = props;
 
   const { id } = useParams();
-  const dataProduct = getInitialData().find(prod => prod.id === id);
+  const dataProduct = getInitialData().find((prod) => prod.id === id);
 
   return (
     <>

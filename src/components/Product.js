@@ -1,5 +1,5 @@
 import Button from "elements/Button";
-import { getInitialData } from "json/data.js"
+import { getInitialData } from "json/data.js";
 import img from "assets/images/ilustrasi.svg";
 
 export default function Product(props) {
@@ -63,7 +63,10 @@ export default function Product(props) {
               href="/"
               type="link"
               onClick={() => props.setProduct(getInitialData())}
-            > All </Button>
+            >
+              {" "}
+              All{" "}
+            </Button>
 
             {props.menuItems.map((kategori) => {
               return (
@@ -78,14 +81,12 @@ export default function Product(props) {
                 >
                   {kategori}
                 </Button>
-              )
+              );
             })}
-
           </div>
         </div>
         <div className="product">
           <div className="row justify-content-center">
-            
             {props.data.length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
@@ -116,9 +117,7 @@ export default function Product(props) {
                   </Button>
                 );
               })
-
             )}
-
           </div>
         </div>
       </section>

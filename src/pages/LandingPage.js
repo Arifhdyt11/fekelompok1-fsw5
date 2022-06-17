@@ -1,3 +1,4 @@
+import "assets/css/landingPage.css";
 import React, { useState } from "react";
 
 import Navbar from "components/Navbar";
@@ -9,7 +10,6 @@ import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
 
 export default function LandingPage() {
-
   // getdata
   const [product, setProduct] = useState(getInitialData());
   const [kategori] = useState(getKategoriData());
@@ -25,7 +25,7 @@ export default function LandingPage() {
 
   return (
     <>
-      <Navbar isSearch="yes" isLogin="yes" isSeller="yes"></Navbar>
+      <Navbar isSearch="yes"></Navbar>
       <Hero></Hero>
       <Product
         data={product}
