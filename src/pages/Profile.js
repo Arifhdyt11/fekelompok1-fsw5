@@ -9,7 +9,7 @@ export default function ProfilePage() {
   return (
     <div>
       <div>
-        <Navbar />
+        <Navbar isLogin="yes" />
       </div>
 
       <div>

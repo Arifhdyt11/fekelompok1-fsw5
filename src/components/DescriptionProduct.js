@@ -1,6 +1,6 @@
 export default function DescriptionProduct() {
   return (
-    <div className="description-product me-3">
+    <div className="description-product pe-3">
       <h3>About The Shoes</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

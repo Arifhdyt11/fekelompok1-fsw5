@@ -23,12 +23,12 @@ export default function Hero() {
         </div>
 
         <div className="col-6 pl-5">
-          <div style={{ width: 552, height: 437 }}>
+          <div style={{ height: 437 }}>
             <img
               src={ImageHero}
               alt="Room with couches"
-              className="img-fluid position-absolute "
-              style={{ zIndex: 1 }}
+              className="position-absolute "
+              style={{ maxWidth: "90%" }}
             />
           </div>
         </div>

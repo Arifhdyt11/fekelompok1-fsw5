@@ -1,7 +1,6 @@
 import React from "react";
 import imgBerhasil from "../../assets/images/checkModal-infoPenawar.png";
 import imgProduct from "../../assets/images/img-infoPenawar1.png";
-
 export default function ModalInfoPenawar(props) {
   return (
     <div id="modalInfoProduk">

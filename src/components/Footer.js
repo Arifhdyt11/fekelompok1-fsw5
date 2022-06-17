@@ -6,11 +6,11 @@ export default function Footer() {
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-auto" style={{ width: 350 }}>
+          <div className="col-lg-4 col-sm-12">
             <BrandIcon />
             <p className="brand-tagline">Be Trend And In Style.</p>
           </div>
-          <div className="col-auto me-5">
+          <div className="col-lg-2 col-sm-12 col-md-3 me-3">
             <h6 className="mt-2">For Beinners</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
@@ -30,7 +30,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-2 me-5">
+          <div className="col-lg-2 col-sm-12 col-md-3 me-3">
             <h6 className="mt-2">Explore Us</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
@@ -50,7 +50,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className="col-3">
+          <div className="col-lg-2 col-sm-12 col-md-3 ">
             <h6 className="mt-2">Connect Us</h6>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">

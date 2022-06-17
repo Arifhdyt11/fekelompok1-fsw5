@@ -8,7 +8,7 @@ import landingPage from "json/landingPage.json";
 export default function LandingPage() {
   return (
     <>
-      <Navbar isSearch="yes"></Navbar>
+      <Navbar isSearch="yes" isLogin="yes" isSeller="yes"></Navbar>
       <Hero></Hero>
       <Product data={landingPage.product}></Product>
       <Footer></Footer>

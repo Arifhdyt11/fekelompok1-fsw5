@@ -1,4 +1,5 @@
 import "assets/css/style.css";
+import "assets/fontawesome/css/all.css";
 
 import LandingPage from "pages/LandingPage";
 import Register from "pages/Register";
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
         <Route path="/seller" element={<DaftarJual />} />
@@ -24,8 +26,8 @@ function App() {
         <Route path="/transaction" element={<InfoPenawarPage />} />
         <Route path="/seller/product/add" element={<TambahProduk />} />
         <Route
-          path="/seller/product/:id"
-          element={<DetailProduct isSeller="yes" />}
+          path="/transaction"
+          element={<InfoPenawarPage isLogin="yes" />}
         />
       </Routes>
     </Router>
