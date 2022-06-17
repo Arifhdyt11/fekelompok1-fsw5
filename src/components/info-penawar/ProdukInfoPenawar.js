@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import imgProduct from "../../assets/images/img-infoPenawar1.png";
-import "../../assets/css/infoPenawar.css";
-import Button from "../../elements/Button";
+import imgProduct from "assets/images/img-infoPenawar1.png";
+import "assets/css/infoPenawar.css";
+import Button from "elements/Button";
 import ModalInfoPenawar from "./ModalInfoPenawar";
-import infoPenawar from "../../json/infoPenawar.json";
+import infoPenawar from "json/infoPenawar.json";
 
 export default function ProdukInfoPenawar(props) {
   return (

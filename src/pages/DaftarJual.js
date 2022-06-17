@@ -25,7 +25,7 @@ function DaftarJual() {
 
   return (
     <>
-      <Navbar />
+      <Navbar isLogin="yes" />
       <div className="container my-5">
         <ProductHeader />
 

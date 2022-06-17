@@ -71,6 +71,12 @@ p {
     color: #ffff;
 }
 
+.btn-none-style {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
 .navbar {
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -95,12 +101,21 @@ p {
     color: #152c5b;
 }
 
+.dropdown-menu.show {
+    display: block;
+    margin-left: -60px;
+}
+
 section {
     margin-top: 40px;
 }
 
 .section-hero p {
     font-size: 18px;
+}
+
+.section-product .btn-filter {
+    width: 100px;
 }
 
 .section-product .active {
@@ -145,18 +160,22 @@ p {
     max-height: 300px;
     transform: rotate(25deg);
 }
+
+.section-galery-product .default-image,
+.pad-image,
+.shadow-image {
+    max-width: 80%;
+}
+
 .section-galery-product .card-thumb {
     background-color: #f4f4f4;
     width: 200px;
     height: 100%;
+    margin: auto;
 }
 
 .owl-carousel .owl-stage-outer {
-    padding: 0px 30px 0px 10px;
-}
-
-.section-galery-product .thumb-img {
-    border: none;
+    padding: 0px 10px 0px 10px;
 }
 
 .section-detail-product .description-product p {

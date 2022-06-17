@@ -1,6 +1,6 @@
 import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
-import Cover from "assets/images/cover-img.png";
+import Pad from "assets/images/cover-img.png";
 
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
@@ -10,36 +10,49 @@ export default function Galery() {
   return (
     <>
       <section className="container section-galery-product">
-        <div className="row justify-content-between mx-5">
-          <div className="col-5 px-4" style={{ height: 450 }}>
+        <div className="row justify-content-between mx-lg-5">
+          <div className="col-lg-5 col-sm-12 px-4" style={{ height: 450 }}>
             <div className="img-product-big mb-4">
               <img
                 src="../images/shoes-1.png"
                 alt="Shoes-1"
-                className="img-fluid shoes mb-3 position-absolute"
+                className="default-image shoes mb-3 position-absolute"
               />
               <img
-                src={Cover}
-                alt="Shadow"
-                className="img-fluid mb-3 position-absolute"
+                src={Pad}
+                alt="Pad"
+                className="pad-image mb-3 position-absolute"
                 style={{ marginTop: 350 }}
               />
               <img
                 src={Shadow}
                 alt="Shadow"
-                className="img-fluid mb-3 position-absolute"
-                style={{ margin: "280px 0px 0px -50px" }}
+                className="shadow-image mb-3 position-absolute"
+                style={{ marginTop: 280 }}
               />
             </div>
           </div>
-          <div className="col-7 px-5 align-self-center">
+          <div className="col-lg-7 col-sm-12 px-5 align-self-center text-center">
             <OwlCarousel
               className="mb-1"
-              items={2}
               merge={true}
               loop={true}
               autoplay={true}
               autoplayTimeout={"2000"}
+              responsive={{
+                0: {
+                  items: 1,
+                },
+                540: {
+                  items: 1,
+                },
+                960: {
+                  items: 2,
+                },
+                1140: {
+                  items: 2,
+                },
+              }}
             >
               <div className="card-thumb">
                 <Button hasShadow className="thumb-img">
@@ -80,14 +93,14 @@ export default function Galery() {
             </OwlCarousel>
             <div className="size ms-2">
               <h3>Size Ready</h3>
-              <div className="size-ready">
-                <Button className="me-3" isSecondary>
+              <div className="size-ready justify-content-center">
+                <Button className="mx-2" isSecondary>
                   40
                 </Button>
-                <Button className="me-3" isSecondary>
+                <Button className="mx-2" isSecondary>
                   41
                 </Button>
-                <Button className="me-3" isSecondary>
+                <Button className="mx-2" isSecondary>
                   42
                 </Button>
               </div>
