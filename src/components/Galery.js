@@ -6,7 +6,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
-export default function Galery() {
+export default function Galery({ dataProduct }) {
   return (
     <>
       <section className="container section-galery-product">
@@ -14,7 +14,7 @@ export default function Galery() {
           <div className="col-lg-5 col-sm-12 px-4" style={{ height: 450 }}>
             <div className="img-product-big mb-4">
               <img
-                src="../images/shoes-1.png"
+                src={dataProduct.image}
                 alt="Shoes-1"
                 className="default-image shoes mb-3 position-absolute"
               />
@@ -76,7 +76,7 @@ export default function Galery() {
                 <Button hasShadow className="thumb-img">
                   <img
                     className=" img-fluid"
-                    src="../images/shoes-1.2.png"
+                    src={dataProduct.image}
                     alt=""
                   />
                 </Button>
