@@ -5,6 +5,7 @@
             "image":"./images/img-infoPenawar2.jpg",
             "name":"Hamba Allah",
             "city":"Jakarta Pusat",
+            "status" : "",
             "tawaran" : {
               "shoesImage" : "./images/img-infoPenawar1.png",
               "product":"Dr. Martens 3 Eye Gibson",

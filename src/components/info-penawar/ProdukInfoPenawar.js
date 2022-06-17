@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import imgProduct from "../../assets/images/img-infoPenawar1.png";
 import "../../assets/css/infoPenawar.css";
 import Button from "../../elements/Button";
 import ModalInfoPenawar from "./ModalInfoPenawar";
 import infoPenawar from "../../json/infoPenawar.json";
+import ModalStatusInfoPenawar from "./ModalStatusInfoPenawar";
 
 export default function ProdukInfoPenawar(props) {
   return (
@@ -54,28 +55,55 @@ export default function ProdukInfoPenawar(props) {
                     </p>
                   </div>
                   <div className="mt-sm-4">
-                    <div className="row">
-                      <div className="col d-flex flex-column">
-                        <Button
-                          className="btn btn-secondary tolak"
-                          href="/#"
-                          type="link"
-                        >
-                          Tolak
-                        </Button>
+                    {item.status === "berhasil" ? (
+                      <div className="row">
+                        <div className="col d-flex flex-column">
+                          <button
+                            type="button"
+                            className="btn btn-secondary tolak"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalStatusInfoPenawar"
+                          >
+                            Status
+                          </button>
+                          <ModalStatusInfoPenawar
+                            productbid={infoPenawar.pembeli}
+                          />
+                        </div>
+                        <div className="col d-flex flex-column">
+                          <button
+                            type="button"
+                            className="btn btn-primary terima"
+                          >
+                            Hubungi
+                            <i className="bi bi-whatsapp ms-2"></i>
+                          </button>
+                        </div>
                       </div>
-                      <div className="col d-flex flex-column">
-                        <button
-                          type="button"
-                          className="btn btn-primary terima"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modalInfoPenawar"
-                        >
-                          Terima
-                        </button>
-                        <ModalInfoPenawar productbid={infoPenawar.pembeli} />
+                    ) : (
+                      <div className="row">
+                        <div className="col d-flex flex-column">
+                          <Button
+                            className="btn btn-secondary tolak"
+                            href="/#"
+                            type="link"
+                          >
+                            Tolak
+                          </Button>
+                        </div>
+                        <div className="col d-flex flex-column">
+                          <button
+                            type="button"
+                            className="btn btn-primary terima"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalInfoPenawar"
+                          >
+                            Terima
+                          </button>
+                          <ModalInfoPenawar productbid={infoPenawar.pembeli} />
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
