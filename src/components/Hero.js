@@ -1,5 +1,5 @@
-import Button from "../../elements/Button";
-import ImageHero from "../../assets/images/img-hero.png";
+import Button from "elements/Button";
+import ImageHero from "assets/images/img-hero.png";
 
 export default function Hero() {
   return (
@@ -22,15 +22,8 @@ export default function Hero() {
           </Button>
         </div>
 
-        <div className="col-6 pl-5">
-          <div style={{ width: 552, height: 437 }}>
-            <img
-              src={ImageHero}
-              alt="Room with couches"
-              className="img-fluid position-absolute "
-              style={{ zIndex: 1 }}
-            />
-          </div>
+        <div className="col-lg-6 col-md-12 text-center ">
+          <img className="img-fluid" src={ImageHero} alt="Image Hero" />
         </div>
       </div>
     </section>

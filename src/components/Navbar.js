@@ -1,5 +1,6 @@
-import Button from "../../elements/Button";
+import Button from "elements/Button";
 import BrandIcon from "./IconText";
+import NavbarDropdown from "./NavbarDropdown";
 
 function CheckSearch(props) {
   const { isSearch } = props;
@@ -18,10 +19,15 @@ function CheckSearch(props) {
     return <></>;
   }
 }
+
 function CheckLogin(props) {
-  const { isLogin } = props;
-  if (isLogin == "yes") {
-    return <></>;
+  const { isLogin, isSeller } = props;
+  if (isLogin === "yes") {
+    return (
+      <>
+        <NavbarDropdown isSeller={isSeller} />
+      </>
+    );
   } else {
     return (
       <Button
@@ -38,14 +44,14 @@ function CheckLogin(props) {
 }
 
 export default function Navbar(props) {
-  const { isSearch, isLogin } = props;
+  const { isSearch, isLogin, isSeller } = props;
   return (
     <nav className="navbar navbar-expand-lg navbar-light py-3">
       <div className="container">
         <BrandIcon />
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
           <CheckSearch isSearch={isSearch} />
-          <CheckLogin isLogin={isLogin} />
+          <CheckLogin isLogin={isLogin} isSeller={isSeller} />
         </div>
       </div>
     </nav>

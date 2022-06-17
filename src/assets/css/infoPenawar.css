@@ -1,0 +1,147 @@
+.buyerInfoPenawar {
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+}
+.customerCity {
+    font-size: 12px;
+}
+
+.imageProfile {
+    border-radius: 15px;
+    width: 5em;
+}
+.imageProduct {
+    border-radius: 15px;
+    width: 10em;
+}
+
+.card {
+    border-radius: 15px;
+}
+
+.card-header {
+    font-weight: 700;
+    border-radius: 15px;
+}
+
+.customerTag {
+    border-radius: 3px;
+    padding: 0.3em;
+    color: #fff;
+    background-color: #748eff;
+    margin-left: 0.5em;
+    font-size: 8px;
+    text-decoration: double;
+    position: relative;
+    bottom: 1em;
+}
+
+.product-name.bidmodal {
+    text-align: left;
+    font-weight: 600;
+}
+
+.notifInfoPenawaran {
+    color: red;
+}
+
+.titlePenawaranProduk {
+    font-size: 11px;
+    color: rgb(114, 113, 113);
+}
+
+.productBid {
+    text-align: left;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.row.gx-5 {
+    display: flex;
+}
+
+.gx-5 {
+    --bs-gutter-x: 1.5rem;
+}
+
+.btn-secondary.tolak {
+    border-radius: 15px;
+}
+
+.btn-primary.terima {
+    border-radius: 15px;
+}
+
+.notifikasiBerhasil {
+    width: 5em;
+}
+
+.btn-primary.whatsapp {
+    width: 19em;
+    font-size: 12px;
+    padding: 10px 5px;
+}
+
+#modalInfoProduk .modal-content {
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px #748effa0;
+}
+@media screen and (min-width: 1400px) {
+    .card {
+        width: 40%;
+        margin: auto;
+    }
+
+    .subTitleProduk {
+        width: 40%;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .card {
+        width: 100%;
+        margin: auto;
+    }
+
+    .subTitleProduk {
+        width: 60%;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    .card {
+        width: 80%;
+        margin: auto;
+    }
+
+    .subTitleProduk {
+        width: 80%;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .card {
+        width: 100%;
+        margin: auto;
+    }
+
+    .imageProfile {
+        width: 4em;
+    }
+
+    .subTitleProduk {
+        font-size: 0.8em;
+    }
+
+    .imageProduct {
+        width: 6em;
+        margin-top: 2em;
+    }
+    .gx-5 {
+        --bs-gutter-x: 1rem;
+    }
+}

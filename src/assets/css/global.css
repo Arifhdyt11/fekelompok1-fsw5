@@ -11,13 +11,13 @@ h1 {
 }
 
 h2 {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 26px;
     color: #152c5b;
 }
 
 h3 {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 22px;
     color: #152c5b;
 }
@@ -34,11 +34,23 @@ p {
     color: #b0b0b0;
 }
 
+.mb-n3 {
+    margin-bottom: -1rem !important;
+}
+
+.mb-n4 {
+    margin-bottom: -1.25rem !important;
+}
+
+.mb-n5 {
+    margin-bottom: -3rem !important;
+}
+
 .btn-shadow {
     box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
 }
 
-.btn-block {
+.is-block {
     width: 100%;
 }
 
@@ -71,6 +83,12 @@ p {
     color: #ffff;
 }
 
+.btn-none-style {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
 .navbar {
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -95,26 +113,16 @@ p {
     color: #152c5b;
 }
 
+.dropdown-menu.show {
+    display: block;
+    margin-left: -60px;
+}
+
 section {
     margin-top: 40px;
 }
 
-.section-hero p {
-    font-size: 18px;
-}
-
-.section-product .active {
-    background: #748eff;
-    border-color: transparent;
-    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
-    border-radius: 4px;
-
-    font-weight: 500;
-    font-size: 16px;
-    color: #ffff;
-}
-
-.section-product .card-product {
+.card-product {
     width: 250px;
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
@@ -122,38 +130,25 @@ section {
     cursor: pointer;
 }
 
-.section-product .card-product .product-name {
+.card-product .product-name {
     min-height: 40px;
 }
 
-.section-product .card-product h4,
+.card-product h4,
 p {
     margin-bottom: 5px;
 }
 
-.section-title-product .product-title p {
-    font-size: 18px;
-}
-
-.section-detail-product .description-product p {
-    font-size: 16px;
-    line-height: 26px;
-}
-
-.section-detail-product .card-detail-right {
-    width: 400px;
+.card-info-seller {
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     border-radius: 16px;
 }
 
-.section-detail-product .card-detail-right .seller-image {
+.card-info-seller .seller-image {
     width: 48px;
     height: 48px;
-}
-
-.section-detail-product .card-detail-right h3 {
-    color: #1abc9c;
+    border-radius: 12px;
 }
 
 footer {
