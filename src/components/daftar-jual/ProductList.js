@@ -4,8 +4,8 @@ import img from "assets/images/ilustrasi.svg";
 function ProductList({ product }) {
   return (
     <div className="col-lg-9 col-md-8 col-12">
-      <div className="section-produk my-2">
-        <div className="row">
+      <div className="section-produk my-2 s">
+        <div className="row justify-content-center">
           {product.length === 0 ? (
             <div className="d-flex justify-content-center null-illustration p-5">
               <div>

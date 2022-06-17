@@ -9,7 +9,9 @@ import Footer from "components/Footer";
 import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
 
-export default function LandingPage() {
+export default function LandingPage(props) {
+  const { isLogin, isSeller } = props;
+
   // getdata
   const [product, setProduct] = useState(getInitialData());
   const [kategori] = useState(getKategoriData());
@@ -25,7 +27,7 @@ export default function LandingPage() {
 
   return (
     <>
-      <Navbar isSearch="yes"></Navbar>
+      <Navbar isSearch="yes" isLogin={isLogin} isSeller={isSeller}></Navbar>
       <Hero></Hero>
       <Product
         data={product}

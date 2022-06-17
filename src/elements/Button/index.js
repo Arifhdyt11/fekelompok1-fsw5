@@ -9,7 +9,7 @@ export default function Button(props) {
   if (props.isLight) className.push("btn-light");
   if (props.isLarge) className.push("btn-lg");
   if (props.isSmall) className.push("btn-sm");
-  if (props.isBlock) className.push("btn-block");
+  if (props.isBlock) className.push("is-block");
   if (props.hasShadow) className.push("btn-shadow");
   if (props.nonStyle) className.push("btn-none-style");
 

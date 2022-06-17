@@ -1,4 +1,4 @@
-import gambar from "assets/images/login2.png";
+import SellerImg from "assets/images/login2.png";
 
 function ProductHeader() {
   return (
@@ -6,24 +6,14 @@ function ProductHeader() {
       <div className="header-title">
         <h3>Daftar Jual Saya</h3>
       </div>
-      <div className="header-body d-flex justify-content-between align-items-center">
-        <div className="d-flex flex-row align-items-center">
-          <div className="d-flex flex-row align-items-center">
-            <div className="img-user">
-              <img src={gambar} alt="" className="img-fluid" width="30" />
-            </div>
-            <div className="ms-2 user-details">
-              <h6 className="mb-0">Nama Penjual</h6>
-              <span className="kota">Kota</span>
-            </div>
+      <div className="card-info-seller p-4 is-block">
+        <div className="d-flex justify-content-start">
+          <img className="seller-image me-3" src={SellerImg} alt="" />
+          <div>
+            <h4>Nama Penjual</h4>
+            <p>Kota</p>
           </div>
         </div>
-        <button
-          type="button"
-          className="btn btn-sm btn-outline-primary btn-edit"
-        >
-          Edit
-        </button>
       </div>
     </div>
   );

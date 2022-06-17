@@ -1,7 +1,5 @@
-import "assets/css/style.css";
-import "assets/fontawesome/css/all.css";
-
 import "assets/css/global.css";
+import "assets/fontawesome/css/all.css";
 
 import LandingPage from "pages/LandingPage";
 import Register from "pages/Register";
@@ -19,11 +17,17 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/"
+          element={<LandingPage isLogin="yes" isSeller="yes" />}
+        />
         <Route path="/product/:id" element={<DetailProduct isLogin="yes" />} />
 
         <Route path="/seller" element={<DaftarJual isLogin="yes" />} />
-        <Route path="/seller/product/:id" element={<DetailProduct />} />
+        <Route
+          path="/seller-product/:id"
+          element={<DetailProduct isLogin="yes" isSeller="yes" />}
+        />
 
         <Route path="/profile" element={<ProfilePage isLogin="yes" />} />
         <Route

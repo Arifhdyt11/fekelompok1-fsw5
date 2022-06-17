@@ -5,57 +5,10 @@ import img from "assets/images/ilustrasi.svg";
 export default function Product(props) {
   return (
     <>
-      <section className="container section-product mt-0 mb-5">
+      <section className="container section-product mt-2 mb-5">
         <div className="filter mb-5">
           <h3>Kategori</h3>
           <div className="justify-content-start my-2">
-            {/* 
-            TODO: nyoba bikin button sesuai kategori
-            <Button
-              className="btn active btn-filter me-3 my-2"
-              hasShadow
-              isSecondary
-              href="/"
-              type="link"
-            >
-              All
-            </Button>
-            <Button
-              className="btn btn-filter me-3 my-2"
-              hasShadow
-              isSecondary
-              href="/filter?filter=Sneakers"
-              type="link"
-            >
-              Sneakers
-            </Button>
-            <Button
-              className="btn btn-filter me-3 my-2"
-              hasShadow
-              isSecondary
-              href="/filter?filter=Boots"
-              type="link"
-            >
-              Boots
-            </Button>
-            <Button
-              className="btn btn-filter me-3 my-2"
-              hasShadow
-              isSecondary
-              href="/filter?filter=Sports"
-              type="link"
-            >
-              Sports
-            </Button>
-            <Button
-              className="btn btn-filter me-3 my-2"
-              hasShadow
-              isSecondary
-              href="/filter?filter=Casual"
-              type="link"
-            >
-              Casual
-            </Button> */}
             <Button
               className="btn active btn-filter me-3 my-2"
               hasShadow
@@ -64,8 +17,7 @@ export default function Product(props) {
               type="link"
               onClick={() => props.setProduct(getInitialData())}
             >
-              {" "}
-              All{" "}
+              All
             </Button>
 
             {props.menuItems.map((kategori) => {
@@ -110,7 +62,7 @@ export default function Product(props) {
                       className="img-fluid mb-3"
                     />
                     <div className="product-name">
-                      <h4>{item.name}</h4>
+                      <h4>{item.name.substring(0, 28)}</h4>
                     </div>
                     <p>{item.category}</p>
                     <h4>Rp. {item.price}</h4>
