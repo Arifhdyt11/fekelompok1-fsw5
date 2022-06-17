@@ -9,7 +9,7 @@ export default function Product(props) {
   const { isSeller, isLogin } = props;
   return (
     <>
-      <Navbar isLogin={isLogin} isSeller="yes" />
+      <Navbar />
       <ProductTitle />
       <Galery />
       <section className="container section-detail-product mb-5">

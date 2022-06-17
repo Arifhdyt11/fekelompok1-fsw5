@@ -54,31 +54,29 @@ export default function Product(props) {
             </Button>
           </div>
         </div>
-        <div className="product">
-          <div className="row justify-content-center">
-            {props.data.map((item) => {
-              return (
-                <Button
-                  type="link"
-                  href={`/product/${item.id}`}
-                  className="col-3 card-product mx-3 p-3 mb-4"
-                  style={{ textDecoration: "none" }}
-                  key={item.id}
-                >
-                  <img
-                    src={item.image}
-                    alt="Shoes-1"
-                    className="img-fluid mb-3"
-                  />
-                  <div className="product-name">
-                    <h4>{item.name}</h4>
-                  </div>
-                  <p>{item.category}</p>
-                  <h4>Rp. {item.price}</h4>
-                </Button>
-              );
-            })}
-          </div>
+        <div className="row justify-content-center">
+          {props.data.map((item) => {
+            return (
+              <Button
+                type="link"
+                href={`/product/${item.id}`}
+                className="col-3 card-product mx-3 p-3 mb-4"
+                style={{ textDecoration: "none" }}
+                key={item.id}
+              >
+                <img
+                  src={item.image}
+                  alt="Shoes-1"
+                  className="img-fluid mb-3"
+                />
+                <div className="product-name">
+                  <h4>{item.name}</h4>
+                </div>
+                <p>{item.category}</p>
+                <h4>Rp. {item.price}</h4>
+              </Button>
+            );
+          })}
         </div>
       </section>
     </>
