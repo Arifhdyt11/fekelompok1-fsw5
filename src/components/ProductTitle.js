@@ -1,10 +1,10 @@
-export default function ProductTitle() {
+export default function ProductTitle({ dataProduct }) {
   return (
     <>
       <section className="container section-title-product">
         <div className="product-title text-center">
-          <h2>Jordan 1 Retro High Obsidian UNC</h2>
-          <p>Sneakers</p>
+          <h2>{dataProduct.name}</h2>
+          <p>{dataProduct.category}</p>
         </div>
       </section>
     </>
