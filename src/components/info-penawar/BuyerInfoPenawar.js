@@ -1,6 +1,6 @@
 import React from "react";
-import imgCust from "../../assets/images/img-infoPenawar2.jpg";
-import "../../assets/css/infoPenawar.css";
+import imgCust from "assets/images/img-infoPenawar2.jpg";
+import "assets/css/infoPenawar.css";
 
 export default function BuyerInfoPenawar(props) {
   return (

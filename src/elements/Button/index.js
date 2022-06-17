@@ -11,6 +11,7 @@ export default function Button(props) {
   if (props.isSmall) className.push("btn-sm");
   if (props.isBlock) className.push("btn-block");
   if (props.hasShadow) className.push("btn-shadow");
+  if (props.nonStyle) className.push("btn-none-style");
 
   const onClick = () => {
     if (props.onClick) props.onClick();
@@ -77,7 +78,7 @@ Button.propTypes = {
   target: propTypes.string,
   className: propTypes.string,
   isPrimary: propTypes.bool,
-  isSecondary:propTypes.bool,
+  isSecondary: propTypes.bool,
   isLight: propTypes.bool,
   isExternal: propTypes.bool,
   isDisabled: propTypes.bool,
@@ -86,4 +87,5 @@ Button.propTypes = {
   isLarge: propTypes.bool,
   isBlock: propTypes.bool,
   hasShadow: propTypes.bool,
+  nonStyle: propTypes.bool,
 };

@@ -9,8 +9,10 @@ export default function InfoPenawarPage() {
   return (
     <div>
       <Navbar />
-      <BuyerInfoPenawar databuyer={infoPenawar.pembeli} />
-      <ProdukInfoPenawar productbid={infoPenawar.pembeli} />
+      <div className="container">
+        <BuyerInfoPenawar databuyer={infoPenawar.pembeli} />
+        <ProdukInfoPenawar productbid={infoPenawar.pembeli} />
+      </div>
       <Footer />
     </div>
   );

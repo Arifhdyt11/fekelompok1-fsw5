@@ -6,9 +6,9 @@ export default function Product(props) {
       <section className="container section-product mt-0 mb-5">
         <div className="filter mb-5">
           <h3>Kategori</h3>
-          <div className="d-flex justify-content-start my-3">
+          <div className="justify-content-start my-2">
             <Button
-              className="btn active me-3"
+              className="btn active btn-filter me-3 my-2"
               hasShadow
               isSecondary
               href="/"
@@ -17,7 +17,7 @@ export default function Product(props) {
               All
             </Button>
             <Button
-              className="btn me-3"
+              className="btn btn-filter me-3 my-2"
               hasShadow
               isSecondary
               href="/filter?filter=Sneakers"
@@ -26,7 +26,7 @@ export default function Product(props) {
               Sneakers
             </Button>
             <Button
-              className="btn me-3"
+              className="btn btn-filter me-3 my-2"
               hasShadow
               isSecondary
               href="/filter?filter=Boots"
@@ -35,7 +35,7 @@ export default function Product(props) {
               Boots
             </Button>
             <Button
-              className="btn me-3"
+              className="btn btn-filter me-3 my-2"
               hasShadow
               isSecondary
               href="/filter?filter=Sports"
@@ -44,7 +44,7 @@ export default function Product(props) {
               Sports
             </Button>
             <Button
-              className="btn me-3"
+              className="btn btn-filter me-3 my-2"
               hasShadow
               isSecondary
               href="/filter?filter=Casual"

@@ -1,4 +1,4 @@
-.buyerInfoPenawar{
+.buyerInfoPenawar {
     color: #000;
     font-size: 16px;
     font-weight: 600;
@@ -11,7 +11,7 @@
     border-radius: 15px;
     width: 5em;
 }
-.imageProduct{
+.imageProduct {
     border-radius: 15px;
     width: 10em;
 }
@@ -25,24 +25,24 @@
     border-radius: 15px;
 }
 
-.customerTag{
+.customerTag {
     border-radius: 3px;
     padding: 0.3em;
     color: #fff;
     background-color: #748eff;
     margin-left: 0.5em;
     font-size: 8px;
-    text-decoration:double;
+    text-decoration: double;
     position: relative;
     bottom: 1em;
 }
 
-.product-name.bidmodal{
+.product-name.bidmodal {
     text-align: left;
     font-weight: 600;
 }
 
-.notifInfoPenawaran{
+.notifInfoPenawaran {
     color: red;
 }
 
@@ -51,7 +51,7 @@
     color: rgb(114, 113, 113);
 }
 
-.productBid{
+.productBid {
     text-align: left;
     font-size: 13px;
     font-weight: 500;
@@ -61,7 +61,7 @@
     display: flex;
 }
 
-.gx-5{
+.gx-5 {
     --bs-gutter-x: 1.5rem;
 }
 
@@ -83,54 +83,53 @@
     padding: 10px 5px;
 }
 
-#modalInfoProduk .modal-content{
+#modalInfoProduk .modal-content {
     border-radius: 15px;
     box-shadow: 0px 0px 15px #748effa0;
 }
 @media screen and (min-width: 1400px) {
     .card {
-       width: 40%;
-       margin: auto;
+        width: 40%;
+        margin: auto;
     }
 
     .subTitleProduk {
-       width: 40%;
-       margin: auto;
+        width: 40%;
+        margin: auto;
     }
-   }
+}
 
-    @media screen and (max-width: 1400px) {
+@media screen and (max-width: 1400px) {
     .card {
-       width: 60%;
-       margin: auto;
+        width: 100%;
+        margin: auto;
     }
 
     .subTitleProduk {
-       width: 60%;
-       margin: auto;
+        width: 60%;
+        margin: auto;
     }
-   }
-  
-   @media screen and (max-width: 980px) {
+}
+
+@media screen and (max-width: 980px) {
     .card {
-       width: 80%;
-       margin: auto;
+        width: 80%;
+        margin: auto;
     }
 
     .subTitleProduk {
         width: 80%;
         margin: auto;
-      }
+    }
+}
 
-   }
-
-   @media screen and (max-width: 575px) {
+@media screen and (max-width: 575px) {
     .card {
-       width: 100%;
-       margin: auto;
+        width: 100%;
+        margin: auto;
     }
 
-    .imageProfile{
+    .imageProfile {
         width: 4em;
     }
 
@@ -142,14 +141,7 @@
         width: 6em;
         margin-top: 2em;
     }
-    .gx-5{
+    .gx-5 {
         --bs-gutter-x: 1rem;
     }
-
-   }
-
-   @media screen and (max-width: 367px) {
-    .productBid{
-        
-    }
-   }
+}
