@@ -31,7 +31,7 @@ function App() {
 
         <Route path="/profile" element={<ProfilePage isLogin="yes" />} />
         <Route
-          path="/transaction"
+          path="/transaction/:id"
           element={<InfoPenawarPage isLogin="yes" />}
         />
       </Routes>

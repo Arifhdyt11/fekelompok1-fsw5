@@ -52,20 +52,22 @@ export default function Product(props) {
                   <Button
                     type="link"
                     href={`/product/${item.id}`}
-                    className="col-3 card-product mx-3 p-3 mb-4"
+                    className="col-lg-3 col-md-6 col-sm-12  "
                     style={{ textDecoration: "none" }}
                     key={item.id}
                   >
-                    <img
-                      src={item.image}
-                      alt="Shoes-1"
-                      className="img-fluid mb-3"
-                    />
-                    <div className="product-name">
-                      <h4>{item.name.substring(0, 28)}</h4>
+                    <div className="card-product p-3 mb-4">
+                      <img
+                        src={item.image}
+                        alt="Shoes-1"
+                        className="img-fluid mb-3"
+                      />
+                      <div className="product-name">
+                        <h4>{item.name.substring(0, 50)}</h4>
+                      </div>
+                      <p>{item.category}</p>
+                      <h4>Rp. {item.price}</h4>
                     </div>
-                    <p>{item.category}</p>
-                    <h4>Rp. {item.price}</h4>
                   </Button>
                 );
               })
