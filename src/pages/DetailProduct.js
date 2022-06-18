@@ -11,7 +11,7 @@ import ProductTitle from "components/ProductTitle";
 
 import { getInitialData } from "json/data.js";
 
-export default function Product(props) {
+export default function DetailProduct(props) {
   const { isSeller, isLogin } = props;
 
   const { id } = useParams();

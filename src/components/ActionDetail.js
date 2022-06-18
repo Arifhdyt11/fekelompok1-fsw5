@@ -26,7 +26,7 @@ function CheckButton(props) {
 export default function ActionDetail(props) {
   const { isSeller } = props;
   return (
-    <div className="card-info-seller is-block ms-auto p-4">
+    <div className="card is-block ms-auto p-4">
       <div className="d-flex justify-content-start mb-4">
         <img className="seller-image me-3" src={SellerImg} alt="" />
         <div>

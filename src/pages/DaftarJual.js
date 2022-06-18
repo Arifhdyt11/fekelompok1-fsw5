@@ -25,11 +25,11 @@ function DaftarJual() {
 
   return (
     <>
-      <Navbar isLogin="yes" />
+      <Navbar isSearch="yes" isLogin="yes" />
       <div className="container my-5">
         <ProductHeader />
 
-        <div className="d-flex flex-row-reverse">
+        <div className="d-md-flex flex-row-reverse">
           <Button
             className="btn active my-4"
             hasShadow

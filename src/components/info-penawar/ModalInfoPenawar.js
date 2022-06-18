@@ -1,98 +1,88 @@
+import Button from "elements/Button";
 import React from "react";
-import imgBerhasil from "../../assets/images/checkModal-infoPenawar.png";
-import imgProduct from "../../assets/images/img-infoPenawar1.png";
-export default function ModalInfoPenawar(props) {
+import imgBerhasil from "assets/images/checkModal-infoPenawar.png";
+import imgProduct from "assets/images/img-infoPenawar1.png";
+export default function ModalInfoPenawar({ dataProduct }) {
   return (
     <div id="modalInfoProduk">
-      {props.productbid.map((item) => (
-        <div
-          key={item}
-          className="modal fade"
-          id="modalInfoPenawar"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="d-flex flex-row-reverse me-2 mt-2">
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body text-center">
-                <img
-                  className="notifikasiBerhasil"
-                  src={imgBerhasil}
-                  alt="notifikasi Berhasil"
-                />
-                <p className="mt-3 mb-3">
-                  Segera hubungi pembeli melalui whatsapp untuk transaksi
-                  selanjutnya
-                </p>
-                <div className="card w-100 mb-4">
-                  <div className="card-body">
-                    <h4>Product Match</h4>
-                    <div className="row gx-5 mt-4" id="row">
-                      <div className="col-auto ">
-                        <div>
-                          <img
-                            className="imageProduct"
-                            src={imgProduct}
-                            alt="Customer 1"
-                          />
-                        </div>
+      <div
+        key={dataProduct.id}
+        className="modal fade"
+        id="modalInfoPenawar"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="d-flex flex-row-reverse me-2 mt-2">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body text-center">
+              <img
+                className="img-success"
+                src={imgBerhasil}
+                alt="notifikasi Berhasil"
+                style={{ width: "5em" }}
+              />
+              <p className="mt-3 mb-3">
+                Segera hubungi pembeli melalui whatsapp untuk transaksi
+                selanjutnya
+              </p>
+              <div className="card w-100 mb-4">
+                <div className="card-body">
+                  <h3 style={{ fontSize: 20 }}>Product Match</h3>
+                  <p>16 Jun, 12:45</p>
+                  <div className="row mt-4" style={{ textAlign: "left" }}>
+                    <div className="col-lg-4 col-sm-12 align-self-center text-center mb-4 mb-lg-0">
+                      <div>
+                        <img
+                          className="img-fluid"
+                          src={dataProduct.image}
+                          alt="Customer 1"
+                        />
                       </div>
-                      <div className="col">
-                        <div className="d-flex align-items-center mb-2">
-                          <p className="me-auto mb-0 titlePenawaranProduk">
-                            Penawaran Produk
-                          </p>
-                          <span className="text-muted extrea-small ms-2 titlePenawaranProduk">
-                            16 Jun, 12:45
-                          </span>
-                        </div>
-                        <div className="mb-2">
-                          <h4 className="product-name bidmodal">
-                            {item.tawaran.product}
+                    </div>
+                    <div className="col-lg-8 col-sm-12">
+                      <div className="mb-4">
+                        <h5>Penawaran Product</h5>
+                        <h4>{dataProduct.name}</h4>
+                      </div>
+                      <div className="d-flex justify-content-start">
+                        <div className="me-auto">
+                          <h5>Harga Awal</h5>
+                          <h4>
+                            <s>Rp. {dataProduct.price}</s>
                           </h4>
                         </div>
-                        <div>
-                          <p className="me-auto mb-0 productBid">
-                            Harga Mulai:
-                            <s
-                              className="priceInfoPenawaran ms-2"
-                              style={{ color: "#243162" }}
-                            >
-                              Rp. {item.tawaran.price}
-                            </s>
-                          </p>
-                          <p className="me-auto mb-0 productBid">
-                            Ditawar :
-                            <label className="notifInfoPenawaran">*</label>
-                            <label
-                              className="priceInfoPenawaran ms-2"
-                              style={{ color: "#243162" }}
-                            >
-                              Rp. {item.tawaran.bid}
-                            </label>
-                          </p>
+                        <div className="me-auto">
+                          <h5>Ditawar</h5>
+                          <h4>Rp. {dataProduct.priceBid}</h4>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <button type="button" className="btn btn-primary whatsapp mb-4">
-                  Hubungi Via Whatsapp<i className="bi bi-whatsapp ms-2"></i>
-                </button>
               </div>
+              <Button
+                className="btn px-5 py-2"
+                isPrimary
+                hasShadow
+                isExternal
+                type="link"
+                href="https://wa.me/628974233275"
+              >
+                Hubungi Via Whatsapp <i className="bi bi-whatsapp ms-2"></i>
+              </Button>
             </div>
           </div>
         </div>
-      ))}
+      </div>
     </div>
   );
 }

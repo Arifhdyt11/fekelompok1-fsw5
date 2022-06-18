@@ -12,20 +12,26 @@ h1 {
 
 h2 {
     font-weight: 700;
-    font-size: 26px;
+    font-size: 28px;
     color: #152c5b;
 }
 
 h3 {
     font-weight: 700;
-    font-size: 22px;
+    font-size: 24px;
     color: #152c5b;
 }
 
 h4 {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 18px;
     color: #152c5b;
+}
+
+h5 {
+    font-weight: 300;
+    font-size: 15px;
+    color: #b0b0b0;
 }
 
 p {
@@ -71,7 +77,6 @@ p {
 .btn-secondary {
     background-color: transparent;
     border-color: #3252df;
-    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
     border-radius: 4px;
     font-weight: 500;
     font-size: 16px;
@@ -87,6 +92,10 @@ p {
     background-color: transparent;
     border: none;
     box-shadow: none;
+}
+
+.btn-has-radius {
+    border-radius: 15px;
 }
 
 .navbar {
@@ -122,8 +131,19 @@ section {
     margin-top: 40px;
 }
 
+.card {
+    background: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+}
+
+.card .seller-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
 .card-product {
-    width: 250px;
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
     border-radius: 10px;
@@ -139,16 +159,16 @@ p {
     margin-bottom: 5px;
 }
 
-.card-info-seller {
-    background: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 16px;
-}
-
-.card-info-seller .seller-image {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+.customerTag {
+    border-radius: 3px;
+    padding: 0.3em;
+    color: #fff;
+    background-color: #748eff;
+    margin-left: 0em;
+    font-size: 10px;
+    text-decoration: double;
+    position: relative;
+    bottom: 1em;
 }
 
 footer {
