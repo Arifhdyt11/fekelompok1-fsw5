@@ -8,7 +8,8 @@ import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import InfoPenawarPage from "pages/InfoPenawar";
+import InfoPenawarPage from "./pages/InfoPenawar";
+import TambahProduk from "pages/Seller-TambahProduk";
 
 function App() {
   return (

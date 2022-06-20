@@ -1,7 +1,6 @@
 import Button from "elements/Button";
 import React from "react";
 import imgBerhasil from "assets/images/checkModal-infoPenawar.png";
-import imgProduct from "assets/images/img-infoPenawar1.png";
 export default function ModalInfoPenawar({ dataProduct }) {
   return (
     <div id="modalInfoProduk">
@@ -77,7 +76,7 @@ export default function ModalInfoPenawar({ dataProduct }) {
                 type="link"
                 href="https://wa.me/628974233275"
               >
-                Hubungi Via Whatsapp <i className="bi bi-whatsapp ms-2"></i>
+                Hubungi Via Whatsapp <i class="fa-brands fa-whatsapp"></i>
               </Button>
             </div>
           </div>
