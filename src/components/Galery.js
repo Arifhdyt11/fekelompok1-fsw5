@@ -6,30 +6,20 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
-export default function Galery() {
+export default function Galery({ dataProduct }) {
   return (
     <>
       <section className="container section-galery-product">
         <div className="row justify-content-between mx-lg-5">
-          <div className="col-lg-5 col-sm-12 px-4" style={{ height: 450 }}>
-            <div className="img-product-big mb-4">
+          <div className="col-lg-5 col-sm-12 px-4">
+            <div className="img-product-big mb-4 text-center">
               <img
-                src="../images/shoes-1.png"
+                src={dataProduct.image}
                 alt="Shoes-1"
-                className="default-image shoes mb-3 position-absolute"
+                className="default-image shoes mb-n3"
               />
-              <img
-                src={Pad}
-                alt="Pad"
-                className="pad-image mb-3 position-absolute"
-                style={{ marginTop: 350 }}
-              />
-              <img
-                src={Shadow}
-                alt="Shadow"
-                className="shadow-image mb-3 position-absolute"
-                style={{ marginTop: 280 }}
-              />
+              <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
+              <img src={Pad} alt="Pad" className="pad-image mb-3 " />
             </div>
           </div>
           <div className="col-lg-7 col-sm-12 px-5 align-self-center text-center">
@@ -56,11 +46,7 @@ export default function Galery() {
             >
               <div className="card-thumb">
                 <Button hasShadow className="thumb-img">
-                  <img
-                    className=" img-fluid"
-                    src="../images/shoes-1.png"
-                    alt=""
-                  />
+                  <img className=" img-fluid" src={dataProduct.image} alt="" />
                 </Button>
               </div>
               <div className="card-thumb">

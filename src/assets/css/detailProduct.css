@@ -1,0 +1,41 @@
+.section-title-product .product-title p {
+    font-size: 18px;
+}
+
+.section-galery-product .img-product-big,
+.thumb-img {
+    background-color: transparent;
+    border: none;
+}
+
+.section-galery-product .img-product-big .shoes {
+    max-height: 300px;
+    transform: rotate(25deg);
+}
+
+.section-galery-product .default-image,
+.pad-image,
+.shadow-image {
+    max-width: 80%;
+}
+
+.section-galery-product .card-thumb {
+    background-color: #f4f4f4;
+    width: 200px;
+    height: 100%;
+    margin: auto;
+}
+
+.owl-carousel .owl-stage-outer {
+    padding: 0px 10px 0px 10px;
+}
+
+.section-detail-product .description-product p {
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.section-detail-product .card h3 {
+    color: #1abc9c;
+    font-weight: 500;
+}

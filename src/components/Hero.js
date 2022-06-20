@@ -22,15 +22,8 @@ export default function Hero() {
           </Button>
         </div>
 
-        <div className="col-6 pl-5">
-          <div style={{ height: 437 }}>
-            <img
-              src={ImageHero}
-              alt="Room with couches"
-              className="position-absolute "
-              style={{ maxWidth: "90%" }}
-            />
-          </div>
+        <div className="col-lg-6 col-md-12 text-center ">
+          <img className="img-fluid" src={ImageHero} alt="Image Hero" />
         </div>
       </div>
     </section>
