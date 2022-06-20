@@ -1,18 +1,11 @@
 {
-    "pembeli": [
-        {
-            "id" : 1,
-            "image":"./images/img-infoPenawar2.jpg",
-            "name":"Hamba Allah",
-            "city":"Jakarta Pusat",
-            "status" : "",
-            "tawaran" : {
-              "shoesImage" : "./images/img-infoPenawar1.png",
-              "product":"Dr. Martens 3 Eye Gibson",
-              "price":"2300000",
-              "bid" :"2000000",
-              "date" : "15 Jun, 12:05"
-            }
-          }
-    ]
-  }
+  "pembeli": [
+      {
+          "id" : 1,
+          "image":"./images/img-infoPenawar2.jpg",
+          "name":"Nama Pembeli",
+          "city":"Jakarta Pusat",
+          "statusBeli" : "berhasil"
+        }
+  ]
+}

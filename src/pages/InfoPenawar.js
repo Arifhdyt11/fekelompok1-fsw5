@@ -12,7 +12,7 @@ export default function InfoPenawarPage() {
   const { id } = useParams();
   const dataProduct = getInitialData().find((prod) => prod.id === id);
   function CheckDiminati() {
-    if (dataProduct.status != "Diminati") {
+    if (dataProduct.status !== "Diminati") {
       return <h1>Kalo produk gada</h1>;
     } else {
       return (

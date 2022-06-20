@@ -1,7 +1,8 @@
 import Button from "elements/Button";
 import ModalInfoPenawar from "./ModalInfoPenawar";
+import ModalStatusInfoPenawar from "./ModalStatusInfoPenawar";
 
-export default function ProdukInfoPenawar({ dataProduct }) {
+export default function ProdukInfoPenawar({ dataProduct, productbid }) {
   return (
     <div className="mt-4 mb-5">
       <div key={dataProduct.id}>
@@ -37,26 +38,55 @@ export default function ProdukInfoPenawar({ dataProduct }) {
                   <h4>Rp. {dataProduct.priceBid}</h4>
                 </div>
               </div>
-              <div className="d-flex justify-content-center">
-                <Button
-                  className="btn btn-secondary mx-2 "
-                  href="/seller"
-                  type="link"
-                  isBlock
-                  hasRadius
-                >
-                  Tolak
-                </Button>
-                <button
-                  type="button"
-                  className="btn btn-primary mx-2 is-block btn-has-radius"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalInfoPenawar"
-                >
-                  Terima
-                </button>
-                <ModalInfoPenawar dataProduct={dataProduct} />
-              </div>
+              {productbid.map((item) => (
+                <div key={item.id}>
+                  {item.statusBeli === "berhasil" ? (
+                    <div className="d-flex justify-content-center">
+                      <button
+                        type="button"
+                        className="btn btn-secondary mx-2 is-block btn-has-radius "
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalStatusInfoPenawar"
+                      >
+                        Status
+                      </button>
+                      <ModalStatusInfoPenawar productbid={productbid} />
+                      <Button
+                        className="btn btn-primary mx-2 is-block btn-has-radius"
+                        isPrimary
+                        hasShadow
+                        isExternal
+                        type="link"
+                        href="https://wa.me/628974233275"
+                      >
+                        Hubungi
+                        <i class="fa-brands fa-whatsapp ms-2"></i>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        className="btn btn-secondary mx-2 "
+                        href="/seller"
+                        type="link"
+                        isBlock
+                        hasRadius
+                      >
+                        Tolak
+                      </Button>
+                      <button
+                        type="button"
+                        className="btn btn-primary mx-2 is-block btn-has-radius"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalInfoPenawar"
+                      >
+                        Terima
+                      </button>
+                      <ModalInfoPenawar dataProduct={dataProduct} />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
