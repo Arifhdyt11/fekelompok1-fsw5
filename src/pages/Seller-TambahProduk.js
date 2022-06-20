@@ -155,7 +155,7 @@ export default function TambahProduk() {
                         hasShadow
                         isPrimary
                         href="/#"
-                        type="link"
+                        type="submit"
                       >
                         Terbitkan
                       </Button>
