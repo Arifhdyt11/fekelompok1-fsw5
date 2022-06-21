@@ -76,7 +76,7 @@ export default function ModalInfoPenawar({ dataProduct }) {
                 type="link"
                 href="https://wa.me/628974233275"
               >
-                Hubungi Via Whatsapp <i class="fa-brands fa-whatsapp"></i>
+                Hubungi Via Whatsapp <i className="fa-brands fa-whatsapp"></i>
               </Button>
             </div>
           </div>

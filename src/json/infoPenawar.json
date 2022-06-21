@@ -3,7 +3,7 @@
       {
           "id" : 1,
           "image":"./images/img-infoPenawar2.jpg",
-          "name":"Nama Pembeli",
+          "name":"Nama Pembeli Pertama",
           "city":"Jakarta Pusat",
           "statusBeli" : "berhasil"
         }

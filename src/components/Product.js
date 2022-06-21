@@ -20,7 +20,7 @@ export default function Product(props) {
               All
             </Button>
 
-            {props.menuItems.map((kategori) => {
+            {props.menuItems.map((kategori, index) => {
               return (
                 <Button
                   className="btn btn-filter me-3 my-2"
@@ -29,7 +29,7 @@ export default function Product(props) {
                   href=""
                   type="link"
                   onClick={() => props.filterItem(kategori)}
-                  key={props.id}
+                  key={index}
                 >
                   {kategori}
                 </Button>
