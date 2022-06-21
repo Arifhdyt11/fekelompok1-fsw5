@@ -29,10 +29,8 @@ function App() {
           path="/seller-product/:id"
           element={<DetailProduct isLogin="yes" isSeller="yes" />}
         />
-        <Route
-          path="/add-product"
-          element={<AddProduct isLogin="yes" isSeller="yes" />}
-        />
+        <Route path="/add-product" element={<AddProduct isLogin="yes" />} />
+        <Route path="/profile" element={<ProfilePage isLogin="yes" />} />
         <Route
           path="/transaction/:id"
           element={<InfoPenawarPage isLogin="yes" />}

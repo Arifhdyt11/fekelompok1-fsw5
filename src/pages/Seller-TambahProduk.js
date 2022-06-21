@@ -1,14 +1,25 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import React from "react";
+import React, { useState } from "react";
 import "../assets/css/tambahProduct.css";
 import Button from "../elements/Button";
+import fotoProductAdd from "assets/images/addProduct.png";
 
 export default function TambahProduk() {
+  const [image, setImage] = useState(fotoProductAdd);
+
+  const [saveImage, setSaveImage] = useState(null);
+  function handleUploadChange(e) {
+    console.log(e.target.files[0]);
+    let uploaded = e.target.files[0];
+    console.log(URL.createObjectURL(uploaded));
+    setImage(URL.createObjectURL(uploaded));
+    setSaveImage(uploaded);
+  }
   return (
     <div>
       <div>
-        <Navbar />
+        <Navbar isLogin="yes" />
       </div>
       <div>
         <div className="container mt-4 mb-5" id="produk">
@@ -78,10 +89,16 @@ export default function TambahProduk() {
                       ></button>
                       <div className="dropdown-menu">
                         <a href="/#" className="dropdown-item">
-                          Sport
+                          Sneakers
                         </a>
                         <a href="/#" className="dropdown-item">
                           Casual
+                        </a>
+                        <a href="/#" className="dropdown-item">
+                          Boots
+                        </a>
+                        <a href="/#" className="dropdown-item">
+                          Sport
                         </a>
                       </div>
                     </div>
@@ -101,7 +118,23 @@ export default function TambahProduk() {
                 </div>
                 <div className="mb-4">
                   <h4>Foto Produk</h4>
-                  <input type="file"></input>
+                  <div>
+                    <img
+                      src={image}
+                      className="img-thumbnail"
+                      alt=""
+                      style={{ width: "120px", height: "110px" }}
+                    ></img>
+                  </div>
+                  <div className="mt-3">
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="formFile"
+                      onChange={handleUploadChange}
+                      accept="image/*"
+                    />
+                  </div>
                 </div>
                 <div className="container">
                   <div className="row">
@@ -122,7 +155,7 @@ export default function TambahProduk() {
                         hasShadow
                         isPrimary
                         href="/#"
-                        type="link"
+                        type="submit"
                       >
                         Terbitkan
                       </Button>
