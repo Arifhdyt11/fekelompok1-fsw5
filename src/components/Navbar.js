@@ -62,7 +62,7 @@ function CheckSearchMobile(props) {
 }
 
 function CheckLoginMobile(props) {
-  const { isLogin, isSeller } = props;
+  const { isLogin } = props;
   if (isLogin === "yes") {
     return (
       <>

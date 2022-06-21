@@ -1,8 +1,8 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Footer from "components/Footer";
+import Navbar from "components/Navbar";
 import React, { useState } from "react";
-import "../assets/css/tambahProduct.css";
-import Button from "../elements/Button";
+import "assets/css/tambahProduct.css";
+import Button from "elements/Button";
 import fotoProductAdd from "assets/images/addProduct.png";
 
 export default function TambahProduk() {
