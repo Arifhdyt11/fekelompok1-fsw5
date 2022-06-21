@@ -34,7 +34,7 @@ function DaftarJual() {
             className="btn active my-4"
             hasShadow
             isPrimary
-            href="/"
+            href="/add-product"
             type="link"
           >
             Tambah Produk

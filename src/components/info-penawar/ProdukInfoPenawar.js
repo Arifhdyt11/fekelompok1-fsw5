@@ -60,7 +60,7 @@ export default function ProdukInfoPenawar({ dataProduct, productbid }) {
                         href="https://wa.me/628974233275"
                       >
                         Hubungi
-                        <i class="fa-brands fa-whatsapp ms-2"></i>
+                        <i className="fa-brands fa-whatsapp ms-2"></i>
                       </Button>
                     </div>
                   ) : (

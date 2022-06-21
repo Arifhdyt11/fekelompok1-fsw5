@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@magicbell/magicbell-react": "^9.1.4-beta.1",
     "@syncfusion/ej2-react-splitbuttons": "^20.1.57",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -11,6 +12,7 @@
     "react": "^18.1.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
+    "react-notifications-menu": "^1.0.6",
     "react-owl-carousel": "^2.3.3",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
