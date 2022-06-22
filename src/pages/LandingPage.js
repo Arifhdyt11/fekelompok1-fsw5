@@ -1,42 +1,26 @@
 import "assets/css/landingPage.css";
-import React, { useState } from "react";
 
 import Navbar from "components/Navbar";
 import Hero from "components/Hero";
 import Product from "components/Product";
 import Footer from "components/Footer";
+import React, { Component } from "react";
 
-import { getInitialData } from "json/data.js";
-import { getKategoriData } from "json/kategori-produk";
-
-export default function LandingPage(props) {
-  const { isLogin, isSeller } = props;
-
-  // getdata
-  const [product, setProduct] = useState(getInitialData());
-  const [kategori] = useState(getKategoriData());
-
-  const menuItems = [...new Set(getKategoriData().map((Val) => Val.category))];
-
-  const filterItem = (curcat) => {
-    const newItem = getInitialData().filter((newVal) => {
-      return newVal.category === curcat;
-    });
-    setProduct(newItem);
-  };
-
-  return (
-    <>
-      <Navbar isSearch="yes" isLogin={isLogin} isSeller={isSeller}></Navbar>
-      <Hero></Hero>
-      <Product
-        data={product}
-        setProduct={setProduct}
-        kategori={kategori}
-        filterItem={filterItem}
-        menuItems={menuItems}
-      ></Product>
-      <Footer></Footer>
-    </>
-  );
+class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.refCallToAction = React.createRef();
+  }
+  render() {
+    return (
+      <>
+        <Navbar isSearch="yes" isLogin="yes" isSeller="yes"></Navbar>
+        <Hero refCallToAction={this.refCallToAction}></Hero>
+        <Product refCallToAction={this.refCallToAction}></Product>
+        <Footer></Footer>
+      </>
+    );
+  }
 }
+
+export default LandingPage;
