@@ -156,7 +156,6 @@ export default function Navbar(props) {
           tabIndex="-1"
           id="offcanvasRight"
           aria-labelledby="offcanvasRightLabel"
-          style={{ width: "80%" }}
         >
           <div className="offcanvas-header">
             <BrandIcon />

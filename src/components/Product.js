@@ -1,10 +1,20 @@
-import Button from "elements/Button";
+import { useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getListProduct } from "store/actions/productAction";
 
+import Button from "elements/Button";
+import img from "assets/images/ilustrasi.svg";
+
+//------------------BAKALAN DIHAPUS---------------
 import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
+//--------------------HAPUS NANTI---------------------
 
-import img from "assets/images/ilustrasi.svg";
-import { useState } from "react";
+function shorten(str, maxLen, separator = " ") {
+  if (str.length <= maxLen) return str;
+  return str.substr(0, str.lastIndexOf(separator, maxLen));
+}
 
 export default function Product(props) {
   // getdata
@@ -19,6 +29,19 @@ export default function Product(props) {
     });
     setProduct(newItem);
   };
+
+  //redux
+  const { getListProductResult, getListProductLoading, getListProductError } =
+    useSelector((state) => state.ProductReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    //panggil action getlistproduct
+    console.log("1. use effect component did mount ");
+    dispatch(getListProduct());
+  }, [dispatch]);
+
   return (
     <>
       <section
@@ -58,38 +81,44 @@ export default function Product(props) {
         </div>
         <div className="product">
           <div className="row justify-content-center">
-            {product.length === 0 ? (
-              <div className="d-flex justify-content-center null-illustration p-5">
-                <div>
-                  <img src={img} alt="" className="img-fluid mb-3" />
-                  <p>Produk tidak ditemukan</p>
+            {getListProductResult ? (
+              getListProductResult.length === 0 ? (
+                <div className="d-flex justify-content-center null-illustration p-5">
+                  <div>
+                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <p>Produk tidak ditemukan</p>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              product.map((item) => {
-                return (
-                  <Button
-                    type="link"
-                    href={`/product/${item.id}`}
-                    className="col-lg-3 col-md-6 col-sm-12  "
-                    style={{ textDecoration: "none" }}
-                    key={item.id}
-                  >
-                    <div className="card-product p-3 mb-4">
-                      <img
-                        src={item.image}
-                        alt="Shoes-1"
-                        className="img-fluid mb-3"
-                      />
-                      <div className="product-name">
-                        <h4>{item.name.substring(0, 50)}</h4>
+              ) : (
+                getListProductResult.map((item) => {
+                  return (
+                    <Button
+                      type="link"
+                      href={`/product/${item.id}`}
+                      className="col-lg-3 col-md-6 col-sm-12  "
+                      style={{ textDecoration: "none" }}
+                      key={item.id}
+                    >
+                      <div className="card-product p-3 mb-4">
+                        <img
+                          src={item.image}
+                          alt="Shoes-1"
+                          className="img-fluid product-img mb-4"
+                        />
+                        <div className="product-name">
+                          <h4>{shorten(item.title, 40, " ")}</h4>
+                        </div>
+                        <p>{item.category}</p>
+                        <h4>Rp. {item.price}</h4>
                       </div>
-                      <p>{item.category}</p>
-                      <h4>Rp. {item.price}</h4>
-                    </div>
-                  </Button>
-                );
-              })
+                    </Button>
+                  );
+                })
+              )
+            ) : getListProductLoading ? (
+              <h3>Loading....</h3>
+            ) : (
+              <p>{getListProductError ? getListProductError : "Data Kosong"}</p>
             )}
           </div>
         </div>
