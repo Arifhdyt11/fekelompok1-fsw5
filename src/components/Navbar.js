@@ -72,7 +72,6 @@ function CheckLoginMobile(props) {
             <a
               className="nav-link active ms-2"
               href="/profile"
-              isLogin={isLogin}
               style={{ display: "inline-block" }}
             >
               Edit Profile
