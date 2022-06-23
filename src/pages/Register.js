@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "assets/css/login.css";
 import BrandIcon from "components/IconText";
 
+// TODO: Redux
+import { useDispatch } from "react-redux";
+import { addRegister } from "store/actions/productAction";
+
 function Register() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    dispatch(addRegister({ email: email, password: password, name: name, role: role }));
+  };
+
   return (
     <main>
       <div className="container-fluid">
@@ -19,15 +36,17 @@ function Register() {
             <div className="login-wrapper my-auto mx-auto">
               <BrandIcon />
               <h1 className="login-title mt-2">Daftar</h1>
-              <form action="#!">
+              <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="form-group">
                   <label htmlFor="name">Nama</label>
                   <input
                     type="text"
-                    name=""
+                    name="name"
                     id="name"
                     className="form-control form-control-custom"
                     placeholder="Nama Lengkap"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                   />
                 </div>
 
@@ -39,6 +58,8 @@ function Register() {
                     id="email"
                     className="form-control form-control-custom"
                     placeholder="Contoh: johndee@gmail.com"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
                   />
                 </div>
 
@@ -47,8 +68,11 @@ function Register() {
                   <div className="input-group">
                     <input
                       type="password"
+                      name="password"
                       className="form-control form-control-password"
                       placeholder="Masukkan password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
                     />
                     <span className="input-group-text " id="basic-addon2">
                       <i className="uil uil-eye"></i>
@@ -57,16 +81,20 @@ function Register() {
                 </div>
                 <div className="form-group  mb-4">
                   <label htmlFor="role">Daftar Sebagai</label>
-                  <select className="form-control form-control-custom">
-                    <option>Seller</option>
-                    <option>Buyer</option>
+                  <select
+                    className="form-control form-control-custom"
+                    value={role}
+                    onChange={(event) => setRole(event.target.value)}
+                  >
+                    <option value="SELLER">Seller</option>
+                    <option value="BUYER">Buyer</option>
                   </select>
                 </div>
                 <button
                   name="login"
                   id="login"
                   className="btn btn-block login-btn"
-                  type="button"
+                  type="submit"
                   value="Masuk"
                 >
                   {" "}

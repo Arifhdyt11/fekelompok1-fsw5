@@ -1,9 +1,13 @@
-import { GET_LIST_PRODUCT } from "store/types";
+import { GET_LIST_PRODUCT, ADD_REGISTER } from "store/types";
 
 const initialState = {
   getListProductResult: false,
   getListProductLoading: false,
   getListProductError: false,
+
+  addRegisterResult: false,
+  addRegisterLoading: false,
+  addRegisterError: false,
 };
 
 const product = (state = initialState, action) => {
@@ -16,7 +20,13 @@ const product = (state = initialState, action) => {
         getListProductLoading: action.payload.loading,
         getListProductError: action.payload.errorMessage,
       };
-
+    case ADD_REGISTER:
+      return {
+        ...state,
+        addRegisterResult: action.payload.data,
+        addRegisterLoading: action.payload.loading,
+        addRegisterError: action.payload.errorMessage,
+      };
     default:
       return state;
   }
