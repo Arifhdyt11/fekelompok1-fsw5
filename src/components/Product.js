@@ -82,7 +82,7 @@ export default function Product(props) {
         <div className="product">
           <div className="row justify-content-center">
             {getListProductResult ? (
-              getListProductResult.length === 0 ? (
+              getListProductResult.data.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
                   <div>
                     <img src={img} alt="" className="img-fluid mb-3" />
@@ -90,7 +90,7 @@ export default function Product(props) {
                   </div>
                 </div>
               ) : (
-                getListProductResult.map((item) => {
+                getListProductResult.data.map((item) => {
                   return (
                     <Button
                       type="link"
@@ -101,14 +101,14 @@ export default function Product(props) {
                     >
                       <div className="card-product p-3 mb-4">
                         <img
-                          src={item.image}
+                          src={`https://fekelompok1-fsw5.vercel.app/${item.image[0]}`}
                           alt="Shoes-1"
                           className="img-fluid product-img mb-4"
                         />
                         <div className="product-name">
-                          <h4>{shorten(item.title, 40, " ")}</h4>
+                          <h4>{shorten(item.name, 40, " ")}</h4>
                         </div>
-                        <p>{item.category}</p>
+                        <p>{item.categoryId}</p>
                         <h4>Rp. {item.price}</h4>
                       </div>
                     </Button>

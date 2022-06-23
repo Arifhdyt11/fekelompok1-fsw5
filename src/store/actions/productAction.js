@@ -17,11 +17,11 @@ export const getListProduct = () => {
     //get API
     axios({
       method: "GET",
-      url: `${process.env.REACT_APP_HOST}`,
+      url: `${process.env.REACT_APP_HOST}/product`,
       timeout: 120000,
     })
       .then((response) => {
-        console.log("3. Berhasil Dapat Data", response.data);
+        console.log("3. Berhasil Dapat Data", response.data.data);
         //berhasil get API
         dispatch({
           type: GET_LIST_PRODUCT,
