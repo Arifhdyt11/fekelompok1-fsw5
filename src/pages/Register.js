@@ -5,7 +5,7 @@ import BrandIcon from "components/IconText";
 
 // TODO: Redux
 import { useDispatch } from "react-redux";
-import { addRegister } from "store/actions/productAction";
+import { addRegister } from "store/actions/registerAction";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,9 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    dispatch(addRegister({ email: email, password: password, name: name, role: role }));
+    dispatch(
+      addRegister({ email: email, password: password, name: name, role: role })
+    );
   };
 
   return (
