@@ -16,8 +16,33 @@ function shorten(str, maxLen, separator = " ") {
   return str.substr(0, str.lastIndexOf(separator, maxLen));
 }
 
+function numberSeparator(number) {
+  return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+function CheckCategory(categoryId) {
+  if (categoryId === 1) {
+    return "Sneakers";
+  } else if (categoryId === 2) {
+    return "Sport";
+  } else if (categoryId === 3) {
+    return "Casual";
+  } else {
+    return "no";
+  }
+}
+
 export default function Product(props) {
-  // getdata
+  const { getListProductResult, getListProductLoading, getListProductError } =
+    useSelector((state) => state.ProductReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
+
+  //-----------------------------DUMMY--------------------
   const [product, setProduct] = useState(getInitialData());
   const [kategori] = useState(getKategoriData());
 
@@ -29,19 +54,7 @@ export default function Product(props) {
     });
     setProduct(newItem);
   };
-
-  //redux
-  const { getListProductResult, getListProductLoading, getListProductError } =
-    useSelector((state) => state.ProductReducer);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    //panggil action getlistproduct
-    console.log("1. use effect component did mount ");
-    dispatch(getListProduct());
-  }, [dispatch]);
-
+  //---------------------------------------------------------
   return (
     <>
       <section
@@ -101,15 +114,17 @@ export default function Product(props) {
                     >
                       <div className="card-product p-3 mb-4">
                         <img
-                          src={`https://fekelompok1-fsw5.vercel.app/${item.image[0]}`}
-                          alt="Shoes-1"
+                          src={`../images/${item.image[0]}`}
+                          alt={`${item.image[0]}`}
                           className="img-fluid product-img mb-4"
                         />
-                        <div className="product-name">
-                          <h4>{shorten(item.name, 40, " ")}</h4>
+                        <div className="product-name mb-1">
+                          <h4 style={{ height: 45 }}>
+                            {shorten(item.name, 40, " ")}
+                          </h4>
                         </div>
-                        <p>{item.categoryId}</p>
-                        <h4>Rp. {item.price}</h4>
+                        <p>{CheckCategory(item.categoryId)}</p>
+                        <h4>Rp. {numberSeparator(item.price)}</h4>
                       </div>
                     </Button>
                   );
