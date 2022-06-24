@@ -1,14 +1,25 @@
 import Footer from "components/Footer";
 import Navbar from "components/Navbar";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "assets/css/tambahProduct.css";
 import Button from "elements/Button";
 import fotoProductAdd from "assets/images/addProduct.png";
+import { addProduct, getListProduct } from "store/actions/productAction";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TambahProduk() {
   const [image, setImage] = useState(fotoProductAdd);
+  const [saveImage, setSaveImage] = useState("");
+  const [userId, setUserId] = useState("1");
+  const [categoryId, setCategoryId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDecsription] = useState("");
 
-  const [saveImage, setSaveImage] = useState(null);
+  const { addProductResult } = useSelector((state) => state.ProductReducer);
+
+  const dispatch = useDispatch();
+
   function handleUploadChange(e) {
     console.log(e.target.files[0]);
     let uploaded = e.target.files[0];
@@ -16,6 +27,32 @@ export default function TambahProduk() {
     setImage(URL.createObjectURL(uploaded));
     setSaveImage(uploaded);
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    //add Product
+    dispatch(
+      addProduct({
+        name: name,
+        price: price,
+        description: description,
+        userId: userId,
+        categoryId: categoryId,
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (addProductResult) {
+      console.log("5. Masuk component did Add");
+      dispatch(getListProduct());
+      setName("");
+      setPrice("");
+      setDecsription("");
+      setSaveImage("");
+    }
+  }, [addProductResult, dispatch]);
+
   return (
     <div>
       <div>
@@ -43,7 +80,7 @@ export default function TambahProduk() {
             </div>
 
             <div className="col-md-11 col-sm-12 mb-4">
-              <form>
+              <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="mb-3 ">
                   <h4 htmlFor="productNameInput" className="form-label">
                     Nama Produk
@@ -53,6 +90,8 @@ export default function TambahProduk() {
                     className="form-control borderRadius"
                     id="productNameInput"
                     placeholder="Nama Produk"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                   />
                 </div>
 
@@ -65,6 +104,8 @@ export default function TambahProduk() {
                     className="form-control borderRadius"
                     id="priceInput"
                     placeholder="Rp 0,00"
+                    value={price}
+                    onChange={(event) => setPrice(event.target.value)}
                   />
                 </div>
 
@@ -73,34 +114,19 @@ export default function TambahProduk() {
                     Kategori
                   </h4>
                   <div className="col-12">
-                    <div className="input-group">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="categoryInput"
-                        placeholder="Pilih Kategori"
-                        style={{ borderRadius: "20px 0px 0px 20px" }}
-                      ></input>
-                      <button
-                        type="button"
-                        className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
-                        data-bs-toggle="dropdown"
-                        style={{ borderRadius: "0px 15px 15px 0px" }}
-                      ></button>
-                      <div className="dropdown-menu">
-                        <a href="/#" className="dropdown-item">
-                          Sneakers
-                        </a>
-                        <a href="/#" className="dropdown-item">
-                          Casual
-                        </a>
-                        <a href="/#" className="dropdown-item">
-                          Boots
-                        </a>
-                        <a href="/#" className="dropdown-item">
-                          Sport
-                        </a>
-                      </div>
+                    <div className="input-group mb-3">
+                      <select
+                        className="form-select  borderRadius"
+                        id="inputGroupSelect01"
+                        value={categoryId}
+                        onChange={(event) => setCategoryId(event.target.value)}
+                      >
+                        <option defaultValue="0">Pilih Kategori</option>
+                        <option value="1">Sneakers</option>
+                        <option value="2">Casual</option>
+                        <option value="3">Boots</option>
+                        <option value="4">Sports</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -114,6 +140,8 @@ export default function TambahProduk() {
                     id="descriptionInput"
                     rows="3"
                     placeholder="Contoh: Jalan Ikan Hiu 33"
+                    value={description}
+                    onChange={(event) => setDecsription(event.target.value)}
                   ></textarea>
                 </div>
                 <div className="mb-4">

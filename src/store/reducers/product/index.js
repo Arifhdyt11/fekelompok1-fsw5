@@ -1,4 +1,4 @@
-import { GET_LIST_PRODUCT, ADD_REGISTER } from "store/types";
+import { GET_LIST_PRODUCT, ADD_REGISTER, ADD_PRODUCT } from "store/types";
 
 const initialState = {
   getListProductResult: false,
@@ -8,6 +8,10 @@ const initialState = {
   addRegisterResult: false,
   addRegisterLoading: false,
   addRegisterError: false,
+
+  addProductResult: false,
+  addProductLoading: false,
+  addProductError: false,
 };
 
 const product = (state = initialState, action) => {
@@ -26,6 +30,15 @@ const product = (state = initialState, action) => {
         addRegisterResult: action.payload.data,
         addRegisterLoading: action.payload.loading,
         addRegisterError: action.payload.errorMessage,
+      };
+
+    case ADD_PRODUCT:
+      console.log("4. Masuk Reduces: ", action);
+      return {
+        ...state,
+        addProductResult: action.payload.data,
+        addProductLoading: action.payload.loading,
+        addProductError: action.payload.errorMessage,
       };
     default:
       return state;

@@ -1,4 +1,4 @@
-import { GET_LIST_PRODUCT, ADD_REGISTER } from "store/types";
+import { GET_LIST_PRODUCT, ADD_REGISTER, ADD_PRODUCT } from "store/types";
 import axios from "axios";
 
 export const getListProduct = () => {
@@ -82,6 +82,51 @@ export const addRegister = (data) => {
         // error
         dispatch({
           type: ADD_REGISTER,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
+//ADD PRODUCT
+export const addProduct = (data) => {
+  console.log("2. Masuk ke action");
+  return (dispatch) => {
+    dispatch({
+      type: ADD_PRODUCT,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    //get API
+    axios({
+      method: "POST",
+      url: "https://apishoesnarian.herokuapp.com/api/v1/product",
+      data: data,
+    })
+      .then((response) => {
+        console.log("3. Berhasil dapet data:", response);
+        //berhasil get api
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("3. Gagal dapet data Add Product : ", error.response.data);
+        dispatch({
+          type: ADD_PRODUCT,
           payload: {
             loading: false,
             data: false,
