@@ -1,13 +1,9 @@
-import { GET_LIST_PRODUCT, ADD_REGISTER, ADD_PRODUCT } from "store/types";
+import { GET_LIST_PRODUCT, GET_PRODUCT_ID, ADD_PRODUCT } from "store/types";
 
 const initialState = {
   getListProductResult: false,
   getListProductLoading: false,
   getListProductError: false,
-
-  addRegisterResult: false,
-  addRegisterLoading: false,
-  addRegisterError: false,
 
   addProductResult: false,
   addProductLoading: false,
@@ -17,23 +13,14 @@ const initialState = {
 const product = (state = initialState, action) => {
   switch (action.type) {
     case GET_LIST_PRODUCT:
-      console.log("4. Masuk Reducer");
       return {
         ...state,
         getListProductResult: action.payload.data,
         getListProductLoading: action.payload.loading,
         getListProductError: action.payload.errorMessage,
       };
-    case ADD_REGISTER:
-      return {
-        ...state,
-        addRegisterResult: action.payload.data,
-        addRegisterLoading: action.payload.loading,
-        addRegisterError: action.payload.errorMessage,
-      };
-
     case ADD_PRODUCT:
-      console.log("4. Masuk Reduces: ", action);
+      console.log("4. Masuk reducer", action);
       return {
         ...state,
         addProductResult: action.payload.data,
