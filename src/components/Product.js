@@ -1,23 +1,28 @@
-import { useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "store/actions/productAction";
 
 import Button from "elements/Button";
 import img from "assets/images/ilustrasi.svg";
 
+import { formatPrice, titleShorten } from "utils/defaultFormat";
+
 //------------------BAKALAN DIHAPUS---------------
 import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
 //--------------------HAPUS NANTI---------------------
 
-function shorten(str, maxLen, separator = " ") {
-  if (str.length <= maxLen) return str;
-  return str.substr(0, str.lastIndexOf(separator, maxLen));
-}
-
 export default function Product(props) {
-  // getdata
+  const { getListProductResult, getListProductLoading, getListProductError } =
+    useSelector((state) => state.ProductReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
+
+  //-----------------------------DUMMY--------------------
   const [product, setProduct] = useState(getInitialData());
   const [kategori] = useState(getKategoriData());
 
@@ -29,19 +34,7 @@ export default function Product(props) {
     });
     setProduct(newItem);
   };
-
-  //redux
-  const { getListProductResult, getListProductLoading, getListProductError } =
-    useSelector((state) => state.ProductReducer);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    //panggil action getlistproduct
-    console.log("1. use effect component did mount ");
-    dispatch(getListProduct());
-  }, [dispatch]);
-
+  //---------------------------------------------------------
   return (
     <>
       <section
@@ -101,15 +94,17 @@ export default function Product(props) {
                     >
                       <div className="card-product p-3 mb-4">
                         <img
-                          src={`https://fekelompok1-fsw5.vercel.app/${item.image[0]}`}
-                          alt="Shoes-1"
+                          src={`../images/${item.image[0]}`}
+                          alt={`${item.image[0]}`}
                           className="img-fluid product-img mb-4"
                         />
-                        <div className="product-name">
-                          <h4>{shorten(item.name, 40, " ")}</h4>
+                        <div className="product-name mb-1">
+                          <h4 style={{ height: 45 }}>
+                            {titleShorten(item.name, 40, " ")}
+                          </h4>
                         </div>
-                        <p>{item.categoryId}</p>
-                        <h4>Rp. {item.price}</h4>
+                        <p>{item.Category.name}</p>
+                        <h4>Rp. {formatPrice(item.price)}</h4>
                       </div>
                     </Button>
                   );
