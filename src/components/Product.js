@@ -1,36 +1,16 @@
-import { useState } from "react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "store/actions/productAction";
 
 import Button from "elements/Button";
 import img from "assets/images/ilustrasi.svg";
 
+import { formatPrice, titleShorten } from "utils/defaultFormat";
+
 //------------------BAKALAN DIHAPUS---------------
 import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
 //--------------------HAPUS NANTI---------------------
-
-function shorten(str, maxLen, separator = " ") {
-  if (str.length <= maxLen) return str;
-  return str.substr(0, str.lastIndexOf(separator, maxLen));
-}
-
-function numberSeparator(number) {
-  return number.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-
-function CheckCategory(categoryId) {
-  if (categoryId === 1) {
-    return "Sneakers";
-  } else if (categoryId === 2) {
-    return "Sport";
-  } else if (categoryId === 3) {
-    return "Casual";
-  } else {
-    return "no";
-  }
-}
 
 export default function Product(props) {
   const { getListProductResult, getListProductLoading, getListProductError } =
@@ -120,11 +100,11 @@ export default function Product(props) {
                         />
                         <div className="product-name mb-1">
                           <h4 style={{ height: 45 }}>
-                            {shorten(item.name, 40, " ")}
+                            {titleShorten(item.name, 40, " ")}
                           </h4>
                         </div>
-                        <p>{CheckCategory(item.categoryId)}</p>
-                        <h4>Rp. {numberSeparator(item.price)}</h4>
+                        <p>{item.Category.name}</p>
+                        <h4>Rp. {formatPrice(item.price)}</h4>
                       </div>
                     </Button>
                   );
