@@ -21,10 +21,11 @@ export default function FormAddProduct() {
     setSaveImage(uploaded);
   }
 
-  const [userId, setUserId] = useState("1");
+  const [userId, setUserId] = useState("2");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [sizeId, setSizeId] = useState("1");
   const [description, setDescription] = useState("");
 
   const { addProductResult } = useSelector((state) => state.ProductReducer);
@@ -38,6 +39,7 @@ export default function FormAddProduct() {
         name: name,
         image: [saveImage.name],
         price: price,
+        sizeId: sizeId,
         categoryId: categoryId,
         description: description,
       })
