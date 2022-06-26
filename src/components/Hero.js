@@ -1,7 +1,13 @@
 import Button from "elements/Button";
 import ImageHero from "assets/images/img-hero.png";
 
-export default function Hero() {
+export default function Hero(props) {
+  function showCallToAction() {
+    window.scrollTo({
+      top: props.refCallToAction.current.offsetTop - 30,
+      behavior: "smooth",
+    });
+  }
   return (
     <section className="container section-hero">
       <div className="row">
@@ -17,7 +23,12 @@ export default function Hero() {
             Explore the latest shoes for every sport, workout and everyday look.
             Built for ultimate performance and sneaker style.
           </p>
-          <Button className="btn ms-auto px-3 py-2" hasShadow isPrimary>
+          <Button
+            className="btn ms-auto px-3 py-2"
+            hasShadow
+            isPrimary
+            onClick={showCallToAction}
+          >
             Show Me Now
           </Button>
         </div>

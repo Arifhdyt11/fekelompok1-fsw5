@@ -6,6 +6,7 @@ const getInitialData = () => [
     category: "Sneakers",
     price: "2400000",
     status: "Diminati",
+    priceBid: "100000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -16,6 +17,7 @@ const getInitialData = () => [
     category: "Casual",
     price: "700000",
     status: "Terjual",
+    priceBid: "300000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -26,6 +28,7 @@ const getInitialData = () => [
     category: "Casual",
     price: "9000",
     status: "Diminati",
+    priceBid: "1000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -36,6 +39,7 @@ const getInitialData = () => [
     category: "Boots",
     price: "5500000",
     status: "Terjual",
+    priceBid: "400000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -46,6 +50,7 @@ const getInitialData = () => [
     category: "Sneakers",
     price: "3500000",
     status: "Diminati",
+    priceBid: "300000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -56,6 +61,7 @@ const getInitialData = () => [
     category: "Casual",
     price: "700000",
     status: "Terjual",
+    priceBid: "100000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },
@@ -65,6 +71,7 @@ const getInitialData = () => [
     name: "Jordan 1 Mid Light Smoke Grey Anthracite",
     category: "Casual",
     price: "7000000",
+    priceBid: "200000",
     status: "Diminati",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
@@ -76,6 +83,7 @@ const getInitialData = () => [
     category: "Boots",
     price: "5500000",
     status: "Diminati",
+    priceBid: "100000",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo asd  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa",
   },

@@ -4,28 +4,43 @@ body {
     font-style: normal;
 }
 
+h1,
+h2,
+h3,
+h4,
+h6 {
+    color: #152c5b;
+}
+
 h1 {
     font-weight: 700;
     font-size: 42px;
-    color: #152c5b;
 }
 
 h2 {
     font-weight: 700;
-    font-size: 26px;
-    color: #152c5b;
+    font-size: 28px;
 }
 
 h3 {
     font-weight: 700;
-    font-size: 22px;
-    color: #152c5b;
+    font-size: 24px;
 }
 
 h4 {
     font-weight: 500;
+    font-size: 18px;
+}
+
+h5 {
+    font-weight: 300;
     font-size: 15px;
-    color: #152c5b;
+    color: #b0b0b0;
+}
+
+h6 {
+    font-weight: 500;
+    font-size: 15px;
 }
 
 p {
@@ -71,7 +86,6 @@ p {
 .btn-secondary {
     background-color: transparent;
     border-color: #3252df;
-    box-shadow: 0px 8px 15px rgba(50, 82, 223, 0.3);
     border-radius: 4px;
     font-weight: 500;
     font-size: 16px;
@@ -87,6 +101,10 @@ p {
     background-color: transparent;
     border: none;
     box-shadow: none;
+}
+
+.btn-has-radius {
+    border-radius: 15px;
 }
 
 .navbar {
@@ -113,21 +131,59 @@ p {
     color: #152c5b;
 }
 
+.dropdown-menu .item {
+    color: #152c5b;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: context-menu;
+}
+
+.dropdown-menu .item:hover {
+    background-color: transparent;
+}
+
 .dropdown-menu.show {
     display: block;
     margin-left: -60px;
+}
+
+.span-dropdown {
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.dropstart .dropdown-menu[data-bs-popper] {
+    margin: 35px -30px 0px 0px;
 }
 
 section {
     margin-top: 40px;
 }
 
+.card {
+    background: #ffffff !important;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 16px;
+}
+
+.card .seller-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+}
+
 .card-product {
-    width: 250px;
     background: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px 2px;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.card-product .product-img {
+    width: 100%;
+    height: 12rem;
+    border-radius: 2px;
+    object-fit: contain;
 }
 
 .card-product .product-name {
@@ -139,16 +195,16 @@ p {
     margin-bottom: 5px;
 }
 
-.card-info-seller {
-    background: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 16px;
-}
-
-.card-info-seller .seller-image {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+.customerTag {
+    border-radius: 3px;
+    padding: 0.3em;
+    color: #fff;
+    background-color: #748eff;
+    margin-left: 0em;
+    font-size: 10px;
+    text-decoration: double;
+    position: relative;
+    bottom: 1em;
 }
 
 footer {
@@ -182,4 +238,16 @@ footer .copyrights {
     margin: 50px 0;
     font-weight: 300;
     color: #adb5bd;
+}
+
+@media (max-width: 576px) {
+    .offcanvas {
+        width: 80%;
+    }
+}
+
+@media (min-width: 992px) {
+    .offcanvas {
+        width: 50%;
+    }
 }

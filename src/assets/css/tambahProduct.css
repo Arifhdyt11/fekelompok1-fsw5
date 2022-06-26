@@ -1,0 +1,18 @@
+
+#profile {
+    margin-bottom: 2em;
+}
+
+.borderRadius {
+    border-radius: 20px;  
+  }
+
+@media screen and (min-width: 915px) {
+    #produk {
+       width: 50%;
+    }
+   }
+   
+
+
+   

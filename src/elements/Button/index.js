@@ -12,6 +12,7 @@ export default function Button(props) {
   if (props.isBlock) className.push("is-block");
   if (props.hasShadow) className.push("btn-shadow");
   if (props.nonStyle) className.push("btn-none-style");
+  if (props.hasRadius) className.push("btn-has-radius");
 
   const onClick = () => {
     if (props.onClick) props.onClick();
@@ -88,4 +89,5 @@ Button.propTypes = {
   isBlock: propTypes.bool,
   hasShadow: propTypes.bool,
   nonStyle: propTypes.bool,
+  hasRadius: propTypes.bool,
 };

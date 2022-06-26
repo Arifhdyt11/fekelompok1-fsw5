@@ -1,88 +1,96 @@
-import React, { useState } from "react";
-import imgProduct from "assets/images/img-infoPenawar1.png";
-import "assets/css/infoPenawar.css";
 import Button from "elements/Button";
 import ModalInfoPenawar from "./ModalInfoPenawar";
-import infoPenawar from "json/infoPenawar.json";
+import ModalStatusInfoPenawar from "./ModalStatusInfoPenawar";
 
-export default function ProdukInfoPenawar(props) {
+export default function ProdukInfoPenawar({ dataProduct, productbid }) {
   return (
     <div className="mt-4 mb-5">
-      {props.productbid.map((item) => (
-        <div key={item}>
-          <div className="mb-2">
-            <h4 className="subTitleProduk fw-bold">
-              Daftar Produkmu yang Ditawar
-            </h4>
-          </div>
-          <div className="card produk shadow">
-            <div className="card-body">
-              <div className="row gx-5" id="row">
-                <div className="col-auto ">
-                  <div>
-                    <img
-                      className="imageProduct"
-                      src={imgProduct}
-                      alt="Customer 1"
-                    />
-                  </div>
+      <div key={dataProduct.id}>
+        <div className="mb-3 mt-5">
+          <h3>Daftar Produkmu yang Ditawar</h3>
+        </div>
+        <div className="card is-block ms-auto p-4">
+          <div className="row">
+            <div className="col-lg-2 col-sm-12 align-self-center text-center">
+              <img
+                className="img-fluid mb-lg-0 mb-4"
+                src={dataProduct.image}
+                alt=""
+              />
+            </div>
+            <div className="col-lg-10 col-sm-12">
+              <div className="mb-4">
+                <div className="d-flex justify-content-between">
+                  <h5>Penawaran Product</h5>
+                  <p>16 Jun, 12:45</p>
                 </div>
-                <div className="col">
-                  <div className="d-flex align-items-center mb-2">
-                    <p className="me-auto mb-0 titlePenawaranProduk">
-                      Penawaran Produk
-                    </p>
-                    <span className="text-muted extrea-small ms-2 titlePenawaranProduk">
-                      16 Jun, 12:45
-                    </span>
-                  </div>
-                  <div className="me-auto mb-2">
-                    <h4 className="product-name">{item.tawaran.product}</h4>
-                  </div>
-                  <div className="d-flex align-items-center mb-2">
-                    <p className="me-auto mb-0 productBid">
-                      Harga Mulai:
-                      <h4 className="priceInfoPenawaran">
-                        <s>Rp. {item.tawaran.price}</s>
-                      </h4>
-                    </p>
-                    <p className="me-auto mb-0 productBid">
-                      Ditawar :<label className="notifInfoPenawaran">*</label>
-                      <h4 className="priceInfoPenawaran">
-                        Rp. {item.tawaran.bid}
-                      </h4>
-                    </p>
-                  </div>
-                  <div className="mt-sm-4">
-                    <div className="row">
-                      <div className="col d-flex flex-column">
-                        <Button
-                          className="btn btn-secondary tolak"
-                          href="/#"
-                          type="link"
-                        >
-                          Tolak
-                        </Button>
-                      </div>
-                      <div className="col d-flex flex-column">
-                        <button
-                          type="button"
-                          className="btn btn-primary terima"
-                          data-bs-toggle="modal"
-                          data-bs-target="#modalInfoPenawar"
-                        >
-                          Terima
-                        </button>
-                        <ModalInfoPenawar productbid={infoPenawar.pembeli} />
-                      </div>
-                    </div>
-                  </div>
+                <h4>{dataProduct.name}</h4>
+              </div>
+              <div className="d-flex justify-content-start mb-3">
+                <div className="me-auto">
+                  <h5>Harga Awal</h5>
+                  <h4>
+                    <s>Rp. {dataProduct.price}</s>
+                  </h4>
+                </div>
+                <div className="me-auto">
+                  <h5>Ditawar</h5>
+                  <h4>Rp. {dataProduct.priceBid}</h4>
                 </div>
               </div>
+              {productbid.map((item) => (
+                <div key={item.id}>
+                  {item.statusBeli === "berhasil" ? (
+                    <div className="d-flex justify-content-center">
+                      <button
+                        type="button"
+                        className="btn btn-secondary mx-2 is-block btn-has-radius "
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalStatusInfoPenawar"
+                      >
+                        Status
+                      </button>
+                      <ModalStatusInfoPenawar productbid={productbid} />
+                      <Button
+                        className="btn btn-primary mx-2 is-block btn-has-radius"
+                        isPrimary
+                        hasShadow
+                        isExternal
+                        type="link"
+                        href="https://wa.me/628974233275"
+                      >
+                        Hubungi
+                        <i className="fa-brands fa-whatsapp ms-2"></i>
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <Button
+                        className="btn btn-secondary mx-2 "
+                        href="/seller"
+                        type="link"
+                        isBlock
+                        hasRadius
+                      >
+                        Tolak
+                      </Button>
+                      <button
+                        type="button"
+                        className="btn btn-primary mx-2 is-block btn-has-radius"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalInfoPenawar"
+                      >
+                        Terima
+                      </button>
+                      <ModalInfoPenawar dataProduct={dataProduct} />
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      ))}
+      </div>
     </div>
   );
 }
