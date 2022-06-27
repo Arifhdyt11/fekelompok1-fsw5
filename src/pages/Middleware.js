@@ -2,8 +2,18 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 export default function Middleware({ childern }) {
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   return (
-    <>{user.data.role === "SELLER" ? childern : <Navigate to={`/403`} />}</>
+    <>
+      {isAuthenticated ? (
+        user.data.role === "SELLER" ? (
+          childern
+        ) : (
+          <Navigate to={`/401`} />
+        )
+      ) : (
+        <Navigate to={`/403`} />
+      )}
+    </>
   );
 }
