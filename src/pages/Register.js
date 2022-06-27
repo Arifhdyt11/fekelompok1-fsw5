@@ -88,6 +88,7 @@ function Register() {
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
                   >
+                    <option>-Pilih Role-</option>
                     <option value="SELLER">Seller</option>
                     <option value="BUYER">Buyer</option>
                   </select>

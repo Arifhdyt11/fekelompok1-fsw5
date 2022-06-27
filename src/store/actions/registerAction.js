@@ -16,7 +16,7 @@ export const addRegister = (data) => {
     // get API
     axios({
       method: "POST",
-      url: "https://62b2d81c4f851f87f44e0d48.mockapi.io/register",
+      url: "http://localhost:3000/api/v1/register",
       // url: `${process.env.REACT_APP_HOST_REGIS}`,
       timeout: 120000,
       data: data,
@@ -31,6 +31,8 @@ export const addRegister = (data) => {
             errorMessage: false,
           },
         });
+        window.location.href = "/login";
+        alert('Registration Successful');
       })
       .catch((error) => {
         // error
@@ -42,6 +44,7 @@ export const addRegister = (data) => {
             errorMessage: error.message,
           },
         });
+        alert('Registration Failed')
       });
   };
 };

@@ -1,6 +1,10 @@
 import Button from "elements/Button";
 import Notification from "./Notification";
 
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/actions/authAction";
+
 function CekSeller(props) {
   const { isSeller } = props;
   if (isSeller === "yes") {
@@ -25,6 +29,22 @@ function CekSeller(props) {
 }
 
 export default function NavbarDropdown(props) {
+  // TODO: Ini buat logout
+  const dispatch = useDispatch();
+  const { isAuthenticated, user, error } = useSelector(
+    (state) => state.AuthReducer
+  );
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   const { isSeller } = props;
   return (
     <>
@@ -66,6 +86,21 @@ export default function NavbarDropdown(props) {
                 Transaksi
               </a>
             </li>
+
+            {!isAuthenticated ? (
+              <li>
+                <a className="dropdown-item" href="/Login">
+                  <i className="fa-duotone fa-gear me-3"></i>Login
+                </a>
+              </li>
+            ) : (
+              <li>
+                <a className="dropdown-item" href="/#" onClick={handleLogout}>
+                  <i className="fa-duotone fa-gear me-3"></i>Logout
+                </a>
+              </li>
+            )}
+
             <CekSeller isSeller={isSeller} />
           </ul>
         </div>
