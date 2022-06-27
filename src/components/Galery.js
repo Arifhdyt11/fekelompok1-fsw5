@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
 import Pad from "assets/images/cover-img.png";
@@ -6,7 +8,9 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
-export default function Galery({ dataProduct }) {
+export default function Galery() {
+  const { getProductIdResult, getProductIdLoading, getProductIdError } =
+    useSelector((state) => state.ProductReducer);
   return (
     <>
       <section className="container section-galery-product">
@@ -14,8 +18,12 @@ export default function Galery({ dataProduct }) {
           <div className="col-lg-5 col-sm-12 px-4">
             <div className="img-product-big mb-4 text-center">
               <img
-                src={dataProduct.image}
-                alt="Shoes-1"
+                src={
+                  getProductIdResult.image
+                    ? `../images/${getProductIdResult.image[0]}`
+                    : ""
+                }
+                alt={getProductIdResult.name}
                 className="default-image shoes mb-n3"
               />
               <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
@@ -44,38 +52,21 @@ export default function Galery({ dataProduct }) {
                 },
               }}
             >
-              <div className="card-thumb">
-                <Button hasShadow className="thumb-img">
-                  <img className=" img-fluid" src={dataProduct.image} alt="" />
-                </Button>
-              </div>
-              <div className="card-thumb">
-                <Button hasShadow className="thumb-img">
-                  <img
-                    className=" img-fluid"
-                    src="../images/shoes-1.1.png"
-                    alt=""
-                  />
-                </Button>
-              </div>
-              <div className="card-thumb">
-                <Button hasShadow className="thumb-img">
-                  <img
-                    className=" img-fluid"
-                    src="../images/shoes-1.2.png"
-                    alt=""
-                  />
-                </Button>
-              </div>
-              <div className="card-thumb">
-                <Button hasShadow className="thumb-img">
-                  <img
-                    className=" img-fluid"
-                    src="../images/shoes-1.3.png"
-                    alt=""
-                  />
-                </Button>
-              </div>
+              {getProductIdResult.image
+                ? getProductIdResult.image.map((item, index) => {
+                    return (
+                      <div className="card-thumb" key={index}>
+                        <Button hasShadow className="thumb-img">
+                          <img
+                            className=" img-fluid"
+                            src={`../images/${item}`}
+                            alt=""
+                          />
+                        </Button>
+                      </div>
+                    );
+                  })
+                : "Loading...."}
             </OwlCarousel>
             <div className="size ms-2">
               <h3>Size Ready</h3>

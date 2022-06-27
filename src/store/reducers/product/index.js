@@ -10,6 +10,10 @@ const initialState = {
   getListProductLoading: false,
   getListProductError: false,
 
+  getProductIdResult: false,
+  getProductIdLoading: false,
+  getProductIdError: false,
+
   addProductResult: false,
   addProductLoading: false,
   addProductError: false,
@@ -28,8 +32,14 @@ const product = (state = initialState, action) => {
         getListProductLoading: action.payload.loading,
         getListProductError: action.payload.errorMessage,
       };
+    case GET_PRODUCT_ID:
+      return {
+        ...state,
+        getProductIdResult: action.payload.data,
+        getProductIdLoading: action.payload.loading,
+        getProductIdError: action.payload.errorMessage,
+      };
     case ADD_PRODUCT:
-      console.log("4. Masuk reducer", action);
       return {
         ...state,
         addProductResult: action.payload.data,

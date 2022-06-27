@@ -49,8 +49,50 @@ export const getListProduct = () => {
   };
 };
 
+export const getProductId = (id) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: GET_PRODUCT_ID,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    //get API
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_HOST}/product/` + id,
+      timeout: 120000,
+    })
+      .then((response) => {
+        //berhasil get API
+        dispatch({
+          type: GET_PRODUCT_ID,
+          payload: {
+            loading: false,
+            data: response.data.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        //error get api
+        dispatch({
+          type: GET_PRODUCT_ID,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
 export const addProduct = (data) => {
-  console.log("2. Masuk Action");
   return (dispatch) => {
     //loading
     dispatch({
@@ -70,7 +112,6 @@ export const addProduct = (data) => {
       data: data,
     })
       .then((response) => {
-        console.log("3. Berhasil Dapat Data", response.data);
         //berhasil get API
         dispatch({
           type: ADD_PRODUCT,

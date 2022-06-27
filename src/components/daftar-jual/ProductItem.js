@@ -10,7 +10,11 @@ function ProductItem({ id, name, category, price, image }) {
       key={id}
     >
       <div className="card-product p-3 mb-4">
-        <img src={image} alt="Shoes-1" className="img-fluid mb-3" />
+        <img
+          src={`../images/${image[0]}`}
+          alt="Shoes-1"
+          className="img-fluid mb-3"
+        />
         <div className="product-name">
           <h4>{name.substring(0, 50)}</h4>
         </div>

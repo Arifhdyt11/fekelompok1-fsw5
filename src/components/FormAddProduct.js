@@ -47,6 +47,7 @@ export default function FormAddProduct() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [sizeId, setSizeId] = useState("1");
   const [description, setDescription] = useState("");
   const [sizeId, setSizeId] = useState("1");
 
@@ -61,6 +62,7 @@ export default function FormAddProduct() {
         name: name,
         image: [image.name],
         price: price,
+        sizeId: sizeId,
         categoryId: categoryId,
         description: description,
         sizeId: sizeId,
