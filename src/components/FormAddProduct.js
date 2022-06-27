@@ -49,7 +49,6 @@ export default function FormAddProduct() {
   const [categoryId, setCategoryId] = useState("");
   const [sizeId, setSizeId] = useState("1");
   const [description, setDescription] = useState("");
-  const [sizeId, setSizeId] = useState("1");
 
   const { addProductResult } = useSelector((state) => state.ProductReducer);
   const dispatch = useDispatch();
