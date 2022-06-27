@@ -2,7 +2,7 @@ import { AUTH_ERROR, LOGIN, LOGOUT } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
   try {
-    const response = await fetch("http://localhost:5000/api/v1/login", {
+    const response = await fetch("http://localhost:3000/api/v1/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -11,19 +11,19 @@ export const loginViaForm = (data) => async (dispatch) => {
     });
     const result = await response.json();
 
-    const userInfo = await fetch("http://localhost:5000/api/v1/auth/me", {
+    const userInfo = await fetch("http://localhost:3000/api/v1/whoami", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${result.token}`,
+        Authorization: `Bearer ${result.accessToken}`,
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
-    if (result.token) {
+    if (result.accessToken) {
       dispatch({
         type: LOGIN,
-        payload: result.token,
+        payload: result.accessToken,
         user: user,
       });
       alert("Login Successful");
