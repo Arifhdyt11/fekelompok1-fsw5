@@ -31,6 +31,8 @@ export const addRegister = (data) => {
             errorMessage: false,
           },
         });
+        window.location.href = "/login";
+        alert('Registration Successful');
       })
       .catch((error) => {
         // error
@@ -42,6 +44,7 @@ export const addRegister = (data) => {
             errorMessage: error.message,
           },
         });
+        alert('Registration Failed')
       });
   };
 };
