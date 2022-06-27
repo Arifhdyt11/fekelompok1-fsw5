@@ -9,7 +9,9 @@ import { loginViaForm } from "store/actions/authAction";
 
 function Login() {
   const dispatch = useDispatch();
-  const { isAuthenticated, error } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, error } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   useEffect(() => {
     if (error) {
@@ -89,14 +91,12 @@ function Login() {
                       type="submit"
                       value="Masuk"
                     >
-                      {" "}
                       Masuk
                     </button>
                   </form>
                   <p className="login-wrapper-footer-text mb-3">
                     Belum punya akun?
                     <Link to="/register" className="text-reset">
-                      {" "}
                       Daftar di sini
                     </Link>
                   </p>
@@ -105,6 +105,8 @@ function Login() {
             </div>
           </div>
         </main>
+      ) : user.data.role === "SELLER" ? (
+        <Navigate to={`/seller`} />
       ) : (
         <Navigate to={`/`} />
       )}
