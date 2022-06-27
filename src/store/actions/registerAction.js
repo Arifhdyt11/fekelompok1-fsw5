@@ -16,7 +16,7 @@ export const addRegister = (data) => {
     // get API
     axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/register",
+      url: `${process.env.REACT_APP_HOST}/register`,
       // url: `${process.env.REACT_APP_HOST_REGIS}`,
       timeout: 120000,
       data: data,
@@ -32,7 +32,7 @@ export const addRegister = (data) => {
           },
         });
         window.location.href = "/login";
-        alert('Registration Successful');
+        alert("Registration Successful");
       })
       .catch((error) => {
         // error
@@ -44,7 +44,7 @@ export const addRegister = (data) => {
             errorMessage: error.message,
           },
         });
-        alert('Registration Failed')
+        alert("Registration Failed");
       });
   };
 };

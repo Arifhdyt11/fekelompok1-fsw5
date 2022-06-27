@@ -97,6 +97,23 @@ p {
     color: #ffff;
 }
 
+.btn-third {
+    background: #748eff;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.btn-third:hover {
+    background-color: transparent;
+    border-color: #3252df;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #000;
+}
+
 .btn-none-style {
     background-color: transparent;
     border: none;

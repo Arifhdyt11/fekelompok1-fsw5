@@ -1,4 +1,8 @@
 import Button from "elements/Button";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { logout } from "store/actions/authAction";
 import BrandIcon from "./IconText";
 import NavbarDropdown from "./NavbarDropdown";
 
@@ -20,14 +24,9 @@ function CheckSearch(props) {
   }
 }
 
-function CheckLogin(props) {
-  const { isLogin, isSeller } = props;
-  if (isLogin === "yes") {
-    return (
-      <>
-        <NavbarDropdown isSeller={isSeller} />
-      </>
-    );
+function CheckLogin({ isAuthenticated }) {
+  if (isAuthenticated) {
+    return <NavbarDropdown />;
   } else {
     return (
       <Button
@@ -42,7 +41,6 @@ function CheckLogin(props) {
     );
   }
 }
-
 function CheckSearchMobile(props) {
   const { isSearch } = props;
   if (isSearch === "yes") {
@@ -61,9 +59,18 @@ function CheckSearchMobile(props) {
   }
 }
 
-function CheckLoginMobile(props) {
-  const { isLogin } = props;
-  if (isLogin === "yes") {
+function CheckLoginMobile({ isAuthenticated, error }) {
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+  if (isAuthenticated) {
     return (
       <>
         <ul className="navbar-nav ms-auto">
@@ -114,6 +121,7 @@ function CheckLoginMobile(props) {
               isPrimary
               href="/"
               type="link"
+              onClick={handleLogout}
             >
               Logout
             </Button>
@@ -136,8 +144,9 @@ function CheckLoginMobile(props) {
   }
 }
 
-export default function Navbar(props) {
-  const { isSearch, isLogin, isSeller } = props;
+export default function Navbar({ isSearch }) {
+  const { isAuthenticated, error } = useSelector((state) => state.AuthReducer);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light py-3">
       <div className="container">
@@ -168,12 +177,12 @@ export default function Navbar(props) {
           </div>
           <div className="offcanvas-body">
             <CheckSearchMobile isSearch={isSearch} />
-            <CheckLoginMobile isLogin={isLogin} isSeller={isSeller} />
+            <CheckLoginMobile isAuthenticated={isAuthenticated} error={error} />
           </div>
         </div>
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
           <CheckSearch isSearch={isSearch} />
-          <CheckLogin isLogin={isLogin} isSeller={isSeller} />
+          <CheckLogin isAuthenticated={isAuthenticated} />
         </div>
       </div>
     </nav>
