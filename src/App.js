@@ -12,6 +12,9 @@ import InfoPenawarPage from "./pages/InfoPenawar";
 import Wishlist from "pages/Wishlist";
 import FormActionProduct from "pages/FormActionProduct";
 import History from "pages/History";
+import Middleware from "pages/Middleware";
+import Unauthorized from "pages/401";
+import PageNotFound from "pages/404";
 
 function App() {
   return (
@@ -20,33 +23,36 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/"
-          element={<LandingPage isLogin="yes" isSeller="yes" />}
-        />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
 
-        <Route path="/seller" element={<DaftarJual isLogin="yes" />} />
+        <Route
+          path="/seller"
+          element={<Middleware childern={<DaftarJual />} />}
+        />
         <Route
           path="/seller-product/:id"
-          element={<DetailProduct isLogin="yes" isSeller="yes" />}
+          element={<Middleware childern={<DetailProduct />} />}
         />
         <Route
           path="/add-product"
-          element={<FormActionProduct isLogin="yes" isAdd="yes" />}
+          element={<Middleware childern={<FormActionProduct isAdd="yes" />} />}
         />
         <Route
           path="/update-product/:id"
-          element={<FormActionProduct isLogin="yes" />}
+          element={<Middleware childern={<FormActionProduct />} />}
         />
 
         <Route
           path="/transaction/:id"
-          element={<InfoPenawarPage isLogin="yes" />}
+          element={<Middleware childern={<InfoPenawarPage />} />}
         />
-        <Route path="/profile" element={<ProfilePage isLogin="yes" />} />
-        <Route path="/wishlist" element={<Wishlist isLogin="yes" />} />
-        <Route path="/history" element={<History isLogin="yes" />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/history" element={<History />} />
+
+        <Route path="/403" element={<Unauthorized />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );
