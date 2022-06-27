@@ -5,8 +5,9 @@ import Button from "elements/Button";
 import { formatPrice } from "utils/defaultFormat";
 import { Link } from "react-router-dom";
 
-function CheckButton({ isSeller, id, getProductIdResult }) {
-  if (isSeller === "yes") {
+function CheckButton({ id, getProductIdResult }) {
+  const { user } = useSelector((state) => state.AuthReducer);
+  if (user.data.role === "SELLER") {
     return (
       <>
         <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
@@ -36,7 +37,7 @@ function CheckButton({ isSeller, id, getProductIdResult }) {
   }
 }
 
-export default function ActionDetail({ isSeller, id }) {
+export default function ActionDetail({ id }) {
   const { getProductIdResult, getProductIdLoading, getProductIdError } =
     useSelector((state) => state.ProductReducer);
 
@@ -57,11 +58,7 @@ export default function ActionDetail({ isSeller, id }) {
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}
-      <CheckButton
-        isSeller={isSeller}
-        id={id}
-        getProductIdResult={getProductIdResult}
-      />
+      <CheckButton id={id} getProductIdResult={getProductIdResult} />
     </div>
   );
 }

@@ -11,6 +11,11 @@ class LandingPage extends Component {
     super(props);
     this.refCallToAction = React.createRef();
   }
+
+  componentDidMount() {
+    document.title = "Shoesnarian | Home";
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <>
