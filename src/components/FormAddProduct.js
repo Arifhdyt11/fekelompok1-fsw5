@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, getListProduct } from "store/actions/productAction";
-
+import { storage } from "../firebase/index";
+import { ref, uploadBytes } from "firebase/storage";
 import Button from "elements/Button";
 import fotoProductAdd from "assets/images/addProduct.png";
 
@@ -10,22 +11,44 @@ function ClearInputImage() {
 }
 
 export default function FormAddProduct() {
-  const [image, setImage] = useState(fotoProductAdd);
+  const [image, setImage] = useState(null);
 
-  const [saveImage, setSaveImage] = useState(null);
-  function handleUploadChange(e) {
-    console.log(e.target.files[0].name);
-    let uploaded = e.target.files[0];
-    console.log(URL.createObjectURL(uploaded));
-    setImage(URL.createObjectURL(uploaded));
-    setSaveImage(uploaded);
-  }
+  const handleChange = (e) => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
 
-  const [userId, setUserId] = useState("1");
+  const handleUpload = () => {
+    const uploadTask = ref(storage, `images/${image.name}`);
+    uploadBytes(uploadTask, image).then(() => {
+      alert("Berhasil diterbitkan");
+    });
+  };
+
+  // const uploadImage = () => {
+  //   if (image == null) return;
+  //   const imageRef = ref(storage, `images/${image.name}`);
+  //   uploadBytes(imageRef, image).then(() => {
+  //     alert("Berhasil diterbitkan");
+  //   });
+  // };
+
+  // const [saveImage, setSaveImage] = useState(null);
+  // function handleUploadChange(e) {
+  //   console.log(e.target.files[0].name);
+  //   let uploaded = e.target.files[0];
+  //   console.log(URL.createObjectURL(uploaded));
+  //   setImage(URL.createObjectURL(uploaded));
+  //   setSaveImage(uploaded);
+  // }
+
+  const [userId, setUserId] = useState("2");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [description, setDescription] = useState("");
+  const [sizeId, setSizeId] = useState("1");
 
   const { addProductResult } = useSelector((state) => state.ProductReducer);
   const dispatch = useDispatch();
@@ -36,10 +59,11 @@ export default function FormAddProduct() {
       addProduct({
         userId: userId,
         name: name,
-        image: [saveImage.name],
+        image: [image.name],
         price: price,
         categoryId: categoryId,
         description: description,
+        sizeId: sizeId,
       })
     );
   };
@@ -50,8 +74,7 @@ export default function FormAddProduct() {
       setName("");
       setPrice("");
       setDescription("");
-      setSaveImage("");
-      setImage(fotoProductAdd);
+      setImage("");
     }
   }, [addProductResult, dispatch]);
 
@@ -147,7 +170,10 @@ export default function FormAddProduct() {
             type="file"
             className="form-control"
             id="formFile"
-            onChange={handleUploadChange}
+            multiple
+            onChange={(event) => {
+              setImage(event.target.files[0]);
+            }}
             accept="images/*"
           />
         </div>
@@ -169,7 +195,7 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
-          onClick={ClearInputImage}
+          onClick={(ClearInputImage, handleUpload)}
         >
           Terbitkan
         </Button>

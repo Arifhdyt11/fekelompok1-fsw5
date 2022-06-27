@@ -1,4 +1,9 @@
-import { GET_LIST_PRODUCT, GET_PRODUCT_ID, ADD_PRODUCT } from "store/types";
+import {
+  GET_LIST_PRODUCT,
+  GET_PRODUCT_ID,
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+} from "store/types";
 
 const initialState = {
   getListProductResult: false,
@@ -8,6 +13,10 @@ const initialState = {
   addProductResult: false,
   addProductLoading: false,
   addProductError: false,
+
+  deleteProductResult: false,
+  deleteProductLoading: false,
+  deleteProductError: false,
 };
 
 const product = (state = initialState, action) => {
@@ -26,6 +35,15 @@ const product = (state = initialState, action) => {
         addProductResult: action.payload.data,
         addProductLoading: action.payload.loading,
         addProductError: action.payload.errorMessage,
+      };
+
+    case DELETE_PRODUCT:
+      console.log("4. Masuk reducer", action);
+      return {
+        ...state,
+        deleteProductResult: action.payload.data,
+        deleteProductLoading: action.payload.loading,
+        deleteProductError: action.payload.errorMessage,
       };
     default:
       return state;
