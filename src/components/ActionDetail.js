@@ -1,20 +1,30 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import SellerImg from "assets/images/seller-1.png";
 import Button from "elements/Button";
 import { formatPrice } from "utils/defaultFormat";
+import { Link } from "react-router-dom";
 
-function CheckButton(props) {
-  const { isSeller } = props;
+function CheckButton({ isSeller, id, getProductIdResult }) {
   if (isSeller === "yes") {
     return (
       <>
         <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
           Terbitkan
         </Button>
-        <Button className="btn mt-3 ms-auto py-2" isSecondary hasShadow isBlock>
-          Edit
-        </Button>
+        <Link
+          to={`/update-product/${id}`}
+          state={{ getProductIdResult: { getProductIdResult } }}
+        >
+          <Button
+            className="btn mt-3 ms-auto py-2"
+            isSecondary
+            hasShadow
+            isBlock
+          >
+            Edit
+          </Button>
+        </Link>
       </>
     );
   } else {
@@ -26,9 +36,7 @@ function CheckButton(props) {
   }
 }
 
-export default function ActionDetail(props) {
-  const { isSeller } = props;
-
+export default function ActionDetail({ isSeller, id }) {
   const { getProductIdResult, getProductIdLoading, getProductIdError } =
     useSelector((state) => state.ProductReducer);
 
@@ -49,7 +57,11 @@ export default function ActionDetail(props) {
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}
-      <CheckButton isSeller={isSeller} />
+      <CheckButton
+        isSeller={isSeller}
+        id={id}
+        getProductIdResult={getProductIdResult}
+      />
     </div>
   );
 }

@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getListProduct } from "store/actions/productAction";
+import {
+  addProduct,
+  getListProduct,
+  getProductId,
+  updateProduct,
+} from "store/actions/productAction";
+
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Button from "elements/Button";
 import fotoProductAdd from "assets/images/addProduct.png";
@@ -10,52 +19,92 @@ function ClearInputImage() {
 }
 
 export default function FormAddProduct() {
-  const [image, setImage] = useState(fotoProductAdd);
+  const location = useLocation();
 
-  const [saveImage, setSaveImage] = useState(null);
-  function handleUploadChange(e) {
-    console.log(e.target.files[0].name);
-    let uploaded = e.target.files[0];
-    console.log(URL.createObjectURL(uploaded));
-    setImage(URL.createObjectURL(uploaded));
-    setSaveImage(uploaded);
-  }
+  const { id } = useParams();
 
-  const [userId, setUserId] = useState("2");
+  const [userId, setUserId] = useState("1");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [sizeId, setSizeId] = useState("1");
   const [description, setDescription] = useState("");
+  const [saveImage, setSaveImage] = useState("");
+  const [image, setImage] = useState(fotoProductAdd);
 
-  const { addProductResult } = useSelector((state) => state.ProductReducer);
+  const { addProductResult, updateProductResult } = useSelector(
+    (state) => state.ProductReducer
+  );
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(
-      addProduct({
-        userId: userId,
-        name: name,
-        image: [saveImage.name],
-        price: price,
-        sizeId: sizeId,
-        categoryId: categoryId,
-        description: description,
-      })
-    );
-  };
+  useEffect(() => {
+    if (id) {
+      const { getProductIdResult } = location.state.getProductIdResult;
+      setName(getProductIdResult.name);
+      setPrice(getProductIdResult.price);
+      setCategoryId(getProductIdResult.categoryId);
+      setDescription(getProductIdResult.description);
+      setSaveImage(getProductIdResult.image);
+      setImage(fotoProductAdd);
+    }
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (addProductResult) {
       dispatch(getListProduct());
       setName("");
       setPrice("");
+      setCategoryId("");
       setDescription("");
       setSaveImage("");
       setImage(fotoProductAdd);
     }
   }, [addProductResult, dispatch]);
+
+  useEffect(() => {
+    if (updateProductResult) {
+      dispatch(getListProduct());
+      dispatch(getProductId(id));
+      setName("");
+      setPrice("");
+      setCategoryId("");
+      setDescription("");
+      setSaveImage("");
+      setImage(fotoProductAdd);
+    }
+  }, [updateProductResult, dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (id) {
+      //update
+
+      document.getElementById("formFile").value = "";
+      dispatch(
+        updateProduct({
+          id: id,
+          userId: userId,
+          name: name,
+          image: [saveImage.name],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+        })
+      );
+    } else {
+      //add
+      document.getElementById("formFile").value = "";
+      dispatch(
+        addProduct({
+          userId: userId,
+          name: name,
+          image: [saveImage.name],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+        })
+      );
+    }
+  };
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -69,6 +118,15 @@ export default function FormAddProduct() {
   const handleDescription = (e) => {
     setDescription(e.target.value);
   };
+
+  const handleUploadChange = (e) => {
+    console.log(e.target.files[0].name);
+    let uploaded = e.target.files[0];
+    console.log(URL.createObjectURL(uploaded));
+    setImage(URL.createObjectURL(uploaded));
+    setSaveImage(uploaded);
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
@@ -146,6 +204,7 @@ export default function FormAddProduct() {
         </div>
         <div className="mt-3">
           <input
+            required
             type="file"
             className="form-control"
             id="formFile"
@@ -171,7 +230,6 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
-          onClick={ClearInputImage}
         >
           Terbitkan
         </Button>

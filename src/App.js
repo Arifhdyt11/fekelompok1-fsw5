@@ -10,7 +10,7 @@ import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import InfoPenawarPage from "./pages/InfoPenawar";
 import Wishlist from "pages/Wishlist";
-import AddProduct from "pages/Seller-TambahProduk";
+import FormActionProduct from "pages/FormActionProduct";
 import History from "pages/History";
 
 function App() {
@@ -19,17 +19,27 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         <Route
           path="/"
           element={<LandingPage isLogin="yes" isSeller="yes" />}
         />
         <Route path="/product/:id" element={<DetailProduct />} />
+
         <Route path="/seller" element={<DaftarJual isLogin="yes" />} />
         <Route
           path="/seller-product/:id"
           element={<DetailProduct isLogin="yes" isSeller="yes" />}
         />
-        <Route path="/add-product" element={<AddProduct isLogin="yes" />} />
+        <Route
+          path="/add-product"
+          element={<FormActionProduct isLogin="yes" isAdd="yes" />}
+        />
+        <Route
+          path="/update-product/:id"
+          element={<FormActionProduct isLogin="yes" />}
+        />
+
         <Route
           path="/transaction/:id"
           element={<InfoPenawarPage isLogin="yes" />}

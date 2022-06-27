@@ -100,7 +100,7 @@ export default function Product(props) {
                         />
                         <div className="product-name mb-1">
                           <h4 style={{ height: 45 }}>
-                            {titleShorten(item.name, 40, " ")}
+                            {titleShorten(item.name, 50, " ")}
                           </h4>
                         </div>
                         <p>{item.Category.name}</p>

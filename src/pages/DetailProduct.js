@@ -32,7 +32,7 @@ export default function DetailProduct(props) {
       <section className="container section-detail-product mt-5 mb-5">
         <div className="row">
           <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
-            <ActionDetail isSeller={isSeller} />
+            <ActionDetail isSeller={isSeller} id={id} />
           </div>
           <div className="col-lg-7 order-sm-1 ">
             <DescriptionProduct />
