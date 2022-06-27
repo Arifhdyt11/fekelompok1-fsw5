@@ -1,6 +1,7 @@
 import Button from "elements/Button";
+import { formatPrice, titleShorten } from "utils/defaultFormat";
 
-function ProductItem({ id, name, category, price, image }) {
+function ProductItem({ id, name, Category, price, image }) {
   return (
     <Button
       type="link"
@@ -12,14 +13,14 @@ function ProductItem({ id, name, category, price, image }) {
       <div className="card-product p-3 mb-4">
         <img
           src={`../images/${image[0]}`}
-          alt="Shoes-1"
-          className="img-fluid mb-3"
+          alt={`${image[0]}`}
+          className="img-fluid product-img mb-4"
         />
-        <div className="product-name">
-          <h4>{name.substring(0, 50)}</h4>
+        <div className="product-name mb-1">
+          <h4 style={{ height: 45 }}>{titleShorten(name, 50, " ")}</h4>
         </div>
-        <p>{category}</p>
-        <h4>Rp. {price}</h4>
+        <p>{Category.name}</p>
+        <h4>Rp. {formatPrice(price)}</h4>
       </div>
     </Button>
   );

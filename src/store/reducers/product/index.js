@@ -1,4 +1,9 @@
-import { GET_LIST_PRODUCT, GET_PRODUCT_ID, ADD_PRODUCT } from "store/types";
+import {
+  GET_LIST_PRODUCT,
+  GET_PRODUCT_ID,
+  ADD_PRODUCT,
+  UPDATE_PRODUCT,
+} from "store/types";
 
 const initialState = {
   getListProductResult: false,
@@ -12,6 +17,10 @@ const initialState = {
   addProductResult: false,
   addProductLoading: false,
   addProductError: false,
+
+  updateProductResult: false,
+  updateProductLoading: false,
+  updateProductError: false,
 };
 
 const product = (state = initialState, action) => {
@@ -36,6 +45,13 @@ const product = (state = initialState, action) => {
         addProductResult: action.payload.data,
         addProductLoading: action.payload.loading,
         addProductError: action.payload.errorMessage,
+      };
+    case UPDATE_PRODUCT:
+      return {
+        ...state,
+        updateProductResult: action.payload.data,
+        updateProductLoading: action.payload.loading,
+        updateProductError: action.payload.errorMessage,
       };
     default:
       return state;

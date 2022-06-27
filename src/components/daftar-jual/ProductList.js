@@ -16,7 +16,6 @@ function ProductList({ product }) {
   useEffect(() => {
     dispatch(getListProduct());
   }, [dispatch]);
-  console.log(getListProductResult.data);
 
   const userId = 1; //Ngambil data userId berdasarkan login
   return (
