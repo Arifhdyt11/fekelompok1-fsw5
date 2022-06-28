@@ -51,12 +51,6 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/history" element={<History />} />
-
-        {/* ------CATATAN------ */}
-        {/* 401 yaitu gapunya akses (seperti seller)
-        403 yaitu karena belum login
-        404(PageNotFound) yaitu gada rouutenya */}
-
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<Forbidden />} />
         <Route path="*" element={<PageNotFound />} />
