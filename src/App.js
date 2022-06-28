@@ -25,32 +25,48 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/" element={<LandingPage />} />
-        <Route path="/product/:id" element={<DetailProduct />} />
+        <Route
+          path="/product/:id"
+          element={<Middleware role="BUYER" childern={<DetailProduct />} />}
+        />
 
         <Route
           path="/seller"
-          element={<Middleware childern={<DaftarJual />} />}
+          element={<Middleware role="SELLER" childern={<DaftarJual />} />}
         />
         <Route
           path="/seller-product/:id"
-          element={<Middleware childern={<DetailProduct />} />}
+          element={<Middleware role="SELLER" childern={<DetailProduct />} />}
         />
         <Route
           path="/add-product"
-          element={<Middleware childern={<FormActionProduct isAdd="yes" />} />}
+          element={
+            <Middleware
+              role="SELLER"
+              childern={<FormActionProduct isAdd="yes" />}
+            />
+          }
         />
         <Route
           path="/update-product/:id"
-          element={<Middleware childern={<FormActionProduct />} />}
+          element={
+            <Middleware role="SELLER" childern={<FormActionProduct />} />
+          }
         />
 
         <Route
           path="/transaction/:id"
-          element={<Middleware childern={<InfoPenawarPage />} />}
+          element={<Middleware role="SELLER" childern={<InfoPenawarPage />} />}
         />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/history" element={<History />} />
+
+        {/* ------CATATAN------ */}
+        {/* 401 yaitu gapunya akses (seperti seller)
+        403 yaitu karena belum login
+        404(PageNotFound) yaitu gada rouutenya */}
+
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<Forbidden />} />
         <Route path="*" element={<PageNotFound />} />

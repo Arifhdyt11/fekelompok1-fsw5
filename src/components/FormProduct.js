@@ -127,7 +127,12 @@ export default function FormAddProduct() {
         addProduct({
           userId: userId,
           name: name,
-          image: [images[0].name, images[1].name, images[2].name],
+          image: [
+            images[3].name,
+            images[2].name,
+            images[1].name,
+            images[0].name,
+          ],
           price: price,
           categoryId: categoryId,
           description: description,
