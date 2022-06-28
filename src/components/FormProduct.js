@@ -80,7 +80,7 @@ export default function FormAddProduct() {
       setPrice(getProductIdResult.price);
       setCategoryId(getProductIdResult.categoryId);
       setDescription(getProductIdResult.description);
-      setImage(getProductIdResult.image);
+      setImages(getProductIdResult.image);
     }
   }, [id, dispatch]);
 
@@ -105,8 +105,7 @@ export default function FormAddProduct() {
       setPrice("");
       setCategoryId("");
       setDescription("");
-      setSaveImage("");
-      setImage(fotoProductAdd);
+      setImages("");
     }
   }, [updateProductResult, dispatch]);
 
@@ -121,7 +120,7 @@ export default function FormAddProduct() {
           id: id,
           userId: userId,
           name: name,
-          image: [saveImage.name],
+          image: images,
           price: price,
           categoryId: categoryId,
           description: description,

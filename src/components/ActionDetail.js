@@ -5,13 +5,10 @@ import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import SellerImg from "assets/images/seller-1.png";
-import Button from "elements/Button";
-import { formatPrice } from "utils/defaultFormat";
-import { Link } from "react-router-dom";
 import { deleteProduct } from "store/actions/productAction";
 
 function CheckButton({ id, getProductIdResult }) {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
   if (user.data.role === "SELLER") {
     return (
