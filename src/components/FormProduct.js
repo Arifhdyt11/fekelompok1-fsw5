@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -9,8 +9,10 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { storage } from "../firebase/index";
-import { ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Button from "elements/Button";
+import { useDropzone } from "react-dropzone";
+import fotoProduct from "../assets/images/addProduct.png";
 
 function ClearInputImage() {
   document.getElementById("formFile").value = "";
@@ -34,14 +36,6 @@ export default function FormAddProduct() {
     (state) => state.ProductReducer
   );
 
-  const handleChange = (e) => {
-    for (let i = 0; i < e.target.files.length; i++) {
-      const newImage = e.target.files[i];
-      newImage["id"] = Math.random();
-      setImages((prevState) => [...prevState, newImage]);
-    }
-  };
-
   const handleUpload = () => {
     images.map((image) => {
       const storageRef = ref(storage, `images/${image.name}`);
@@ -59,11 +53,12 @@ export default function FormAddProduct() {
         (error) => {
           //Error Function...
           console.log(error);
+        },
+        async () => {
+          //   //complete function
+          const url = await getDownloadURL(storageRef);
+          console.log(url);
         }
-        // async () => {
-        //   //complete function
-        //   const url = await getDownloadURL(storageRef);
-        // }
       );
     });
   };
@@ -92,8 +87,8 @@ export default function FormAddProduct() {
       setCategoryId("");
       setDescription("");
       setImages("");
-      // alert("Barang berhasil diterbitkan!");
-      // window.location.href = "/seller";
+      alert("Barang berhasil diterbitkan!");
+      window.location.href = "/seller";
     }
   }, [addProductResult, dispatch]);
 
@@ -128,20 +123,17 @@ export default function FormAddProduct() {
       );
     } else {
       //add
-      document.getElementById("formFile").value = "";
-      for (let i = 0; i < 3; i++) {
-        dispatch(
-          addProduct({
-            userId: userId,
-            name: name,
-            image: [images[i].name],
-            price: price,
-            categoryId: categoryId,
-            description: description,
-            sizeId: sizeId,
-          })
-        );
-      }
+      dispatch(
+        addProduct({
+          userId: userId,
+          name: name,
+          image: [images[0].name, images[1].name, images[2].name],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+          sizeId: sizeId,
+        })
+      );
     }
   };
 
@@ -158,6 +150,20 @@ export default function FormAddProduct() {
     setDescription(e.target.value);
   };
 
+  const onDrop = useCallback((acceptedFiles) => {
+    setImages(
+      acceptedFiles.map((file) =>
+        Object.assign(file, { preview: URL.createObjectURL(file) })
+      )
+    );
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  const seleted_images = images?.map((file) => (
+    <div>
+      <img src={file.preview} style={{ width: "150px" }} alt="" />
+    </div>
+  ));
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
@@ -223,26 +229,22 @@ export default function FormAddProduct() {
         ></textarea>
       </div>
 
-      <div className="mb-4">
-        <h4>Foto Produk</h4>
-        <div>
-          <img
-            className="img-thumbnail"
-            alt=""
-            style={{ width: "120px", height: "110px" }}
-          ></img>
-        </div>
-        <div className="mt-3">
-          <input
-            required
-            type="file"
-            className="form-control"
-            id="formFile"
-            multiple
-            onChange={handleChange}
-            accept="images/*"
-          />
-        </div>
+      <div>
+        {images.length === 0 ? (
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            <img className="mt-2 " src={fotoProduct} />
+            <p className="mt-2 mb-4">Drop the images here ...</p>
+          </div>
+        ) : (
+          <div>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <label className="border ms-3 mt-3">{seleted_images}</label>
+              <p>Drop the images here ...</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="d-flex justify-content-center">
