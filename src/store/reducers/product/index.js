@@ -3,6 +3,7 @@ import {
   GET_PRODUCT_ID,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
+  DELETE_PRODUCT,
 } from "store/types";
 
 const initialState = {
@@ -21,6 +22,10 @@ const initialState = {
   updateProductResult: false,
   updateProductLoading: false,
   updateProductError: false,
+
+  deleteProductResult: false,
+  deleteProductLoading: false,
+  deleteProductError: false,
 };
 
 const product = (state = initialState, action) => {
@@ -52,6 +57,14 @@ const product = (state = initialState, action) => {
         updateProductResult: action.payload.data,
         updateProductLoading: action.payload.loading,
         updateProductError: action.payload.errorMessage,
+      };
+    case DELETE_PRODUCT:
+      console.log("4. Masuk reducer", action);
+      return {
+        ...state,
+        deleteProductResult: action.payload.data,
+        deleteProductLoading: action.payload.loading,
+        deleteProductError: action.payload.errorMessage,
       };
     default:
       return state;

@@ -4,6 +4,7 @@ import {
   GET_PRODUCT_ID,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
+  DELETE_PRODUCT,
 } from "store/types";
 
 export const getListProduct = () => {
@@ -113,6 +114,7 @@ export const addProduct = (data) => {
     })
       .then((response) => {
         //berhasil get API
+        console.log("3. Berhasil Dapat Data", response.data);
         dispatch({
           type: ADD_PRODUCT,
           payload: {
@@ -123,6 +125,7 @@ export const addProduct = (data) => {
         });
       })
       .catch((error) => {
+        console.log("3. Gagal Dapat Data", error.response.data);
         //error get api
         dispatch({
           type: ADD_PRODUCT,
@@ -170,6 +173,50 @@ export const updateProduct = (data) => {
         //error get api
         dispatch({
           type: UPDATE_PRODUCT,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
+export const deleteProduct = (id) => {
+  console.log("2. Masuk ke action");
+  return (dispatch) => {
+    dispatch({
+      type: DELETE_PRODUCT,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    //get API
+    axios({
+      method: "DELETE",
+      url: `${process.env.REACT_APP_HOST}/product/` + id,
+      timeout: 120000,
+    })
+      .then((response) => {
+        console.log("3. Berhasil dapet data:", response);
+        //berhasil get api
+        dispatch({
+          type: DELETE_PRODUCT,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("3. Gagal dapet data : ", error);
+        dispatch({
+          type: DELETE_PRODUCT,
           payload: {
             loading: false,
             data: false,

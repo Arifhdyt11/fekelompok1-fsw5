@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
@@ -6,13 +6,13 @@ import {
   getProductId,
   updateProduct,
 } from "store/actions/productAction";
-
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { storage } from "../firebase/index";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import Button from "elements/Button";
-import fotoProductAdd from "assets/images/addProduct.png";
+import { useDropzone } from "react-dropzone";
+import fotoProduct from "../assets/images/addProduct.png";
 
 function ClearInputImage() {
   document.getElementById("formFile").value = "";
@@ -23,17 +23,49 @@ export default function FormAddProduct() {
 
   const { id } = useParams();
 
+  const [images, setImages] = useState([]);
+  const [progress, setProgress] = useState(0);
   const [userId, setUserId] = useState("1");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [description, setDescription] = useState("");
-  const [saveImage, setSaveImage] = useState("");
-  const [image, setImage] = useState(fotoProductAdd);
+  const [sizeId, setSizeId] = useState("1");
 
   const { addProductResult, updateProductResult } = useSelector(
     (state) => state.ProductReducer
   );
+
+  const handleUpload = () => {
+    images.map((image) => {
+      const storageRef = ref(storage, `images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          //Progress function ... (shows the load bar)
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error) => {
+          //Error Function...
+          console.log(error);
+        },
+        async () => {
+          //   //complete function
+          const url = await getDownloadURL(storageRef);
+          console.log(url);
+        }
+      );
+    });
+  };
+
+  console.log("images: ", images);
+  console.log("progress : ", progress);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,8 +75,7 @@ export default function FormAddProduct() {
       setPrice(getProductIdResult.price);
       setCategoryId(getProductIdResult.categoryId);
       setDescription(getProductIdResult.description);
-      setSaveImage(getProductIdResult.image);
-      setImage(fotoProductAdd);
+      setImages(getProductIdResult.image);
     }
   }, [id, dispatch]);
 
@@ -55,8 +86,9 @@ export default function FormAddProduct() {
       setPrice("");
       setCategoryId("");
       setDescription("");
-      setSaveImage("");
-      setImage(fotoProductAdd);
+      setImages("");
+      alert("Barang berhasil diterbitkan!");
+      window.location.href = "/seller";
     }
   }, [addProductResult, dispatch]);
 
@@ -68,8 +100,7 @@ export default function FormAddProduct() {
       setPrice("");
       setCategoryId("");
       setDescription("");
-      setSaveImage("");
-      setImage(fotoProductAdd);
+      setImages("");
     }
   }, [updateProductResult, dispatch]);
 
@@ -84,7 +115,7 @@ export default function FormAddProduct() {
           id: id,
           userId: userId,
           name: name,
-          image: [saveImage.name],
+          image: images,
           price: price,
           categoryId: categoryId,
           description: description,
@@ -92,15 +123,15 @@ export default function FormAddProduct() {
       );
     } else {
       //add
-      document.getElementById("formFile").value = "";
       dispatch(
         addProduct({
           userId: userId,
           name: name,
-          image: [saveImage.name],
+          image: [images[0].name, images[1].name, images[2].name],
           price: price,
           categoryId: categoryId,
           description: description,
+          sizeId: sizeId,
         })
       );
     }
@@ -119,14 +150,20 @@ export default function FormAddProduct() {
     setDescription(e.target.value);
   };
 
-  const handleUploadChange = (e) => {
-    console.log(e.target.files[0].name);
-    let uploaded = e.target.files[0];
-    console.log(URL.createObjectURL(uploaded));
-    setImage(URL.createObjectURL(uploaded));
-    setSaveImage(uploaded);
-  };
+  const onDrop = useCallback((acceptedFiles) => {
+    setImages(
+      acceptedFiles.map((file) =>
+        Object.assign(file, { preview: URL.createObjectURL(file) })
+      )
+    );
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
+  const seleted_images = images?.map((file) => (
+    <div>
+      <img src={file.preview} style={{ width: "150px" }} alt="" />
+    </div>
+  ));
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
@@ -192,26 +229,22 @@ export default function FormAddProduct() {
         ></textarea>
       </div>
 
-      <div className="mb-4">
-        <h4>Foto Produk</h4>
-        <div>
-          <img
-            src={image}
-            className="img-thumbnail"
-            alt=""
-            style={{ width: "120px", height: "110px" }}
-          ></img>
-        </div>
-        <div className="mt-3">
-          <input
-            required
-            type="file"
-            className="form-control"
-            id="formFile"
-            onChange={handleUploadChange}
-            accept="images/*"
-          />
-        </div>
+      <div>
+        {images.length === 0 ? (
+          <div {...getRootProps()}>
+            <input {...getInputProps()} />
+            <img className="mt-2 " src={fotoProduct} />
+            <p className="mt-2 mb-4">Drop the images here ...</p>
+          </div>
+        ) : (
+          <div>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              <label className="border ms-3 mt-3">{seleted_images}</label>
+              <p>Drop the images here ...</p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="d-flex justify-content-center">
@@ -230,6 +263,7 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
+          onClick={(ClearInputImage, handleUpload)}
         >
           Terbitkan
         </Button>

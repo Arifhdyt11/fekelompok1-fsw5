@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
 import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
 import Pad from "assets/images/cover-img.png";
-
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
@@ -11,6 +11,7 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 export default function Galery() {
   const { getProductIdResult, getProductIdLoading, getProductIdError } =
     useSelector((state) => state.ProductReducer);
+
   return (
     <>
       <section className="container section-galery-product">
