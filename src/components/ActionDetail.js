@@ -61,7 +61,6 @@ export default function ActionDetail({ id }) {
   useEffect(() => {
     //Biar realtime pas delete
     if (deleteProductResult) {
-      dispatch(getProductIdResult(id));
       alert("Data Berhasil diapus");
       window.location.href = "/seller";
     }
