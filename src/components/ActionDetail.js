@@ -1,42 +1,28 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import SellerImg from "assets/images/seller-1.png";
+import Button from "elements/Button";
+import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import SellerImg from "assets/images/seller-1.png";
 import Button from "elements/Button";
 import { formatPrice } from "utils/defaultFormat";
+import { Link } from "react-router-dom";
 import { deleteProduct } from "store/actions/productAction";
 
-export default function ActionDetail(props) {
-  const { isSeller } = props;
-  const dispatch = useDispatch();
-  const { id } = useParams();
-
-  const {
-    getProductIdResult,
-    getProductIdLoading,
-    getProductIdError,
-    deleteProductResult,
-  } = useSelector((state) => state.ProductReducer);
-
-  useEffect(() => {
-    //Biar realtime pas delete
-    if (deleteProductResult) {
-      alert("Data Berhasil diapus");
-      window.location.href = "/seller";
-      dispatch(getProductIdResult(id));
-    }
-  }, [deleteProductResult, dispatch]);
-
-  function CheckButton(props) {
-    const { isSeller } = props;
-    if (isSeller === "yes") {
-      return (
-        <>
-          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-            Terbitkan
-          </Button>
+function CheckButton({ id, getProductIdResult }) {
+  const { user } = useSelector((state) => state.AuthReducer);
+  if (user.data.role === "SELLER") {
+    return (
+      <>
+        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+          Terbitkan
+        </Button>
+        <Link
+          to={`/update-product/${id}`}
+          state={{ getProductIdResult: { getProductIdResult } }}
+        >
           <Button
             className="btn mt-3 ms-auto py-2"
             isSecondary
@@ -45,24 +31,44 @@ export default function ActionDetail(props) {
           >
             Edit
           </Button>
-          <Button
-            className="btn btn-danger mt-3 ms-auto py-2"
-            hasShadow
-            isBlock
-            onClick={() => dispatch(deleteProduct(id))}
-          >
-            Delete
-          </Button>
-        </>
-      );
-    } else {
-      return (
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Tertarik dan Nego
+        </Link>
+        <Button
+          className="btn btn-danger mt-3 ms-auto py-2"
+          hasShadow
+          isBlock
+          onClick={() => dispatch(deleteProduct(id))}
+        >
+          Delete
         </Button>
-      );
-    }
+      </>
+    );
+  } else {
+    return (
+      <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+        Tertarik dan Nego
+      </Button>
+    );
   }
+}
+
+export default function ActionDetail({ id }) {
+  const {
+    getProductIdResult,
+    getProductIdLoading,
+    getProductIdError,
+    deleteProductResult,
+  } = useSelector((state) => state.ProductReducer);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    //Biar realtime pas delete
+    if (deleteProductResult) {
+      dispatch(getProductIdResult(id));
+      alert("Data Berhasil diapus");
+      window.location.href = "/seller";
+    }
+  }, [deleteProductResult, dispatch]);
 
   return (
     <div className="card is-block ms-auto p-4">
@@ -81,7 +87,7 @@ export default function ActionDetail(props) {
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}
-      <CheckButton isSeller={isSeller} />
+      <CheckButton id={id} getProductIdResult={getProductIdResult} />
     </div>
   );
 }

@@ -10,18 +10,29 @@ import { formatPrice, titleShorten } from "utils/defaultFormat";
 //------------------BAKALAN DIHAPUS---------------
 import { getInitialData } from "json/data.js";
 import { getKategoriData } from "json/kategori-produk";
+import { getListCategory } from "store/actions/categoryAction";
 //--------------------HAPUS NANTI---------------------
 
 export default function Product(props) {
+  //--------------------GET PRODUCT--------------------
+  const dispatch = useDispatch();
   const { getListProductResult, getListProductLoading, getListProductError } =
     useSelector((state) => state.ProductReducer);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getListProduct());
   }, [dispatch]);
 
+  //-----------------------GET CATEGORY---------------------
+  const {
+    getListCategoryResult,
+    getListCategoryLoading,
+    getListCategoryError,
+  } = useSelector((state) => state.CategoryReducer);
+
+  useEffect(() => {
+    dispatch(getListCategory());
+  }, [dispatch]);
   //-----------------------------DUMMY--------------------
   const [product, setProduct] = useState(getInitialData());
   const [kategori] = useState(getKategoriData());
@@ -35,6 +46,7 @@ export default function Product(props) {
     setProduct(newItem);
   };
   //---------------------------------------------------------
+
   return (
     <>
       <section
@@ -55,21 +67,28 @@ export default function Product(props) {
               All
             </Button>
 
-            {menuItems.map((kategori, index) => {
-              return (
-                <Button
-                  className="btn btn-filter me-3 my-2"
-                  hasShadow
-                  isSecondary
-                  href=""
-                  type="link"
-                  onClick={() => filterItem(kategori)}
-                  key={index}
-                >
-                  {kategori}
-                </Button>
-              );
-            })}
+            {getListCategoryResult ? (
+              getListCategoryResult.data.map((kategori, index) => {
+                return (
+                  <Button
+                    className="btn btn-filter me-3 my-2"
+                    hasShadow
+                    isSecondary
+                    href=""
+                    type="link"
+                    key={index}
+                  >
+                    {kategori.name}
+                  </Button>
+                );
+              })
+            ) : getListCategoryLoading ? (
+              <h3>Loading....</h3>
+            ) : (
+              <p>
+                {getListCategoryError ? getListCategoryError : "Data Kosong"}
+              </p>
+            )}
           </div>
         </div>
         <div className="product">
@@ -100,7 +119,7 @@ export default function Product(props) {
                         />
                         <div className="product-name mb-1">
                           <h4 style={{ height: 45 }}>
-                            {titleShorten(item.name, 40, " ")}
+                            {titleShorten(item.name, 50, " ")}
                           </h4>
                         </div>
                         <p>{item.Category.name}</p>

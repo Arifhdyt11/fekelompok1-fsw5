@@ -1,11 +1,11 @@
 import axios from "axios";
-import { ADD_REGISTER } from "store/types";
+import { GET_LIST_CATEGORY } from "store/types";
 
-// add
-export const addRegister = (data) => {
+export const getListCategory = () => {
   return (dispatch) => {
+    //loading
     dispatch({
-      type: ADD_REGISTER,
+      type: GET_LIST_CATEGORY,
       payload: {
         loading: true,
         data: false,
@@ -13,37 +13,33 @@ export const addRegister = (data) => {
       },
     });
 
-    // get API
+    //get API
     axios({
-      method: "POST",
-      url: "http://localhost:3000/api/v1/register",
+      method: "GET",
+      url: `${process.env.REACT_APP_HOST}/category`,
       timeout: 120000,
-      data: data,
     })
       .then((response) => {
+        //berhasil get API
         dispatch({
-          // get data
-          type: ADD_REGISTER,
+          type: GET_LIST_CATEGORY,
           payload: {
             loading: false,
             data: response.data,
             errorMessage: false,
           },
         });
-        window.location.href = "/login";
-        alert("Registration Successful");
       })
       .catch((error) => {
-        // error
+        //error get api
         dispatch({
-          type: ADD_REGISTER,
+          type: GET_LIST_CATEGORY,
           payload: {
             loading: false,
             data: false,
             errorMessage: error.message,
           },
         });
-        alert("Registration Failed");
       });
   };
 };

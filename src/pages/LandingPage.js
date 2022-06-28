@@ -11,10 +11,15 @@ class LandingPage extends Component {
     super(props);
     this.refCallToAction = React.createRef();
   }
+
+  componentDidMount() {
+    document.title = "Shoesnarian | Home";
+    window.scrollTo(0, 0);
+  }
   render() {
     return (
       <>
-        <Navbar isSearch="yes" isLogin="yes" isSeller="yes"></Navbar>
+        <Navbar isSearch="yes"></Navbar>
         <Hero refCallToAction={this.refCallToAction}></Hero>
         <Product refCallToAction={this.refCallToAction}></Product>
         <Footer></Footer>

@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getListProduct } from "store/actions/productAction";
+import {
+  addProduct,
+  getListProduct,
+  getProductId,
+  updateProduct,
+} from "store/actions/productAction";
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { storage } from "../firebase/index";
 import { ref, uploadBytesResumable } from "firebase/storage";
 import Button from "elements/Button";
@@ -10,6 +17,10 @@ function ClearInputImage() {
 }
 
 export default function FormAddProduct() {
+  const location = useLocation();
+
+  const { id } = useParams();
+
   const [images, setImages] = useState([]);
   const [progress, setProgress] = useState(0);
   const [userId, setUserId] = useState("1");
@@ -18,8 +29,10 @@ export default function FormAddProduct() {
   const [categoryId, setCategoryId] = useState("");
   const [description, setDescription] = useState("");
   const [sizeId, setSizeId] = useState("1");
-  const { addProductResult } = useSelector((state) => state.ProductReducer);
-  const dispatch = useDispatch();
+
+  const { addProductResult, updateProductResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   const handleChange = (e) => {
     for (let i = 0; i < e.target.files.length; i++) {
@@ -57,34 +70,81 @@ export default function FormAddProduct() {
 
   console.log("images: ", images);
   console.log("progress : ", progress);
-  const handleSubmit = (e) => {
-    for (let i = 0; i < 3; i++) {
-      e.preventDefault();
-      dispatch(
-        addProduct({
-          userId: userId,
-          name: name,
-          image: [images[i].name],
-          price: price,
-          categoryId: categoryId,
-          description: description,
-          sizeId: sizeId,
-        })
-      );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (id) {
+      const { getProductIdResult } = location.state.getProductIdResult;
+      setName(getProductIdResult.name);
+      setPrice(getProductIdResult.price);
+      setCategoryId(getProductIdResult.categoryId);
+      setDescription(getProductIdResult.description);
+      setImage(getProductIdResult.image);
     }
-  };
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (addProductResult) {
       dispatch(getListProduct());
       setName("");
       setPrice("");
+      setCategoryId("");
       setDescription("");
       setImages("");
       // alert("Barang berhasil diterbitkan!");
       // window.location.href = "/seller";
     }
   }, [addProductResult, dispatch]);
+
+  useEffect(() => {
+    if (updateProductResult) {
+      dispatch(getListProduct());
+      dispatch(getProductId(id));
+      setName("");
+      setPrice("");
+      setCategoryId("");
+      setDescription("");
+      setSaveImage("");
+      setImage(fotoProductAdd);
+    }
+  }, [updateProductResult, dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (id) {
+      //update
+
+      document.getElementById("formFile").value = "";
+      dispatch(
+        updateProduct({
+          id: id,
+          userId: userId,
+          name: name,
+          image: [saveImage.name],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+        })
+      );
+    } else {
+      //add
+      document.getElementById("formFile").value = "";
+      for (let i = 0; i < 3; i++) {
+        dispatch(
+          addProduct({
+            userId: userId,
+            name: name,
+            image: [images[i].name],
+            price: price,
+            categoryId: categoryId,
+            description: description,
+            sizeId: sizeId,
+          })
+        );
+      }
+    }
+  };
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -175,6 +235,7 @@ export default function FormAddProduct() {
         </div>
         <div className="mt-3">
           <input
+            required
             type="file"
             className="form-control"
             id="formFile"
