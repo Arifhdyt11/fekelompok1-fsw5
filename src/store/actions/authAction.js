@@ -10,8 +10,9 @@ export const loginViaForm = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const result = await response.json();
+    console.log(result);
 
-    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/whoami`, {
+    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
