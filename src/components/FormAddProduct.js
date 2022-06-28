@@ -2,71 +2,76 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, getListProduct } from "store/actions/productAction";
 import { storage } from "../firebase/index";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytesResumable } from "firebase/storage";
 import Button from "elements/Button";
-import fotoProductAdd from "assets/images/addProduct.png";
 
 function ClearInputImage() {
   document.getElementById("formFile").value = "";
 }
 
 export default function FormAddProduct() {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
+  const [progress, setProgress] = useState(0);
+  const [userId, setUserId] = useState("1");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [description, setDescription] = useState("");
+  const [sizeId, setSizeId] = useState("1");
+  const { addProductResult } = useSelector((state) => state.ProductReducer);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
+    for (let i = 0; i < e.target.files.length; i++) {
+      const newImage = e.target.files[i];
+      newImage["id"] = Math.random();
+      setImages((prevState) => [...prevState, newImage]);
     }
   };
 
   const handleUpload = () => {
-    const uploadTask = ref(storage, `images/${image.name}`);
-    uploadBytes(uploadTask, image).then(() => {
-      alert("Berhasil diterbitkan");
+    images.map((image) => {
+      const storageRef = ref(storage, `images/${image.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          //Progress function ... (shows the load bar)
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        (error) => {
+          //Error Function...
+          console.log(error);
+        }
+        // async () => {
+        //   //complete function
+        //   const url = await getDownloadURL(storageRef);
+        // }
+      );
     });
   };
 
-  // const uploadImage = () => {
-  //   if (image == null) return;
-  //   const imageRef = ref(storage, `images/${image.name}`);
-  //   uploadBytes(imageRef, image).then(() => {
-  //     alert("Berhasil diterbitkan");
-  //   });
-  // };
-
-  // const [saveImage, setSaveImage] = useState(null);
-  // function handleUploadChange(e) {
-  //   console.log(e.target.files[0].name);
-  //   let uploaded = e.target.files[0];
-  //   console.log(URL.createObjectURL(uploaded));
-  //   setImage(URL.createObjectURL(uploaded));
-  //   setSaveImage(uploaded);
-  // }
-
-  const [userId, setUserId] = useState("2");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [categoryId, setCategoryId] = useState("");
-  const [sizeId, setSizeId] = useState("1");
-  const [description, setDescription] = useState("");
-
-  const { addProductResult } = useSelector((state) => state.ProductReducer);
-  const dispatch = useDispatch();
-
+  console.log("images: ", images);
+  console.log("progress : ", progress);
   const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(
-      addProduct({
-        userId: userId,
-        name: name,
-        image: [image.name],
-        price: price,
-        sizeId: sizeId,
-        categoryId: categoryId,
-        description: description,
-        sizeId: sizeId,
-      })
-    );
+    for (let i = 0; i < 3; i++) {
+      e.preventDefault();
+      dispatch(
+        addProduct({
+          userId: userId,
+          name: name,
+          image: [images[i].name],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+          sizeId: sizeId,
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -75,7 +80,9 @@ export default function FormAddProduct() {
       setName("");
       setPrice("");
       setDescription("");
-      setImage("");
+      setImages("");
+      // alert("Barang berhasil diterbitkan!");
+      // window.location.href = "/seller";
     }
   }, [addProductResult, dispatch]);
 
@@ -91,6 +98,7 @@ export default function FormAddProduct() {
   const handleDescription = (e) => {
     setDescription(e.target.value);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
@@ -160,7 +168,6 @@ export default function FormAddProduct() {
         <h4>Foto Produk</h4>
         <div>
           <img
-            src={image}
             className="img-thumbnail"
             alt=""
             style={{ width: "120px", height: "110px" }}
@@ -172,9 +179,7 @@ export default function FormAddProduct() {
             className="form-control"
             id="formFile"
             multiple
-            onChange={(event) => {
-              setImage(event.target.files[0]);
-            }}
+            onChange={handleChange}
             accept="images/*"
           />
         </div>

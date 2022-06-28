@@ -1,36 +1,68 @@
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import SellerImg from "assets/images/seller-1.png";
 import Button from "elements/Button";
 import { formatPrice } from "utils/defaultFormat";
-
-function CheckButton(props) {
-  const { isSeller } = props;
-  if (isSeller === "yes") {
-    return (
-      <>
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Terbitkan
-        </Button>
-        <Button className="btn mt-3 ms-auto py-2" isSecondary hasShadow isBlock>
-          Edit
-        </Button>
-      </>
-    );
-  } else {
-    return (
-      <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-        Tertarik dan Nego
-      </Button>
-    );
-  }
-}
+import { deleteProduct } from "store/actions/productAction";
 
 export default function ActionDetail(props) {
   const { isSeller } = props;
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
-  const { getProductIdResult, getProductIdLoading, getProductIdError } =
-    useSelector((state) => state.ProductReducer);
+  const {
+    getProductIdResult,
+    getProductIdLoading,
+    getProductIdError,
+    deleteProductResult,
+  } = useSelector((state) => state.ProductReducer);
+
+  useEffect(() => {
+    //Biar realtime pas delete
+    if (deleteProductResult) {
+      alert("Data Berhasil diapus");
+      window.location.href = "/seller";
+      dispatch(getProductIdResult(id));
+    }
+  }, [deleteProductResult, dispatch]);
+
+  function CheckButton(props) {
+    const { isSeller } = props;
+    if (isSeller === "yes") {
+      return (
+        <>
+          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+            Terbitkan
+          </Button>
+          <Button
+            className="btn mt-3 ms-auto py-2"
+            isSecondary
+            hasShadow
+            isBlock
+          >
+            Edit
+          </Button>
+          <Button
+            className="btn btn-danger mt-3 ms-auto py-2"
+            hasShadow
+            isBlock
+            onClick={() => dispatch(deleteProduct(id))}
+          >
+            Delete
+          </Button>
+        </>
+      );
+    } else {
+      return (
+        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+          Tertarik dan Nego
+        </Button>
+      );
+    }
+  }
 
   return (
     <div className="card is-block ms-auto p-4">

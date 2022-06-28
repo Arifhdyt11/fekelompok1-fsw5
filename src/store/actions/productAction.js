@@ -113,6 +113,7 @@ export const addProduct = (data) => {
     })
       .then((response) => {
         //berhasil get API
+        console.log("3. Berhasil Dapat Data", response.data);
         dispatch({
           type: ADD_PRODUCT,
           payload: {
@@ -152,7 +153,8 @@ export const deleteProduct = (id) => {
     //get API
     axios({
       method: "DELETE",
-      url: "${process.env.REACT_APP_HOST}/product/" + id,
+      url: `${process.env.REACT_APP_HOST}/product/` + id,
+      timeout: 120000,
     })
       .then((response) => {
         console.log("3. Berhasil dapet data:", response);

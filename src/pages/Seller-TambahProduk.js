@@ -12,7 +12,7 @@ export default function TambahProduk() {
       <div className="container mt-4 mb-5" id="produk">
         <div className="row ">
           <div className="col-md-1 col-sm-12">
-            <a href="/" className="arrow">
+            <a href="/seller" className="arrow">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="35"
