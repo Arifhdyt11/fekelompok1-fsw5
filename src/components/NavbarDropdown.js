@@ -48,9 +48,10 @@ export default function NavbarDropdown(props) {
           <ul className="dropdown-menu p-2" aria-labelledby="dropdownuser">
             <li>
               <h4 className="dropdown-item item">
-                <i className="fa-duotone fa-user me-3"></i>Nama User
+                <i className="fa-duotone fa-user me-3"></i>
+                {user.data.name}
                 <span className="span-dropdown"> as</span>
-                Buyers
+                {user.data.role === "SELLER" ? "Seller" : "Buyer"}
               </h4>
             </li>
             <hr />
