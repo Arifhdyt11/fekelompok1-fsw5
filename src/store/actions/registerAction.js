@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_REGISTER } from "store/types";
+import Swal from "sweetalert2";
 
 // add
 export const addRegister = (data) => {
@@ -31,7 +32,14 @@ export const addRegister = (data) => {
           },
         });
         window.location.href = "/login";
-        alert("Registration Successful");
+        // alert("Registration Successful");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Registration Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         // error
@@ -43,7 +51,14 @@ export const addRegister = (data) => {
             errorMessage: error.message,
           },
         });
-        alert("Registration Failed");
+        // alert("Registration Failed");
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Registration Failed",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       });
   };
 };
