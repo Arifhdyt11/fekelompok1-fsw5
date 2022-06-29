@@ -114,7 +114,6 @@ export const addProduct = (data) => {
     })
       .then((response) => {
         //berhasil get API
-        console.log("3. Berhasil Dapat Data", response.data);
         dispatch({
           type: ADD_PRODUCT,
           payload: {
@@ -125,7 +124,6 @@ export const addProduct = (data) => {
         });
       })
       .catch((error) => {
-        console.log("3. Gagal Dapat Data", error.response.data);
         //error get api
         dispatch({
           type: ADD_PRODUCT,

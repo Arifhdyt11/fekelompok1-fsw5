@@ -11,3 +11,6 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 export const GET_LIST_CATEGORY = "GET_LIST_CATEGORY";
+
+export const GET_LIST_SIZE = "GET_LIST_SIZE";
+export const ADD_SIZE = "ADD_SIZE";
