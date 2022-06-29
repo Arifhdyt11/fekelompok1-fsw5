@@ -124,6 +124,12 @@ p {
     border-radius: 15px;
 }
 
+.zoom:hover {
+    -ms-transform: scale(1.2); /* IE 9 */
+    -webkit-transform: scale(1.2); /* Safari 3-8 */
+    transform: scale(1.2);
+}
+
 .navbar {
     background: #ffffff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
