@@ -4,6 +4,8 @@ export const AUTH_ERROR = "UTH_ERROR ";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
+
 export const GET_LIST_PRODUCT = "GET_LIST_PRODUCT";
 export const GET_PRODUCT_ID = "GET_PRODUCT_ID";
 export const ADD_PRODUCT = "ADD_PRODUCT";
@@ -14,3 +16,4 @@ export const GET_LIST_CATEGORY = "GET_LIST_CATEGORY";
 
 export const GET_LIST_SIZE = "GET_LIST_SIZE";
 export const ADD_SIZE = "ADD_SIZE";
+
