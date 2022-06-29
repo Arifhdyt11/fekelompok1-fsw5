@@ -4,6 +4,7 @@ import Navbar from "components/Navbar";
 import fotoProfile from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
+import ModalChangePass from "components/ModalChangePass";
 
 export default function ProfilePage() {
   return (
@@ -94,6 +95,15 @@ export default function ProfilePage() {
                   >
                     Simpan
                   </Button>
+
+                  <a
+                    href="#1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalPassword"
+                    className="text-center mt-4"
+                  >
+                    Change Password
+                  </a>
                 </div>
               </form>
             </div>
@@ -103,6 +113,8 @@ export default function ProfilePage() {
       <div>
         <Footer />
       </div>
+
+      <ModalChangePass />
     </div>
   );
 }
