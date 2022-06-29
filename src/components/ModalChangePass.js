@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "store/actions/changePassword";
+import Swal from "sweetalert2";
 
 function ModalChangePass() {
   const [oldPassword, setOldPassword] = useState("");
@@ -21,7 +22,14 @@ function ModalChangePass() {
 
   useEffect(() => {
     if (changePasswordResult) {
-      alert("Berhasil change password");
+      // alert("Berhasil change password");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Change Password Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   }, [changePasswordResult, dispatch]);
 
@@ -52,7 +60,7 @@ function ModalChangePass() {
               <div class="mb-3">
                 <label class="form-label">Current Password</label>
                 <input
-                  type="text"
+                  type="password"
                   class="form-control"
                   value={oldPassword}
                   onChange={(event) => setOldPassword(event.target.value)}
