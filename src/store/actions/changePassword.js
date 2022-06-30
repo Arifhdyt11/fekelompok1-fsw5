@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CHANGE_PASSWORD } from "store/types";
+import Swal from "sweetalert2";
 
 // CHANGE PASSWORD
 export const changePassword = (data) => {
@@ -40,6 +41,12 @@ export const changePassword = (data) => {
           },
         });
         console.log(data);
+        Swal.fire({
+          icon: "success",
+          title: "Change Password Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         // error
@@ -50,6 +57,12 @@ export const changePassword = (data) => {
             data: false,
             errorMessage: error.message,
           },
+        });
+        Swal.fire({
+          icon: "error",
+          title: "Change Password Failed",
+          showConfirmButton: false,
+          timer: 1500,
         });
       });
   };
