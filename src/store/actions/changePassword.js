@@ -41,11 +41,16 @@ export const changePassword = (data) => {
           },
         });
         console.log(data);
+        // jika berhasil makan ke halaman login
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+
         Swal.fire({
           icon: "success",
           title: "Change Password Successful",
           showConfirmButton: false,
-          timer: 1500,
+          timer: 2000,
         });
       })
       .catch((error) => {
