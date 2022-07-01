@@ -122,7 +122,7 @@ export default function Product(props) {
                             {titleShorten(item.name, 50, " ")}
                           </h4>
                         </div>
-                        <p>{item.Category.name}</p>
+                        <p>{item.Category}</p>
                         <h4>Rp. {formatPrice(item.price)}</h4>
                       </div>
                     </Button>

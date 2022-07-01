@@ -239,7 +239,7 @@ export default function FormAddProduct() {
           <div {...getRootProps()}>
             <input {...getInputProps()} />
             <img className="mt-2 " src={fotoProduct} />
-            <p className="mt-2 mb-4">Drop the images here ...</p>
+            <p className="mt-2 mb-4">Drop the images here "min 4 images"...</p>
           </div>
         ) : (
           <div>

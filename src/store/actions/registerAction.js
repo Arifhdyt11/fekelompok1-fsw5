@@ -16,7 +16,7 @@ export const addRegister = (data) => {
     // get API
     axios({
       method: "POST",
-      url: "http://localhost:3000/api/v1/register",
+      url: `${process.env.REACT_APP_HOST}/register`,
       timeout: 120000,
       data: data,
     })

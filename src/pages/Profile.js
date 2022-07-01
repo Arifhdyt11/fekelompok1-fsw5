@@ -1,17 +1,112 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Footer from "components/Footer";
 import Navbar from "components/Navbar";
+import kamera from "assets/images/fotoProfile.png";
 import fotoProfile from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
+import { useLocation, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserDetail } from "store/actions/authAction";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../firebase/index";
+import { useDropzone } from "react-dropzone";
 
 export default function ProfilePage() {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { isAuthenticated, user, status } = useSelector(
+    (state) => state.AuthReducer
+  );
+
+  const [image, setImage] = useState([]);
+  const [progress, setProgress] = useState(0);
+
+  const handleUpload = (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById("filePhoto").src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      setImage(e.target.files[0]);
+    } else {
+      document.getElementById("filePhoto").src = kamera;
+      setImage("");
+    }
+  };
+  // const handleUpload = () => {
+  //   image.map((image) => {
+  //     const storageRef = ref(storage, `images/${image.name}`);
+  //     const uploadTask = uploadBytesResumable(storageRef, image);
+
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {
+  //         //Progress function ... (shows the load bar)
+  //         const progress = Math.round(
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  //         );
+  //         setProgress(progress);
+  //       },
+  //       (error) => {
+  //         //Error Function...
+  //         console.log(error);
+  //       },
+  //       async () => {
+  //         //   //complete function
+  //         const url = await getDownloadURL(storageRef);
+  //         console.log(url);
+  //       }
+  //     );
+  //   });
+  // };
+
+  React.useEffect(() => {
+    if (location.pathname === "/profile") getUser();
+  });
+
+  function getUser() {
+    localStorage.getItem(user);
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />;
+    } else {
+      if (user !== undefined && status !== true) {
+        if (user.name !== null)
+          document.getElementById("nameInput").value = user.name;
+        if (user.city !== null)
+          document.getElementById("cityInput").value = user.city;
+        if (user.address !== null)
+          document.getElementById("addressInput").value = user.address;
+        if (user.phone !== null)
+          document.getElementById("phoneInput").value = user.phone;
+      }
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    dispatch(
+      updateUserDetail({
+        name: document.getElementById("nameInput").value,
+        city: document.getElementById("cityInput").value,
+        address: document.getElementById("addressInput").value,
+        phone: document.getElementById("phoneInput").value,
+        image: document.getElementById("file-input").value,
+      })
+    );
+  };
+
+  console.log("image : ", image);
+
+  if (status === true) {
+    return <Navigate to={`/`} />;
+  }
+
   return (
     <div>
       <div>
         <Navbar isLogin="yes" />
       </div>
-
       <div>
         <div className="container mt-lg-5 mb-5" id="profile">
           <div className="row ">
@@ -33,10 +128,32 @@ export default function ProfilePage() {
               </a>
             </div>
             <div className="col-md-11 col-sm-12 mb-4 ">
-              <div className="fotoProfile">
-                <img src={fotoProfile} alt=""></img>
-              </div>
               <form>
+                <input
+                  type="text"
+                  placeholder="Nama"
+                  hidden
+                  id="idUser"
+                  required
+                />
+                <div className="mb-3 text-center">
+                  <label htmlFor="file-input" id="preview">
+                    <img
+                      id="filePhoto"
+                      className="display-none uploadImageInput m-2"
+                      src={kamera}
+                      alt=""
+                      style={{ width: "110px" }}
+                    />
+                  </label>
+                  <input
+                    id="file-input"
+                    name="myfile"
+                    type="file"
+                    onChange={handleUpload}
+                    hidden
+                  />
+                </div>
                 <div className="mb-3 ">
                   <label htmlFor="nameInput" className="form-label">
                     Nama<label className="notifInfoPenawaran">*</label>
@@ -50,19 +167,19 @@ export default function ProfilePage() {
                 </div>
 
                 <div className="mb-3 ">
-                  <label htmlFor="nameInput" className="form-label">
+                  <label htmlFor="cityInput" className="form-label">
                     Kota
                   </label>
                   <input
                     type="text"
                     className="form-control borderRadius"
-                    id="nameInput"
+                    id="cityInput"
                     placeholder="Pilih Kota"
                   />
                 </div>
 
                 <div className="mb-3 ">
-                  <label htmlFor="address" className="form-label">
+                  <label htmlFor="addressInput" className="form-label">
                     Alamat
                   </label>
                   <textarea
@@ -73,14 +190,14 @@ export default function ProfilePage() {
                   ></textarea>
                 </div>
                 <div className="mb-3 ">
-                  <label htmlFor="exampleInputEmail1" className="form-label">
-                    No Handphone<label className="notifInfoPenawaran">*</label>
+                  <label htmlFor="phoneInput" className="form-label">
+                    No Handphone
+                    <label className="notifInfoPenawaran">*</label>
                   </label>
                   <input
-                    type="email"
+                    type="number"
                     className="form-control borderRadius"
-                    id="exampleInputEmail1"
-                    aria-describedby="emailHelp"
+                    id="phoneInput"
                     placeholder="+628123456789"
                   />
                 </div>
@@ -89,8 +206,8 @@ export default function ProfilePage() {
                     className="btn px-3 py-2 borderRadius"
                     hasShadow
                     isPrimary
-                    href="/login"
-                    type="link"
+                    type="button"
+                    onClick={() => handleSubmit()}
                   >
                     Simpan
                   </Button>

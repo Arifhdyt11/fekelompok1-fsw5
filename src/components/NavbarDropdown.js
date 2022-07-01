@@ -49,9 +49,9 @@ export default function NavbarDropdown(props) {
             <li>
               <h4 className="dropdown-item item">
                 <i className="fa-duotone fa-user me-3"></i>
-                {user.data.name}
+                {user.name}
                 <span className="span-dropdown"> as</span>
-                {user.data.role === "SELLER" ? "Seller" : "Buyer"}
+                {user.role === "SELLER" ? "Seller" : "Buyer"}
               </h4>
             </li>
             <hr />
@@ -60,7 +60,7 @@ export default function NavbarDropdown(props) {
                 <i className="fa-duotone fa-gears me-3"></i>Edit Profile
               </a>
             </li>
-            {user.data.role === "SELLER" ? (
+            {user.role === "SELLER" ? (
               ""
             ) : (
               <>
@@ -81,7 +81,7 @@ export default function NavbarDropdown(props) {
 
             {!isAuthenticated ? (
               ""
-            ) : user.data.role === "SELLER" ? (
+            ) : user.role === "SELLER" ? (
               <>
                 <hr className="my-3" />
                 <li className="px-2 mb-3">
