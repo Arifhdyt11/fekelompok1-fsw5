@@ -5,6 +5,7 @@ import AuthReducer from "./auth";
 import CategoryReducer from "./category";
 import SizeReducer from "./size";
 import ChangePasswordReducer from "./changePassword";
+import WishlistReducer from "./wishlist";
 
 export default combineReducers({
   ProductReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   AuthReducer,
   CategoryReducer,
   SizeReducer,
-  ChangePasswordReducer
+  ChangePasswordReducer,
+  WishlistReducer,
 });

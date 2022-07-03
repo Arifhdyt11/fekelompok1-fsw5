@@ -7,11 +7,7 @@ import img from "assets/images/ilustrasi.svg";
 
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
-//------------------BAKALAN DIHAPUS---------------
-import { getInitialData } from "json/data.js";
-import { getKategoriData } from "json/kategori-produk";
 import { getListCategory } from "store/actions/categoryAction";
-//--------------------HAPUS NANTI---------------------
 
 export default function Product(props) {
   //--------------------GET PRODUCT--------------------
@@ -23,6 +19,10 @@ export default function Product(props) {
     dispatch(getListProduct());
   }, [dispatch]);
 
+  const getInitialData = getListProductResult.data;
+
+  const [product, setProduct] = useState(getListProductResult.data);
+
   //-----------------------GET CATEGORY---------------------
   const {
     getListCategoryResult,
@@ -33,19 +33,13 @@ export default function Product(props) {
   useEffect(() => {
     dispatch(getListCategory());
   }, [dispatch]);
-  //-----------------------------DUMMY--------------------
-  const [product, setProduct] = useState(getInitialData());
-  const [kategori] = useState(getKategoriData());
 
-  const menuItems = [...new Set(getKategoriData().map((Val) => Val.category))];
-
-  const filterItem = (curcat) => {
-    const newItem = getInitialData().filter((newVal) => {
-      return newVal.category === curcat;
+  const filterCategory = (kategori) => {
+    const newItem = getInitialData.filter((item) => {
+      return item.categories.name === kategori;
     });
     setProduct(newItem);
   };
-  //---------------------------------------------------------
 
   return (
     <>
@@ -60,9 +54,7 @@ export default function Product(props) {
               className="btn active btn-filter me-3 my-2"
               hasShadow
               isSecondary
-              href="/"
-              type="link"
-              onClick={() => setProduct(getInitialData())}
+              onClick={() => setProduct(getInitialData)}
             >
               All
             </Button>
@@ -74,9 +66,8 @@ export default function Product(props) {
                     className="btn btn-filter me-3 my-2"
                     hasShadow
                     isSecondary
-                    href=""
-                    type="link"
                     key={index}
+                    onClick={() => filterCategory(kategori.name)}
                   >
                     {kategori.name}
                   </Button>
@@ -93,7 +84,45 @@ export default function Product(props) {
         </div>
         <div className="product">
           <div className="row justify-content-center">
-            {getListProductResult ? (
+            {product ? (
+              product.length === 0 ? (
+                <div className="d-flex justify-content-center null-illustration p-5">
+                  <div>
+                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <p>Produk tidak ditemukan</p>
+                  </div>
+                </div>
+              ) : (
+                product.map((item) => {
+                  return (
+                    <Button
+                      type="link"
+                      href={`/product/${item.id}`}
+                      className="col-lg-3 col-md-6 col-sm-12  "
+                      style={{ textDecoration: "none" }}
+                      key={item.id}
+                    >
+                      <div className="card-product p-3 mb-4">
+                        <img
+                          src={`../images/${item.image[0]}`}
+                          alt={`${item.image[0]}`}
+                          className="img-fluid product-img mb-4"
+                        />
+                        <div className="product-name mb-1">
+                          <h4 style={{ height: 45 }}>
+                            {titleShorten(item.name, 50, " ")}
+                          </h4>
+                        </div>
+                        <p>{item.categories.name}</p>
+                        <h4>Rp. {formatPrice(item.price)}</h4>
+                      </div>
+                    </Button>
+                  );
+                })
+              )
+            ) : getListProductLoading ? (
+              <h3>Loading....</h3>
+            ) : getListProductResult ? (
               getListProductResult.data.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
                   <div>
@@ -122,15 +151,13 @@ export default function Product(props) {
                             {titleShorten(item.name, 50, " ")}
                           </h4>
                         </div>
-                        <p>{item.Category.name}</p>
+                        <p>{item.categories.name}</p>
                         <h4>Rp. {formatPrice(item.price)}</h4>
                       </div>
                     </Button>
                   );
                 })
               )
-            ) : getListProductLoading ? (
-              <h3>Loading....</h3>
             ) : (
               <p>{getListProductError ? getListProductError : "Data Kosong"}</p>
             )}
