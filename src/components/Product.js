@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "store/actions/productAction";
 
 import Button from "elements/Button";
-import img from "assets/images/ilustrasi.svg";
+import ProductNotFound from "assets/images/ilustrasi.svg";
 
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
@@ -88,7 +88,11 @@ export default function Product(props) {
               product.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
                   <div>
-                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <img
+                      src={ProductNotFound}
+                      alt=""
+                      className="img-fluid mb-3"
+                    />
                     <p>Produk tidak ditemukan</p>
                   </div>
                 </div>
@@ -126,7 +130,11 @@ export default function Product(props) {
               getListProductResult.data.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
                   <div>
-                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <img
+                      src={ProductNotFound}
+                      alt=""
+                      className="img-fluid mb-3"
+                    />
                     <p>Produk tidak ditemukan</p>
                   </div>
                 </div>

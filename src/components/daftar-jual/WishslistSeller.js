@@ -6,8 +6,8 @@ import img from "assets/images/ilustrasi.svg";
 import ProductItem from "./ProductItem";
 
 export default function WishlistSeller() {
-  const { accessToken } = useSelector((state) => state.AuthReducer);
-
+  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const buyerId = user.data.id;
   const {
     getListWishlistSellerResult,
     getListWishlistSellerLoading,
@@ -16,7 +16,7 @@ export default function WishlistSeller() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListWishlistSeller(accessToken));
+    dispatch(getListWishlistSeller(buyerId, accessToken));
   }, [dispatch]);
   return (
     <div className="col-lg-9 col-md-8 col-12">

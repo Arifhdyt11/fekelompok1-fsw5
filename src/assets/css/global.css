@@ -130,9 +130,12 @@ p {
 
 .btn-secondary.disabled,
 .btn-secondary:disabled {
-  color: #000;
   background-color: transparent;
-  border-color: #6c757d;
+  border-color: #3252df;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
 }
 
 .zoom:hover {

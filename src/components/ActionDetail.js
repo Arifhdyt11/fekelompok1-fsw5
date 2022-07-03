@@ -17,12 +17,24 @@ function CheckButton({ id, getProductIdResult }) {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
     getListWishlistBuyerError,
+
+    addWishlistResult,
   } = useSelector((state) => state.WishlistReducer);
 
+  const buyerId = user.data.id;
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(buyerId);
+    if (addWishlistResult) {
+      dispatch(getListWishlistBuyer(buyerId, accessToken));
+    }
+  }, [addWishlistResult, dispatch]);
+
   useEffect(() => {
     if (user.data.role === "BUYER") {
-      dispatch(getListWishlistBuyer(accessToken));
+      dispatch(getListWishlistBuyer(buyerId, accessToken));
     }
   }, [dispatch]);
 
@@ -30,7 +42,6 @@ function CheckButton({ id, getProductIdResult }) {
   const sizeId = 5;
   const productId = parseInt(id);
 
-  console.log(accessToken);
   if (user.data.role === "SELLER") {
     return (
       <>
@@ -80,7 +91,6 @@ function CheckButton({ id, getProductIdResult }) {
                   addWishlist({
                     accessToken: accessToken,
                     userId: userId,
-                    sizeId: sizeId,
                     productId: productId,
                   })
                 )
@@ -97,6 +107,10 @@ function CheckButton({ id, getProductIdResult }) {
               isDisabled
             >
               Already on Wishlist
+              <i
+                className="fa-solid fa-check fa-lg ms-4"
+                style={{ color: "#1abc9c" }}
+              ></i>
             </Button>
           )
         ) : getListWishlistBuyerLoading ? (
@@ -145,16 +159,16 @@ export default function ActionDetail({ id }) {
           {user.data.role === "SELLER" ? (
             getProductIdSellerResult ? (
               <>
-                <h4>{getProductIdSellerResult.users.name}</h4>
-                <p>{getProductIdSellerResult.users.city}</p>
+                <h4>{getProductIdSellerResult.userAsSeller.name}</h4>
+                <p>{getProductIdSellerResult.userAsSeller.city}</p>
               </>
             ) : (
               ""
             )
           ) : getProductIdResult ? (
             <>
-              <h4>{getProductIdResult.users.name}</h4>
-              <p>{getProductIdResult.users.city}</p>
+              <h4>{getProductIdResult.userAsSeller.name}</h4>
+              <p>{getProductIdResult.userAsSeller.city}</p>
             </>
           ) : (
             ""
