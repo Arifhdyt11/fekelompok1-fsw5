@@ -19,13 +19,16 @@ function ClearInputImage() {
 }
 
 export default function FormAddProduct() {
+  const { accessToken } = useSelector((state) => state.AuthReducer);
+
+  // ---------------------------AATAS JWT-----
   const location = useLocation();
 
   const { id } = useParams();
 
   const [images, setImages] = useState([]);
   const [progress, setProgress] = useState(0);
-  const [userId, setUserId] = useState("1");
+  const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -109,7 +112,6 @@ export default function FormAddProduct() {
     if (id) {
       //update
 
-      document.getElementById("formFile").value = "";
       dispatch(
         updateProduct({
           id: id,
@@ -125,7 +127,7 @@ export default function FormAddProduct() {
       //add
       dispatch(
         addProduct({
-          userId: userId,
+          accessToken: accessToken,
           name: name,
           image: [
             images[3].name,
@@ -136,7 +138,6 @@ export default function FormAddProduct() {
           price: price,
           categoryId: categoryId,
           description: description,
-          sizeId: sizeId,
         })
       );
     }

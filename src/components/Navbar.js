@@ -1,16 +1,50 @@
 import Button from "elements/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { logout } from "store/actions/authAction";
+import { getListProduct } from "store/actions/productAction";
 import BrandIcon from "./IconText";
 import NavbarDropdown from "./NavbarDropdown";
 
 function CheckSearch(props) {
+  const [query, setQuery] = useState("");
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (query) {
+      dispatch(
+        getListProduct.data.filter((item) =>
+          item.name.toLowerCase().includes(query)
+        )
+      );
+    }
+  }, [dispatch]);
+  // console.log(object);
+
   const { isSearch } = props;
   if (isSearch === "yes") {
     return (
       <form className="d-flex ms-5">
+        <input
+          className="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </form>
+    );
+  } else {
+    return <></>;
+  }
+}
+
+function CheckSearchMobile(props) {
+  const { isSearch } = props;
+  if (isSearch === "yes") {
+    return (
+      <form className="d-flex mb-3">
         <input
           className="form-control me-2"
           type="search"
@@ -39,23 +73,6 @@ function CheckLogin({ isAuthenticated }) {
         Masuk
       </Button>
     );
-  }
-}
-function CheckSearchMobile(props) {
-  const { isSearch } = props;
-  if (isSearch === "yes") {
-    return (
-      <form className="d-flex mb-3">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </form>
-    );
-  } else {
-    return <></>;
   }
 }
 

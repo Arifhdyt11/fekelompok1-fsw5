@@ -1,6 +1,8 @@
 import {
   GET_LIST_PRODUCT,
   GET_PRODUCT_ID,
+  GET_LIST_PRODUCT_SELLER,
+  GET_PRODUCT_ID_SELLER,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
@@ -14,6 +16,14 @@ const initialState = {
   getProductIdResult: false,
   getProductIdLoading: false,
   getProductIdError: false,
+
+  getListProductSellerResult: false,
+  getListProductSellerLoading: false,
+  getListProductSellerError: false,
+
+  getProductSellerIdResult: false,
+  getProductSellerIdLoading: false,
+  getProductSellerIdError: false,
 
   addProductResult: false,
   addProductLoading: false,
@@ -44,6 +54,23 @@ const product = (state = initialState, action) => {
         getProductIdLoading: action.payload.loading,
         getProductIdError: action.payload.errorMessage,
       };
+
+    case GET_LIST_PRODUCT_SELLER:
+      return {
+        ...state,
+        getListProductSellerResult: action.payload.data,
+        getListProductSellerLoading: action.payload.loading,
+        getListProductSellerError: action.payload.errorMessage,
+      };
+
+    case GET_PRODUCT_ID_SELLER:
+      return {
+        ...state,
+        getProductIdSellerResult: action.payload.data,
+        getProductIdSellerLoading: action.payload.loading,
+        getProductIdSellerError: action.payload.errorMessage,
+      };
+
     case ADD_PRODUCT:
       return {
         ...state,
