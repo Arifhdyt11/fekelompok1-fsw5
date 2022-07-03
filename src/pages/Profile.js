@@ -5,6 +5,7 @@ import kamera from "assets/images/fotoProfile.png";
 import fotoProfile from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
+import ModalChangePass from "components/ModalChangePass";
 import { useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
@@ -211,6 +212,15 @@ export default function ProfilePage() {
                   >
                     Simpan
                   </Button>
+
+                  <a
+                    href="#1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalPassword"
+                    className="text-center mt-4"
+                  >
+                    Change Password
+                  </a>
                 </div>
               </form>
             </div>
@@ -220,6 +230,8 @@ export default function ProfilePage() {
       <div>
         <Footer />
       </div>
+
+      <ModalChangePass />
     </div>
   );
 }

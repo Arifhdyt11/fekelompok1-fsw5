@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
@@ -21,20 +22,43 @@ export const loginViaForm = (data) => async (dispatch) => {
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
+    // console.log(user);
+
     if (result.accessToken) {
       dispatch({
         type: LOGIN,
         payload: result.accessToken,
         user: user,
       });
-      alert("Login Successful");
+      // alert("Login Successful");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } else {
       authError(result.error);
-      alert("Login Failed");
+      // alert("Login Failed");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Login Failed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   } catch (error) {
     authError(error);
-    alert("Email or Password is incorrect");
+    // alert("Email or Password is incorrect");
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Email or Password is incorrect",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 };
 
@@ -56,7 +80,14 @@ export const logout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
-  alert("Logout Successful");
+  // alert("Logout Successful");
+  Swal.fire({
+    position: "top-end",
+    icon: "info",
+    title: "Logout Successful",
+    showConfirmButton: false,
+    timer: 1500,
+  });
 };
 
 export const updateUserDetail = (data) => async (dispatch) => {

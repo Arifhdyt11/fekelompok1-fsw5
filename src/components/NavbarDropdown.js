@@ -4,6 +4,7 @@ import Notification from "./Notification";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "store/actions/authAction";
+import { useLocation } from "react-router-dom";
 
 function CekSeller(props) {
   const { isSeller } = props;
@@ -30,6 +31,7 @@ export default function NavbarDropdown(props) {
   };
 
   const { isSeller } = props;
+  const location = useLocation();
   return (
     <>
       <div className="d-flex justify-content-center ms-auto">
@@ -85,16 +87,20 @@ export default function NavbarDropdown(props) {
               <>
                 <hr className="my-3" />
                 <li className="px-2 mb-3">
-                  <Button
-                    type="link"
-                    href="/seller"
-                    className="dropdown-item text-center"
-                    isPrimary
-                    hasShadow
-                    isBlock
-                  >
-                    Seller Center
-                  </Button>
+                  {location.pathname === "/" ? (
+                    <Button
+                      type="link"
+                      href="/seller"
+                      className="dropdown-item text-center"
+                      isPrimary
+                      hasShadow
+                      isBlock
+                    >
+                      Seller Center
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </li>
                 <li className="px-2">
                   <Button

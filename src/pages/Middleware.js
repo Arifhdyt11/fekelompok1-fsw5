@@ -7,7 +7,9 @@ export default function Middleware({ childern, role }) {
   return (
     <>
       {isAuthenticated ? (
-        user.data.role === role ? (
+        role === "BOTH" ? (
+          childern
+        ) : user.data.role === role ? (
           childern
         ) : (
           <Navigate to={`/401`} />

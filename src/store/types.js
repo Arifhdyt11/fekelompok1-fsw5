@@ -3,12 +3,28 @@ export const ADD_REGISTER = "ADD_REGISTER";
 export const AUTH_ERROR = "UTH_ERROR ";
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 export const UPDATE_PROFILE = "GET_PROFILE";
 
 export const GET_LIST_PRODUCT = "GET_LIST_PRODUCT";
 export const GET_PRODUCT_ID = "GET_PRODUCT_ID";
+
+export const GET_LIST_PRODUCT_SELLER = "GET_LIST_PRODUCT_SELLER";
+export const GET_PRODUCT_ID_SELLER = "GET_PRODUCT_ID_SELLER";
+
 export const ADD_PRODUCT = "ADD_PRODUCT";
 export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 export const GET_LIST_CATEGORY = "GET_LIST_CATEGORY";
+
+export const GET_LIST_SIZE = "GET_LIST_SIZE";
+export const ADD_SIZE = "ADD_SIZE";
+export const DETAIL_SIZE = "DETAIL_SIZE";
+export const UPDATE_SIZE = "UPDATE_SIZE";
+export const DELETE_SIZE = "DELETE_SIZE";
+
+export const WISHLIST_SELLER = "WISHLIST_SELLER";
+export const WISHLIST_BUYER = "WISHLIST_BUYER";
+export const ADD_WISHLIST_BUYER = "ADD_WISHLIST_BUYER";
+export const DELETE_WISHLIST_BUYER = "DELETE_WISHLIST_BUYER";
