@@ -72,7 +72,7 @@ function ProductItem({
                   {titleShorten(products.name, 50, " ")}
                 </h4>
               </div>
-              <p>...</p>
+              <p>{products.categories.name}</p>
               <h4>Rp. {formatPrice(products.price)}</h4>
             </Button>
           ) : (
