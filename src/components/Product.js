@@ -58,10 +58,16 @@ export default function Product(props) {
   }, [dispatch]);
 
   const filterCategory = (kategori) => {
-    const newItem = getInitialData.filter((item) => {
-      return item.categories.name === kategori;
-    });
-    setProduct(newItem);
+    if (kategori === "All") {
+      setProduct(getInitialData);
+      setActive(kategori);
+    } else {
+      const newItem = getInitialData.filter((item) => {
+        return item.categories.name === kategori;
+      });
+      setProduct(newItem);
+    }
+    setActive(kategori);
   };
 
   return (
@@ -74,10 +80,12 @@ export default function Product(props) {
           <h3>Kategori</h3>
           <div className="justify-content-start my-2">
             <Button
-              className="btn active btn-filter me-3 my-2"
+              className={`btn btn-filter me-3 my-2 ${
+                active == "All" && "active"
+              }`}
               hasShadow
               isSecondary
-              onClick={() => setProduct(getInitialData)}
+              onClick={() => filterCategory("All")}
             >
               All
             </Button>
@@ -86,7 +94,9 @@ export default function Product(props) {
               getListCategoryResult.data.map((kategori, index) => {
                 return (
                   <Button
-                    className="btn btn-filter me-3 my-2"
+                    className={`btn btn-filter me-3 my-2 ${
+                      active == kategori.name && "active"
+                    }`}
                     hasShadow
                     isSecondary
                     key={index}
@@ -131,7 +141,7 @@ export default function Product(props) {
                   </div>
                 </div>
               ) : (
-                product.map((item) => {
+                product.map((item, index) => {
                   return (
                     <Button
                       type="link"
@@ -140,20 +150,22 @@ export default function Product(props) {
                       style={{ textDecoration: "none" }}
                       key={item.id}
                     >
-                      <div className="card-product p-3 mb-4">
-                        <img
-                          src={`../images/${item.image[0]}`}
-                          alt={`${item.image[0]}`}
-                          className="img-fluid product-img mb-4"
-                        />
-                        <div className="product-name mb-1">
-                          <h4 style={{ height: 45 }}>
-                            {titleShorten(item.name, 50, " ")}
-                          </h4>
+                      <Fade bottom delay={300 * index}>
+                        <div className="card-product p-3 mb-4">
+                          <img
+                            src={`../images/${item.image[0]}`}
+                            alt={`${item.image[0]}`}
+                            className="img-fluid product-img mb-4"
+                          />
+                          <div className="product-name mb-1">
+                            <h4 style={{ height: 45 }}>
+                              {titleShorten(item.name, 50, " ")}
+                            </h4>
+                          </div>
+                          <p>{item.categories.name}</p>
+                          <h4>Rp. {formatPrice(item.price)}</h4>
                         </div>
-                        <p>{item.categories.name}</p>
-                        <h4>Rp. {formatPrice(item.price)}</h4>
-                      </div>
+                      </Fade>
                     </Button>
                   );
                 })
@@ -173,7 +185,7 @@ export default function Product(props) {
                   </div>
                 </div>
               ) : (
-                getListProductResult.data.map((item) => {
+                getListProductResult.data.map((item, index) => {
                   return (
                     <Button
                       type="link"
@@ -182,20 +194,22 @@ export default function Product(props) {
                       style={{ textDecoration: "none" }}
                       key={item.id}
                     >
-                      <div className="card-product p-3 mb-4">
-                        <img
-                          src={`../images/${item.image[0]}`}
-                          alt={`${item.image[0]}`}
-                          className="img-fluid product-img mb-4"
-                        />
-                        <div className="product-name mb-1">
-                          <h4 style={{ height: 45 }}>
-                            {titleShorten(item.name, 50, " ")}
-                          </h4>
+                      <Fade bottom delay={300 * index}>
+                        <div className="card-product p-3 mb-4">
+                          <img
+                            src={`../images/${item.image[0]}`}
+                            alt={`${item.image[0]}`}
+                            className="img-fluid product-img mb-4"
+                          />
+                          <div className="product-name mb-1">
+                            <h4 style={{ height: 45 }}>
+                              {titleShorten(item.name, 50, " ")}
+                            </h4>
+                          </div>
+                          <p>{item.categories.name}</p>
+                          <h4>Rp. {formatPrice(item.price)}</h4>
                         </div>
-                        <p>{item.categories.name}</p>
-                        <h4>Rp. {formatPrice(item.price)}</h4>
-                      </div>
+                      </Fade>
                     </Button>
                   );
                 })
