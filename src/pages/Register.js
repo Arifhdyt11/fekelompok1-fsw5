@@ -106,14 +106,12 @@ function Register() {
                   type="submit"
                   value="Masuk"
                 >
-                  {" "}
                   Daftar
                 </button>
               </form>
               <p className="login-wrapper-footer-text">
                 Sudah punya akun?
                 <Link to="/login" className="text-reset">
-                  {" "}
                   Masuk di sini
                 </Link>
               </p>

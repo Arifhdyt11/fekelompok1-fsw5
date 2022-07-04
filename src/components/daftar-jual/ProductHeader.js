@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 function ProductHeader() {
   const { user } = useSelector((state) => state.AuthReducer);
-  console.log(user);
 
   return (
     <div className="content-header">
@@ -15,7 +14,7 @@ function ProductHeader() {
           <img className="seller-image me-3" src={SellerImg} alt="" />
           <div>
             <h4>{user.data.name}</h4>
-            <p>{user.data.city}</p>
+            {user.data.city ? <p>{user.data.city}</p> : <p style={{ color: "red", fontWeight: 500 }}>Update Profile Required</p>}
           </div>
         </div>
       </div>

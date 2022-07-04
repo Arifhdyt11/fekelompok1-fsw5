@@ -8,21 +8,7 @@ import ProductBody from "components/daftar-jual/ProductBody";
 import Footer from "components/Footer";
 import Button from "elements/Button";
 
-import { getInitialData } from "json/data.js";
-
 function DaftarJual() {
-  // getdata
-  const [product, setProduct] = useState(getInitialData());
-
-  const menuItems = [...new Set(getInitialData().map((Val) => Val.status))];
-
-  const filterItem = (curcat) => {
-    const newItem = getInitialData().filter((newVal) => {
-      return newVal.status === curcat;
-    });
-    setProduct(newItem);
-  };
-
   return (
     <>
       <Navbar isSearch="yes" isLogin="yes" />
@@ -41,12 +27,7 @@ function DaftarJual() {
           </Button>
         </div>
 
-        <ProductBody
-          product={product}
-          setProduct={setProduct}
-          filterItem={filterItem}
-          menuItems={menuItems}
-        />
+        <ProductBody />
       </div>
       <Footer />
     </>

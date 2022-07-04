@@ -2,6 +2,8 @@ import axios from "axios";
 import {
   GET_LIST_PRODUCT,
   GET_PRODUCT_ID,
+  GET_LIST_PRODUCT_SELLER,
+  GET_PRODUCT_ID_SELLER,
   ADD_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
@@ -93,6 +95,93 @@ export const getProductId = (id) => {
   };
 };
 
+export const getListProductSeller = (token) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: GET_LIST_PRODUCT_SELLER,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+    //get API
+    axios({
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+      url: `${process.env.REACT_APP_HOST}/product/seller`,
+      timeout: 120000,
+    })
+      .then((response) => {
+        //berhasil get API
+        dispatch({
+          type: GET_LIST_PRODUCT_SELLER,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        //error get api
+        dispatch({
+          type: GET_LIST_PRODUCT_SELLER,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
+export const getProductIdSeller = (id, token) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: GET_PRODUCT_ID_SELLER,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
+    //get API
+    axios({
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+      url: `${process.env.REACT_APP_HOST}/product/seller/` + id,
+      timeout: 120000,
+    })
+      .then((response) => {
+        //berhasil get API
+        dispatch({
+          type: GET_PRODUCT_ID_SELLER,
+          payload: {
+            loading: false,
+            data: response.data.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        //error get api
+        dispatch({
+          type: GET_PRODUCT_ID_SELLER,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
 export const addProduct = (data) => {
   return (dispatch) => {
     //loading
@@ -104,6 +193,16 @@ export const addProduct = (data) => {
         errorMessage: false,
       },
     });
+
+    axios.interceptors.request.use(
+      (config) => {
+        config.headers.authorization = `Bearer ${data.accessToken}`;
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
 
     //get API
     axios({
@@ -181,7 +280,7 @@ export const updateProduct = (data) => {
   };
 };
 
-export const deleteProduct = (id) => {
+export const deleteProduct = (id, token) => {
   console.log("2. Masuk ke action");
   return (dispatch) => {
     dispatch({
@@ -192,10 +291,11 @@ export const deleteProduct = (id) => {
         errorMessage: false,
       },
     });
-
+    console.log(token);
     //get API
     axios({
       method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
       url: `${process.env.REACT_APP_HOST}/product/` + id,
       timeout: 120000,
     })

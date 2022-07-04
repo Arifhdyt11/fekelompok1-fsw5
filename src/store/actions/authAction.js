@@ -22,6 +22,8 @@ export const loginViaForm = (data) => async (dispatch) => {
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
+    // console.log(user);
+
     if (result.accessToken) {
       dispatch({
         type: LOGIN,

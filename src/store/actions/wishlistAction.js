@@ -1,34 +1,33 @@
 import axios from "axios";
 import {
-  GET_LIST_SIZE,
-  ADD_SIZE,
-  DELETE_SIZE,
-  UPDATE_SIZE,
-  DETAIL_SIZE,
+  WISHLIST_SELLER,
+  WISHLIST_BUYER,
+  ADD_WISHLIST_BUYER,
+  DELETE_WISHLIST_BUYER,
 } from "store/types";
 
-export const getListSize = () => {
+export const getListWishlistSeller = (buyerId, token) => {
   return (dispatch) => {
     //loading
     dispatch({
-      type: GET_LIST_SIZE,
+      type: WISHLIST_SELLER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
-
     //get API
     axios({
       method: "GET",
-      url: `${process.env.REACT_APP_HOST}/size`,
+      headers: { Authorization: `Bearer ${token}` },
+      url: `${process.env.REACT_APP_HOST}/wishlist/seller/` + buyerId,
       timeout: 120000,
     })
       .then((response) => {
         //berhasil get API
         dispatch({
-          type: GET_LIST_SIZE,
+          type: WISHLIST_SELLER,
           payload: {
             loading: false,
             data: response.data,
@@ -39,7 +38,7 @@ export const getListSize = () => {
       .catch((error) => {
         //error get api
         dispatch({
-          type: GET_LIST_SIZE,
+          type: WISHLIST_SELLER,
           payload: {
             loading: false,
             data: false,
@@ -50,11 +49,54 @@ export const getListSize = () => {
   };
 };
 
-export const addSize = (data) => {
+export const getListWishlistBuyer = (buyerId, token) => {
   return (dispatch) => {
     //loading
     dispatch({
-      type: ADD_SIZE,
+      type: WISHLIST_BUYER,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+    //get API
+    axios({
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+      url: `${process.env.REACT_APP_HOST}/wishlist/buyer/` + buyerId,
+      timeout: 120000,
+    })
+      .then((response) => {
+        //berhasil get API
+        dispatch({
+          type: WISHLIST_BUYER,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        //error get api
+        dispatch({
+          type: WISHLIST_BUYER,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
+};
+
+export const addWishlist = (data) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: ADD_WISHLIST_BUYER,
       payload: {
         loading: true,
         data: false,
@@ -65,73 +107,15 @@ export const addSize = (data) => {
     //get API
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_HOST}/size`,
-      timeout: 120000,
-      data: data,
-    })
-      .then((response) => {
-        //berhasil get API
-        console.log("3. Berhasil Dapat Data", response.data);
-        dispatch({
-          type: ADD_SIZE,
-          payload: {
-            loading: false,
-            data: response.data,
-            errorMessage: false,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log("3. Gagal Dapat Data", error.response.data);
-        //error get api
-        dispatch({
-          type: ADD_SIZE,
-          payload: {
-            loading: false,
-            data: false,
-            errorMessage: error.message,
-          },
-        });
-      });
-  };
-};
-
-//update
-export const detailSize = (data) => {
-  return (dispatch) => {
-    //loading
-    dispatch({
-      type: DETAIL_SIZE,
-      payload: {
-        data: data,
-      },
-    });
-  };
-};
-
-export const updateSize = (data) => {
-  return (dispatch) => {
-    //loading
-    dispatch({
-      type: UPDATE_SIZE,
-      payload: {
-        loading: true,
-        data: false,
-        errorMessage: false,
-      },
-    });
-
-    //get API
-    axios({
-      method: "PUT",
-      url: `${process.env.REACT_APP_HOST}/size/` + data.id,
+      headers: { Authorization: `Bearer ${data.accessToken}` },
+      url: `${process.env.REACT_APP_HOST}/wishlist`,
       timeout: 120000,
       data: data,
     })
       .then((response) => {
         //berhasil get API
         dispatch({
-          type: UPDATE_SIZE,
+          type: ADD_WISHLIST_BUYER,
           payload: {
             loading: false,
             data: response.data,
@@ -142,7 +126,7 @@ export const updateSize = (data) => {
       .catch((error) => {
         //error get api
         dispatch({
-          type: UPDATE_SIZE,
+          type: ADD_WISHLIST_BUYER,
           payload: {
             loading: false,
             data: false,
@@ -153,28 +137,28 @@ export const updateSize = (data) => {
   };
 };
 
-export const deleteSize = (id) => {
+export const deleteWishlist = (id, token) => {
   return (dispatch) => {
-    //loading
     dispatch({
-      type: DELETE_SIZE,
+      type: DELETE_WISHLIST_BUYER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
-
+    console.log(token);
     //get API
     axios({
       method: "DELETE",
-      url: `${process.env.REACT_APP_HOST}/size/` + id,
+      headers: { Authorization: `Bearer ${token}` },
+      url: `${process.env.REACT_APP_HOST}/wishlist/` + id,
       timeout: 120000,
     })
       .then((response) => {
-        //berhasil get API
+        //berhasil get api
         dispatch({
-          type: DELETE_SIZE,
+          type: DELETE_WISHLIST_BUYER,
           payload: {
             loading: false,
             data: response.data,
@@ -183,9 +167,8 @@ export const deleteSize = (id) => {
         });
       })
       .catch((error) => {
-        //error get api
         dispatch({
-          type: DELETE_SIZE,
+          type: DELETE_WISHLIST_BUYER,
           payload: {
             loading: false,
             data: false,

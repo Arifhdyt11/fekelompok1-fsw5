@@ -1,53 +1,114 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Button from "elements/Button";
 import { useDispatch, useSelector } from "react-redux";
 
-import { addSize, getListSize } from "store/actions/sizeAction";
+import {
+  addSize,
+  deleteSize,
+  detailSize,
+  getListSize,
+  updateSize,
+} from "store/actions/sizeAction";
 
-export default function ModalStock({ id }) {
+export default function ModalStock({ productId }) {
   const [size, setSize] = useState("");
   const [stock, setStock] = useState("");
+  const [id, setId] = useState(false);
 
   const {
     getListSizeResult,
     getListSizeLoading,
     getListSizeError,
     addSizeResult,
+    detailSizeResult,
+    updateSizeResult,
+    deleteSizeResult,
   } = useSelector((state) => state.SizeReducer);
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (detailSizeResult) {
+      setSize(detailSizeResult.size);
+      setStock(detailSizeResult.stock);
+      setId(detailSizeResult.id);
+    }
+  }, [detailSizeResult]);
+
+  useEffect(() => {
+    if (addSizeResult) {
+      dispatch(getListSize());
+      setId("");
+      setSize("");
+      setStock("");
+    }
+  }, [addSizeResult, dispatch]);
+
+  useEffect(() => {
+    if (updateSizeResult) {
+      dispatch(getListSize());
+      setId("");
+      setSize("");
+      setStock("");
+    }
+  }, [updateSizeResult, dispatch]);
+
+  useEffect(() => {
+    if (deleteSizeResult) {
+      dispatch(getListSize());
+      setId("");
+      setSize("");
+      setStock("");
+    }
+  }, [deleteSizeResult, dispatch]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addSize({
-        productId: id,
-        size: size,
-        stock: stock,
-      })
-    );
+    if (id) {
+      dispatch(
+        updateSize({
+          id: id,
+          size: size,
+          stock: stock,
+        })
+      );
+    } else {
+      dispatch(
+        addSize({
+          productId: productId,
+          size: size,
+          stock: stock,
+        })
+      );
+    }
   };
 
   const handleSize = (e) => {
     setSize(e.target.value);
   };
+
   const handleStock = (e) => {
     setStock(e.target.value);
   };
 
-  useEffect(() => {
-    if (addSizeResult) {
-      dispatch(getListSize());
-      setSize("");
-      setStock("");
-    }
-  }, [addSizeResult, dispatch]);
+  const handleClose = () => {
+    setId(false);
+    setSize("");
+    setStock("");
+    inputRefSize.current.value = "";
+    inputRefStock.current.value = "";
+  };
+
+  const inputRefSize = useRef(null);
+  const inputRefStock = useRef(null);
   return (
     <div
       className="modal fade"
-      id={`modal${id}`}
+      id={`modal${productId}`}
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
       tabIndex="-1"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="staticBackdropLabel"
       aria-hidden="true"
     >
       <div
@@ -62,10 +123,11 @@ export default function ModalStock({ id }) {
               className="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
+              onClick={handleClose}
             ></button>
           </div>
           <div className="modal-body pb-5">
-            <form onSubmit={handleSubmit} className="row mb-5 ">
+            <form onSubmit={handleSubmit} className="row mb-3 ">
               <div className="col-auto">
                 <input
                   type="text"
@@ -75,6 +137,7 @@ export default function ModalStock({ id }) {
                   name="size"
                   value={size}
                   onChange={handleSize}
+                  ref={inputRefSize}
                 />
               </div>
               <div className="col-auto">
@@ -86,14 +149,19 @@ export default function ModalStock({ id }) {
                   name="stock"
                   value={stock}
                   onChange={handleStock}
+                  ref={inputRefStock}
                 />
               </div>
               <div className="col-auto mt-auto">
-                <Button className="btn" hasShadow isPrimary>
+                <Button className="btn " hasShadow isPrimary>
                   Submit Stock
                 </Button>
               </div>
             </form>
+            <Button className="btn mb-3" isSecondary onClick={handleClose}>
+              Clear
+            </Button>
+
             <div className="me-5 ms-3">
               <table className="table text-center">
                 <thead>
@@ -106,17 +174,23 @@ export default function ModalStock({ id }) {
                 <tbody>
                   {getListSizeResult ? (
                     getListSizeResult.data
-                      .filter((item) => item.productId === id)
-                      .map((item) => {
+                      .filter((item) => item.productId === productId)
+                      .map((item, index) => {
                         return (
-                          <tr className="row" key={item.id}>
+                          <tr className="row" key={index}>
                             <td className="col-4">{item.size}</td>
                             <td className="col-4">{item.stock}</td>
                             <td className="col-4">
-                              <Button className="btn-none-style mx-1 zoom">
+                              <Button
+                                className="btn-none-style mx-1 zoom"
+                                onClick={() => dispatch(detailSize(item))}
+                              >
                                 <i className="fa-duotone fa-lg fa-pen"></i>
                               </Button>
-                              <Button className="btn-none-style mx-1 zoom">
+                              <Button
+                                className="btn-none-style mx-1 zoom"
+                                onClick={() => dispatch(deleteSize(item.id))}
+                              >
                                 <i className="fa-solid fa-trash"></i>
                               </Button>
                             </td>
