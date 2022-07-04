@@ -81,6 +81,11 @@ export default function ProfilePage() {
           document.getElementById("addressInput").value = user.address;
         if (user.phone !== null)
           document.getElementById("phoneInput").value = user.phone;
+        if (user.image !== null) {
+          document.getElementById("filePhoto").src = user.image;
+        } else {
+          document.getElementById("filePhoto").src = kamera;
+        }
       }
     }
   }
@@ -92,7 +97,7 @@ export default function ProfilePage() {
         city: document.getElementById("cityInput").value,
         address: document.getElementById("addressInput").value,
         phone: document.getElementById("phoneInput").value,
-        image: document.getElementById("file-input").value,
+        image,
       })
     );
   };

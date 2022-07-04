@@ -93,25 +93,31 @@ export const logout = () => async (dispatch) => {
 export const updateUserDetail = (data) => async (dispatch) => {
   console.log("actions : ", data);
   try {
-    var raw = JSON.stringify({
-      name: data.name,
-      city: data.city,
-      address: data.address,
-      phone: data.phone,
-      image: data.image,
-    });
+    console.log(data.image);
 
-    const response = await fetch(
-      `https://shoesnarian.herokuapp.com/api/v1/profile`,
-      {
-        method: "PUT",
-        body: raw,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    );
+    // var raw = JSON.stringify({
+    //   name: data.name,
+    //   city: data.city,
+    //   address: data.address,
+    //   phone: data.phone,
+    //   image: data.image,
+    // });
+    var formdata = new FormData();
+    if (data.image) {
+      formdata.append("image", data.image);
+    }
+    formdata.append("name", data.name);
+    formdata.append("city", data.city);
+    formdata.append("address", data.address);
+    formdata.append("phone", data.phone);
+
+    const response = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
+      method: "PUT",
+      body: formdata,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    });
 
     const result = await response.json();
     console.log("3. Berhasil dapet data:", result);
