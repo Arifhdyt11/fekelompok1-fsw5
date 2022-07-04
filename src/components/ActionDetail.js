@@ -28,7 +28,6 @@ function CheckButton({ id, getProductIdResult }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(buyerId);
     if (addWishlistResult) {
       dispatch(getListWishlistBuyer(buyerId, accessToken));
     }

@@ -18,6 +18,8 @@ export default function WishlistSeller() {
   useEffect(() => {
     dispatch(getListWishlistSeller(buyerId, accessToken));
   }, [dispatch]);
+
+  console.log(getListWishlistSellerResult);
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
