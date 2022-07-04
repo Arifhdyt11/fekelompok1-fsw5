@@ -17,14 +17,14 @@ export default function Product(props) {
   const { getListProductResult, getListProductLoading, getListProductError } =
     useSelector((state) => state.ProductReducer);
 
-  useEffect(() => {
-    dispatch(getListProduct());
-  }, [dispatch]);
-
   const getInitialData = getListProductResult.data;
 
   const [product, setProduct] = useState(getListProductResult.data);
   const [active, setActive] = useState("All");
+
+  useEffect(() => {
+    dispatch(getListProduct());
+  }, [dispatch]);
   //-----------------------SEARCH ---------------------
   // console.table(product);
   const [searchValue, setSearchValue] = React.useState("");
@@ -42,9 +42,11 @@ export default function Product(props) {
         );
       });
       setProduct(filter);
-    }, 500);
+    }, 200);
     return () => clearTimeout(timeout);
-  }, [searchValue]);
+  }, [product, searchValue]);
+
+  console.log(product);
 
   //-----------------------GET CATEGORY---------------------
   const {
@@ -172,48 +174,6 @@ export default function Product(props) {
               )
             ) : getListProductLoading ? (
               <h3>Loading....</h3>
-            ) : getListProductResult ? (
-              getListProductResult.data.length === 0 ? (
-                <div className="d-flex justify-content-center null-illustration p-5">
-                  <div>
-                    <img
-                      src={ProductNotFound}
-                      alt=""
-                      className="img-fluid mb-3"
-                    />
-                    <p>Produk tidak ditemukan</p>
-                  </div>
-                </div>
-              ) : (
-                getListProductResult.data.map((item, index) => {
-                  return (
-                    <Button
-                      type="link"
-                      href={`/product/${item.id}`}
-                      className="col-lg-3 col-md-6 col-sm-12  "
-                      style={{ textDecoration: "none" }}
-                      key={item.id}
-                    >
-                      <Fade bottom delay={300 * index}>
-                        <div className="card-product p-3 mb-4">
-                          <img
-                            src={`../images/${item.image[0]}`}
-                            alt={`${item.image[0]}`}
-                            className="img-fluid product-img mb-4"
-                          />
-                          <div className="product-name mb-1">
-                            <h4 style={{ height: 45 }}>
-                              {titleShorten(item.name, 50, " ")}
-                            </h4>
-                          </div>
-                          <p>{item.categories.name}</p>
-                          <h4>Rp. {formatPrice(item.price)}</h4>
-                        </div>
-                      </Fade>
-                    </Button>
-                  );
-                })
-              )
             ) : (
               <p>{getListProductError ? getListProductError : "Data Kosong"}</p>
             )}
