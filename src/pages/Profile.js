@@ -73,16 +73,16 @@ export default function ProfilePage() {
       return <Navigate to="/login" />;
     } else {
       if (user !== undefined && status !== true) {
-        if (user.name !== null)
-          document.getElementById("nameInput").value = user.name;
-        if (user.city !== null)
-          document.getElementById("cityInput").value = user.city;
-        if (user.address !== null)
-          document.getElementById("addressInput").value = user.address;
-        if (user.phone !== null)
-          document.getElementById("phoneInput").value = user.phone;
-        if (user.image !== null) {
-          document.getElementById("filePhoto").src = user.image;
+        if (user.data.name !== null)
+          document.getElementById("nameInput").value = user.data.name;
+        if (user.data.city !== null)
+          document.getElementById("cityInput").value = user.data.city;
+        if (user.data.address !== null)
+          document.getElementById("addressInput").value = user.data.address;
+        if (user.data.phone !== null)
+          document.getElementById("phoneInput").value = user.data.phone;
+        if (user.data.image !== "") {
+          document.getElementById("filePhoto").src = user.data.image;
         } else {
           document.getElementById("filePhoto").src = kamera;
         }
