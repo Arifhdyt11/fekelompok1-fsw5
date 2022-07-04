@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProduct } from "store/actions/productAction";
 
+import _ from "lodash";
+
 import Button from "elements/Button";
 import ProductNotFound from "assets/images/ilustrasi.svg";
 
@@ -22,6 +24,27 @@ export default function Product(props) {
   const getInitialData = getListProductResult.data;
 
   const [product, setProduct] = useState(getListProductResult.data);
+
+  //-----------------------SEARCH ---------------------
+  // console.table(product);
+  const [searchValue, setSearchValue] = React.useState("");
+
+  const handleSearchFilter = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      const filter = _.filter(getListProductResult.data, (x) => {
+        return _.includes(
+          _.lowerCase(JSON.stringify(_.values(x))),
+          _.lowerCase(searchValue)
+        );
+      });
+      setProduct(filter);
+    }, 500);
+    return () => clearTimeout(timeout);
+  }, [searchValue]);
 
   //-----------------------GET CATEGORY---------------------
   const {
@@ -47,7 +70,7 @@ export default function Product(props) {
         className="container section-product mt-2 mb-5"
         ref={props.refCallToAction}
       >
-        <div className="filter mb-5">
+        <div className="filter mb-3">
           <h3>Kategori</h3>
           <div className="justify-content-start my-2">
             <Button
@@ -82,6 +105,17 @@ export default function Product(props) {
             )}
           </div>
         </div>
+
+        <div className="mb-5">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search product..."
+            value={searchValue}
+            onChange={handleSearchFilter}
+          />
+        </div>
+
         <div className="product">
           <div className="row justify-content-center">
             {product ? (
