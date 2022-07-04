@@ -49,6 +49,7 @@ function Register() {
                     placeholder="Nama Lengkap"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
+                    required
                   />
                 </div>
 
@@ -62,6 +63,7 @@ function Register() {
                     placeholder="Contoh: johndee@gmail.com"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
+                    required
                   />
                 </div>
 
@@ -75,6 +77,7 @@ function Register() {
                       placeholder="Masukkan password"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
+                      required
                     />
                     <span className="input-group-text " id="basic-addon2">
                       <i className="uil uil-eye"></i>
@@ -87,8 +90,11 @@ function Register() {
                     className="form-control form-control-custom"
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
+                    required
                   >
-                    <option>-Pilih Role-</option>
+                    <option hidden selected>
+                      -- Pilih Role --
+                    </option>
                     <option value="SELLER">Seller</option>
                     <option value="BUYER">Buyer</option>
                   </select>

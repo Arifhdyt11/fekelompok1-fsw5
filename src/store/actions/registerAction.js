@@ -32,9 +32,7 @@ export const addRegister = (data) => {
           },
         });
         window.location.href = "/login";
-        // alert("Registration Successful");
         Swal.fire({
-          position: "top-end",
           icon: "success",
           title: "Registration Successful",
           showConfirmButton: false,
@@ -51,9 +49,7 @@ export const addRegister = (data) => {
             errorMessage: error.message,
           },
         });
-        // alert("Registration Failed");
         Swal.fire({
-          position: "top-end",
           icon: "error",
           title: "Registration Failed",
           showConfirmButton: false,
