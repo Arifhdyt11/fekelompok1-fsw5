@@ -25,10 +25,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/" element={<LandingPage />} />
-        <Route
-          path="/product/:id"
-          element={<Middleware role="BUYER" childern={<DetailProduct />} />}
-        />
+        <Route path="/product/:id" element={<DetailProduct />} />
 
         <Route
           path="/seller"

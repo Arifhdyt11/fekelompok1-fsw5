@@ -12,7 +12,9 @@ import {
 } from "store/actions/wishlistAction";
 
 function CheckButton({ id, getProductIdResult }) {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, accessToken } = useSelector(
+    (state) => state.AuthReducer
+  );
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
@@ -42,87 +44,102 @@ function CheckButton({ id, getProductIdResult }) {
   const sizeId = 5;
   const productId = parseInt(id);
 
-  if (user.data.role === "SELLER") {
-    return (
-      <>
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Terbitkan
-        </Button>
-        <Link
-          to={`/update-product/${id}`}
-          state={{ getProductIdResult: { getProductIdResult } }}
-        >
+  if (isAuthenticated) {
+    if (user.data.role === "SELLER") {
+      return (
+        <>
+          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+            Terbitkan
+          </Button>
+          <Link
+            to={`/update-product/${id}`}
+            state={{ getProductIdResult: { getProductIdResult } }}
+          >
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isSecondary
+              hasShadow
+              isBlock
+            >
+              Edit
+            </Button>
+          </Link>
           <Button
-            className="btn mt-3 ms-auto py-2"
-            isSecondary
+            className="btn btn-danger mt-3 ms-auto py-2"
             hasShadow
             isBlock
+            onClick={() => dispatch(deleteProduct(id, accessToken))}
           >
-            Edit
+            Delete
           </Button>
-        </Link>
-        <Button
-          className="btn btn-danger mt-3 ms-auto py-2"
-          hasShadow
-          isBlock
-          onClick={() => dispatch(deleteProduct(id, accessToken))}
-        >
-          Delete
-        </Button>
-      </>
-    );
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+            Tertarik dan Nego
+          </Button>
+          {getListWishlistBuyerResult ? (
+            getListWishlistBuyerResult.data.filter(
+              (item) => item.productId === productId
+            ).length === 0 ? (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isSecondary
+                hasShadow
+                isBlock
+                onClick={() =>
+                  dispatch(
+                    addWishlist({
+                      accessToken: accessToken,
+                      userId: userId,
+                      productId: productId,
+                    })
+                  )
+                }
+              >
+                Tambahkan Ke Wishlist
+              </Button>
+            ) : (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isSecondary
+                hasShadow
+                isBlock
+                isDisabled
+              >
+                Already on Wishlist
+                <i
+                  className="fa-solid fa-check fa-lg ms-4"
+                  style={{ color: "#1abc9c" }}
+                ></i>
+              </Button>
+            )
+          ) : getListWishlistBuyerLoading ? (
+            <h3 className="mt-3" style={{ color: "#152c5b" }}>
+              Loading...
+            </h3>
+          ) : (
+            <p className="mt-3">
+              {getListWishlistBuyerError ? getListWishlistBuyerError : ""}
+            </p>
+          )}
+        </>
+      );
+    }
   } else {
     return (
-      <>
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Tertarik dan Nego
-        </Button>
-        {getListWishlistBuyerResult ? (
-          getListWishlistBuyerResult.data.filter(
-            (item) => item.productId === productId
-          ).length === 0 ? (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
-              hasShadow
-              isBlock
-              onClick={() =>
-                dispatch(
-                  addWishlist({
-                    accessToken: accessToken,
-                    userId: userId,
-                    productId: productId,
-                  })
-                )
-              }
-            >
-              Tambahkan Ke Wishlist
-            </Button>
-          ) : (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
-              hasShadow
-              isBlock
-              isDisabled
-            >
-              Already on Wishlist
-              <i
-                className="fa-solid fa-check fa-lg ms-4"
-                style={{ color: "#1abc9c" }}
-              ></i>
-            </Button>
-          )
-        ) : getListWishlistBuyerLoading ? (
-          <h3 className="mt-3" style={{ color: "#152c5b" }}>
-            Loading...
-          </h3>
-        ) : (
-          <p className="mt-3">
-            {getListWishlistBuyerError ? getListWishlistBuyerError : ""}
-          </p>
-        )}
-      </>
+      <Button
+        className="btn mt-3 ms-auto py-2"
+        isPrimary
+        hasShadow
+        isBlock
+        type="link"
+        href="/login"
+      >
+        Login Untuk Transaksi
+      </Button>
     );
   }
 }
