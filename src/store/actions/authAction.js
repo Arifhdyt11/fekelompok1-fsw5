@@ -124,7 +124,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      user: result.data,
+      user: result,
       status: true,
     });
   } catch (error) {
