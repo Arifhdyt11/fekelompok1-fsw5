@@ -14,9 +14,9 @@ import Button from "elements/Button";
 import { useDropzone } from "react-dropzone";
 import fotoProduct from "../assets/images/addProduct.png";
 
-function ClearInputImage() {
-  document.getElementById("formFile").value = "";
-}
+// function ClearInputImage() {
+//   document.getElementById("formFile").value = "";
+// }
 
 export default function FormAddProduct() {
   const { accessToken } = useSelector((state) => state.AuthReducer);
@@ -39,31 +39,18 @@ export default function FormAddProduct() {
     (state) => state.ProductReducer
   );
 
-  const handleUpload = () => {
-    images.map((image) => {
-      const storageRef = ref(storage, `images/${image.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          //Progress function ... (shows the load bar)
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          setProgress(progress);
-        },
-        (error) => {
-          //Error Function...
-          console.log(error);
-        },
-        async () => {
-          //   //complete function
-          const url = await getDownloadURL(storageRef);
-          console.log(url);
-        }
-      );
-    });
+  const handleUpload = (e) => {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById("filePhoto").src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      setImages(e.target.files[0]);
+    } else {
+      document.getElementById("filePhoto").src = fotoProduct;
+      setImages("");
+    }
   };
 
   console.log("images: ", images);
@@ -127,17 +114,11 @@ export default function FormAddProduct() {
       //add
       dispatch(
         addProduct({
-          accessToken: accessToken,
-          name: name,
-          image: [
-            images[3].name,
-            images[2].name,
-            images[1].name,
-            images[0].name,
-          ],
-          price: price,
-          categoryId: categoryId,
-          description: description,
+          name,
+          image: images,
+          price,
+          categoryId,
+          description,
         })
       );
     }
@@ -155,21 +136,6 @@ export default function FormAddProduct() {
   const handleDescription = (e) => {
     setDescription(e.target.value);
   };
-
-  const onDrop = useCallback((acceptedFiles) => {
-    setImages(
-      acceptedFiles.map((file) =>
-        Object.assign(file, { preview: URL.createObjectURL(file) })
-      )
-    );
-  }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  const seleted_images = images?.map((file) => (
-    <div>
-      <img src={file.preview} style={{ width: "150px" }} alt="" />
-    </div>
-  ));
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
@@ -235,22 +201,23 @@ export default function FormAddProduct() {
         ></textarea>
       </div>
 
-      <div>
-        {images.length === 0 ? (
-          <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <img className="mt-2 " src={fotoProduct} />
-            <p className="mt-2 mb-4">Drop the images here ...</p>
-          </div>
-        ) : (
-          <div>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <label className="border ms-3 mt-3">{seleted_images}</label>
-              <p>Drop the images here ...</p>
-            </div>
-          </div>
-        )}
+      <div className="mb-3 text-center">
+        <label htmlFor="file-input" id="preview">
+          <img
+            id="filePhoto"
+            className="display-none uploadImageInput m-2"
+            src={fotoProduct}
+            alt=""
+            style={{ width: "110px" }}
+          />
+        </label>
+        <input
+          id="file-input"
+          name="myfile"
+          type="file"
+          onChange={handleUpload}
+          hidden
+        />
       </div>
 
       <div className="d-flex justify-content-center">
@@ -269,7 +236,7 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
-          onClick={(ClearInputImage, handleUpload)}
+          // onClick={ClearInputImage}
         >
           Terbitkan
         </Button>

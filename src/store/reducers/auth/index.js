@@ -1,4 +1,4 @@
-import { AUTH_ERROR, LOGIN, LOGOUT } from "store/types";
+import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 const initialState = {
   isAuthenticated: !!localStorage.getItem("accessToken"),
@@ -29,6 +29,14 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         accessToken: null,
         error: null,
+      };
+    case UPDATE_PROFILE:
+      console.log("reducer : ", action);
+      localStorage.setItem("user", JSON.stringify(action.user));
+      return {
+        ...state,
+        user: action.user,
+        status: action.status,
       };
     case AUTH_ERROR:
       localStorage.removeItem("accessToken");
