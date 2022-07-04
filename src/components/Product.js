@@ -10,7 +10,7 @@ import ProductNotFound from "assets/images/ilustrasi.svg";
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
 import { getListCategory } from "store/actions/categoryAction";
-
+import Fade from "react-reveal/Fade";
 export default function Product(props) {
   //--------------------GET PRODUCT--------------------
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function Product(props) {
   const getInitialData = getListProductResult.data;
 
   const [product, setProduct] = useState(getListProductResult.data);
-
+  const [active, setActive] = useState("All");
   //-----------------------SEARCH ---------------------
   // console.table(product);
   const [searchValue, setSearchValue] = React.useState("");
