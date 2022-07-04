@@ -33,8 +33,8 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              getListProductSellerResult.data.map((item) => {
-                return <ProductItem key={item.id} {...item} />;
+              getListProductSellerResult.data.map((item, index) => {
+                return <ProductItem key={item.id} {...item} index={index} />;
               })
             )
           ) : getListProductSellerLoading ? (

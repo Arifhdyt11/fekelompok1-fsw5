@@ -3,6 +3,7 @@ import Button from "elements/Button";
 
 import ProductNotFound from "assets/images/ilustrasi.svg";
 
+import Fade from "react-reveal/Fade";
 import Seller from "assets/images/seller-1.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -46,67 +47,69 @@ export default function WishlistProduct() {
               </div>
             </div>
           ) : (
-            getListWishlistBuyerResult.data.map((item) => {
+            getListWishlistBuyerResult.data.map((item, index) => {
               return (
                 <div className="col-lg-3 col-md-6 col-sm-6" key={item.id}>
-                  <div className="card-product p-3 mb-4">
-                    <div className="d-md-flex flex-row-reverse">
-                      <button
-                        style={{
-                          textDecoration: "none",
-                          color: "#3252df",
-                          backgroundColor: "transparent",
-                          border: "none",
-                        }}
-                        onClick={() =>
-                          dispatch(deleteWishlist(item.id, accessToken))
-                        }
-                        data-bs-toggle="tooltip"
-                        data-bs-placement="bottom"
-                        title="Delete Wihslist"
+                  <Fade bottom delay={300 * index}>
+                    <div className="card-product p-3 mb-4">
+                      <div className="d-md-flex flex-row-reverse">
+                        <button
+                          style={{
+                            textDecoration: "none",
+                            color: "#3252df",
+                            backgroundColor: "transparent",
+                            border: "none",
+                          }}
+                          onClick={() =>
+                            dispatch(deleteWishlist(item.id, accessToken))
+                          }
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="bottom"
+                          title="Delete Wihslist"
+                        >
+                          <i className="fa-solid fa-heart fa-xl"></i>
+                        </button>
+                      </div>
+                      <Button
+                        type="link"
+                        href={`/product/${item.products.id}`}
+                        className=" "
+                        style={{ textDecoration: "none" }}
+                        key={item.products.id}
                       >
-                        <i className="fa-solid fa-heart fa-xl"></i>
-                      </button>
+                        <img
+                          src={`../images/${item.products.image[0]}`}
+                          alt={`${item.products.image[0]}`}
+                          className="img-fluid product-img mb-4"
+                        />
+                        <div className="product-name mb-1">
+                          <h4 style={{ height: 45 }}>
+                            {titleShorten(item.products.name, 50, " ")}
+                          </h4>
+                        </div>
+                        <p>{item.products.categories.name}</p>
+                        <h4>Rp. {formatPrice(item.products.price)}</h4>
+                        <hr />
+                        <div className="row">
+                          <div className="col-3">
+                            <img src={Seller} alt="" />
+                          </div>
+                          <div className="col-9 ps-4 align-self-center">
+                            <h6>
+                              {item.products
+                                ? item.products.userAsSeller.name
+                                : ""}
+                            </h6>
+                            <h5 className="mb-0">
+                              {item.products
+                                ? item.products.userAsSeller.city
+                                : ""}
+                            </h5>
+                          </div>
+                        </div>
+                      </Button>
                     </div>
-                    <Button
-                      type="link"
-                      href={`/product/${item.products.id}`}
-                      className=" "
-                      style={{ textDecoration: "none" }}
-                      key={item.products.id}
-                    >
-                      <img
-                        src={`../images/${item.products.image[0]}`}
-                        alt={`${item.products.image[0]}`}
-                        className="img-fluid product-img mb-4"
-                      />
-                      <div className="product-name mb-1">
-                        <h4 style={{ height: 45 }}>
-                          {titleShorten(item.products.name, 50, " ")}
-                        </h4>
-                      </div>
-                      <p>{item.products.categories.name}</p>
-                      <h4>Rp. {formatPrice(item.products.price)}</h4>
-                      <hr />
-                      <div className="row">
-                        <div className="col-3">
-                          <img src={Seller} alt="" />
-                        </div>
-                        <div className="col-9 ps-4 align-self-center">
-                          <h6>
-                            {item.products
-                              ? item.products.userAsSeller.name
-                              : ""}
-                          </h6>
-                          <h5 className="mb-0">
-                            {item.products
-                              ? item.products.userAsSeller.city
-                              : ""}
-                          </h5>
-                        </div>
-                      </div>
-                    </Button>
-                  </div>
+                  </Fade>
                 </div>
               );
             })
