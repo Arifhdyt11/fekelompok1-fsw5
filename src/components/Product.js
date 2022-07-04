@@ -11,22 +11,27 @@ import { formatPrice, titleShorten } from "utils/defaultFormat";
 
 import { getListCategory } from "store/actions/categoryAction";
 import Fade from "react-reveal/Fade";
+
 export default function Product(props) {
-  //--------------------GET PRODUCT--------------------
+  //--------------------GET PRODUCT AND SET PRODUCT--------------------
   const dispatch = useDispatch();
   const { getListProductResult, getListProductLoading, getListProductError } =
     useSelector((state) => state.ProductReducer);
 
   const getInitialData = getListProductResult.data;
 
-  const [product, setProduct] = useState(getListProductResult.data);
-  const [active, setActive] = useState("All");
+  const [product, setProduct] = useState(getInitialData);
+  useEffect(() => {
+    setProduct(dispatch(getListProduct()));
+  }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getListProduct());
-  }, [dispatch]);
+    setProduct(getInitialData);
+  }, [getInitialData]);
+
+  console.log(product);
+
   //-----------------------SEARCH ---------------------
-  // console.table(product);
   const [searchValue, setSearchValue] = React.useState("");
 
   const handleSearchFilter = (e) => {
@@ -44,11 +49,10 @@ export default function Product(props) {
       setProduct(filter);
     }, 200);
     return () => clearTimeout(timeout);
-  }, [product, searchValue]);
-
-  console.log(product);
+  }, [searchValue]);
 
   //-----------------------GET CATEGORY---------------------
+  const [active, setActive] = useState("All");
   const {
     getListCategoryResult,
     getListCategoryLoading,
@@ -83,7 +87,7 @@ export default function Product(props) {
           <div className="justify-content-start my-2">
             <Button
               className={`btn btn-filter me-3 my-2 ${
-                active == "All" && "active"
+                active === "All" && "active"
               }`}
               hasShadow
               isSecondary
