@@ -13,12 +13,18 @@ import Galery from "components/Galery";
 import Navbar from "components/Navbar";
 import ProductTitle from "components/ProductTitle";
 
+import Fade from "react-reveal/Fade";
 export default function DetailProduct() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    document.title = "Shoesnarian | Detail Product";
+    window.scrollTo(0, 0);
+  });
 
   useEffect(() => {
     if (user.data.role === "BUYER") {

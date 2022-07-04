@@ -31,8 +31,8 @@ export default function WishlistSeller() {
                 </div>
               </div>
             ) : (
-              getListWishlistSellerResult.data.map((item) => {
-                return <ProductItem key={item.id} {...item} />;
+              getListWishlistSellerResult.data.map((item, index) => {
+                return <ProductItem key={item.id} {...item} index={index} />;
               })
             )
           ) : getListWishlistSellerLoading ? (
