@@ -1,17 +1,19 @@
 import Navbar from "components/Navbar";
 import WishlistProduct from "components/WishlistProduct";
-import React, { useState } from "react";
-
-import { getInitialData } from "json/data.js";
+import { useEffect } from "react";
 
 export default function Wishlist() {
   // getdata
-  const [product] = useState(getInitialData());
+
+  useEffect(() => {
+    document.title = "Shoesnarian | Wishlist";
+    window.scrollTo(0, 0);
+  });
 
   return (
     <>
       <Navbar />
-      <WishlistProduct product={product} />
+      <WishlistProduct />
     </>
   );
 }

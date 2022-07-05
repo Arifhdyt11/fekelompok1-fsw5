@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import "assets/css/daftarJual.css";
 
@@ -6,47 +6,20 @@ import Navbar from "components/Navbar";
 import ProductHeader from "components/daftar-jual/ProductHeader";
 import ProductBody from "components/daftar-jual/ProductBody";
 import Footer from "components/Footer";
-import Button from "elements/Button";
-
-import { getInitialData } from "json/data.js";
+// import Button from "elements/Button";
 
 function DaftarJual() {
-  // getdata
-  const [product, setProduct] = useState(getInitialData());
-
-  const menuItems = [...new Set(getInitialData().map((Val) => Val.status))];
-
-  const filterItem = (curcat) => {
-    const newItem = getInitialData().filter((newVal) => {
-      return newVal.status === curcat;
-    });
-    setProduct(newItem);
-  };
+  useEffect(() => {
+    document.title = "Shoesnarian | Seller";
+    window.scrollTo(0, 0);
+  });
 
   return (
     <>
-      <Navbar isSearch="yes" isLogin="yes" />
+      <Navbar />
       <div className="container my-5">
         <ProductHeader />
-
-        <div className="d-md-flex flex-row-reverse">
-          <Button
-            className="btn active my-4"
-            hasShadow
-            isPrimary
-            href="/add-product"
-            type="link"
-          >
-            Tambah Produk
-          </Button>
-        </div>
-
-        <ProductBody
-          product={product}
-          setProduct={setProduct}
-          filterItem={filterItem}
-          menuItems={menuItems}
-        />
+        <ProductBody />
       </div>
       <Footer />
     </>

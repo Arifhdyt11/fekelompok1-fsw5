@@ -10,8 +10,12 @@ import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import InfoPenawarPage from "./pages/InfoPenawar";
 import Wishlist from "pages/Wishlist";
-import AddProduct from "pages/Seller-TambahProduk";
+import FormActionProduct from "pages/FormActionProduct";
 import History from "pages/History";
+import Middleware from "pages/Middleware";
+import Unauthorized from "pages/401";
+import Forbidden from "pages/403";
+import PageNotFound from "pages/404";
 
 function App() {
   return (
@@ -19,24 +23,51 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/"
-          element={<LandingPage isLogin="yes" isSeller="yes" />}
-        />
+
+        <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
-        <Route path="/seller" element={<DaftarJual isLogin="yes" />} />
+
+        <Route
+          path="/seller"
+          element={<Middleware role="SELLER" childern={<DaftarJual />} />}
+        />
         <Route
           path="/seller-product/:id"
-          element={<DetailProduct isLogin="yes" isSeller="yes" />}
+          element={<Middleware role="SELLER" childern={<DetailProduct />} />}
         />
-        <Route path="/add-product" element={<AddProduct isLogin="yes" />} />
+        <Route
+          path="/add-product"
+          element={
+            <Middleware
+              role="SELLER"
+              childern={<FormActionProduct isAdd="yes" />}
+            />
+          }
+        />
+        <Route
+          path="/update-product/:id"
+          element={
+            <Middleware role="SELLER" childern={<FormActionProduct />} />
+          }
+        />
+
         <Route
           path="/transaction/:id"
-          element={<InfoPenawarPage isLogin="yes" />}
+          element={<Middleware role="SELLER" childern={<InfoPenawarPage />} />}
         />
-        <Route path="/profile" element={<ProfilePage isLogin="yes" />} />
-        <Route path="/wishlist" element={<Wishlist isLogin="yes" />} />
-        <Route path="/history" element={<History isLogin="yes" />} />
+        <Route
+          path="/profile"
+          element={<Middleware role="BOTH" childern={<ProfilePage />} />}
+        />
+        <Route
+          path="/wishlist"
+          element={<Middleware role="BUYER" childern={<Wishlist />} />}
+        />
+        <Route path="/history" element={<History />} />
+
+        <Route path="/401" element={<Unauthorized />} />
+        <Route path="/403" element={<Forbidden />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );

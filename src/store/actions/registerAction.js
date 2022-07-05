@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ADD_REGISTER } from "store/types";
+import Swal from "sweetalert2";
 
 // add
 export const addRegister = (data) => {
@@ -16,8 +17,7 @@ export const addRegister = (data) => {
     // get API
     axios({
       method: "POST",
-      url: "https://62b2d81c4f851f87f44e0d48.mockapi.io/register",
-      // url: `${process.env.REACT_APP_HOST_REGIS}`,
+      url: `${process.env.REACT_APP_HOST}/register`,
       timeout: 120000,
       data: data,
     })
@@ -31,6 +31,13 @@ export const addRegister = (data) => {
             errorMessage: false,
           },
         });
+        window.location.href = "/login";
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         // error
@@ -41,6 +48,12 @@ export const addRegister = (data) => {
             data: false,
             errorMessage: error.message,
           },
+        });
+        Swal.fire({
+          icon: "error",
+          title: "Registration Failed",
+          showConfirmButton: false,
+          timer: 1500,
         });
       });
   };
