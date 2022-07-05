@@ -18,14 +18,18 @@ function ProductList() {
   const { accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getListProductSeller(accessToken));
-  }, [dispatch]);
-
   //-----------------------SEARCH ---------------------
   const getInitialData = getListProductSellerResult.data;
   const [productSeller, setProductSeller] = useState(getInitialData);
   const [searchValue, setSearchValue] = useState("");
+
+  useEffect(() => {
+    setProductSeller(dispatch(getListProductSeller(accessToken)));
+  }, [dispatch]);
+
+  useEffect(() => {
+    setProductSeller(getInitialData);
+  }, [getInitialData]);
 
   // console.log(productSeller);
 
@@ -50,7 +54,7 @@ function ProductList() {
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div class="row justify-content-between mb-4 mt-2">
-        <div class="col-7">
+        <div class="col-lg-7 col-md-6 col-sm-12 mb-3 mb-md-0">
           <Button
             className="btn active"
             hasShadow
@@ -61,9 +65,9 @@ function ProductList() {
             Tambah Produk
           </Button>
         </div>
-        <div class="col-3 align-self-center">
+        <div class="col-lg-3 col-md-6 col-sm-12 align-self-center">
           <input
-            className="form-control me-2"
+            className="form-control search-form me-2"
             type="search"
             placeholder="Search product..."
             value={searchValue}

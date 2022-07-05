@@ -8,39 +8,6 @@ import { getListProduct } from "store/actions/productAction";
 import BrandIcon from "./IconText";
 import NavbarDropdown from "./NavbarDropdown";
 
-function CheckSearch(props) {
-  const [query, setQuery] = useState("");
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (query) {
-      dispatch(
-        getListProduct.data.filter((item) =>
-          item.name.toLowerCase().includes(query)
-        )
-      );
-    }
-  }, [dispatch]);
-  // console.log(object);
-
-  const { isSearch } = props;
-  if (isSearch === "yes") {
-    return (
-      <form className="d-flex mb-3 ms-lg-5">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </form>
-    );
-  } else {
-    return <></>;
-  }
-}
-
 function CheckLogin({ isAuthenticated }) {
   if (isAuthenticated) {
     return <NavbarDropdown />;
@@ -152,7 +119,7 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
   }
 }
 
-export default function Navbar({ isSearch }) {
+export default function Navbar() {
   const { isAuthenticated, user, error } = useSelector(
     (state) => state.AuthReducer
   );
@@ -194,7 +161,6 @@ export default function Navbar({ isSearch }) {
           </div>
         </div>
         <div className="collapse navbar-collapse " id="navbarSupportedContent">
-          <CheckSearch isSearch={isSearch} />
           <CheckLogin isAuthenticated={isAuthenticated} />
         </div>
       </div>

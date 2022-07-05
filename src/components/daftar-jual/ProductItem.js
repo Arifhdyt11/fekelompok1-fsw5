@@ -28,7 +28,7 @@ function ProductItem({
   return (
     <>
       <div className="col-lg-4 col-md-6 col-sm-6 ">
-        <Fade bottom delay={300 * index}>
+        <Fade bottom delay={100 * index}>
           <div className="card-product p-3 mb-4">
             {products ? (
               //Wishlist Badge

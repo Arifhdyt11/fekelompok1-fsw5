@@ -19,7 +19,7 @@ class LandingPage extends Component {
   render() {
     return (
       <>
-        <Navbar isSearch="yes"></Navbar>
+        <Navbar></Navbar>
         <Hero refCallToAction={this.refCallToAction}></Hero>
         <Product refCallToAction={this.refCallToAction}></Product>
         <Footer></Footer>

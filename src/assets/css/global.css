@@ -193,14 +193,14 @@ p {
   margin: 35px -30px 0px 0px;
 }
 
-section {
-  margin-top: 40px;
-}
-
-.section-product .form-control {
+.form-control.search-form {
   background: #eeeeee;
   border-radius: 16px;
   height: 40px;
+}
+
+section {
+  margin-top: 40px;
 }
 .card {
   background: #ffffff !important;

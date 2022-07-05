@@ -29,8 +29,6 @@ export default function Product(props) {
     setProduct(getInitialData);
   }, [getInitialData]);
 
-  console.log(product);
-
   //-----------------------SEARCH ---------------------
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -51,7 +49,7 @@ export default function Product(props) {
     return () => clearTimeout(timeout);
   }, [searchValue]);
 
-  //-----------------------GET CATEGORY---------------------
+  //-----------------------GET & FILTER CATEGORY---------------------
   const [active, setActive] = useState("All");
   const {
     getListCategoryResult,
@@ -123,7 +121,7 @@ export default function Product(props) {
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 align-self-center">
               <input
-                className="form-control me-2"
+                className="form-control search-form me-2"
                 type="search"
                 placeholder="Search product..."
                 value={searchValue}

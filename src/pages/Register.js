@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "assets/css/login.css";
 import BrandIcon from "components/IconText";
@@ -8,6 +8,11 @@ import { useDispatch } from "react-redux";
 import { addRegister } from "store/actions/registerAction";
 
 function Register() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Register";
+    window.scrollTo(0, 0);
+  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "assets/css/daftarJual.css";
 
@@ -9,9 +9,14 @@ import Footer from "components/Footer";
 // import Button from "elements/Button";
 
 function DaftarJual() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Seller";
+    window.scrollTo(0, 0);
+  });
+
   return (
     <>
-      <Navbar isSearch="yes" isLogin="yes" />
+      <Navbar />
       <div className="container my-5">
         <ProductHeader />
         <ProductBody />
