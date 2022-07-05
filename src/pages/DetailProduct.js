@@ -13,9 +13,10 @@ import Galery from "components/Galery";
 import Navbar from "components/Navbar";
 import ProductTitle from "components/ProductTitle";
 
-import Fade from "react-reveal/Fade";
 export default function DetailProduct() {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, accessToken } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   const { id } = useParams();
 
@@ -27,14 +28,14 @@ export default function DetailProduct() {
   });
 
   useEffect(() => {
-    if (user.data.role === "BUYER") {
-      dispatch(getProductId(id));
-    }
+    dispatch(getProductId(id));
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "SELLER") {
-      dispatch(getProductIdSeller(id, accessToken));
+    if (isAuthenticated) {
+      if (user.data.role === "SELLER") {
+        dispatch(getProductIdSeller(id, accessToken));
+      }
     }
   }, [dispatch]);
 

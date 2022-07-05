@@ -23,24 +23,24 @@ function CheckButton({ id, getProductIdResult }) {
     addWishlistResult,
   } = useSelector((state) => state.WishlistReducer);
 
-  const buyerId = user.data.id;
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (addWishlistResult) {
-      dispatch(getListWishlistBuyer(buyerId, accessToken));
+    if (isAuthenticated) {
+      if (addWishlistResult) {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
     }
   }, [addWishlistResult, dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "BUYER") {
-      dispatch(getListWishlistBuyer(buyerId, accessToken));
+    if (isAuthenticated) {
+      if (user.data.role === "BUYER") {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
     }
   }, [dispatch]);
 
-  const userId = user.data.id;
-  const sizeId = 5;
   const productId = parseInt(id);
 
   if (isAuthenticated) {
@@ -92,7 +92,7 @@ function CheckButton({ id, getProductIdResult }) {
                   dispatch(
                     addWishlist({
                       accessToken: accessToken,
-                      userId: userId,
+                      userId: user.data.id,
                       productId: productId,
                     })
                   )
@@ -144,7 +144,7 @@ function CheckButton({ id, getProductIdResult }) {
 }
 
 export default function ActionDetail({ id }) {
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
 
   const {
     getProductIdResult,
@@ -172,16 +172,25 @@ export default function ActionDetail({ id }) {
       <div className="d-flex justify-content-start mb-4">
         <img className="seller-image me-3" src={SellerImg} alt="" />
         <div>
-          {user.data.role === "SELLER" ? (
-            getProductIdSellerResult ? (
+          {isAuthenticated ? (
+            user.data.role === "SELLER" ? ( //SELLER
+              getProductIdSellerResult ? (
+                <>
+                  <h4>{getProductIdSellerResult.userAsSeller.name}</h4>
+                  <p>{getProductIdSellerResult.userAsSeller.city}</p>
+                </>
+              ) : (
+                ""
+              )
+            ) : getProductIdResult ? ( //BUYER
               <>
-                <h4>{getProductIdSellerResult.userAsSeller.name}</h4>
-                <p>{getProductIdSellerResult.userAsSeller.city}</p>
+                <h4>{getProductIdResult.userAsSeller.name}</h4>
+                <p>{getProductIdResult.userAsSeller.city}</p>
               </>
             ) : (
               ""
             )
-          ) : getProductIdResult ? (
+          ) : getProductIdResult ? ( //NOT LOGGED IN
             <>
               <h4>{getProductIdResult.userAsSeller.name}</h4>
               <p>{getProductIdResult.userAsSeller.city}</p>
@@ -192,17 +201,27 @@ export default function ActionDetail({ id }) {
         </div>
       </div>
       <h4>Harga</h4>
-      {user.data.role === "SELLER" ? (
-        getProductIdSellerResult ? (
-          <h3>Rp. {formatPrice(getProductIdSellerResult.price)}</h3>
-        ) : getProductIdSellerLoading ? (
+      {isAuthenticated ? (
+        user.data.role === "SELLER" ? (
+          getProductIdSellerResult ? ( //SELLER
+            <h3>Rp. {formatPrice(getProductIdSellerResult.price)}</h3>
+          ) : getProductIdSellerLoading ? (
+            <h3>Loading....</h3>
+          ) : (
+            <p>
+              {getProductIdSellerError
+                ? getProductIdSellerError
+                : "Data Kosong"}
+            </p>
+          )
+        ) : getProductIdResult ? ( //BUYER
+          <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
+        ) : getProductIdLoading ? (
           <h3>Loading....</h3>
         ) : (
-          <p>
-            {getProductIdSellerError ? getProductIdSellerError : "Data Kosong"}
-          </p>
+          <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
         )
-      ) : getProductIdResult ? (
+      ) : getProductIdResult ? ( //NOT LOGGED IN
         <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
       ) : getProductIdLoading ? (
         <h3>Loading....</h3>
