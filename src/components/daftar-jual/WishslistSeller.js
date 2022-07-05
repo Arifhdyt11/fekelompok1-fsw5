@@ -9,7 +9,7 @@ import _ from "lodash";
 
 export default function WishlistSeller() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
-  const buyerId = user.data.id;
+  const sellerId = user.data.id;
   const {
     getListWishlistSellerResult,
     getListWishlistSellerLoading,
@@ -18,7 +18,7 @@ export default function WishlistSeller() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListWishlistSeller(buyerId, accessToken));
+    dispatch(getListWishlistSeller(sellerId, accessToken));
   }, [dispatch]);
 
   const dataWishlist = getListWishlistSellerResult.data;
@@ -30,24 +30,31 @@ export default function WishlistSeller() {
     }))
     .value();
 
-  console.log(uniqueWishlist);
-
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
-          {uniqueWishlist ? (
-            uniqueWishlist.length === 0 ? (
+          {getListWishlistSellerResult ? (
+            uniqueWishlist ? (
+              uniqueWishlist.length === 0 ? (
+                <div className="d-flex justify-content-center null-illustration p-5">
+                  <div>
+                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <p>Produk tidak ditemukan</p>
+                  </div>
+                </div>
+              ) : (
+                uniqueWishlist.map((item, index) => {
+                  return <ProductItem key={item.id} {...item} index={index} />;
+                })
+              )
+            ) : (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
                   <img src={img} alt="" className="img-fluid mb-3" />
                   <p>Produk tidak ditemukan</p>
                 </div>
               </div>
-            ) : (
-              uniqueWishlist.map((item, index) => {
-                return <ProductItem key={item.id} {...item} index={index} />;
-              })
             )
           ) : getListWishlistSellerLoading ? (
             <h3>Loading....</h3>

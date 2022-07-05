@@ -105,7 +105,11 @@ export default function ProfilePage() {
   console.log("image : ", image);
 
   if (status === true) {
-    return <Navigate to={`/`} />;
+    if (user.data.role === "SELLER") {
+      return <Navigate to={`/seller`} />;
+    } else {
+      return <Navigate to={`/`} />;
+    }
   }
 
   return (

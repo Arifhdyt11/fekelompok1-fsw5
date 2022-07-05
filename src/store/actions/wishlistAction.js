@@ -6,7 +6,7 @@ import {
   DELETE_WISHLIST_BUYER,
 } from "store/types";
 
-export const getListWishlistSeller = (buyerId, token) => {
+export const getListWishlistSeller = (sellerId, token) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -21,7 +21,7 @@ export const getListWishlistSeller = (buyerId, token) => {
     axios({
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      url: `${process.env.REACT_APP_HOST}/wishlist/seller/` + buyerId,
+      url: `${process.env.REACT_APP_HOST}/wishlist/seller/` + sellerId,
       timeout: 120000,
     })
       .then((response) => {
