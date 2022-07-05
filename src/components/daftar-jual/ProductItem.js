@@ -16,6 +16,7 @@ function ProductItem({
   productId,
   products,
   index,
+  count,
 }) {
   const { getListSizeResult } = useSelector((state) => state.SizeReducer);
 
@@ -31,7 +32,11 @@ function ProductItem({
           <div className="card-product p-3 mb-4">
             {products ? (
               //Wishlist Badge
-              ""
+              <div className="d-md-flex flex-row-reverse">
+                <span className="badge bg-primary p-2">
+                  {`Diminati \xa0 : \xa0 ${count}`}
+                </span>
+              </div>
             ) : (
               //All Product Badge Stock
               <div className="d-md-flex flex-row-reverse">
