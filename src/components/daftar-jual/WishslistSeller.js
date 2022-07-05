@@ -5,6 +5,8 @@ import { getListWishlistSeller } from "store/actions/wishlistAction";
 import img from "assets/images/ilustrasi.svg";
 import ProductItem from "./ProductItem";
 
+import _ from "lodash";
+
 export default function WishlistSeller() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const buyerId = user.data.id;
@@ -19,13 +21,23 @@ export default function WishlistSeller() {
     dispatch(getListWishlistSeller(buyerId, accessToken));
   }, [dispatch]);
 
-  console.log(getListWishlistSellerResult);
+  const dataWishlist = getListWishlistSellerResult.data;
+  const uniqueWishlist = _(dataWishlist)
+    .groupBy("productId")
+    .map((items) => ({
+      count: items.length,
+      ...items[0],
+    }))
+    .value();
+
+  console.log(uniqueWishlist);
+
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
-          {getListWishlistSellerResult ? (
-            getListWishlistSellerResult.data.length === 0 ? (
+          {uniqueWishlist ? (
+            uniqueWishlist.length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
                   <img src={img} alt="" className="img-fluid mb-3" />
@@ -33,7 +45,7 @@ export default function WishlistSeller() {
                 </div>
               </div>
             ) : (
-              getListWishlistSellerResult.data.map((item, index) => {
+              uniqueWishlist.map((item, index) => {
                 return <ProductItem key={item.id} {...item} index={index} />;
               })
             )
