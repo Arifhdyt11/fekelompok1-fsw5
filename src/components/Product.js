@@ -82,54 +82,55 @@ export default function Product(props) {
         className="container section-product mt-2 mb-5"
         ref={props.refCallToAction}
       >
-        <div className="filter mb-3">
+        <div className="filter mb-5">
           <h3>Kategori</h3>
-          <div className="justify-content-start my-2">
-            <Button
-              className={`btn btn-filter me-3 my-2 ${
-                active === "All" && "active"
-              }`}
-              hasShadow
-              isSecondary
-              onClick={() => filterCategory("All")}
-            >
-              All
-            </Button>
+          <div class="row justify-content-between">
+            <div class="col-7">
+              <Button
+                className={`btn btn-filter me-3 my-2 ${
+                  active === "All" && "active"
+                }`}
+                hasShadow
+                isSecondary
+                onClick={() => filterCategory("All")}
+              >
+                All
+              </Button>
 
-            {getListCategoryResult ? (
-              getListCategoryResult.data.map((kategori, index) => {
-                return (
-                  <Button
-                    className={`btn btn-filter me-3 my-2 ${
-                      active == kategori.name && "active"
-                    }`}
-                    hasShadow
-                    isSecondary
-                    key={index}
-                    onClick={() => filterCategory(kategori.name)}
-                  >
-                    {kategori.name}
-                  </Button>
-                );
-              })
-            ) : getListCategoryLoading ? (
-              <h3>Loading....</h3>
-            ) : (
-              <p>
-                {getListCategoryError ? getListCategoryError : "Data Kosong"}
-              </p>
-            )}
+              {getListCategoryResult ? (
+                getListCategoryResult.data.map((kategori, index) => {
+                  return (
+                    <Button
+                      className={`btn btn-filter me-3 my-2 ${
+                        active == kategori.name && "active"
+                      }`}
+                      hasShadow
+                      isSecondary
+                      key={index}
+                      onClick={() => filterCategory(kategori.name)}
+                    >
+                      {kategori.name}
+                    </Button>
+                  );
+                })
+              ) : getListCategoryLoading ? (
+                <h3>Loading....</h3>
+              ) : (
+                <p>
+                  {getListCategoryError ? getListCategoryError : "Data Kosong"}
+                </p>
+              )}
+            </div>
+            <div class="col-3 align-self-center">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search product..."
+                value={searchValue}
+                onChange={handleSearchFilter}
+              />
+            </div>
           </div>
-        </div>
-
-        <div className="mb-5">
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Search product..."
-            value={searchValue}
-            onChange={handleSearchFilter}
-          />
         </div>
 
         <div className="product">
