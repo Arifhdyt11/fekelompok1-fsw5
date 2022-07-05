@@ -15,7 +15,7 @@ function ProductBody() {
     }
   };
   return (
-    <div className="row">
+    <div className="row  my-4">
       <div className="col-lg-3 col-md-4 col-12">
         <div className="section-sidebar my-2">
           <h5>Categories </h5>

@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 
 import ProductItem from "./ProductItem";
 import img from "assets/images/ilustrasi.svg";
+import Button from "elements/Button";
+import _ from "lodash";
 
 function ProductList() {
   const {
@@ -20,8 +22,56 @@ function ProductList() {
     dispatch(getListProductSeller(accessToken));
   }, [dispatch]);
 
+  //-----------------------SEARCH ---------------------
+  const getInitialData = getListProductSellerResult.data;
+  const [productSeller, setProductSeller] = useState(getInitialData);
+  const [searchValue, setSearchValue] = useState("");
+
+  // console.log(productSeller);
+
+  const handleSearchFilter = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      const filter = _.filter(getListProductSellerResult.data, (x) => {
+        return _.includes(
+          _.lowerCase(JSON.stringify(_.values(x))),
+          _.lowerCase(searchValue)
+        );
+      });
+      setProductSeller(filter);
+    }, 200);
+    return () => clearTimeout(timeout);
+  }, [searchValue]);
+  //-----------------------SEARCH ---------------------
+
   return (
     <div className="col-lg-9 col-md-8 col-12">
+      <div class="row justify-content-between mb-4 mt-2">
+        <div class="col-7">
+          <Button
+            className="btn active"
+            hasShadow
+            isPrimary
+            href="/add-product"
+            type="link"
+          >
+            Tambah Produk
+          </Button>
+        </div>
+        <div class="col-3 align-self-center">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search product..."
+            value={searchValue}
+            onChange={handleSearchFilter}
+          />
+        </div>
+      </div>
+
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
           {getListProductSellerResult ? (
@@ -33,7 +83,7 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              getListProductSellerResult.data.map((item, index) => {
+              productSeller.map((item, index) => {
                 return <ProductItem key={item.id} {...item} index={index} />;
               })
             )
