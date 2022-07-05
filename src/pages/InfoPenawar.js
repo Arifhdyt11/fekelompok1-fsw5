@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import infoPenawar from "../json/infoPenawar.json";
@@ -9,6 +9,11 @@ import { useParams } from "react-router-dom";
 import { getInitialData } from "json/data.js";
 
 export default function InfoPenawarPage() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Transaction";
+    window.scrollTo(0, 0);
+  });
+
   const { id } = useParams();
   const dataProduct = getInitialData().find((prod) => prod.id === id);
   function CheckDiminati() {

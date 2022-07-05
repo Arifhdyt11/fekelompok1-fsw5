@@ -8,6 +8,11 @@ import { Navigate } from "react-router-dom";
 import { loginViaForm } from "store/actions/authAction";
 
 function Login() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Login";
+    window.scrollTo(0, 0);
+  });
+
   const dispatch = useDispatch();
   const { isAuthenticated, user, error } = useSelector(
     (state) => state.AuthReducer

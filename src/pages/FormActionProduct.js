@@ -5,8 +5,19 @@ import "assets/css/tambahProduct.css";
 
 import FormProduct from "components/FormProduct";
 import Button from "elements/Button";
+import { useEffect } from "react";
 
 function ShowTitle({ isAdd }) {
+  useEffect(() => {
+    if (isAdd === "yes") {
+      document.title = "Shoesnarian | Add Product";
+      window.scrollTo(0, 0);
+    } else {
+      document.title = "Shoesnarian | Update Product";
+      window.scrollTo(0, 0);
+    }
+  });
+
   if (isAdd === "yes") {
     return <h2 className="text-center mb-5">Tambah Produk</h2>;
   } else {

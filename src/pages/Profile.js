@@ -14,6 +14,11 @@ import { storage } from "../firebase/index";
 import { useDropzone } from "react-dropzone";
 
 export default function ProfilePage() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Profile";
+    window.scrollTo(0, 0);
+  });
+
   const dispatch = useDispatch();
   const location = useLocation();
   const { isAuthenticated, user, status } = useSelector(

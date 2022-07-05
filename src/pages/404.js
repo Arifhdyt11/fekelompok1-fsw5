@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import image404 from "../assets/images/image404.png";
 import Button from "elements/Button";
 import Navbar from "components/Navbar";
 
 export default function PageNotFound() {
+  useEffect(() => {
+    document.title = "404 | Page Not Found";
+    window.scrollTo(0, 0);
+  });
   return (
     <div>
       <Navbar />
