@@ -1,6 +1,7 @@
 import Button from "elements/Button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { logout } from "store/actions/authAction";
 import { getListProduct } from "store/actions/productAction";
@@ -25,31 +26,13 @@ function CheckSearch(props) {
   const { isSearch } = props;
   if (isSearch === "yes") {
     return (
-      <form className="d-flex ms-5">
+      <form className="d-flex mb-3 ms-lg-5">
         <input
           className="form-control me-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
           onChange={(e) => setQuery(e.target.value)}
-        />
-      </form>
-    );
-  } else {
-    return <></>;
-  }
-}
-
-function CheckSearchMobile(props) {
-  const { isSearch } = props;
-  if (isSearch === "yes") {
-    return (
-      <form className="d-flex mb-3">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
         />
       </form>
     );
@@ -76,7 +59,7 @@ function CheckLogin({ isAuthenticated }) {
   }
 }
 
-function CheckLoginMobile({ isAuthenticated, error }) {
+function CheckLoginMobile({ isAuthenticated, user, error }) {
   useEffect(() => {
     if (error) {
       alert(error);
@@ -87,54 +70,61 @@ function CheckLoginMobile({ isAuthenticated, error }) {
   const handleLogout = () => {
     dispatch(logout());
   };
+  const location = useLocation();
   if (isAuthenticated) {
     return (
       <>
         <ul className="navbar-nav ms-auto">
-          <li className="nav-item">
-            <label className="fa-solid fa-user fa-lg"></label>
-            <a
-              className="nav-link active ms-2"
-              href="/profile"
-              style={{ display: "inline-block" }}
-            >
-              Edit Profile
-            </a>
-          </li>
-          <li className="nav-item">
-            <label className="fa-solid fa-bell fa-lg"></label>
-            <a
-              className="nav-link active ms-2"
-              href="#"
-              style={{ display: "inline-block" }}
-            >
-              Notification
-            </a>
-          </li>
           <li>
-            <label className="fa-solid fa-store"> </label>
-            <a
-              className="nav-link active ms-2"
-              href="/seller"
-              style={{ display: "inline-block" }}
-            >
-              Seller Center
-            </a>
+            <h4 className="dropdown-item item">
+              {user.data.name}
+              <span className="span-dropdown"> as</span>
+              {user.data.role === "SELLER" ? "Seller" : "Buyer"}
+            </h4>
           </li>
+          <hr />
           <li>
-            <label className="fa-solid fa-ellipsis-stroke"></label>
-            <a
-              className="nav-link active ms-2"
-              href="/seller"
-              style={{ display: "inline-block" }}
-            >
-              Layanan Lainnya
+            <a className="dropdown-item" href="/profile">
+              <i className="fa-duotone fa-gears me-3"></i>Edit Profile
             </a>
           </li>
+          {user.data.role === "SELLER" ? (
+            <li className=" mt-3">
+              {location.pathname === "/" ? (
+                <Button
+                  type="link"
+                  href="/seller"
+                  className="dropdown-item text-center"
+                  isPrimary
+                  hasShadow
+                  isBlock
+                >
+                  Seller Center
+                </Button>
+              ) : (
+                ""
+              )}
+            </li>
+          ) : (
+            <>
+              <li>
+                <a className="dropdown-item" href="/wishlist">
+                  <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
+                </a>
+              </li>
+              <li>
+                <a className="dropdown-item" href="/history">
+                  <i className="fa-duotone fa-arrows-repeat me-3"></i>History
+                  Transaksi
+                </a>
+              </li>
+            </>
+          )}
           <li>
             <Button
               className="btn ms-auto mt-3"
               hasShadow
+              isBlock
               isPrimary
               href="/"
               type="link"
@@ -151,6 +141,7 @@ function CheckLoginMobile({ isAuthenticated, error }) {
       <Button
         className="btn ms-auto px-3 py-2"
         hasShadow
+        isBlock
         isPrimary
         href="/login"
         type="link"
@@ -162,7 +153,9 @@ function CheckLoginMobile({ isAuthenticated, error }) {
 }
 
 export default function Navbar({ isSearch }) {
-  const { isAuthenticated, error } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, error } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light py-3">
@@ -193,8 +186,11 @@ export default function Navbar({ isSearch }) {
             ></button>
           </div>
           <div className="offcanvas-body">
-            <CheckSearchMobile isSearch={isSearch} />
-            <CheckLoginMobile isAuthenticated={isAuthenticated} error={error} />
+            <CheckLoginMobile
+              isAuthenticated={isAuthenticated}
+              user={user}
+              error={error}
+            />
           </div>
         </div>
         <div className="collapse navbar-collapse " id="navbarSupportedContent">

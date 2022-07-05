@@ -13,6 +13,8 @@ const authReducer = (state = initialState, action) => {
       localStorage.setItem("accessToken", action.payload);
       localStorage.setItem("user", JSON.stringify(action.user));
 
+      document.querySelector("body").style.overflow = "auto";
+
       return {
         ...state,
         isAuthenticated: true,
@@ -23,6 +25,8 @@ const authReducer = (state = initialState, action) => {
     case LOGOUT:
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
+
+      document.querySelector("body").style.overflow = "auto";
 
       return {
         ...state,
