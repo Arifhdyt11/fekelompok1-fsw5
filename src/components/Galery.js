@@ -9,8 +9,10 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getListSize } from "store/actions/sizeAction";
 
-export default function Galery() {
-  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
+export default function Galery({ productId }) {
+  const { isAuthenticated, user, accessToken } = useSelector(
+    (state) => state.AuthReducer
+  );
   const { getProductIdResult, getProductIdSellerResult } = useSelector(
     (state) => state.ProductReducer
   );
@@ -19,8 +21,18 @@ export default function Galery() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListSize());
+    dispatch(getListSize(accessToken));
   }, [dispatch]);
+
+  //--------------------------Choose Size---------------
+  const [size, setSize] = useState("");
+  const [active, setActive] = useState("");
+
+  const chooseSize = (size) => {
+    setSize(size);
+    setActive(size);
+  };
+  console.log(size);
   return (
     <>
       <section className="container section-galery-product">
@@ -129,15 +141,55 @@ export default function Galery() {
             <div className="size ms-2">
               <h3>Size Ready</h3>
               <div className="size-ready justify-content-center">
-                {getListSizeResult.data
-                  ? getListSizeResult.data.map((item) => {
-                      return (
-                        <Button className="mx-2 mb-2" isSecondary key={item.id}>
-                          {item.size}
-                        </Button>
-                      );
-                    })
-                  : ""}
+                {getListSizeResult ? (
+                  getListSizeResult.data.filter(
+                    (item) => item.productId === parseInt(productId)
+                  ).length === 0 ? (
+                    <Button
+                      className="btn btn-danger mt-3 py-2 mx-0"
+                      hasShadow
+                      style={{ cursor: "context-menu" }}
+                    >
+                      Size Not Available
+                    </Button>
+                  ) : user.data.role === "SELLER" ? (
+                    getListSizeResult.data
+                      .sort((a, b) => a.sizes.id - b.sizes.id)
+                      .map((item) => {
+                        return (
+                          <Button
+                            className={`btn btn-filter mx-2 my-2 `}
+                            isDisabled
+                            isPrimary
+                            key={item.id}
+                          >
+                            {item.sizes.size}
+                          </Button>
+                        );
+                      })
+                  ) : (
+                    getListSizeResult.data
+                      .sort((a, b) => a.sizes.id - b.sizes.id)
+                      .map((item) => {
+                        return (
+                          <Button
+                            className={`btn btn-filter mx-2 my-2 ${
+                              active == item.sizeId && "btn-active"
+                            }`}
+                            isSecondary
+                            key={item.id}
+                            onClick={() => chooseSize(item.sizeId)}
+                          >
+                            {item.sizes.size}
+                          </Button>
+                        );
+                      })
+                  )
+                ) : getListSizeLoading ? (
+                  <h3>Loading...</h3>
+                ) : (
+                  <p>{getListSizeError ? getListSizeError : "erro"}</p>
+                )}
               </div>
             </div>
           </div>
