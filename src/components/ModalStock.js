@@ -11,6 +11,8 @@ import {
 } from "store/actions/sizeAction";
 
 export default function ModalStock({ productId }) {
+  const { accessToken } = useSelector((state) => state.AuthReducer);
+
   const [size, setSize] = useState("");
   const [stock, setStock] = useState("");
   const [id, setId] = useState(false);
@@ -28,16 +30,26 @@ export default function ModalStock({ productId }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (getListSizeResult) {
+      setSize("");
+      setStock("");
+      setId("");
+    }
+  }, [getListSizeResult]);
+
+  useEffect(() => {
     if (detailSizeResult) {
-      setSize(detailSizeResult.size);
+      setSize(detailSizeResult.sizes.id);
       setStock(detailSizeResult.stock);
       setId(detailSizeResult.id);
     }
   }, [detailSizeResult]);
 
+  console.log(id);
+
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize());
+      dispatch(getListSize(accessToken));
       setId("");
       setSize("");
       setStock("");
@@ -46,7 +58,7 @@ export default function ModalStock({ productId }) {
 
   useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize());
+      dispatch(getListSize(accessToken));
       setId("");
       setSize("");
       setStock("");
@@ -55,7 +67,7 @@ export default function ModalStock({ productId }) {
 
   useEffect(() => {
     if (deleteSizeResult) {
-      dispatch(getListSize());
+      dispatch(getListSize(accessToken));
       setId("");
       setSize("");
       setStock("");
@@ -67,19 +79,35 @@ export default function ModalStock({ productId }) {
     if (id) {
       dispatch(
         updateSize({
+          token: accessToken,
           id: id,
-          size: size,
+          sizeId: size,
           stock: stock,
         })
       );
     } else {
-      dispatch(
-        addSize({
-          productId: productId,
-          size: size,
-          stock: stock,
-        })
-      );
+      // Handle If Size Already In Table Size
+      if (getListSizeResult) {
+        const listSize = new Map();
+        getListSizeResult.data
+          .filter((item) => item.productId === productId)
+          .map((item) => {
+            listSize.set(`${item.sizes.id}`);
+          });
+        console.log(size);
+        if (listSize.has(`${size}`)) {
+          console.log("gagal karena sudah ada");
+        } else {
+          dispatch(
+            addSize({
+              token: accessToken,
+              productId: productId,
+              sizeId: size,
+              stock: stock,
+            })
+          );
+        }
+      }
     }
   };
 
@@ -91,12 +119,8 @@ export default function ModalStock({ productId }) {
     setStock(e.target.value);
   };
 
-  const handleClose = () => {
-    setId(false);
-    setSize("");
-    setStock("");
-    inputRefSize.current.value = "";
-    inputRefStock.current.value = "";
+  const handleClose = (e) => {
+    dispatch(getListSize(accessToken));
   };
 
   const inputRefSize = useRef(null);
@@ -129,17 +153,28 @@ export default function ModalStock({ productId }) {
           <div className="modal-body pb-5">
             <form onSubmit={handleSubmit} className="row mb-3 ">
               <div className="col-auto">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="sizeInput"
-                  placeholder="Contoh Size : 43"
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
                   name="size"
                   value={size}
                   onChange={handleSize}
                   ref={inputRefSize}
-                />
+                >
+                  <option selected>Pilih Ukuran</option>
+                  <option value="1">36</option>
+                  <option value="2">37</option>
+                  <option value="3">38</option>
+                  <option value="4">39</option>
+                  <option value="5">40</option>
+                  <option value="6">41</option>
+                  <option value="7">42</option>
+                  <option value="8">43</option>
+                  <option value="9">44</option>
+                  <option value="10">45</option>
+                </select>
               </div>
+
               <div className="col-auto">
                 <input
                   type="number"
@@ -175,10 +210,11 @@ export default function ModalStock({ productId }) {
                   {getListSizeResult ? (
                     getListSizeResult.data
                       .filter((item) => item.productId === productId)
+                      .sort((a, b) => a.sizes.id - b.sizes.id)
                       .map((item, index) => {
                         return (
                           <tr className="row" key={index}>
-                            <td className="col-4">{item.size}</td>
+                            <td className="col-4">{item.sizes.size}</td>
                             <td className="col-4">{item.stock}</td>
                             <td className="col-4">
                               <Button
@@ -189,7 +225,9 @@ export default function ModalStock({ productId }) {
                               </Button>
                               <Button
                                 className="btn-none-style mx-1 zoom"
-                                onClick={() => dispatch(deleteSize(item.id))}
+                                onClick={() =>
+                                  dispatch(deleteSize(item.id, accessToken))
+                                }
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </Button>
@@ -198,9 +236,15 @@ export default function ModalStock({ productId }) {
                         );
                       })
                   ) : getListSizeLoading ? (
-                    <tr>Loading</tr>
+                    <tr>
+                      <td>Loading</td>
+                    </tr>
                   ) : (
-                    <p>{getListSizeError ? getListSizeError : "Data Kosong"}</p>
+                    <tr>
+                      <td>
+                        {getListSizeError ? getListSizeError : "Data Kosong"}
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>

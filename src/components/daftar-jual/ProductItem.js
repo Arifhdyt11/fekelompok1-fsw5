@@ -18,11 +18,12 @@ function ProductItem({
   index,
   count,
 }) {
+  const { accessToken } = useSelector((state) => state.AuthReducer);
   const { getListSizeResult } = useSelector((state) => state.SizeReducer);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListSize());
+    dispatch(getListSize(accessToken));
   }, [dispatch]);
 
   return (
@@ -44,17 +45,19 @@ function ProductItem({
                   getListSizeResult.data.filter((item) => item.productId === id)
                     .length === 0 ? (
                     <span
-                      className="badge bg-danger p-2"
+                      className="badge bg-danger p-2 zoom"
                       data-bs-toggle="modal"
                       data-bs-target={`#modal${id}`}
+                      style={{ cursor: "pointer" }}
                     >
                       <i className="fa-solid fa-plus"> </i> Stok Kosong
                     </span>
                   ) : (
                     <span
-                      className="badge bg-primary p-2"
+                      className="badge bg-primary p-2 zoom"
                       data-bs-toggle="modal"
                       data-bs-target={`#modal${id}`}
+                      style={{ cursor: "pointer" }}
                     >
                       <i className="fa-solid fa-plus"> </i> Stok
                     </span>
@@ -111,7 +114,7 @@ function ProductItem({
         </Fade>
       </div>
 
-      {/* <ModalStock productId={id} /> */}
+      <ModalStock productId={id} />
     </>
   );
 }
