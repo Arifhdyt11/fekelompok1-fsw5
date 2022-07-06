@@ -51,9 +51,9 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
           </li>
           <hr />
           <li>
-            <a className="dropdown-item" href="/profile">
+            <Button className="dropdown-item" type="link" href="/profile">
               <i className="fa-duotone fa-gears me-3"></i>Edit Profile
-            </a>
+            </Button>
           </li>
           {user.data.role === "SELLER" ? (
             <li className=" mt-3">

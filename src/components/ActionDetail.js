@@ -11,7 +11,7 @@ import {
   getListWishlistBuyer,
 } from "store/actions/wishlistAction";
 
-function CheckButton({ id, getProductIdResult }) {
+function CheckButton({ id, getProductIdSellerResult }) {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
@@ -52,7 +52,7 @@ function CheckButton({ id, getProductIdResult }) {
           </Button>
           <Link
             to={`/update-product/${id}`}
-            state={{ getProductIdResult: { getProductIdResult } }}
+            state={{ getProductIdSellerResult: { getProductIdSellerResult } }}
           >
             <Button
               className="btn mt-3 ms-auto py-2"
@@ -228,7 +228,10 @@ export default function ActionDetail({ id }) {
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}
-      <CheckButton id={id} getProductIdResult={getProductIdResult} />
+      <CheckButton
+        id={id}
+        getProductIdSellerResult={getProductIdSellerResult}
+      />
     </div>
   );
 }

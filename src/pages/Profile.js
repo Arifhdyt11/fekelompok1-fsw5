@@ -22,7 +22,7 @@ export default function ProfilePage() {
     (state) => state.AuthReducer
   );
 
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState(kamera);
   const [progress, setProgress] = useState(0);
 
   const handleUpload = (e) => {
@@ -44,24 +44,19 @@ export default function ProfilePage() {
   });
 
   function getUser() {
-    localStorage.getItem(user);
-    if (!isAuthenticated) {
-      return <Navigate to="/login" />;
-    } else {
-      if (user !== undefined && status !== true) {
-        if (user.data.name !== null)
-          document.getElementById("nameInput").value = user.data.name;
-        if (user.data.city !== null)
-          document.getElementById("cityInput").value = user.data.city;
-        if (user.data.address !== null)
-          document.getElementById("addressInput").value = user.data.address;
-        if (user.data.phone !== null)
-          document.getElementById("phoneInput").value = user.data.phone;
-        // if (user.data.image !== "") {
-        //   document.getElementById("filePhoto").src = user.data.image;
-        // } else if (user.data.image === "") {
-        //   document.getElementById("filePhoto").src = kamera;
-        // }
+    if (user !== undefined && status !== true) {
+      if (user.data.name !== null)
+        document.getElementById("nameInput").value = user.data.name;
+      if (user.data.city !== null)
+        document.getElementById("cityInput").value = user.data.city;
+      if (user.data.address !== null)
+        document.getElementById("addressInput").value = user.data.address;
+      if (user.data.phone !== null)
+        document.getElementById("phoneInput").value = user.data.phone;
+      if (user.data.image !== null) {
+        document.getElementById("filePhoto").src = user.data.image;
+      } else {
+        document.getElementById("filePhoto").src = kamera;
       }
     }
   }

@@ -103,7 +103,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
     formdata.append("address", data.address);
     formdata.append("phone", data.phone);
 
-    const response = await fetch(`http://localhost:9000/api/v1/profile`, {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "PUT",
       body: formdata,
       headers: {

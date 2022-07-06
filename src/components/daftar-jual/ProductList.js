@@ -50,7 +50,6 @@ function ProductList() {
     return () => clearTimeout(timeout);
   }, [searchValue]);
   //-----------------------SEARCH ---------------------
-  console.log(productSeller);
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="row justify-content-between mb-4 mt-2">
