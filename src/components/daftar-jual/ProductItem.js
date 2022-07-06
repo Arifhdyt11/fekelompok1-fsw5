@@ -16,6 +16,9 @@ function ProductItem({
   products,
 }) {
   const { getListSizeResult } = useSelector((state) => state.SizeReducer);
+  const { getProductIdSellerResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -63,7 +66,7 @@ function ProductItem({
               key={id}
             >
               <img
-                src={`../images/${products.image[0]}`}
+                src={`${products.image[0]}`}
                 alt={`${products.image[0]}`}
                 className="img-fluid product-img mb-4"
               />
@@ -84,7 +87,7 @@ function ProductItem({
               key={id}
             >
               <img
-                src={`../images/${image[0]}`}
+                src={`${image[0]}`}
                 alt={`${image[0]}`}
                 className="img-fluid product-img mb-4"
               />

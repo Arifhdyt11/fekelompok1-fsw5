@@ -142,7 +142,7 @@ export default function Product(props) {
                     >
                       <div className="card-product p-3 mb-4">
                         <img
-                          src={`../images/${item.image[0]}`}
+                          src={`${item.image[0]}`}
                           alt={`${item.image[0]}`}
                           className="img-fluid product-img mb-4"
                         />

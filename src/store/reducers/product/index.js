@@ -74,9 +74,9 @@ const product = (state = initialState, action) => {
     case ADD_PRODUCT:
       return {
         ...state,
-        addProductResult: action.payload.data,
-        addProductLoading: action.payload.loading,
-        addProductError: action.payload.errorMessage,
+        addProductResult: action.payload,
+        addProductLoading: action.payload,
+        addProductError: action.payload,
       };
     case UPDATE_PRODUCT:
       return {

@@ -32,10 +32,10 @@ export default function Galery() {
                 src={
                   role === "SELLER"
                     ? getProductIdSellerResult //SELLER
-                      ? `../images/${getProductIdSellerResult.image[0]}`
+                      ? `${getProductIdSellerResult.image[0]}`
                       : ""
                     : getProductIdResult //BUYER
-                    ? `../images/${getProductIdResult.image[0]}`
+                    ? `${getProductIdResult.image[0]}`
                     : ""
                 }
                 alt={
@@ -46,6 +46,7 @@ export default function Galery() {
                     : getProductIdResult.name
                 }
                 className="default-image shoes mb-n3"
+                style={{ width: "130px" }}
               />
               <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
               <img src={Pad} alt="Pad" className="pad-image mb-3 " />
@@ -81,8 +82,9 @@ export default function Galery() {
                           <Button hasShadow className="thumb-img">
                             <img
                               className=" img-fluid"
-                              src={`../images/${item}`}
+                              src={`${item}`}
                               alt=""
+                              style={{ width: "100px" }}
                             />
                           </Button>
                         </div>

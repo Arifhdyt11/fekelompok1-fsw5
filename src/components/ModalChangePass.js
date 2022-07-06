@@ -36,65 +36,65 @@ function ModalChangePass() {
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       <div
-        class="modal fade"
+        className="modal fade"
         id="modalPassword"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Change Password
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
             </div>
 
-            <div class="modal-body">
-              <div class="mb-3">
-                <label class="form-label">Current Password</label>
+            <div className="modal-body">
+              <div className="mb-3">
+                <label className="form-label">Current Password</label>
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   value={oldPassword}
                   onChange={(event) => setOldPassword(event.target.value)}
                   required
                 />
               </div>
-              <div class="mb-3">
-                <label for="password" class="form-label">
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">
                   New Password
                 </label>
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   id="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   required
                 />
               </div>
-              {/* <div class="mb-3">
-                <label class="form-label">Confirm New Password</label>
-                <input type="password" class="form-control" />
+              {/* <div className="mb-3">
+                <label className="form-label">Confirm New Password</label>
+                <input type="password" className="form-control" />
               </div> */}
             </div>
 
-            <div class="modal-footer">
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" className="btn btn-primary">
                 Save changes
               </button>
             </div>

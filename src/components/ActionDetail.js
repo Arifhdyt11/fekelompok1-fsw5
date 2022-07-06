@@ -145,8 +145,8 @@ export default function ActionDetail({ id }) {
           {user.data.role === "SELLER" ? (
             getProductIdSellerResult ? (
               <>
-                <h4>{getProductIdSellerResult.users.name}</h4>
-                <p>{getProductIdSellerResult.users.city}</p>
+                <h4>{getProductIdSellerResult.name}</h4>
+                <p>{getProductIdSellerResult.city}</p>
               </>
             ) : (
               ""

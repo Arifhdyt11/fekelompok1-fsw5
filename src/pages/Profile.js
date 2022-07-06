@@ -2,16 +2,12 @@ import React, { useState, useCallback, useEffect } from "react";
 import Footer from "components/Footer";
 import Navbar from "components/Navbar";
 import kamera from "assets/images/fotoProfile.png";
-import fotoProfile from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
 import ModalChangePass from "components/ModalChangePass";
 import { useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../firebase/index";
-import { useDropzone } from "react-dropzone";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -36,32 +32,6 @@ export default function ProfilePage() {
       setImage("");
     }
   };
-  // const handleUpload = () => {
-  //   image.map((image) => {
-  //     const storageRef = ref(storage, `images/${image.name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, image);
-
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         //Progress function ... (shows the load bar)
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //         setProgress(progress);
-  //       },
-  //       (error) => {
-  //         //Error Function...
-  //         console.log(error);
-  //       },
-  //       async () => {
-  //         //   //complete function
-  //         const url = await getDownloadURL(storageRef);
-  //         console.log(url);
-  //       }
-  //     );
-  //   });
-  // };
 
   React.useEffect(() => {
     if (location.pathname === "/profile") getUser();
