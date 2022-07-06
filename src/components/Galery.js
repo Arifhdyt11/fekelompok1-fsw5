@@ -10,7 +10,7 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getListSize } from "store/actions/sizeAction";
 
 export default function Galery() {
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   const { getProductIdResult, getProductIdSellerResult } = useSelector(
     (state) => state.ProductReducer
   );
@@ -21,7 +21,6 @@ export default function Galery() {
   useEffect(() => {
     dispatch(getListSize());
   }, [dispatch]);
-  const role = user.data.role;
   return (
     <>
       <section className="container section-galery-product">
@@ -30,20 +29,26 @@ export default function Galery() {
             <div className="img-product-big mb-4 text-center">
               <img
                 src={
-                  role === "SELLER"
-                    ? getProductIdSellerResult //SELLER
-                      ? `${getProductIdSellerResult.image[0]}`
+                  isAuthenticated
+                    ? user.data.role === "SELLER"
+                      ? getProductIdSellerResult //SELLER
+                        ? `${getProductIdSellerResult.image[0]}`
+                        : ""
+                      : getProductIdResult //BUYER
+                      ? `${getProductIdResult.image[0]}`
                       : ""
-                    : getProductIdResult //BUYER
+                    : getProductIdResult //NOT LOGGED IN
                     ? `${getProductIdResult.image[0]}`
                     : ""
                 }
                 alt={
-                  role === "SELLER"
-                    ? getProductIdSellerResult
-                      ? getProductIdSellerResult.name
-                      : ""
-                    : getProductIdResult.name
+                  isAuthenticated
+                    ? user.data.role === "SELLER"
+                      ? getProductIdSellerResult //SELLER
+                        ? getProductIdSellerResult.name
+                        : ""
+                      : getProductIdResult.name //BUYER
+                    : getProductIdResult.name //NOT LOGGED IN
                 }
                 className="default-image shoes mb-n3"
                 style={{ width: "130px" }}
@@ -74,9 +79,25 @@ export default function Galery() {
                 },
               }}
             >
-              {role === "SELLER"
-                ? getProductIdSellerResult
-                  ? getProductIdSellerResult.image.map((item, index) => {
+              {isAuthenticated
+                ? user.data.role === "SELLER"
+                  ? getProductIdSellerResult
+                    ? getProductIdSellerResult.image.map((item, index) => {
+                        return (
+                          <div className="card-thumb" key={index}>
+                            <Button hasShadow className="thumb-img">
+                              <img
+                                className=" img-fluid"
+                                src={`${item}`}
+                                alt=""
+                              />
+                            </Button>
+                          </div>
+                        );
+                      })
+                    : "Image Tidak Ditemukan"
+                  : getProductIdResult //BUYER
+                  ? getProductIdResult.image.map((item, index) => {
                       return (
                         <div className="card-thumb" key={index}>
                           <Button hasShadow className="thumb-img">
@@ -91,16 +112,12 @@ export default function Galery() {
                       );
                     })
                   : "Image Tidak Ditemukan"
-                : getProductIdResult
+                : getProductIdResult //NOT LOGGED IN
                 ? getProductIdResult.image.map((item, index) => {
                     return (
                       <div className="card-thumb" key={index}>
                         <Button hasShadow className="thumb-img">
-                          <img
-                            className=" img-fluid"
-                            src={`../images/${item}`}
-                            alt=""
-                          />
+                          <img className=" img-fluid" src={`${item}`} alt="" />
                         </Button>
                       </div>
                     );
