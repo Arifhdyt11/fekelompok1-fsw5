@@ -54,7 +54,7 @@ function ModalChangePass() {
                 />
               </div>
               <div className="mb-3">
-                <label for="password" className="form-label">
+                <label htmlFor="password" className="form-label">
                   New Password
                 </label>
                 <input

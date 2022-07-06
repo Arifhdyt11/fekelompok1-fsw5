@@ -50,7 +50,7 @@ function ProductList() {
     return () => clearTimeout(timeout);
   }, [searchValue]);
   //-----------------------SEARCH ---------------------
-
+  console.log(productSeller);
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="row justify-content-between mb-4 mt-2">
@@ -87,7 +87,7 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              productSeller.map((item, index) => {
+              getListProductSellerResult.data.map((item, index) => {
                 return <ProductItem key={item.id} {...item} index={index} />;
               })
             )

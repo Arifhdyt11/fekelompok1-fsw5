@@ -44,13 +44,13 @@ export default function Galery({ productId }) {
                   isAuthenticated
                     ? user.data.role === "SELLER"
                       ? getProductIdSellerResult //SELLER
-                        ? `../images/${getProductIdSellerResult.image[0]}`
+                        ? `${getProductIdSellerResult.image[0]}`
                         : ""
                       : getProductIdResult //BUYER
-                      ? `../images/${getProductIdResult.image[0]}`
+                      ? `${getProductIdResult.image[0]}`
                       : ""
                     : getProductIdResult //NOT LOGGED IN
-                    ? `../images/${getProductIdResult.image[0]}`
+                    ? `${getProductIdResult.image[0]}`
                     : ""
                 }
                 alt={
@@ -63,6 +63,7 @@ export default function Galery({ productId }) {
                     : getProductIdResult.name //NOT LOGGED IN
                 }
                 className="default-image shoes mb-n3"
+                style={{ width: "130px" }}
               />
               <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
               <img src={Pad} alt="Pad" className="pad-image mb-3 " />
@@ -99,7 +100,7 @@ export default function Galery({ productId }) {
                             <Button hasShadow className="thumb-img">
                               <img
                                 className=" img-fluid"
-                                src={`../images/${item}`}
+                                src={`${item}`}
                                 alt=""
                               />
                             </Button>
@@ -114,8 +115,9 @@ export default function Galery({ productId }) {
                           <Button hasShadow className="thumb-img">
                             <img
                               className=" img-fluid"
-                              src={`../images/${item}`}
+                              src={`${item}`}
                               alt=""
+                              style={{ width: "100px" }}
                             />
                           </Button>
                         </div>
@@ -127,11 +129,7 @@ export default function Galery({ productId }) {
                     return (
                       <div className="card-thumb" key={index}>
                         <Button hasShadow className="thumb-img">
-                          <img
-                            className=" img-fluid"
-                            src={`../images/${item}`}
-                            alt=""
-                          />
+                          <img className=" img-fluid" src={`${item}`} alt="" />
                         </Button>
                       </div>
                     );

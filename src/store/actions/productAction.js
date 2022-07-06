@@ -1,5 +1,4 @@
 import axios from "axios";
-import Swal from "sweetalert2";
 
 import {
   GET_LIST_PRODUCT,
@@ -246,42 +245,44 @@ export const getProductIdSeller = (id, token) => {
 //   };
 // };
 
-export const addProduct = (params) => async (dispatch) => {
+export const addProduct = (data) => async (dispatch) => {
   try {
+    console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
-    formdata.append("userId", localStorage.getItem(`user.id`));
-    formdata.append("name", params.name);
-    formdata.append("price", params.price);
-    formdata.append("categoryId", params.catagoryId);
-    formdata.append("description", params.description);
+    formdata.append("userId", data.userId);
+    formdata.append("name", data.name);
+    formdata.append("price", data.price);
+    formdata.append("categoryId", data.categoryId);
+    formdata.append("description", data.description);
 
-    if (params.image.length > 0) {
+    if (data.image.length > 0) {
       if (
-        (params.image[0].type === "image/jpeg",
-        params.image[0].type === "image/png")
+        data.image[0].type === "image/jpeg" ||
+        data.image[0].type === "image/png"
       ) {
-        formdata.append("image", params.image[0]);
+        formdata.append("image", data.image[0]);
       }
       if (
-        (params.image[1].type === "image/jpeg",
-        params.image[1].type === "image/png")
+        data.image[1].type === "image/jpeg" ||
+        data.image[1].type === "image/png"
       ) {
-        formdata.append("image", params.image[1]);
+        formdata.append("image", data.image[1]);
       }
       if (
-        (params.image[2].type === "image/jpeg",
-        params.image[2].type === "image/png")
+        data.image[2].type === "image/jpeg" ||
+        data.image[2].type === "image/png"
       ) {
-        formdata.append("image", params.image[2]);
+        formdata.append("image", data.image[2]);
       }
       if (
-        (params.image[3].type === "image/jpeg",
-        params.image[3].type === "image/png")
+        data.image[3].type === "image/jpeg" ||
+        data.image[3].type === "image/png"
       ) {
-        formdata.append("image", params.image[3]);
+        formdata.append("image", data.image[3]);
       }
     }
 
+    console.log("DI ACTION 2 :", data);
     const response = await fetch(`http://localhost:9000/api/v1/product`, {
       method: "POST",
       body: formdata,
@@ -294,34 +295,19 @@ export const addProduct = (params) => async (dispatch) => {
 
     dispatch({
       type: ADD_PRODUCT,
-      payload: result.params,
-    });
-
-    Swal.fire({
-      position: "center",
-      icon: "success",
-      title: "Success",
-      showConfirmButton: false,
-      timer: 1500,
+      payload: result,
     });
   } catch (error) {
     dispatch({
       type: ADD_PRODUCT,
       payload: error.response,
     });
-
-    Swal.fire({
-      position: "center",
-      icon: "error",
-      title: error,
-      showConfirmButton: false,
-      timer: 1500,
-    });
   }
 };
 
-export const updateProduct = (data) => {
-  return (dispatch) => {
+export const updateProduct = (data) => async (dispatch) => {
+  try {
+    console.log(data);
     //loading
     dispatch({
       type: UPDATE_PRODUCT,
@@ -331,37 +317,68 @@ export const updateProduct = (data) => {
         errorMessage: false,
       },
     });
-
     //get API
-    axios({
+    var formdata = new FormData();
+    formdata.append("name", data.name);
+    formdata.append("price", data.price);
+    formdata.append("categoryId", data.categoryId);
+    formdata.append("description", data.description);
+    formdata.append("oldImage", data.oldImage);
+    if (data.image.length > 0) {
+      if (
+        data.image[0].type === "image/jpeg" ||
+        data.image[0].type === "image/png"
+      ) {
+        formdata.append("image", data.image[0]);
+      }
+      if (
+        data.image[1].type === "image/jpeg" ||
+        data.image[1].type === "image/png"
+      ) {
+        formdata.append("image", data.image[1]);
+      }
+      if (
+        data.image[2].type === "image/jpeg" ||
+        data.image[2].type === "image/png"
+      ) {
+        formdata.append("image", data.image[2]);
+      }
+      if (
+        data.image[3].type === "image/jpeg" ||
+        data.image[3].type === "image/png"
+      ) {
+        formdata.append("image", data.image[3]);
+      }
+    }
+    fetch(`${process.env.REACT_APP_HOST}/product/` + data.id, {
       method: "PUT",
-      url: `${process.env.REACT_APP_HOST}/product/` + data.id,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       timeout: 120000,
-      data: data,
-    })
-      .then((response) => {
-        //berhasil get API
-        dispatch({
-          type: UPDATE_PRODUCT,
-          payload: {
-            loading: false,
-            data: response.data,
-            errorMessage: false,
-          },
-        });
-      })
-      .catch((error) => {
-        //error get api
-        dispatch({
-          type: UPDATE_PRODUCT,
-          payload: {
-            loading: false,
-            data: false,
-            errorMessage: error.message,
-          },
-        });
+      body: formdata,
+    }).then((response) => {
+      //berhasil get API
+      dispatch({
+        type: UPDATE_PRODUCT,
+        payload: {
+          loading: false,
+          data: response.data,
+          errorMessage: false,
+        },
       });
-  };
+    });
+  } catch (error) {
+    //error get api
+    dispatch({
+      type: UPDATE_PRODUCT,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error.message,
+      },
+    });
+  }
 };
 
 export const deleteProduct = (id, token) => {
