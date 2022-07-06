@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import image403 from "../assets/images/image403.png";
 import Button from "elements/Button";
 import Navbar from "components/Navbar";
 
 export default function Forbidden() {
+  useEffect(() => {
+    document.title = "403 | Access Denied";
+    window.scrollTo(0, 0);
+  });
   return (
     <div>
       <Navbar />

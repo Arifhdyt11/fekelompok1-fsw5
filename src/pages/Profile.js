@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
 
 export default function ProfilePage() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Profile";
+    window.scrollTo(0, 0);
+  });
+
   const dispatch = useDispatch();
   const location = useLocation();
   const { isAuthenticated, user, status } = useSelector(
@@ -75,7 +80,11 @@ export default function ProfilePage() {
   console.log("image : ", image);
 
   if (status === true) {
-    return <Navigate to={`/`} />;
+    if (user.data.role === "SELLER") {
+      return <Navigate to={`/seller`} />;
+    } else {
+      return <Navigate to={`/`} />;
+    }
   }
 
   return (

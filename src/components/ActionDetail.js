@@ -12,109 +12,139 @@ import {
 } from "store/actions/wishlistAction";
 
 function CheckButton({ id, getProductIdResult }) {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, accessToken } = useSelector(
+    (state) => state.AuthReducer
+  );
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
     getListWishlistBuyerError,
+
+    addWishlistResult,
   } = useSelector((state) => state.WishlistReducer);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (user.data.role === "BUYER") {
-      dispatch(getListWishlistBuyer(accessToken));
+    if (isAuthenticated) {
+      if (addWishlistResult) {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
+    }
+  }, [addWishlistResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user.data.role === "BUYER") {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
     }
   }, [dispatch]);
 
-  const userId = user.data.id;
-  const sizeId = 5;
   const productId = parseInt(id);
 
-  console.log(accessToken);
-  if (user.data.role === "SELLER") {
-    return (
-      <>
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Terbitkan
-        </Button>
-        <Link
-          to={`/update-product/${id}`}
-          state={{ getProductIdResult: { getProductIdResult } }}
-        >
+  if (isAuthenticated) {
+    if (user.data.role === "SELLER") {
+      return (
+        <>
+          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+            Terbitkan
+          </Button>
+          <Link
+            to={`/update-product/${id}`}
+            state={{ getProductIdResult: { getProductIdResult } }}
+          >
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isSecondary
+              hasShadow
+              isBlock
+            >
+              Edit
+            </Button>
+          </Link>
           <Button
-            className="btn mt-3 ms-auto py-2"
-            isSecondary
+            className="btn btn-danger mt-3 ms-auto py-2"
             hasShadow
             isBlock
+            onClick={() => dispatch(deleteProduct(id, accessToken))}
           >
-            Edit
+            Delete
           </Button>
-        </Link>
-        <Button
-          className="btn btn-danger mt-3 ms-auto py-2"
-          hasShadow
-          isBlock
-          onClick={() => dispatch(deleteProduct(id, accessToken))}
-        >
-          Delete
-        </Button>
-      </>
-    );
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
+            Tertarik dan Nego
+          </Button>
+          {getListWishlistBuyerResult ? (
+            getListWishlistBuyerResult.data.filter(
+              (item) => item.productId === productId
+            ).length === 0 ? (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isSecondary
+                hasShadow
+                isBlock
+                onClick={() =>
+                  dispatch(
+                    addWishlist({
+                      accessToken: accessToken,
+                      userId: user.data.id,
+                      productId: productId,
+                    })
+                  )
+                }
+              >
+                Tambahkan Ke Wishlist
+              </Button>
+            ) : (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isSecondary
+                hasShadow
+                isBlock
+                isDisabled
+              >
+                Already on Wishlist
+                <i
+                  className="fa-solid fa-check fa-lg ms-4"
+                  style={{ color: "#1abc9c" }}
+                ></i>
+              </Button>
+            )
+          ) : getListWishlistBuyerLoading ? (
+            <h3 className="mt-3" style={{ color: "#152c5b" }}>
+              Loading...
+            </h3>
+          ) : (
+            <p className="mt-3">
+              {getListWishlistBuyerError ? getListWishlistBuyerError : ""}
+            </p>
+          )}
+        </>
+      );
+    }
   } else {
     return (
-      <>
-        <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-          Tertarik dan Nego
-        </Button>
-        {getListWishlistBuyerResult ? (
-          getListWishlistBuyerResult.data.filter(
-            (item) => item.productId === productId
-          ).length === 0 ? (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
-              hasShadow
-              isBlock
-              onClick={() =>
-                dispatch(
-                  addWishlist({
-                    accessToken: accessToken,
-                    userId: userId,
-                    sizeId: sizeId,
-                    productId: productId,
-                  })
-                )
-              }
-            >
-              Tambahkan Ke Wishlist
-            </Button>
-          ) : (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
-              hasShadow
-              isBlock
-              isDisabled
-            >
-              Already on Wishlist
-            </Button>
-          )
-        ) : getListWishlistBuyerLoading ? (
-          <h3 className="mt-3" style={{ color: "#152c5b" }}>
-            Loading...
-          </h3>
-        ) : (
-          <p className="mt-3">
-            {getListWishlistBuyerError ? getListWishlistBuyerError : ""}
-          </p>
-        )}
-      </>
+      <Button
+        className="btn mt-3 ms-auto py-2"
+        isPrimary
+        hasShadow
+        isBlock
+        type="link"
+        href="/login"
+      >
+        Login Untuk Transaksi
+      </Button>
     );
   }
 }
 
 export default function ActionDetail({ id }) {
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
 
   const {
     getProductIdResult,
@@ -142,19 +172,28 @@ export default function ActionDetail({ id }) {
       <div className="d-flex justify-content-start mb-4">
         <img className="seller-image me-3" src={SellerImg} alt="" />
         <div>
-          {user.data.role === "SELLER" ? (
-            getProductIdSellerResult ? (
+          {isAuthenticated ? (
+            user.data.role === "SELLER" ? ( //SELLER
+              getProductIdSellerResult ? (
+                <>
+                  <h4>{getProductIdSellerResult.userAsSeller.name}</h4>
+                  <p>{getProductIdSellerResult.userAsSeller.city}</p>
+                </>
+              ) : (
+                ""
+              )
+            ) : getProductIdResult ? ( //BUYER
               <>
-                <h4>{getProductIdSellerResult.name}</h4>
-                <p>{getProductIdSellerResult.city}</p>
+                <h4>{getProductIdResult.userAsSeller.name}</h4>
+                <p>{getProductIdResult.userAsSeller.city}</p>
               </>
             ) : (
               ""
             )
-          ) : getProductIdResult ? (
+          ) : getProductIdResult ? ( //NOT LOGGED IN
             <>
-              <h4>{getProductIdResult.users.name}</h4>
-              <p>{getProductIdResult.users.city}</p>
+              <h4>{getProductIdResult.userAsSeller.name}</h4>
+              <p>{getProductIdResult.userAsSeller.city}</p>
             </>
           ) : (
             ""
@@ -162,17 +201,27 @@ export default function ActionDetail({ id }) {
         </div>
       </div>
       <h4>Harga</h4>
-      {user.data.role === "SELLER" ? (
-        getProductIdSellerResult ? (
-          <h3>Rp. {formatPrice(getProductIdSellerResult.price)}</h3>
-        ) : getProductIdSellerLoading ? (
+      {isAuthenticated ? (
+        user.data.role === "SELLER" ? (
+          getProductIdSellerResult ? ( //SELLER
+            <h3>Rp. {formatPrice(getProductIdSellerResult.price)}</h3>
+          ) : getProductIdSellerLoading ? (
+            <h3>Loading....</h3>
+          ) : (
+            <p>
+              {getProductIdSellerError
+                ? getProductIdSellerError
+                : "Data Kosong"}
+            </p>
+          )
+        ) : getProductIdResult ? ( //BUYER
+          <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
+        ) : getProductIdLoading ? (
           <h3>Loading....</h3>
         ) : (
-          <p>
-            {getProductIdSellerError ? getProductIdSellerError : "Data Kosong"}
-          </p>
+          <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
         )
-      ) : getProductIdResult ? (
+      ) : getProductIdResult ? ( //NOT LOGGED IN
         <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
       ) : getProductIdLoading ? (
         <h3>Loading....</h3>

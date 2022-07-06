@@ -14,21 +14,28 @@ import Navbar from "components/Navbar";
 import ProductTitle from "components/ProductTitle";
 
 export default function DetailProduct() {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user, accessToken } = useSelector(
+    (state) => state.AuthReducer
+  );
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (user.data.role === "BUYER") {
-      dispatch(getProductId(id));
-    }
+    document.title = "Shoesnarian | Detail Product";
+    window.scrollTo(0, 0);
+  });
+
+  useEffect(() => {
+    dispatch(getProductId(id));
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "SELLER") {
-      dispatch(getProductIdSeller(id, accessToken));
+    if (isAuthenticated) {
+      if (user.data.role === "SELLER") {
+        dispatch(getProductIdSeller(id, accessToken));
+      }
     }
   }, [dispatch]);
 

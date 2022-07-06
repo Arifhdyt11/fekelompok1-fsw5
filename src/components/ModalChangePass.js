@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "store/actions/changePassword";
-import Swal from "sweetalert2";
 
 function ModalChangePass() {
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
-  const { changePasswordResult } = useSelector(
-    (state) => state.ChangePasswordReducer
-  );
+  // const { changePasswordResult } = useSelector(
+  //   (state) => state.ChangePasswordReducer
+  // );
   const { user } = useSelector((state) => state.AuthReducer);
 
   const dispatch = useDispatch();
@@ -19,19 +18,6 @@ function ModalChangePass() {
     event.preventDefault();
     dispatch(changePassword({ oldPassword: oldPassword, password: password }));
   };
-
-  useEffect(() => {
-    if (changePasswordResult) {
-      // alert("Berhasil change password");
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Change Password Successful",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  }, [changePasswordResult, dispatch]);
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>

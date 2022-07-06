@@ -6,7 +6,7 @@ import {
   DELETE_WISHLIST_BUYER,
 } from "store/types";
 
-export const getListWishlistSeller = (token) => {
+export const getListWishlistSeller = (sellerId, token) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -21,7 +21,7 @@ export const getListWishlistSeller = (token) => {
     axios({
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      url: `${process.env.REACT_APP_HOST}/wishlist/seller`,
+      url: `${process.env.REACT_APP_HOST}/wishlist/seller/` + sellerId,
       timeout: 120000,
     })
       .then((response) => {
@@ -49,7 +49,7 @@ export const getListWishlistSeller = (token) => {
   };
 };
 
-export const getListWishlistBuyer = (token) => {
+export const getListWishlistBuyer = (buyerId, token) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -64,7 +64,7 @@ export const getListWishlistBuyer = (token) => {
     axios({
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      url: `${process.env.REACT_APP_HOST}/wishlist/buyer`,
+      url: `${process.env.REACT_APP_HOST}/wishlist/buyer/` + buyerId,
       timeout: 120000,
     })
       .then((response) => {
@@ -104,19 +104,10 @@ export const addWishlist = (data) => {
       },
     });
 
-    axios.interceptors.request.use(
-      (config) => {
-        config.headers.authorization = `Bearer ${data.accessToken}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-
     //get API
     axios({
       method: "POST",
+      headers: { Authorization: `Bearer ${data.accessToken}` },
       url: `${process.env.REACT_APP_HOST}/wishlist`,
       timeout: 120000,
       data: data,

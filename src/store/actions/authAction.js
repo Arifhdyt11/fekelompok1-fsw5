@@ -30,9 +30,7 @@ export const loginViaForm = (data) => async (dispatch) => {
         payload: result.accessToken,
         user: user,
       });
-      // alert("Login Successful");
       Swal.fire({
-        position: "top-end",
         icon: "success",
         title: "Login Successful",
         showConfirmButton: false,
@@ -40,9 +38,7 @@ export const loginViaForm = (data) => async (dispatch) => {
       });
     } else {
       authError(result.error);
-      // alert("Login Failed");
       Swal.fire({
-        position: "top-end",
         icon: "error",
         title: "Login Failed",
         showConfirmButton: false,
@@ -51,9 +47,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     }
   } catch (error) {
     authError(error);
-    // alert("Email or Password is incorrect");
     Swal.fire({
-      position: "top-end",
       icon: "error",
       title: "Email or Password is incorrect",
       showConfirmButton: false,
@@ -80,9 +74,7 @@ export const logout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
-  // alert("Logout Successful");
   Swal.fire({
-    position: "top-end",
     icon: "info",
     title: "Logout Successful",
     showConfirmButton: false,

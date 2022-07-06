@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "assets/css/login.css";
 import BrandIcon from "components/IconText";
@@ -8,6 +8,11 @@ import { useDispatch } from "react-redux";
 import { addRegister } from "store/actions/registerAction";
 
 function Register() {
+  useEffect(() => {
+    document.title = "Shoesnarian | Register";
+    window.scrollTo(0, 0);
+  });
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -49,6 +54,7 @@ function Register() {
                     placeholder="Nama Lengkap"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
+                    required
                   />
                 </div>
 
@@ -62,6 +68,7 @@ function Register() {
                     placeholder="Contoh: johndee@gmail.com"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
+                    required
                   />
                 </div>
 
@@ -75,6 +82,7 @@ function Register() {
                       placeholder="Masukkan password"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
+                      required
                     />
                     <span className="input-group-text " id="basic-addon2">
                       <i className="uil uil-eye"></i>
@@ -87,8 +95,11 @@ function Register() {
                     className="form-control form-control-custom"
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
+                    required
                   >
-                    <option>-Pilih Role-</option>
+                    <option hidden selected>
+                      -- Pilih Role --
+                    </option>
                     <option value="SELLER">Seller</option>
                     <option value="BUYER">Buyer</option>
                   </select>
@@ -100,14 +111,12 @@ function Register() {
                   type="submit"
                   value="Masuk"
                 >
-                  {" "}
                   Daftar
                 </button>
               </form>
               <p className="login-wrapper-footer-text">
                 Sudah punya akun?
                 <Link to="/login" className="text-reset">
-                  {" "}
                   Masuk di sini
                 </Link>
               </p>

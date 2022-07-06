@@ -130,9 +130,12 @@ p {
 
 .btn-secondary.disabled,
 .btn-secondary:disabled {
-  color: #000;
   background-color: transparent;
-  border-color: #6c757d;
+  border-color: #3252df;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #000;
 }
 
 .zoom:hover {
@@ -190,10 +193,15 @@ p {
   margin: 35px -30px 0px 0px;
 }
 
+.form-control.search-form {
+  background: #eeeeee;
+  border-radius: 16px;
+  height: 40px;
+}
+
 section {
   margin-top: 40px;
 }
-
 .card {
   background: #ffffff !important;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);

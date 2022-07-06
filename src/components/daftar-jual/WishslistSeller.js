@@ -5,9 +5,11 @@ import { getListWishlistSeller } from "store/actions/wishlistAction";
 import img from "assets/images/ilustrasi.svg";
 import ProductItem from "./ProductItem";
 
-export default function WishlistSeller() {
-  const { accessToken } = useSelector((state) => state.AuthReducer);
+import _ from "lodash";
 
+export default function WishlistSeller() {
+  const { user, accessToken } = useSelector((state) => state.AuthReducer);
+  const sellerId = user.data.id;
   const {
     getListWishlistSellerResult,
     getListWishlistSellerLoading,
@@ -16,24 +18,43 @@ export default function WishlistSeller() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListWishlistSeller(accessToken));
+    dispatch(getListWishlistSeller(sellerId, accessToken));
   }, [dispatch]);
+
+  const dataWishlist = getListWishlistSellerResult.data;
+  const uniqueWishlist = _(dataWishlist)
+    .groupBy("productId")
+    .map((items) => ({
+      count: items.length,
+      ...items[0],
+    }))
+    .value();
+
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
           {getListWishlistSellerResult ? (
-            getListWishlistSellerResult.data.length === 0 ? (
+            uniqueWishlist ? (
+              uniqueWishlist.length === 0 ? (
+                <div className="d-flex justify-content-center null-illustration p-5">
+                  <div>
+                    <img src={img} alt="" className="img-fluid mb-3" />
+                    <p>Produk tidak ditemukan</p>
+                  </div>
+                </div>
+              ) : (
+                uniqueWishlist.map((item, index) => {
+                  return <ProductItem key={item.id} {...item} index={index} />;
+                })
+              )
+            ) : (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
                   <img src={img} alt="" className="img-fluid mb-3" />
                   <p>Produk tidak ditemukan</p>
                 </div>
               </div>
-            ) : (
-              getListWishlistSellerResult.data.map((item) => {
-                return <ProductItem key={item.id} {...item} />;
-              })
             )
           ) : getListWishlistSellerLoading ? (
             <h3>Loading....</h3>
