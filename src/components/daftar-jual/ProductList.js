@@ -87,7 +87,7 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              productSeller.map((item, index) => {
+              getListProductSellerResult.data.map((item, index) => {
                 return <ProductItem key={item.id} {...item} index={index} />;
               })
             )

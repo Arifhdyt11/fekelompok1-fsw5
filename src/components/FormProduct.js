@@ -155,30 +155,58 @@ export default function FormAddProduct() {
       if (images4 !== "" && getProductIdResult.image[3] !== undefined) {
         oldImage.push(getProductIdResult.image[3].substring(62, 82));
       }
-      dispatch(
-        updateProduct({
-          id: id,
-          userId: user.data.id,
-          name: name,
-          image: [images, images2, images3, images4],
-          price: price,
-          categoryId: categoryId,
-          description: description,
-          oldImage,
-        })
-      );
+      const SwalUpdateProduct = {
+        id: id,
+        userId: user.data.id,
+        name: name,
+        image: [images, images2, images3, images4],
+        price: price,
+        categoryId: categoryId,
+        description: description,
+        oldImage,
+      };
+      Swal.fire({
+        title: "Data sudah benar ?",
+        text: "Apakah anda yakin ingin menyimpan data ini ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Simpan!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: "Data Berhasil di edit!", icon: "success" });
+          dispatch(updateProduct(SwalUpdateProduct)).then(function () {
+            window.location.href = "/seller";
+          });
+        }
+      });
     } else {
       //add
-      dispatch(
-        addProduct({
-          userId: user.data.id,
-          name: name,
-          image: [images, images2, images3, images4],
-          price: price,
-          categoryId: categoryId,
-          description: description,
-        })
-      );
+      const SwalAddProduct = {
+        userId: user.data.id,
+        name: name,
+        image: [images, images2, images3, images4],
+        price: price,
+        categoryId: categoryId,
+        description: description,
+      };
+      Swal.fire({
+        title: "Data sudah benar ?",
+        text: "Apakah anda yakin ingin menyimpan data ini ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Simpan!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({ title: "Data Berhasil di tambahkan!", icon: "success" });
+          dispatch(addProduct(SwalAddProduct)).then(function () {
+            window.location.href = "/seller";
+          });
+        }
+      });
     }
   };
 
