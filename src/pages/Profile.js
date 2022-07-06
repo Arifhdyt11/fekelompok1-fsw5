@@ -8,6 +8,7 @@ import ModalChangePass from "components/ModalChangePass";
 import { useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
+import Swal from "sweetalert2";
 
 export default function ProfilePage() {
   useEffect(() => {
@@ -56,25 +57,37 @@ export default function ProfilePage() {
           document.getElementById("addressInput").value = user.data.address;
         if (user.data.phone !== null)
           document.getElementById("phoneInput").value = user.data.phone;
-        if (user.data.image !== "") {
-          document.getElementById("filePhoto").src = user.data.image;
-        } else {
-          document.getElementById("filePhoto").src = kamera;
-        }
+        // if (user.data.image !== "") {
+        //   document.getElementById("filePhoto").src = user.data.image;
+        // } else if (user.data.image === "") {
+        //   document.getElementById("filePhoto").src = kamera;
+        // }
       }
     }
   }
 
   const handleSubmit = async (e) => {
-    dispatch(
-      updateUserDetail({
-        name: document.getElementById("nameInput").value,
-        city: document.getElementById("cityInput").value,
-        address: document.getElementById("addressInput").value,
-        phone: document.getElementById("phoneInput").value,
-        image,
-      })
-    );
+    const update = {
+      name: document.getElementById("nameInput").value,
+      city: document.getElementById("cityInput").value,
+      address: document.getElementById("addressInput").value,
+      phone: document.getElementById("phoneInput").value,
+      image,
+    };
+    Swal.fire({
+      title: "Data sudah benar ?",
+      text: "Apakah anda yakin ingin menyimpan data ini ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Simpan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Data Berhasil Di Update!", "", "success");
+        dispatch(updateUserDetail(update));
+      }
+    });
   };
 
   console.log("image : ", image);
