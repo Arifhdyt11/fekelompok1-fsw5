@@ -22,6 +22,9 @@ export const getListSize = () => {
     //get API
     axios({
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/size`,
       timeout: 120000,
     })
@@ -65,6 +68,7 @@ export const addSize = (data) => {
     //get API
     axios({
       method: "POST",
+      headers: { Authorization: `Bearer ${data.token}` },
       url: `${process.env.REACT_APP_HOST}/size`,
       timeout: 120000,
       data: data,
@@ -124,6 +128,7 @@ export const updateSize = (data) => {
     //get API
     axios({
       method: "PUT",
+      headers: { Authorization: `Bearer ${data.token}` },
       url: `${process.env.REACT_APP_HOST}/size/` + data.id,
       timeout: 120000,
       data: data,
@@ -153,7 +158,7 @@ export const updateSize = (data) => {
   };
 };
 
-export const deleteSize = (id) => {
+export const deleteSize = (id, token) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -168,6 +173,7 @@ export const deleteSize = (id) => {
     //get API
     axios({
       method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
       url: `${process.env.REACT_APP_HOST}/size/` + id,
       timeout: 120000,
     })

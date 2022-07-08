@@ -2,16 +2,13 @@ import React, { useState, useCallback, useEffect } from "react";
 import Footer from "components/Footer";
 import Navbar from "components/Navbar";
 import kamera from "assets/images/fotoProfile.png";
-import fotoProfile from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
 import ModalChangePass from "components/ModalChangePass";
 import { useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { storage } from "../firebase/index";
-import { useDropzone } from "react-dropzone";
+import Swal from "sweetalert2";
 
 export default function ProfilePage() {
   useEffect(() => {
@@ -25,7 +22,7 @@ export default function ProfilePage() {
     (state) => state.AuthReducer
   );
 
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState(kamera);
   const [progress, setProgress] = useState(0);
 
   const handleUpload = (e) => {
@@ -41,70 +38,51 @@ export default function ProfilePage() {
       setImage("");
     }
   };
-  // const handleUpload = () => {
-  //   image.map((image) => {
-  //     const storageRef = ref(storage, `images/${image.name}`);
-  //     const uploadTask = uploadBytesResumable(storageRef, image);
-
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         //Progress function ... (shows the load bar)
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //         setProgress(progress);
-  //       },
-  //       (error) => {
-  //         //Error Function...
-  //         console.log(error);
-  //       },
-  //       async () => {
-  //         //   //complete function
-  //         const url = await getDownloadURL(storageRef);
-  //         console.log(url);
-  //       }
-  //     );
-  //   });
-  // };
 
   React.useEffect(() => {
     if (location.pathname === "/profile") getUser();
   });
 
   function getUser() {
-    localStorage.getItem(user);
-    if (!isAuthenticated) {
-      return <Navigate to="/login" />;
-    } else {
-      if (user !== undefined && status !== true) {
-        if (user.data.name !== null)
-          document.getElementById("nameInput").value = user.data.name;
-        if (user.data.city !== null)
-          document.getElementById("cityInput").value = user.data.city;
-        if (user.data.address !== null)
-          document.getElementById("addressInput").value = user.data.address;
-        if (user.data.phone !== null)
-          document.getElementById("phoneInput").value = user.data.phone;
-        if (user.data.image !== "") {
-          document.getElementById("filePhoto").src = user.data.image;
-        } else {
-          document.getElementById("filePhoto").src = kamera;
-        }
+    if (user !== undefined && status !== true) {
+      if (user.data.name !== null)
+        document.getElementById("nameInput").value = user.data.name;
+      if (user.data.city !== null)
+        document.getElementById("cityInput").value = user.data.city;
+      if (user.data.address !== null)
+        document.getElementById("addressInput").value = user.data.address;
+      if (user.data.phone !== null)
+        document.getElementById("phoneInput").value = user.data.phone;
+      if (user.data.image !== null) {
+        document.getElementById("filePhoto").src = user.data.image;
+      } else {
+        document.getElementById("filePhoto").src = kamera;
       }
     }
   }
 
   const handleSubmit = async (e) => {
-    dispatch(
-      updateUserDetail({
-        name: document.getElementById("nameInput").value,
-        city: document.getElementById("cityInput").value,
-        address: document.getElementById("addressInput").value,
-        phone: document.getElementById("phoneInput").value,
-        image,
-      })
-    );
+    const update = {
+      name: document.getElementById("nameInput").value,
+      city: document.getElementById("cityInput").value,
+      address: document.getElementById("addressInput").value,
+      phone: document.getElementById("phoneInput").value,
+      image,
+    };
+    Swal.fire({
+      title: "Data sudah benar ?",
+      text: "Apakah anda yakin ingin menyimpan data ini ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Simpan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Data Berhasil Di Update!", "", "success");
+        dispatch(updateUserDetail(update));
+      }
+    });
   };
 
   console.log("image : ", image);

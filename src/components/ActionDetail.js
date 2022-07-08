@@ -3,25 +3,34 @@ import SellerImg from "assets/images/seller-1.png";
 import Button from "elements/Button";
 import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { deleteProduct } from "store/actions/productAction";
 import {
   addWishlist,
+  deleteWishlist,
   getListWishlistBuyer,
 } from "store/actions/wishlistAction";
+import ModalNegoBuyer from "./ModalNegoBuyer";
+import { getListTransactionBuyer } from "store/actions/transactionAction";
 
-function CheckButton({ id, getProductIdResult }) {
+function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
+  // console.log(getProductIdResult);
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
     getListWishlistBuyerError,
 
     addWishlistResult,
+    deleteWishlistResult,
   } = useSelector((state) => state.WishlistReducer);
+
+  const { getListTransactionBuyerResult, addTransactionResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
 
   const dispatch = useDispatch();
 
@@ -35,13 +44,50 @@ function CheckButton({ id, getProductIdResult }) {
 
   useEffect(() => {
     if (isAuthenticated) {
+      if (deleteWishlistResult) {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
+    }
+  }, [deleteWishlistResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
       if (user.data.role === "BUYER") {
         dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        dispatch(getListTransactionBuyer());
       }
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (addTransactionResult) {
+        dispatch(getListTransactionBuyer());
+      }
+    }
+  }, [addTransactionResult, dispatch]);
+
   const productId = parseInt(id);
+
+  const location = useLocation();
+  if (location.state) {
+    var { item } = location.state;
+    // console.log(location);
+  }
+  // const getProductIdResult =
+  // location.state.getProductIdResult.getProductIdResult;
+  // console.log(item);
+
+  if (getListWishlistBuyerResult) {
+    var wishlistId = getListWishlistBuyerResult.data
+      .filter((item) => item.productId === productId)
+      .map((item) => {
+        return item.id;
+      });
+  }
+
+  console.log(item);
+  // console.log(getListTransactionBuyerResult.data);
 
   if (isAuthenticated) {
     if (user.data.role === "SELLER") {
@@ -52,7 +98,7 @@ function CheckButton({ id, getProductIdResult }) {
           </Button>
           <Link
             to={`/update-product/${id}`}
-            state={{ getProductIdResult: { getProductIdResult } }}
+            state={{ getProductIdSellerResult: { getProductIdSellerResult } }}
           >
             <Button
               className="btn mt-3 ms-auto py-2"
@@ -76,10 +122,41 @@ function CheckButton({ id, getProductIdResult }) {
     } else {
       return (
         <>
-          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-            Tertarik dan Nego
-          </Button>
-          {getListWishlistBuyerResult ? (
+          {getProductIdResult ? (
+            <ModalNegoBuyer dataProduct={getProductIdResult} item={item} />
+          ) : (
+            ""
+          )}
+          {!item ? (
+            <button
+              type="button"
+              className="btn mt-3 ms-auto py-2 btn-warning is-block btn-has-shadow"
+              style={{ cursor: "context-menu" }}
+            >
+              Please Choose Size
+            </button>
+          ) : getListTransactionBuyerResult ? (
+            getListTransactionBuyerResult.data.filter(
+              (data) =>
+                data.productsizeId === item.id && data.status === "pending"
+            ).length === 0 ? (
+              <button
+                type="button"
+                className="btn mt-3 ms-auto py-2 btn-primary is-block btn-has-shadow "
+                data-bs-toggle="modal"
+                data-bs-target="#modalInfoPenawar"
+              >
+                Tertarik dan Nego
+              </button>
+            ) : (
+              <Button className="btn mt-3 ms-auto py-2 btn-warning" isBlock>
+                Menunggu Respon Penjual
+              </Button>
+            )
+          ) : (
+            ""
+          )}
+          {getListWishlistBuyerResult ? ( //BUAT BUTTON WISHLIST
             getListWishlistBuyerResult.data.filter(
               (item) => item.productId === productId
             ).length === 0 ? (
@@ -101,19 +178,26 @@ function CheckButton({ id, getProductIdResult }) {
                 Tambahkan Ke Wishlist
               </Button>
             ) : (
-              <Button
-                className="btn mt-3 ms-auto py-2"
-                isSecondary
-                hasShadow
-                isBlock
-                isDisabled
-              >
-                Already on Wishlist
-                <i
-                  className="fa-solid fa-check fa-lg ms-4"
-                  style={{ color: "#1abc9c" }}
-                ></i>
-              </Button>
+              <>
+                <h4 className="mt-3 text-center">
+                  Already On Wishlist
+                  <i
+                    className="fa-solid fa-check fa-lg ms-4"
+                    style={{ color: "#1abc9c" }}
+                  ></i>
+                </h4>
+                <Button
+                  className="btn btn-outline-danger ms-auto py-2"
+                  hasShadow
+                  isBlock
+                  onClick={() =>
+                    dispatch(deleteWishlist(wishlistId, accessToken))
+                  }
+                >
+                  Remove From Wishlist
+                  <i className="fa-solid fa-trash fa-md ms-4"></i>
+                </Button>
+              </>
             )
           ) : getListWishlistBuyerLoading ? (
             <h3 className="mt-3" style={{ color: "#152c5b" }}>
@@ -228,7 +312,11 @@ export default function ActionDetail({ id }) {
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}
-      <CheckButton id={id} getProductIdResult={getProductIdResult} />
+      <CheckButton
+        id={id}
+        getProductIdSellerResult={getProductIdSellerResult}
+        getProductIdResult={getProductIdResult}
+      />
     </div>
   );
 }

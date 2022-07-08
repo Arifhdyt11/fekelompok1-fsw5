@@ -24,7 +24,6 @@ export default function DetailProduct() {
 
   useEffect(() => {
     document.title = "Shoesnarian | Detail Product";
-    window.scrollTo(0, 0);
   });
 
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function DetailProduct() {
     <>
       <Navbar />
       <ProductTitle />
-      <Galery />
+      <Galery productId={id} />
       <section className="container section-detail-product mt-5 mb-5">
         <div className="row">
           <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">

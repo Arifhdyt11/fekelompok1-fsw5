@@ -18,17 +18,21 @@ function ProductItem({
   index,
   count,
 }) {
+  const { accessToken } = useSelector((state) => state.AuthReducer);
   const { getListSizeResult } = useSelector((state) => state.SizeReducer);
+  const { getProductIdSellerResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getListSize());
+    dispatch(getListSize(accessToken));
   }, [dispatch]);
 
   return (
     <>
       <div className="col-lg-4 col-md-6 col-sm-6 ">
-        <Fade bottom delay={100 * index}>
+        <Fade bottom delay={300 * index}>
           <div className="card-product p-3 mb-4">
             {products ? (
               //Wishlist Badge
@@ -44,17 +48,19 @@ function ProductItem({
                   getListSizeResult.data.filter((item) => item.productId === id)
                     .length === 0 ? (
                     <span
-                      className="badge bg-danger p-2"
+                      className="badge bg-danger p-2 zoom"
                       data-bs-toggle="modal"
                       data-bs-target={`#modal${id}`}
+                      style={{ cursor: "pointer" }}
                     >
                       <i className="fa-solid fa-plus"> </i> Stok Kosong
                     </span>
                   ) : (
                     <span
-                      className="badge bg-primary p-2"
+                      className="badge bg-primary p-2 zoom"
                       data-bs-toggle="modal"
                       data-bs-target={`#modal${id}`}
+                      style={{ cursor: "pointer" }}
                     >
                       <i className="fa-solid fa-plus"> </i> Stok
                     </span>
@@ -74,7 +80,7 @@ function ProductItem({
                 key={id}
               >
                 <img
-                  src={`../images/${products.image[0]}`}
+                  src={`${products.image[0]}`}
                   alt={`${products.image[0]}`}
                   className="img-fluid product-img mb-4"
                 />
@@ -96,7 +102,7 @@ function ProductItem({
                 key={id}
               >
                 <img
-                  src={`../images/${image[0]}`}
+                  src={`${image[0]}`}
                   alt={`${image[0]}`}
                   className="img-fluid product-img mb-4"
                 />
@@ -111,7 +117,7 @@ function ProductItem({
         </Fade>
       </div>
 
-      {/* <ModalStock productId={id} /> */}
+      <ModalStock productId={id} />
     </>
   );
 }

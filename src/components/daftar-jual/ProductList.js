@@ -50,11 +50,10 @@ function ProductList() {
     return () => clearTimeout(timeout);
   }, [searchValue]);
   //-----------------------SEARCH ---------------------
-
   return (
     <div className="col-lg-9 col-md-8 col-12">
-      <div class="row justify-content-between mb-4 mt-2">
-        <div class="col-lg-7 col-md-6 col-sm-12 mb-3 mb-md-0">
+      <div className="row justify-content-between mb-4 mt-2">
+        <div className="col-lg-7 col-md-6 col-sm-12 mb-3 mb-md-0">
           <Button
             className="btn active"
             hasShadow
@@ -65,7 +64,7 @@ function ProductList() {
             Tambah Produk
           </Button>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12 align-self-center">
+        <div className="col-lg-3 col-md-6 col-sm-12 align-self-center">
           <input
             className="form-control search-form me-2"
             type="search"
@@ -87,7 +86,7 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              productSeller.map((item, index) => {
+              getListProductSellerResult.data.map((item, index) => {
                 return <ProductItem key={item.id} {...item} index={index} />;
               })
             )

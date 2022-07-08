@@ -82,11 +82,11 @@ export default function Product(props) {
       >
         <div className="filter mb-5">
           <h3>Kategori</h3>
-          <div class="row justify-content-between">
-            <div class="col-lg-7 col-md-12 col-sm-12 mb-4 mb-lg-0">
+          <div className="row justify-content-between">
+            <div className="col-lg-7 col-md-12 col-sm-12 mb-4 mb-lg-0">
               <Button
                 className={`btn btn-filter me-3 my-2 ${
-                  active === "All" && "active"
+                  active === "All" && "btn-active"
                 }`}
                 hasShadow
                 isSecondary
@@ -100,7 +100,7 @@ export default function Product(props) {
                   return (
                     <Button
                       className={`btn btn-filter me-3 my-2 ${
-                        active == kategori.name && "active"
+                        active == kategori.name && "btn-active"
                       }`}
                       hasShadow
                       isSecondary
@@ -119,7 +119,7 @@ export default function Product(props) {
                 </p>
               )}
             </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 align-self-center">
+            <div className="col-lg-3 col-md-12 col-sm-12 align-self-center">
               <input
                 className="form-control search-form me-2"
                 type="search"
@@ -132,7 +132,7 @@ export default function Product(props) {
         </div>
 
         <div className="product">
-          <div className="row justify-content-center">
+          <div className="row justify-content-start">
             {product ? (
               product.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
@@ -154,11 +154,12 @@ export default function Product(props) {
                       className="col-lg-3 col-md-6 col-sm-12  "
                       style={{ textDecoration: "none" }}
                       key={item.id}
+                      onClick={() => window.scrollTo(0, 0)}
                     >
-                      <Fade bottom delay={300 * index}>
+                      <Fade bottom delay={150 * index}>
                         <div className="card-product p-3 mb-4">
                           <img
-                            src={`../images/${item.image[0]}`}
+                            src={`${item.image[0]}`}
                             alt={`${item.image[0]}`}
                             className="img-fluid product-img mb-4"
                           />
