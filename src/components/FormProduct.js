@@ -104,16 +104,18 @@ export default function FormAddProduct() {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (id) {
-  //     const { getProductIdResult } = location.state.getProductIdResult;
-  //     setName(getProductIdResult.name);
-  //     setPrice(getProductIdResult.price);
-  //     setCategoryId(getProductIdResult.categoryId);
-  //     setDescription(getProductIdResult.description);
-  //     setImages(getProductIdResult.image);
-  //   }
-  // }, [id, dispatch]);
+  useEffect(() => {
+    if (id) {
+      const { getProductIdResult } = location.state.getProductIdResult;
+      setName(getProductIdResult.name);
+      setPrice(getProductIdResult.price);
+      setCategoryId(getProductIdResult.categoryId);
+      setDescription(getProductIdResult.description);
+      setImages(
+        (document.getElementById("filePhoto").src = getProductIdResult.image[0])
+      );
+    }
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (addProductResult) {
@@ -124,18 +126,6 @@ export default function FormAddProduct() {
       setDescription("");
     }
   }, [addProductResult, dispatch]);
-
-  useEffect(() => {
-    if (updateProductResult) {
-      dispatch(getListProduct());
-      dispatch(getProductId(id));
-      setName("");
-      setPrice("");
-      setCategoryId("");
-      setDescription("");
-    }
-    dispatch(getProductId(id));
-  }, [updateProductResult, dispatch]);
 
   const oldImage = [];
 
@@ -183,30 +173,16 @@ export default function FormAddProduct() {
       });
     } else {
       //add
-      const SwalAddProduct = {
-        userId: user.data.id,
-        name: name,
-        image: [images, images2, images3, images4],
-        price: price,
-        categoryId: categoryId,
-        description: description,
-      };
-      Swal.fire({
-        title: "Data sudah benar ?",
-        text: "Apakah anda yakin ingin menyimpan data ini ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, Simpan!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({ title: "Data Berhasil di tambahkan!", icon: "success" });
-          dispatch(addProduct(SwalAddProduct)).then(function () {
-            window.location.href = "/seller";
-          });
-        }
-      });
+      dispatch(
+        addProduct({
+          userId: user.data.id,
+          name: name,
+          image: [images, images2, images3, images4],
+          price: price,
+          categoryId: categoryId,
+          description: description,
+        })
+      );
     }
   };
 
@@ -303,7 +279,6 @@ export default function FormAddProduct() {
           type="file"
           onChange={handleUpload}
           hidden
-          required
         />
 
         <label htmlFor="file-input2" id="preview">

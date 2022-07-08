@@ -283,7 +283,7 @@ export const addProduct = (data) => async (dispatch) => {
     }
 
     console.log("DI ACTION 2 :", data);
-    const response = await fetch(`http://localhost:9000/api/v1/product`, {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/product`, {
       method: "POST",
       body: formdata,
       headers: {
