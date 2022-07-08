@@ -147,7 +147,6 @@ export const deleteWishlist = (id, token) => {
         errorMessage: false,
       },
     });
-    console.log(token);
     //get API
     axios({
       method: "DELETE",

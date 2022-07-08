@@ -8,6 +8,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getListSize } from "store/actions/sizeAction";
+import { Link } from "react-router-dom";
 
 export default function Galery({ productId }) {
   const { isAuthenticated, user, accessToken } = useSelector(
@@ -31,7 +32,10 @@ export default function Galery({ productId }) {
   const chooseSize = (size) => {
     setSize(size);
     setActive(size);
+    window.scrollTo(0, 300);
   };
+
+  // console.log(getProductIdResult);
   return (
     <>
       <section className="container section-galery-product">
@@ -115,7 +119,6 @@ export default function Galery({ productId }) {
                               className=" img-fluid"
                               src={`${item}`}
                               alt=""
-                              style={{ width: "100px" }}
                             />
                           </Button>
                         </div>
@@ -148,23 +151,56 @@ export default function Galery({ productId }) {
                     >
                       Size Not Available
                     </Button>
-                  ) : user.data.role === "SELLER" ? (
-                    getListSizeResult.data
-                      .sort((a, b) => a.sizes.id - b.sizes.id)
-                      .map((item) => {
-                        return (
-                          <Button
-                            className={`btn btn-filter mx-2 my-2 `}
-                            isDisabled
-                            isPrimary
-                            key={item.id}
-                          >
-                            {item.sizes.size}
-                          </Button>
-                        );
-                      })
+                  ) : isAuthenticated ? (
+                    user.data.role === "SELLER" ? (
+                      getListSizeResult.data
+                        .filter(
+                          (item) => item.productId === parseInt(productId)
+                        )
+                        .sort((a, b) => a.sizes.id - b.sizes.id)
+                        .map((item) => {
+                          return (
+                            <Button
+                              className={`btn btn-filter mx-2 my-2 `}
+                              isDisabled
+                              isPrimary
+                              key={item.id}
+                            >
+                              {item.sizes.size}
+                            </Button>
+                          );
+                        })
+                    ) : (
+                      getListSizeResult.data
+                        .filter(
+                          (item) => item.productId === parseInt(productId)
+                        )
+                        .sort((a, b) => a.sizes.id - b.sizes.id)
+                        .map((item) => {
+                          return (
+                            <Link
+                              key={item.id}
+                              to={`/product/${productId}`}
+                              state={{
+                                item: { ...item },
+                              }}
+                            >
+                              <Button
+                                className={`btn btn-filter mx-2 my-2 ${
+                                  active == item.sizeId && "btn-active"
+                                }`}
+                                isSecondary
+                                onClick={() => chooseSize(item.sizeId)}
+                              >
+                                {item.sizes.size}
+                              </Button>
+                            </Link>
+                          );
+                        })
+                    )
                   ) : (
                     getListSizeResult.data
+                      .filter((item) => item.productId === parseInt(productId))
                       .sort((a, b) => a.sizes.id - b.sizes.id)
                       .map((item) => {
                         return (

@@ -78,7 +78,7 @@ export default function WishlistProduct() {
                         key={item.products.id}
                       >
                         <img
-                          src={`../images/${item.products.image[0]}`}
+                          src={`${item.products.image[0]}`}
                           alt={`${item.products.image[0]}`}
                           className="img-fluid product-img mb-4"
                         />
