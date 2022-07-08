@@ -132,7 +132,7 @@ export default function Product(props) {
         </div>
 
         <div className="product">
-          <div className="row justify-content-center">
+          <div className="row justify-content-start">
             {product ? (
               product.length === 0 ? (
                 <div className="d-flex justify-content-center null-illustration p-5">
@@ -154,8 +154,9 @@ export default function Product(props) {
                       className="col-lg-3 col-md-6 col-sm-12  "
                       style={{ textDecoration: "none" }}
                       key={item.id}
+                      onClick={() => window.scrollTo(0, 0)}
                     >
-                      <Fade bottom delay={300 * index}>
+                      <Fade bottom delay={150 * index}>
                         <div className="card-product p-3 mb-4">
                           <img
                             src={`${item.image[0]}`}

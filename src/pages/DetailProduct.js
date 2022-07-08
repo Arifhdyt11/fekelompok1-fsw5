@@ -24,7 +24,6 @@ export default function DetailProduct() {
 
   useEffect(() => {
     document.title = "Shoesnarian | Detail Product";
-    window.scrollTo(0, 0);
   });
 
   useEffect(() => {
