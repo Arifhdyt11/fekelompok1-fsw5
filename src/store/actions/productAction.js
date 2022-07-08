@@ -96,7 +96,7 @@ export const getProductId = (id) => {
   };
 };
 
-export const getListProductSeller = (token) => {
+export const getListProductSeller = () => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -110,7 +110,9 @@ export const getListProductSeller = (token) => {
     //get API
     axios({
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/product/seller`,
       timeout: 120000,
     })
@@ -139,7 +141,7 @@ export const getListProductSeller = (token) => {
   };
 };
 
-export const getProductIdSeller = (id, token) => {
+export const getProductIdSeller = (id) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -154,7 +156,9 @@ export const getProductIdSeller = (id, token) => {
     //get API
     axios({
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/product/seller/` + id,
       timeout: 120000,
     })
@@ -182,68 +186,6 @@ export const getProductIdSeller = (id, token) => {
       });
   };
 };
-
-// export const addProduct = (data) => {
-//   var formdata = new FormData();
-//   formdata.append("name", data.name);
-//   formdata.append("price", data.price);
-//   formdata.append("categoryId", data.categoryId);
-//   formdata.append("description", data.description);
-//   formdata.append("image", data.image);
-
-//   return (dispatch) => {
-//     //loading
-//     dispatch({
-//       type: ADD_PRODUCT,
-//       payload: {
-//         loading: true,
-//         data: false,
-//         errorMessage: false,
-//       },
-//     });
-
-//     axios.interceptors.request.use(
-//       (config) => {
-//         config.headers.authorization = `Bearer ${data.accessToken}`;
-//         return config;
-//       },
-//       (error) => {
-//         return Promise.reject(error);
-//       }
-//     );
-
-//     //get API
-//     axios({
-//       method: "POST",
-//       url: `${process.env.REACT_APP_HOST}/product`,
-//       body: formdata,
-//       timeout: 120000,
-//       data: data,
-//     })
-//       .then((response) => {
-//         //berhasil get API
-//         dispatch({
-//           type: ADD_PRODUCT,
-//           payload: {
-//             loading: false,
-//             data: response.data,
-//             errorMessage: false,
-//           },
-//         });
-//       })
-//       .catch((error) => {
-//         //error get api
-//         dispatch({
-//           type: ADD_PRODUCT,
-//           payload: {
-//             loading: false,
-//             data: false,
-//             errorMessage: error.message,
-//           },
-//         });
-//       });
-//   };
-// };
 
 export const addProduct = (data) => async (dispatch) => {
   try {
@@ -350,6 +292,7 @@ export const updateProduct = (data) => async (dispatch) => {
         formdata.append("image", data.image[3]);
       }
     }
+
     fetch(`${process.env.REACT_APP_HOST}/product/` + data.id, {
       method: "PUT",
       headers: {
@@ -381,7 +324,7 @@ export const updateProduct = (data) => async (dispatch) => {
   }
 };
 
-export const deleteProduct = (id, token) => {
+export const deleteProduct = (id) => {
   console.log("2. Masuk ke action");
   return (dispatch) => {
     dispatch({
@@ -392,11 +335,12 @@ export const deleteProduct = (id, token) => {
         errorMessage: false,
       },
     });
-    console.log(token);
     //get API
     axios({
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/product/` + id,
       timeout: 120000,
     })

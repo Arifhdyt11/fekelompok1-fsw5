@@ -45,8 +45,6 @@ export default function ModalStock({ productId }) {
     }
   }, [detailSizeResult]);
 
-  console.log(id);
-
   useEffect(() => {
     if (addSizeResult) {
       dispatch(getListSize(accessToken));

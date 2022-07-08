@@ -23,7 +23,7 @@ export default function ProfilePage() {
     (state) => state.AuthReducer
   );
 
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState(kamera);
   const [progress, setProgress] = useState(0);
 
   const handleUpload = (e) => {
@@ -54,11 +54,11 @@ export default function ProfilePage() {
         document.getElementById("addressInput").value = user.data.address;
       if (user.data.phone !== null)
         document.getElementById("phoneInput").value = user.data.phone;
-      setImage(
-        user.data.image !== null
-          ? (document.getElementById("filePhoto").src = user.data.image)
-          : (document.getElementById("filePhoto").src = kamera)
-      );
+      if (user.data.image !== null) {
+        document.getElementById("filePhoto").src = user.data.image;
+      } else {
+        document.getElementById("filePhoto").src = kamera;
+      }
     }
   }
 

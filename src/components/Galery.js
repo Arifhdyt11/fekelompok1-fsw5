@@ -32,7 +32,6 @@ export default function Galery({ productId }) {
     setSize(size);
     setActive(size);
   };
-  console.log(size);
   return (
     <>
       <section className="container section-galery-product">
@@ -63,7 +62,6 @@ export default function Galery({ productId }) {
                     : getProductIdResult.name //NOT LOGGED IN
                 }
                 className="default-image shoes mb-n3"
-                style={{ width: "130px" }}
               />
               <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
               <img src={Pad} alt="Pad" className="pad-image mb-3 " />
