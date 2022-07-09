@@ -3,7 +3,7 @@ import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
   try {
-    const response = await fetch("http://localhost:8000/api/v1/login", {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     });
     const result = await response.json();
 
-    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
+    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -43,12 +43,12 @@ function Login() {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-        dispatch(loginWithGoogle(tokenResponse.access_token));
+      dispatch(loginWithGoogle(tokenResponse.access_token));
     },
     onError: (error) => {
-        alert(error);
+      alert(error);
     },
-});
+  });
 
   return (
     <>
@@ -116,13 +116,13 @@ function Login() {
                     </Link>
                   </p>
 
-                  <button
+                  {/* <button
                     className="btn btn-block login-btn"
                     type="button"
                     onClick={() => googleLogin()}
                   >
                     <i className="uil uil-google"></i> Sign in with Google
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
