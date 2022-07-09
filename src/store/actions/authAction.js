@@ -11,7 +11,6 @@ export const loginViaForm = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    console.log(result);
 
     const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
       method: "GET",
@@ -21,8 +20,7 @@ export const loginViaForm = (data) => async (dispatch) => {
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
-
-    // console.log(user);
+    console.log(`Token user ${result.accessToken}`);
 
     if (result.accessToken) {
       dispatch({
@@ -129,49 +127,43 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     const data = {
       access_token: accessToken,
     };
-    const response = await fetch(
-      "http://localhost:8000/api/v1/google",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch("http://localhost:8000/api/v1/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     const result = await response.json();
     console.log(data);
     console.log(result);
 
-    const userInfo = await fetch(
-      "http://localhost:8000/api/v1/profile",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${result.token}`,
-        },
-      }
-    );
+    // profile
+    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${result.accessToken}`,
+      },
+    });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
-    if (result.token) {
+    if (result.accessToken) {
       dispatch({
         type: LOGIN,
-        payload: result.token,
+        payload: result.accessToken,
         user: user,
       });
       Swal.fire({
-        position: "top-end",
         icon: "success",
         title: "Login Successful",
         showConfirmButton: false,
         timer: 1500,
       });
+      window.location.href = "/";
     } else {
       authError(result.error);
       Swal.fire({
-        position: "top-end",
         icon: "error",
         title: "Login Failed",
         showConfirmButton: false,

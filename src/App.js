@@ -23,17 +23,23 @@ function App() {
   return (
     <Router>
       <Routes>
-        
         <Route
           path="/login"
           element={
             <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
-             <Login />
+              <Login />
             </GoogleOAuthProvider>
           }
         />
 
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/register"
+          element={
+            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+              <Register />
+            </GoogleOAuthProvider>
+          }
+        />
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
