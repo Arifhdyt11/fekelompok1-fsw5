@@ -3,7 +3,7 @@ import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
   try {
-    const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
+    const response = await fetch("http://localhost:8000/api/v1/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     const result = await response.json();
     console.log(result);
 
-    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
+    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +130,7 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       access_token: accessToken,
     };
     const response = await fetch(
-      "https://be-binarcar-ch7.herokuapp.com/api/v1/auth/google",
+      "http://localhost:8000/api/v1/google",
       {
         method: "POST",
         headers: {
@@ -140,9 +140,11 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       }
     );
     const result = await response.json();
+    console.log(data);
+    console.log(result);
 
     const userInfo = await fetch(
-      "https://be-binarcar-ch7.herokuapp.com/api/v1/auth/me",
+      "http://localhost:8000/api/v1/profile",
       {
         method: "GET",
         headers: {
