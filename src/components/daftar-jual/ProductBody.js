@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
+import { Link, Navigate } from "react-router-dom";
+import Button from "elements/Button";
 function ProductBody() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
@@ -82,12 +84,15 @@ function ProductBody() {
               </div>
               <span className="badge bg-primary">{wishlist}</span>
             </li>
-            <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category">
+            <Button
+              className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"
+              type="link"
+              href="/transaction"
+            >
               <div className="icon-list">
                 <i className="uil uil-dollar-alt item-icon"></i> Terjual
               </div>
-              <span className="badge bg-primary"></span>
-            </li>
+            </Button>
           </ul>
         </div>
       </div>

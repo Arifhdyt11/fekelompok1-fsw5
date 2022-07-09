@@ -8,7 +8,7 @@ import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import InfoPenawarPage from "./pages/InfoPenawar";
+import TransactionDetail from "./pages/TransactionDetail";
 import Wishlist from "pages/Wishlist";
 import FormActionProduct from "pages/FormActionProduct";
 import History from "pages/History";
@@ -16,6 +16,7 @@ import Middleware from "pages/Middleware";
 import Unauthorized from "pages/401";
 import Forbidden from "pages/403";
 import PageNotFound from "pages/404";
+import Transaction from "pages/Transaction";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -69,8 +70,14 @@ function App() {
         />
 
         <Route
+          path="/transaction"
+          element={<Middleware role="SELLER" childern={<Transaction />} />}
+        />
+        <Route
           path="/transaction/:id"
-          element={<Middleware role="SELLER" childern={<InfoPenawarPage />} />}
+          element={
+            <Middleware role="SELLER" childern={<TransactionDetail />} />
+          }
         />
         <Route
           path="/profile"
