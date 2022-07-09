@@ -123,3 +123,67 @@ export const updateUserDetail = (data) => async (dispatch) => {
     authError(error);
   }
 };
+
+export const loginWithGoogle = (accessToken) => async (dispatch) => {
+  try {
+    const data = {
+      access_token: accessToken,
+    };
+    const response = await fetch(
+      "https://be-binarcar-ch7.herokuapp.com/api/v1/auth/google",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const result = await response.json();
+
+    const userInfo = await fetch(
+      "https://be-binarcar-ch7.herokuapp.com/api/v1/auth/me",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${result.token}`,
+        },
+      }
+    );
+    const user = JSON.parse(JSON.stringify(await userInfo.json()));
+
+    if (result.token) {
+      dispatch({
+        type: LOGIN,
+        payload: result.token,
+        user: user,
+      });
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      authError(result.error);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Login Failed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  } catch (error) {
+    authError(error);
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Login Failed",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  }
+};

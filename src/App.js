@@ -17,11 +17,22 @@ import Unauthorized from "pages/401";
 import Forbidden from "pages/403";
 import PageNotFound from "pages/404";
 
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        
+        <Route
+          path="/login"
+          element={
+            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+             <Login />
+            </GoogleOAuthProvider>
+          }
+        />
+
         <Route path="/register" element={<Register />} />
 
         <Route path="/" element={<LandingPage />} />
