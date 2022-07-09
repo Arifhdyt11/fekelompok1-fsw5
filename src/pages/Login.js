@@ -5,7 +5,8 @@ import "assets/css/login.css";
 import BrandIcon from "components/IconText";
 import { Navigate } from "react-router-dom";
 
-import { loginViaForm } from "store/actions/authAction";
+import { loginViaForm, loginWithGoogle } from "store/actions/authAction";
+import { useGoogleLogin } from "@react-oauth/google";
 
 function Login() {
   useEffect(() => {
@@ -39,6 +40,15 @@ function Login() {
       dispatch(loginViaForm({ email, password }));
     }
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+        dispatch(loginWithGoogle(tokenResponse.access_token));
+    },
+    onError: (error) => {
+        alert(error);
+    },
+});
 
   return (
     <>
@@ -105,6 +115,14 @@ function Login() {
                       Daftar di sini
                     </Link>
                   </p>
+
+                  <button
+                    className="btn btn-block login-btn"
+                    type="button"
+                    onClick={() => googleLogin()}
+                  >
+                    <i className="uil uil-google"></i> Sign in with Google
+                  </button>
                 </div>
               </div>
             </div>

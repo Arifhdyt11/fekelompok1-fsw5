@@ -24,7 +24,7 @@ export default function FormAddProduct() {
   const location = useLocation();
 
   const { id } = useParams();
-
+  console.log(location);
   if (id) {
     var { getProductIdSellerResult } = location.state.getProductIdSellerResult;
   }

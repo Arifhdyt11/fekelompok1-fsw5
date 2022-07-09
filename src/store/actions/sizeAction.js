@@ -7,7 +7,7 @@ import {
   DETAIL_SIZE,
 } from "store/types";
 
-export const getListSize = (token) => {
+export const getListSize = () => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -22,7 +22,9 @@ export const getListSize = (token) => {
     //get API
     axios({
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/size`,
       timeout: 120000,
     })

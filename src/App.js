@@ -8,7 +8,7 @@ import DaftarJual from "pages/DaftarJual";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import InfoPenawarPage from "./pages/InfoPenawar";
+import TransactionDetail from "./pages/TransactionDetail";
 import Wishlist from "pages/Wishlist";
 import FormActionProduct from "pages/FormActionProduct";
 import History from "pages/History";
@@ -16,13 +16,31 @@ import Middleware from "pages/Middleware";
 import Unauthorized from "pages/401";
 import Forbidden from "pages/403";
 import PageNotFound from "pages/404";
+import Transaction from "pages/Transaction";
+
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route
+          path="/login"
+          element={
+            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+              <Login />
+            </GoogleOAuthProvider>
+          }
+        />
+
+        <Route
+          path="/register"
+          element={
+            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+              <Register />
+            </GoogleOAuthProvider>
+          }
+        />
 
         <Route path="/" element={<LandingPage />} />
         <Route path="/product/:id" element={<DetailProduct />} />
@@ -52,8 +70,14 @@ function App() {
         />
 
         <Route
+          path="/transaction"
+          element={<Middleware role="SELLER" childern={<Transaction />} />}
+        />
+        <Route
           path="/transaction/:id"
-          element={<Middleware role="SELLER" childern={<InfoPenawarPage />} />}
+          element={
+            <Middleware role="SELLER" childern={<TransactionDetail />} />
+          }
         />
         <Route
           path="/profile"

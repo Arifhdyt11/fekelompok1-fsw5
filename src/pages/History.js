@@ -1,4 +1,4 @@
-import HistoryTransaction from "components/HistoryTransaction";
+import TransactionBody from "components/TransactionBody";
 import Navbar from "components/Navbar";
 import React, { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export default function History() {
   return (
     <>
       <Navbar />
-      <HistoryTransaction product={product} />
+      <TransactionBody product={product} />
     </>
   );
 }
