@@ -7,6 +7,9 @@ import BrandIcon from "components/IconText";
 import { useDispatch } from "react-redux";
 import { addRegister } from "store/actions/registerAction";
 
+import { loginWithGoogle } from "store/actions/authAction";
+import { useGoogleLogin } from "@react-oauth/google";
+
 function Register() {
   useEffect(() => {
     document.title = "Shoesnarian | Register";
@@ -27,6 +30,17 @@ function Register() {
       addRegister({ email: email, password: password, name: name, role: role })
     );
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      dispatch(loginWithGoogle(tokenResponse.access_token));
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+
 
   return (
     <main>
@@ -120,6 +134,14 @@ function Register() {
                   Masuk di sini
                 </Link>
               </p>
+
+              <button
+                className="btn btn-block login-btn"
+                type="button"
+                onClick={() => googleLogin()}
+              >
+                <i className="uil uil-google"></i> Sign in with Google
+              </button>
             </div>
           </div>
         </div>
