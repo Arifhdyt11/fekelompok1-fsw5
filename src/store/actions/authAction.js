@@ -11,7 +11,6 @@ export const loginViaForm = (data) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    console.log(result);
 
     const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
@@ -21,8 +20,7 @@ export const loginViaForm = (data) => async (dispatch) => {
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
-
-    // console.log(user);
+    console.log(`Token user ${result.accessToken}`);
 
     if (result.accessToken) {
       dispatch({
@@ -121,5 +119,65 @@ export const updateUserDetail = (data) => async (dispatch) => {
     });
   } catch (error) {
     authError(error);
+  }
+};
+
+export const loginWithGoogle = (accessToken) => async (dispatch) => {
+  try {
+    const data = {
+      access_token: accessToken,
+    };
+    const response = await fetch("http://localhost:8000/api/v1/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(data);
+    console.log(result);
+
+    // profile
+    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${result.accessToken}`,
+      },
+    });
+    const user = JSON.parse(JSON.stringify(await userInfo.json()));
+
+    if (result.accessToken) {
+      dispatch({
+        type: LOGIN,
+        payload: result.accessToken,
+        user: user,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      window.location.href = "/";
+    } else {
+      authError(result.error);
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+  } catch (error) {
+    authError(error);
+    Swal.fire({
+      position: "top-end",
+      icon: "error",
+      title: "Login Failed",
+      showConfirmButton: false,
+      timer: 1500,
+    });
   }
 };
