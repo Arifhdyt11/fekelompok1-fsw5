@@ -1,13 +1,13 @@
-import Button from "elements/Button";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addTransaction,
-  getListTransactionBuyer,
-} from "store/actions/transactionAction";
+import { addTransaction } from "store/actions/transactionAction";
 import { formatDate } from "utils/defaultFormat";
 
 export default function ModalNegoBuyer({ item, dataProduct }) {
+  const { addTransactionResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
+
   const date = new Date();
   const [price, setPrice] = useState("");
 
@@ -21,6 +21,12 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
     e.preventDefault();
     dispatch(addTransaction({ productsizeId: item.id, price: price }));
   };
+
+  useEffect(() => {
+    if (addTransactionResult) {
+      setPrice("");
+    }
+  }, [addTransactionResult, dispatch]);
 
   return (
     <div id="modalInfoProduk">

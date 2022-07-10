@@ -4,7 +4,7 @@ import "assets/fontawesome/css/all.css";
 import LandingPage from "pages/LandingPage";
 import Register from "pages/Register";
 import Login from "pages/Login";
-import DaftarJual from "pages/DaftarJual";
+import DaftarJual from "pages/DashboardSeller";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";

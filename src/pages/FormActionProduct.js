@@ -3,7 +3,7 @@ import Navbar from "components/Navbar";
 
 import "assets/css/tambahProduct.css";
 
-import FormProduct from "components/FormProduct";
+import FormProduct from "components/formActionProduct/FormProduct";
 import Button from "elements/Button";
 import { useEffect } from "react";
 

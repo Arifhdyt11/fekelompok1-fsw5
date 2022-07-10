@@ -86,7 +86,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
       });
   }
 
-  console.log(item);
+  // console.log(item);
   // console.log(getListTransactionBuyerResult.data);
 
   if (isAuthenticated) {
@@ -101,8 +101,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
             state={{ getProductIdSellerResult: { getProductIdSellerResult } }}
           >
             <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
+              className="btn btn-warning mt-3 ms-auto  py-2"
               hasShadow
               isBlock
             >
@@ -122,7 +121,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
     } else {
       return (
         <>
-          {getProductIdResult ? (
+          {getProductIdResult ? ( //Load Modal If Product Detect
             <ModalNegoBuyer dataProduct={getProductIdResult} item={item} />
           ) : (
             ""
@@ -130,7 +129,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
           {!item ? (
             <button
               type="button"
-              className="btn mt-3 ms-auto py-2 btn-warning is-block btn-has-shadow"
+              className="btn mt-3 ms-auto py-2 btn-warning is-block btn-shadow"
               style={{ cursor: "context-menu" }}
             >
               Please Choose Size
@@ -142,7 +141,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
             ).length === 0 ? (
               <button
                 type="button"
-                className="btn mt-3 ms-auto py-2 btn-primary is-block btn-has-shadow "
+                className="btn mt-3 ms-auto py-2 btn-primary is-block btn-shadow "
                 data-bs-toggle="modal"
                 data-bs-target="#modalInfoPenawar"
               >
@@ -162,7 +161,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
             ).length === 0 ? (
               <Button
                 className="btn mt-3 ms-auto py-2"
-                isSecondary
+                isThird
                 hasShadow
                 isBlock
                 onClick={() =>
@@ -179,13 +178,13 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
               </Button>
             ) : (
               <>
-                <h4 className="mt-3 text-center">
+                <h5 className="mt-3 text-center">
                   Already On Wishlist
                   <i
                     className="fa-solid fa-check fa-lg ms-4"
                     style={{ color: "#1abc9c" }}
                   ></i>
-                </h4>
+                </h5>
                 <Button
                   className="btn btn-outline-danger ms-auto py-2"
                   hasShadow
@@ -200,9 +199,13 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
               </>
             )
           ) : getListWishlistBuyerLoading ? (
-            <h3 className="mt-3" style={{ color: "#152c5b" }}>
-              Loading...
-            </h3>
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isThird
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
           ) : (
             <p className="mt-3">
               {getListWishlistBuyerError ? getListWishlistBuyerError : ""}
@@ -264,7 +267,7 @@ export default function ActionDetail({ id }) {
                   <p>{getProductIdSellerResult.userAsSeller.city}</p>
                 </>
               ) : (
-                ""
+                <Button isLoading></Button>
               )
             ) : getProductIdResult ? ( //BUYER
               <>
@@ -290,7 +293,7 @@ export default function ActionDetail({ id }) {
           getProductIdSellerResult ? ( //SELLER
             <h3>Rp. {formatPrice(getProductIdSellerResult.price)}</h3>
           ) : getProductIdSellerLoading ? (
-            <h3>Loading....</h3>
+            <Button isLoading></Button>
           ) : (
             <p>
               {getProductIdSellerError
@@ -301,14 +304,14 @@ export default function ActionDetail({ id }) {
         ) : getProductIdResult ? ( //BUYER
           <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
         ) : getProductIdLoading ? (
-          <h3>Loading....</h3>
+          <Button isLoading></Button>
         ) : (
           <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
         )
       ) : getProductIdResult ? ( //NOT LOGGED IN
         <h3>Rp. {formatPrice(getProductIdResult.price)}</h3>
       ) : getProductIdLoading ? (
-        <h3>Loading....</h3>
+        <Button isLoading></Button>
       ) : (
         <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
       )}

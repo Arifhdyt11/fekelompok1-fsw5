@@ -1,3 +1,4 @@
+import Button from "elements/Button";
 import { useSelector } from "react-redux";
 
 import Fade from "react-reveal/Fade";
@@ -27,12 +28,12 @@ export default function ProductTitle() {
                     <p>{getProductIdSellerResult.categories.name}</p>
                   </div>
                 ) : getProductIdSellerLoading ? (
-                  <h3>Loading....</h3>
+                  <Button isLoading></Button>
                 ) : (
                   <p>
                     {getProductIdSellerError
                       ? getProductIdSellerError
-                      : "Data Kosong"}
+                      : "Please Reload or Try Again"}
                   </p>
                 )
               ) : getProductIdResult ? (
@@ -41,9 +42,13 @@ export default function ProductTitle() {
                   <p>{getProductIdResult.categories.name}</p>
                 </div>
               ) : getProductIdLoading ? (
-                <h3>Loading....</h3>
+                <Button isLoading></Button>
               ) : (
-                <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
+                <p>
+                  {getProductIdError
+                    ? getProductIdError
+                    : "Please Reload or Try Again"}
+                </p>
               )
             ) : getProductIdResult ? (
               <div>
@@ -51,9 +56,13 @@ export default function ProductTitle() {
                 <p>{getProductIdResult.categories.name}</p>
               </div>
             ) : getProductIdLoading ? (
-              <h3>Loading....</h3>
+              <Button isLoading></Button>
             ) : (
-              <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
+              <p>
+                {getProductIdError
+                  ? getProductIdError
+                  : "Please Reload or Try Again"}
+              </p>
             )}
           </div>
         </section>

@@ -19,10 +19,10 @@ function BuyerInfo({ userAsBuyer }) {
           alt="BuyerImage"
         />
         <div>
-          <h4>
+          <h5>
             {userAsBuyer.name}
             <label className="customerTag mt-3 mt-md-0 ms-1">Pembeli</label>
-          </h4>
+          </h5>
           <p>{userAsBuyer.city}</p>
         </div>
       </div>
@@ -33,7 +33,7 @@ function BuyerInfo({ userAsBuyer }) {
 function ProductInfo({
   id,
   productSizes,
-  price,
+  priceBid,
   status,
   createdAt,
   userAsBuyer,
@@ -58,41 +58,43 @@ function ProductInfo({
               <div className="col-lg-10 col-sm-12 ps-5">
                 <div className="mb-4">
                   <div className="d-flex justify-content-between">
-                    <h5>Penawaran Product</h5>
+                    <h6>Penawaran Product</h6>
                     <p>{formatDate(createdAt, "full")}</p>
                   </div>
-                  <h4>{productSizes.products.name}</h4>
+                  <h5>{productSizes.products.name}</h5>
                 </div>
                 <div className="d-flex justify-content-start mb-3">
                   <div className="me-auto">
-                    <h5>Size</h5>
-                    <h4>{productSizes.sizes.size}</h4>
+                    <h6>Size</h6>
+                    <h5>{productSizes.sizes.size}</h5>
                   </div>
                   <div className="me-auto">
-                    <h5>Harga Awal</h5>
-                    <h4>
+                    <h6>Harga Awal</h6>
+                    <h5>
                       <s>Rp. {productSizes.products.price}</s>
-                    </h4>
+                    </h5>
                   </div>
                   <div className="me-auto">
-                    <h5>Ditawar</h5>
-                    <h4>Rp. {price}</h4>
+                    <h6>Ditawar</h6>
+                    <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                      Rp. {priceBid}
+                    </h5>
                   </div>
                   <div className="me-auto">
-                    <h5>Status</h5>
+                    <h6>Status</h6>
 
                     {status === "success" ? (
-                      <h4 className="text-center" style={{ color: "#198754" }}>
+                      <h5 className="text-center" style={{ color: "#198754" }}>
                         Success
-                      </h4>
+                      </h5>
                     ) : status === "pending" ? (
-                      <h4 className="text-center" style={{ color: "#ffc107" }}>
+                      <h5 className="text-center" style={{ color: "#ffc107" }}>
                         Pending
-                      </h4>
+                      </h5>
                     ) : (
-                      <h4 className="text-center" style={{ color: "#dc3545" }}>
+                      <h5 className="text-center" style={{ color: "#dc3545" }}>
                         Cancel
-                      </h4>
+                      </h5>
                     )}
                   </div>
                 </div>
@@ -139,7 +141,7 @@ function ProductInfo({
                     <ModalTransactionSeller
                       id={id}
                       dataProduct={productSizes.products}
-                      price={price}
+                      priceBid={priceBid}
                       createdAt={createdAt}
                     />
                   </div>
@@ -178,6 +180,8 @@ export default function TransactionDetailSeller() {
           <BuyerInfo {...getTransactionIdSellerResult.data[0]} />
           <ProductInfo {...getTransactionIdSellerResult.data[0]} />
         </>
+      ) : getTransactionIdSellerLoading ? (
+        <h3>Loading...</h3>
       ) : (
         ""
       )}

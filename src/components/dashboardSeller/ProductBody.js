@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
-import { Link, Navigate } from "react-router-dom";
+
 import Button from "elements/Button";
 function ProductBody() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
@@ -69,7 +69,7 @@ function ProductBody() {
               onClick={() => handleShow("All")}
             >
               <div className="icon-list">
-                <i className="uil uil-cube item-icon"></i> Semua Produk
+                <i className="fa-regular fa-cube fa-xs me-3"></i>Semua Produk
               </div>
               <span className="badge bg-primary">{total}</span>
             </li>
@@ -79,8 +79,7 @@ function ProductBody() {
               onClick={() => handleShow("Diminati")}
             >
               <div className="icon-list">
-                <i className="uil uil-heart item-icon"></i>
-                Diminati
+                <i className="fa-regular fa-heart fa-xs me-3"></i>Diminati
               </div>
               <span className="badge bg-primary">{wishlist}</span>
             </li>
@@ -90,7 +89,7 @@ function ProductBody() {
               href="/transaction"
             >
               <div className="icon-list">
-                <i className="uil uil-dollar-alt item-icon"></i> Terjual
+                <i className="fa-solid fa-dollar-sign fa-xs me-3"></i>Terjual
               </div>
             </Button>
           </ul>

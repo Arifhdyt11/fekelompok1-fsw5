@@ -146,7 +146,6 @@ export default function Galery({ productId }) {
                   ).length === 0 ? (
                     <Button
                       className="btn btn-danger mt-3 py-2 mx-0"
-                      hasShadow
                       style={{ cursor: "context-menu" }}
                     >
                       Size Not Available
@@ -161,9 +160,9 @@ export default function Galery({ productId }) {
                         .map((item) => {
                           return (
                             <Button
-                              className={`btn btn-filter mx-2 my-2 `}
+                              className={`btn  mx-2 my-2 `}
+                              isSecondary
                               isDisabled
-                              isPrimary
                               key={item.id}
                             >
                               {item.sizes.size}
@@ -186,10 +185,10 @@ export default function Galery({ productId }) {
                               }}
                             >
                               <Button
-                                className={`btn btn-filter mx-2 my-2 ${
+                                className={`btn mx-2 my-2 ${
                                   active == item.sizeId && "btn-active"
                                 }`}
-                                isSecondary
+                                isSecondaryOutline
                                 onClick={() => chooseSize(item.sizeId)}
                               >
                                 {item.sizes.size}
@@ -218,7 +217,7 @@ export default function Galery({ productId }) {
                       })
                   )
                 ) : getListSizeLoading ? (
-                  <h3>Loading...</h3>
+                  <Button isLoading></Button>
                 ) : (
                   <p>{getListSizeError ? getListSizeError : "erro"}</p>
                 )}

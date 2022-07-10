@@ -1,4 +1,4 @@
-import ModalStock from "components/ModalStock";
+import ModalStock from "components/formActionProduct/ModalStock";
 import Button from "elements/Button";
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
