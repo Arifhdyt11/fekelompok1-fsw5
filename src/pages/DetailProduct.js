@@ -6,12 +6,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductId, getProductIdSeller } from "store/actions/productAction";
 
-import ActionDetail from "components/ActionDetail";
-import DescriptionProduct from "components/DescriptionProduct";
+import ActionDetail from "components/detailProduct/ActionDetail";
+import DescriptionProduct from "components/detailProduct/DescriptionProduct";
 import Footer from "components/Footer";
-import Galery from "components/Galery";
+import Galery from "components/detailProduct/Galery";
 import Navbar from "components/Navbar";
-import ProductTitle from "components/ProductTitle";
+import ProductTitle from "components/detailProduct/ProductTitle";
 
 export default function DetailProduct() {
   const { isAuthenticated, user, accessToken } = useSelector(

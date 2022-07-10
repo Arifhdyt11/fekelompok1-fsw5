@@ -35,10 +35,11 @@ export const loginViaForm = (data) => async (dispatch) => {
         timer: 1500,
       });
     } else {
+      console.log(result);
       authError(result.error);
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
+        title: `${result.message}`,
         showConfirmButton: false,
         timer: 1500,
       });
@@ -47,7 +48,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     authError(error);
     Swal.fire({
       icon: "error",
-      title: "Email or Password is incorrect",
+      title: `${error}`,
       showConfirmButton: false,
       timer: 1500,
     });

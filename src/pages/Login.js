@@ -8,6 +8,8 @@ import { Navigate } from "react-router-dom";
 import { loginViaForm, loginWithGoogle } from "store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
 
+import LoginImg from "assets/images/login5.jpg";
+
 function Login() {
   useEffect(() => {
     document.title = "Shoesnarian | Login";
@@ -27,6 +29,7 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +42,10 @@ function Login() {
     if (email !== "" && password !== "") {
       dispatch(loginViaForm({ email, password }));
     }
+  };
+
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
   };
 
   const googleLogin = useGoogleLogin({
@@ -56,17 +63,14 @@ function Login() {
         <main>
           <div className="container-fluid">
             <div className="row">
-              {/* 1 */}
               <div className="col-sm-5 px-0 d-none d-sm-block img-section-wrapper">
-                <div alt="login image" className="login-img ">
-                  {" "}
-                </div>
+                <div alt="login image" className="login-img "></div>
               </div>
-              {/* 2 */}
               <div className="col-sm-7 login-section-wrapper">
+                {/* <div className="col-sm-7 align-self-center"> */}
                 <div className="login-wrapper my-auto mx-auto">
                   <BrandIcon />
-                  <h1 className="login-title mt-2">Masuk</h1>
+                  <h3 className="mt-1 mb-4">Masuk</h3>
                   <form onSubmit={handleSubmit}>
                     <div className="form-group">
                       <label htmlFor="email">Email</label>
@@ -86,7 +90,7 @@ function Login() {
                       <label htmlFor="password">Password</label>
                       <div className="input-group">
                         <input
-                          type="password"
+                          type={passwordShown ? "text" : "password"}
                           name="password"
                           className="form-control form-control-password"
                           placeholder="Masukkan password"
@@ -95,7 +99,14 @@ function Login() {
                           required
                         />
                         <span className="input-group-text " id="basic-addon2">
-                          <i className="uil uil-eye"></i>
+                          <i
+                            class={
+                              passwordShown
+                                ? "fa-solid fa-eye-slash fa-lg"
+                                : "fa-solid fa-eye fa-lg"
+                            }
+                            onClick={togglePasswordVisiblity}
+                          ></i>
                         </span>
                       </div>
                     </div>

@@ -6,9 +6,8 @@ export default function Button(props) {
   const className = [props.className];
   if (props.isPrimary) className.push("btn-primary");
   if (props.isSecondary) className.push("btn-secondary");
-  if (props.isLight) className.push("btn-light");
-  if (props.isLarge) className.push("btn-lg");
-  if (props.isSmall) className.push("btn-sm");
+  if (props.isSecondaryOutline) className.push("btn-outline-secondary");
+  if (props.isThird) className.push("btn-third");
   if (props.isBlock) className.push("is-block");
   if (props.hasShadow) className.push("btn-shadow");
   if (props.nonStyle) className.push("btn-none-style");
@@ -80,12 +79,11 @@ Button.propTypes = {
   className: propTypes.string,
   isPrimary: propTypes.bool,
   isSecondary: propTypes.bool,
-  isLight: propTypes.bool,
+  isSecondaryOutline: propTypes.bool,
+  isThird: propTypes.bool,
   isExternal: propTypes.bool,
   isDisabled: propTypes.bool,
   isLoading: propTypes.bool,
-  isSmall: propTypes.bool,
-  isLarge: propTypes.bool,
   isBlock: propTypes.bool,
   hasShadow: propTypes.bool,
   nonStyle: propTypes.bool,

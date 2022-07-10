@@ -11,7 +11,7 @@ export default function Footer() {
             <p className="brand-tagline">Be Trend And In Style.</p>
           </div>
           <div className="col-lg-2 col-sm-12 col-md-3 me-3">
-            <h6 className="mt-2">For Beinners</h6>
+            <h5 className="mt-2">For Beinners</h5>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <Button type="link" href="/register">
@@ -31,7 +31,7 @@ export default function Footer() {
             </ul>
           </div>
           <div className="col-lg-2 col-sm-12 col-md-3 me-3">
-            <h6 className="mt-2">Explore Us</h6>
+            <h5 className="mt-2">Explore Us</h5>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <Button type="link" href="/careers">
@@ -51,13 +51,13 @@ export default function Footer() {
             </ul>
           </div>
           <div className="col-lg-2 col-sm-12 col-md-3 ">
-            <h6 className="mt-2">Connect Us</h6>
+            <h5 className="mt-2">Connect Us</h5>
             <ul className="list-group list-group-flush">
               <li className="list-group-item">
                 <Button
                   isExternal
                   type="link"
-                  href="mailto:support@staycation.id"
+                  href="mailto:support@shoesnarian.com"
                 >
                   support@shoesnarian.com
                 </Button>

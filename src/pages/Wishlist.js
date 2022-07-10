@@ -1,5 +1,5 @@
 import Navbar from "components/Navbar";
-import WishlistProduct from "components/WishlistProduct";
+import WishlistProduct from "components/wishlist/WishlistProduct";
 import { useEffect } from "react";
 
 export default function Wishlist() {

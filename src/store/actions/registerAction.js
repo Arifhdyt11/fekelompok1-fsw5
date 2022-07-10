@@ -17,7 +17,7 @@ export const addRegister = (data) => {
     // get API
     axios({
       method: "POST",
-      url: "http://localhost:8000/api/v1/register",
+      url: `${process.env.REACT_APP_HOST}/register`,
       timeout: 120000,
       data: data,
     })
@@ -51,7 +51,7 @@ export const addRegister = (data) => {
         });
         Swal.fire({
           icon: "error",
-          title: "Registration Failed",
+          title: error.response.data.message,
           showConfirmButton: false,
           timer: 1500,
         });

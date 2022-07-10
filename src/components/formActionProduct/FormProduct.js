@@ -11,7 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
-import fotoProduct from "../assets/images/addProduct.png";
+import fotoProduct from "assets/images/addProduct.png";
 import Swal from "sweetalert2";
 
 export default function FormAddProduct() {

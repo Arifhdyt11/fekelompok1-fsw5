@@ -1,4 +1,3 @@
-import SellerImg from "assets/images/login2.png";
 import { useSelector } from "react-redux";
 
 function ProductHeader() {
