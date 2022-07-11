@@ -187,8 +187,18 @@ export const getProductIdSeller = (id) => {
   };
 };
 
-export const addProduct = (data) => async (dispatch) => {
-  try {
+export const addProduct = (data) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: ADD_PRODUCT,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
     console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
     formdata.append("userId", data.userId);
@@ -196,6 +206,7 @@ export const addProduct = (data) => async (dispatch) => {
     formdata.append("price", data.price);
     formdata.append("categoryId", data.categoryId);
     formdata.append("description", data.description);
+    formdata.append("status", data.status);
 
     if (data.image.length > 0) {
       if (
@@ -224,27 +235,46 @@ export const addProduct = (data) => async (dispatch) => {
       }
     }
 
-    console.log("DI ACTION 2 :", data);
-    const response = await fetch(`${process.env.REACT_APP_HOST}/product`, {
+    //get API
+    axios({
       method: "POST",
-      body: formdata,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    });
-
-    const result = await response.json();
-
-    dispatch({
-      type: ADD_PRODUCT,
-      payload: result,
-    });
-  } catch (error) {
-    dispatch({
-      type: ADD_PRODUCT,
-      payload: error.response,
-    });
-  }
+      url: `${process.env.REACT_APP_HOST}/product`,
+      timeout: 120000,
+      data: formdata,
+    })
+      .then((response) => {
+        //berhasil get API
+        console.log("3. Berhasil Dapat Data", response.data);
+        if (response.data.product.status === "draft") {
+          window.location.href = "/seller-product/" + response.data.product.id;
+        } else {
+          // window.location.href = "/seller";
+        }
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("3. Gagal Dapat Data", error.response.data);
+        //error get api
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
 };
 
 export const updateProduct = (data) => async (dispatch) => {
@@ -266,6 +296,7 @@ export const updateProduct = (data) => async (dispatch) => {
     formdata.append("categoryId", data.categoryId);
     formdata.append("description", data.description);
     formdata.append("oldImage", data.oldImage);
+
     if (data.image.length > 0) {
       if (
         data.image[0].type === "image/jpeg" ||

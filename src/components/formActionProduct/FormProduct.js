@@ -24,7 +24,7 @@ export default function FormAddProduct() {
   const location = useLocation();
 
   const { id } = useParams();
-  console.log(location);
+  // console.log(location);
   if (id) {
     var { getProductIdSellerResult } = location.state.getProductIdSellerResult;
   }
@@ -36,6 +36,7 @@ export default function FormAddProduct() {
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
 
   const dispatch = useDispatch();
 
@@ -81,8 +82,6 @@ export default function FormAddProduct() {
       setImages3("");
     }
   };
-
-  console.log(images2);
 
   const handleUpload4 = (e) => {
     if (e.target.files[0]) {
@@ -154,7 +153,10 @@ export default function FormAddProduct() {
   }, [updateProductResult, dispatch]);
 
   const oldImage = [];
-
+  console.log(images);
+  console.log(images2);
+  // console.log(images3);
+  // console.log(images4);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
@@ -182,6 +184,7 @@ export default function FormAddProduct() {
         categoryId: categoryId,
         description: description,
         oldImage,
+        status: status,
       };
       Swal.fire({
         title: "Data sudah benar ?",
@@ -208,23 +211,45 @@ export default function FormAddProduct() {
         price: price,
         categoryId: categoryId,
         description: description,
+        status: status,
       };
-      Swal.fire({
-        title: "Data sudah benar ?",
-        text: "Apakah anda yakin ingin menyimpan data ini ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, Simpan!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({ title: "Data Berhasil di tambahkan!", icon: "success" });
-          dispatch(addProduct(SwalAddProduct)).then(function () {
-            window.location.href = "/seller";
-          });
-        }
-      });
+      if (status === "published") {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Apakah anda yakin ingin menyimpan data ini ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Data Berhasil di tambahkan!",
+              icon: "success",
+            });
+            dispatch(addProduct(SwalAddProduct));
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Product Akan di Simpan di Draft",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Data Berhasil di tambahkan!",
+              icon: "success",
+            });
+            dispatch(addProduct(SwalAddProduct));
+          }
+        });
+      }
     }
   };
 
@@ -380,8 +405,7 @@ export default function FormAddProduct() {
           hasShadow
           isSecondary
           isBlock
-          type="link"
-          href="/preview-product"
+          onClick={() => setStatus("draft")}
         >
           Preview
         </Button>
@@ -390,7 +414,7 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
-          // onClick={ClearInputImage}
+          onClick={() => setStatus("published")}
         >
           Terbitkan
         </Button>
