@@ -1,7 +1,27 @@
-import Button from "elements/Button";
-import React from "react";
 import imgBerhasil from "assets/images/checkModal-infoPenawar.png";
-export default function ModalInfoPenawar({ dataProduct }) {
+import { formatDate } from "utils/defaultFormat";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getTransactionIdSeller,
+  updateTransactionSeller,
+} from "store/actions/transactionAction";
+import { useEffect } from "react";
+
+export default function ModalTransactionSeller({
+  id,
+  dataProduct,
+  priceBid,
+  createdAt,
+}) {
+  const { updateTransactionSellerResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (updateTransactionSellerResult) {
+      dispatch(getTransactionIdSeller(id));
+    }
+  }, [updateTransactionSellerResult, dispatch]);
   return (
     <div id="modalInfoProduk">
       <div
@@ -12,12 +32,12 @@ export default function ModalInfoPenawar({ dataProduct }) {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
-          <div className="modal-content">
+        <div className="modal-dialog transaction">
+          <div className="modal-content align-item-center">
             <div className="d-flex flex-row-reverse me-2 mt-2">
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close mx-2 my-2"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -36,48 +56,56 @@ export default function ModalInfoPenawar({ dataProduct }) {
               <div className="card w-100 mb-4">
                 <div className="card-body">
                   <h3 style={{ fontSize: 20 }}>Product Match</h3>
-                  <p>16 Jun, 12:45</p>
+                  <p>{formatDate(createdAt, "full")}</p>
                   <div className="row mt-4" style={{ textAlign: "left" }}>
                     <div className="col-lg-4 col-sm-12 align-self-center text-center mb-4 mb-lg-0">
                       <div>
                         <img
                           className="img-fluid"
-                          src={dataProduct.image}
-                          alt="Customer 1"
+                          src={dataProduct.image[0]}
+                          alt="ProductImg"
                         />
                       </div>
                     </div>
-                    <div className="col-lg-8 col-sm-12">
+                    <div className="col-lg-8 col-sm-12 ps-3">
                       <div className="mb-4">
-                        <h5>Penawaran Product</h5>
-                        <h4>{dataProduct.name}</h4>
+                        <h6>Penawaran Product</h6>
+                        <h5>{dataProduct.name}</h5>
                       </div>
                       <div className="d-flex justify-content-start">
                         <div className="me-auto">
-                          <h5>Harga Awal</h5>
-                          <h4>
+                          <h6>Harga Awal</h6>
+                          <h5>
                             <s>Rp. {dataProduct.price}</s>
-                          </h4>
+                          </h5>
                         </div>
                         <div className="me-auto">
-                          <h5>Ditawar</h5>
-                          <h4>Rp. {dataProduct.priceBid}</h4>
+                          <h6>Ditawar</h6>
+                          <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                            Rp. {priceBid}
+                          </h5>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <Button
-                className="btn px-5 py-2"
-                isPrimary
-                hasShadow
-                isExternal
-                type="link"
-                href="https://wa.me/628974233275"
+
+              <button
+                className="btn btn-primary btn-shadow px-5 py-2"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={() =>
+                  dispatch(
+                    updateTransactionSeller({
+                      transactionId: id,
+                      status: "success",
+                    })
+                  )
+                }
               >
-                Hubungi Via Whatsapp <i className="fa-brands fa-whatsapp"></i>
-              </Button>
+                Terima
+              </button>
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function IconText() {
       }
       type="link"
     >
-      Shoes<span className="text-gray-900">narian.</span>
+      Shoes<span className="brand-text-span">narian.</span>
     </Button>
   );
 }

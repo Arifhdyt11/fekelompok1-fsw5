@@ -6,17 +6,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductId, getProductIdSeller } from "store/actions/productAction";
 
-import ActionDetail from "components/ActionDetail";
-import DescriptionProduct from "components/DescriptionProduct";
+import ActionDetail from "components/detailProduct/ActionDetail";
+import DescriptionProduct from "components/detailProduct/DescriptionProduct";
 import Footer from "components/Footer";
-import Galery from "components/Galery";
+import Galery from "components/detailProduct/Galery";
 import Navbar from "components/Navbar";
-import ProductTitle from "components/ProductTitle";
+import ProductTitle from "components/detailProduct/ProductTitle";
 
 export default function DetailProduct() {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
+  const { getProductIdResult, getProductIdLoading, getProductIdError } =
+    useSelector((state) => state.ProductReducer);
 
   const { id } = useParams();
 
@@ -41,19 +43,61 @@ export default function DetailProduct() {
   return (
     <>
       <Navbar />
-      <ProductTitle />
-      <Galery productId={id} />
-      <section className="container section-detail-product mt-5 mb-5">
-        <div className="row">
-          <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
-            <ActionDetail id={id} />
-          </div>
-          <div className="col-lg-7 order-sm-1 ">
-            <DescriptionProduct />
-          </div>
-        </div>
-      </section>
-      <Footer />
+      {getProductIdResult ? (
+        user.data.role === "BUYER" ? (
+          getProductIdResult.status === "published" ? (
+            <>
+              <ProductTitle />
+              <Galery productId={id} />
+              <section className="container section-detail-product mt-5 mb-5">
+                <div className="row">
+                  <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+                    <ActionDetail id={id} />
+                  </div>
+                  <div className="col-lg-7 order-sm-1 ">
+                    <DescriptionProduct />
+                  </div>
+                </div>
+              </section>
+            </>
+          ) : (
+            <h3>Product in Draft</h3>
+          )
+        ) : (
+          <>
+            <ProductTitle />
+            <Galery productId={id} />
+            <section className="container section-detail-product mt-5 mb-5">
+              <div className="row">
+                <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+                  <ActionDetail id={id} />
+                </div>
+                <div className="col-lg-7 order-sm-1 ">
+                  <DescriptionProduct />
+                </div>
+              </div>
+            </section>
+          </>
+        )
+      ) : getProductIdLoading ? (
+        <>
+          <ProductTitle />
+          <Galery productId={id} />
+          <section className="container section-detail-product mt-5 mb-5">
+            <div className="row">
+              <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+                <ActionDetail id={id} />
+              </div>
+              <div className="col-lg-7 order-sm-1 ">
+                <DescriptionProduct />
+              </div>
+            </div>
+          </section>
+          <Footer />
+        </>
+      ) : (
+        <p>{getProductIdError ? getProductIdError : "Error"}</p>
+      )}
     </>
   );
 }

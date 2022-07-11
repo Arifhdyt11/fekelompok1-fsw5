@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListProduct } from "store/actions/productAction";
-
+import Fade from "react-reveal/Fade";
 import _ from "lodash";
 
 import Button from "elements/Button";
 import ProductNotFound from "assets/images/ilustrasi.svg";
-
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
+import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
-import Fade from "react-reveal/Fade";
 
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
@@ -76,20 +74,17 @@ export default function Product(props) {
 
   return (
     <>
-      <section
-        className="container section-product mt-2 mb-5"
-        ref={props.refCallToAction}
-      >
-        <div className="filter mb-5">
+      <section className="container mt-2 mb-5" ref={props.refCallToAction}>
+        <div className="category mb-5">
           <h3>Kategori</h3>
           <div className="row justify-content-between">
-            <div className="col-lg-7 col-md-12 col-sm-12 mb-4 mb-lg-0">
+            <div className="col-lg-8 col-md-12 col-sm-12 mb-4 mb-lg-0">
               <Button
                 className={`btn btn-filter me-3 my-2 ${
                   active === "All" && "btn-active"
                 }`}
                 hasShadow
-                isSecondary
+                isSecondaryOutline
                 onClick={() => filterCategory("All")}
               >
                 All
@@ -103,7 +98,7 @@ export default function Product(props) {
                         active == kategori.name && "btn-active"
                       }`}
                       hasShadow
-                      isSecondary
+                      isSecondaryOutline
                       key={index}
                       onClick={() => filterCategory(kategori.name)}
                     >
@@ -112,10 +107,12 @@ export default function Product(props) {
                   );
                 })
               ) : getListCategoryLoading ? (
-                <h3>Loading....</h3>
+                <Button isLoading></Button>
               ) : (
                 <p>
-                  {getListCategoryError ? getListCategoryError : "Data Kosong"}
+                  {getListCategoryError
+                    ? getListCategoryError
+                    : "Please Reload or Try Again"}
                 </p>
               )}
             </div>
@@ -134,52 +131,59 @@ export default function Product(props) {
         <div className="product">
           <div className="row justify-content-start">
             {product ? (
-              product.length === 0 ? (
-                <div className="d-flex justify-content-center null-illustration p-5">
-                  <div>
-                    <img
-                      src={ProductNotFound}
-                      alt=""
-                      className="img-fluid mb-3"
-                    />
-                    <p>Produk tidak ditemukan</p>
-                  </div>
+              product.filter((item) => item.status === "published").length ===
+              0 ? (
+                <div className="text-center null-illustration p-5">
+                  <img
+                    src={ProductNotFound}
+                    alt=""
+                    className="img-fluid mb-3"
+                  />
+                  <p>Produk tidak ditemukan</p>
                 </div>
               ) : (
-                product.map((item, index) => {
-                  return (
-                    <Button
-                      type="link"
-                      href={`/product/${item.id}`}
-                      className="col-lg-3 col-md-6 col-sm-12  "
-                      style={{ textDecoration: "none" }}
-                      key={item.id}
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      <Fade bottom delay={150 * index}>
-                        <div className="card-product p-3 mb-4">
-                          <img
-                            src={`${item.image[0]}`}
-                            alt={`${item.image[0]}`}
-                            className="img-fluid product-img mb-4"
-                          />
-                          <div className="product-name mb-1">
-                            <h4 style={{ height: 45 }}>
-                              {titleShorten(item.name, 50, " ")}
-                            </h4>
+                product
+                  .filter((item) => item.status === "published")
+                  .map((item, index) => {
+                    return (
+                      <Button
+                        type="link"
+                        href={`/product/${item.id}`}
+                        className="col-lg-3 col-md-6 col-sm-12  "
+                        style={{ textDecoration: "none" }}
+                        key={item.id}
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        <Fade bottom delay={150 * index}>
+                          <div className="card-product p-3 mb-4">
+                            <img
+                              src={`${item.image[0]}`}
+                              alt={`${item.image[0]}`}
+                              className="img-fluid product-img mb-4"
+                            />
+                            <div className="product-name mb-1">
+                              <h5 style={{ height: 45 }}>
+                                {titleShorten(item.name, 50, " ")}
+                              </h5>
+                            </div>
+                            <p>{item.categories.name}</p>
+                            <h5>Rp. {formatPrice(item.price)}</h5>
                           </div>
-                          <p>{item.categories.name}</p>
-                          <h4>Rp. {formatPrice(item.price)}</h4>
-                        </div>
-                      </Fade>
-                    </Button>
-                  );
-                })
+                        </Fade>
+                      </Button>
+                    );
+                  })
               )
             ) : getListProductLoading ? (
-              <h3>Loading....</h3>
+              <>
+                <h3>Loading...</h3>
+              </>
             ) : (
-              <p>{getListProductError ? getListProductError : "Data Kosong"}</p>
+              <p>
+                {getListProductError
+                  ? getListProductError
+                  : "Please Reload or Try Again"}
+              </p>
             )}
           </div>
         </div>

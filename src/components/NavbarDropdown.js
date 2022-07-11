@@ -6,13 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "store/actions/authAction";
 import { useLocation } from "react-router-dom";
 
-function CekSeller(props) {
-  const { isSeller } = props;
-  if (isSeller === "yes") {
-    return <></>;
-  }
-}
-
 export default function NavbarDropdown(props) {
   // TODO: Ini buat logout
   const dispatch = useDispatch();
@@ -92,7 +85,7 @@ export default function NavbarDropdown(props) {
                       type="link"
                       href="/seller"
                       className="dropdown-item text-center"
-                      isPrimary
+                      isSecondary
                       hasShadow
                       isBlock
                     >
@@ -106,8 +99,9 @@ export default function NavbarDropdown(props) {
                   <Button
                     type="link"
                     href="/"
-                    className="dropdown-item text-center btn-third"
+                    className="dropdown-item text-center"
                     hasShadow
+                    isPrimary
                     isBlock
                     onClick={handleLogout}
                   >
@@ -133,8 +127,6 @@ export default function NavbarDropdown(props) {
                 </li>
               </>
             )}
-
-            <CekSeller isSeller={isSeller} />
           </ul>
         </div>
       </div>
