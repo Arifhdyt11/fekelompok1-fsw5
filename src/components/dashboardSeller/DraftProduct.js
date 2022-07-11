@@ -9,7 +9,7 @@ import img from "assets/images/ilustrasi.svg";
 import Button from "elements/Button";
 import _ from "lodash";
 
-function ProductList() {
+function DraftProduct() {
   const {
     getListProductSellerResult,
     getListProductSellerLoading,
@@ -31,56 +31,13 @@ function ProductList() {
     setProductSeller(getInitialData);
   }, [getInitialData]);
 
-  // console.log(productSeller);
-
-  const handleSearchFilter = (e) => {
-    setSearchValue(e.target.value);
-  };
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      const filter = _.filter(getListProductSellerResult.data, (x) => {
-        return _.includes(
-          _.lowerCase(JSON.stringify(_.values(x))),
-          _.lowerCase(searchValue)
-        );
-      });
-      setProductSeller(filter);
-    }, 200);
-    return () => clearTimeout(timeout);
-  }, [searchValue]);
-  //-----------------------SEARCH ---------------------
-
   return (
     <div className="col-lg-9 col-md-8 col-12">
-      <div className="row justify-content-between mb-4 mt-2">
-        <div className="col-lg-7 col-md-6 col-sm-12 mb-3 mb-md-0">
-          <Button
-            className="btn active"
-            hasShadow
-            isPrimary
-            href="/add-product"
-            type="link"
-          >
-            Tambah Produk
-          </Button>
-        </div>
-        <div className="col-lg-3 col-md-6 col-sm-12 align-self-center">
-          <input
-            className="form-control search-form me-2"
-            type="search"
-            placeholder="Search product..."
-            value={searchValue}
-            onChange={handleSearchFilter}
-          />
-        </div>
-      </div>
-
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
           {getListProductSellerResult ? (
             getListProductSellerResult.data.filter(
-              (item) => item.status === "published"
+              (item) => item.status === "draft"
             ).length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
@@ -90,7 +47,7 @@ function ProductList() {
               </div>
             ) : (
               getListProductSellerResult.data
-                .filter((item) => item.status === "published")
+                .filter((item) => item.status === "draft")
                 .map((item, index) => {
                   return <ProductItem key={item.id} {...item} index={index} />;
                 })
@@ -110,4 +67,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default DraftProduct;

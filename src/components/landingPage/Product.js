@@ -131,7 +131,8 @@ export default function Product(props) {
         <div className="product">
           <div className="row justify-content-start">
             {product ? (
-              product.length === 0 ? (
+              product.filter((item) => item.status === "published").length ===
+              0 ? (
                 <div className="text-center null-illustration p-5">
                   <img
                     src={ProductNotFound}
@@ -141,35 +142,37 @@ export default function Product(props) {
                   <p>Produk tidak ditemukan</p>
                 </div>
               ) : (
-                product.map((item, index) => {
-                  return (
-                    <Button
-                      type="link"
-                      href={`/product/${item.id}`}
-                      className="col-lg-3 col-md-6 col-sm-12  "
-                      style={{ textDecoration: "none" }}
-                      key={item.id}
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      <Fade bottom delay={150 * index}>
-                        <div className="card-product p-3 mb-4">
-                          <img
-                            src={`${item.image[0]}`}
-                            alt={`${item.image[0]}`}
-                            className="img-fluid product-img mb-4"
-                          />
-                          <div className="product-name mb-1">
-                            <h5 style={{ height: 45 }}>
-                              {titleShorten(item.name, 50, " ")}
-                            </h5>
+                product
+                  .filter((item) => item.status === "published")
+                  .map((item, index) => {
+                    return (
+                      <Button
+                        type="link"
+                        href={`/product/${item.id}`}
+                        className="col-lg-3 col-md-6 col-sm-12  "
+                        style={{ textDecoration: "none" }}
+                        key={item.id}
+                        onClick={() => window.scrollTo(0, 0)}
+                      >
+                        <Fade bottom delay={150 * index}>
+                          <div className="card-product p-3 mb-4">
+                            <img
+                              src={`${item.image[0]}`}
+                              alt={`${item.image[0]}`}
+                              className="img-fluid product-img mb-4"
+                            />
+                            <div className="product-name mb-1">
+                              <h5 style={{ height: 45 }}>
+                                {titleShorten(item.name, 50, " ")}
+                              </h5>
+                            </div>
+                            <p>{item.categories.name}</p>
+                            <h5>Rp. {formatPrice(item.price)}</h5>
                           </div>
-                          <p>{item.categories.name}</p>
-                          <h5>Rp. {formatPrice(item.price)}</h5>
-                        </div>
-                      </Fade>
-                    </Button>
-                  );
-                })
+                        </Fade>
+                      </Button>
+                    );
+                  })
               )
             ) : getListProductLoading ? (
               <>
