@@ -199,6 +199,11 @@ p {
   transform: scale(1.2);
 }
 
+.arrow-back {
+  z-index: 5;
+  color: #152c5b;
+}
+
 .navbar {
   background: #ffffff;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);

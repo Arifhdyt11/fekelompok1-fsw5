@@ -112,6 +112,7 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
         isPrimary
         href="/login"
         type="link"
+        onClick={() => (document.querySelector("body").style.overflow = "auto")}
       >
         Masuk
       </Button>

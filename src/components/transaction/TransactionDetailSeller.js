@@ -6,27 +6,40 @@ import {
   getTransactionIdSeller,
   updateTransactionSeller,
 } from "store/actions/transactionAction";
-import { formatDate } from "utils/defaultFormat";
+import { formatDate, formatPrice } from "utils/defaultFormat";
 import ModalTransactionSeller from "./ModalTransactionSeller";
 
 function BuyerInfo({ userAsBuyer }) {
   return (
-    <div className="card is-block p-4">
-      <div className="d-flex justify-content-start">
-        <img
-          className="seller-image me-4"
-          src={userAsBuyer.image}
-          alt="BuyerImage"
-        />
-        <div>
-          <h5>
-            {userAsBuyer.name}
-            <label className="customerTag mt-3 mt-md-0 ms-1">Pembeli</label>
-          </h5>
-          <p>{userAsBuyer.city}</p>
+    <>
+      <div className="container mb-4">
+        <Button
+          className="btn arrow-back d-flex justify-content-start p-0"
+          nonStyle
+          type="link"
+          href="/transaction"
+        >
+          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 align-self-center"></i>
+          <h6 className="mb-0 ">Back to Transaction</h6>
+        </Button>
+      </div>
+      <div className="card is-block p-4">
+        <div className="d-flex justify-content-start">
+          <img
+            className="seller-image me-4 align-self-center"
+            src={userAsBuyer.image}
+            alt="BuyerImage"
+          />
+          <div>
+            <h5>
+              {userAsBuyer.name}
+              <label className="customerTag mt-3 mt-md-0 ms-1">Pembeli</label>
+            </h5>
+            <p>{userAsBuyer.city}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -47,40 +60,46 @@ function ProductInfo({
         </div>
         {productSizes.products ? (
           <div className="card is-block ms-auto p-4">
+            <p className="d-flex flex-row-reverse me-3">
+              {formatDate(createdAt, "full")}
+            </p>
             <div className="row">
               <div className="col-lg-2 col-sm-12 align-self-center text-center">
                 <img
-                  className="img-fluid mb-lg-0 mb-4"
+                  className="img-fluid mb-lg-0 p-4 p-lg-0"
                   src={productSizes.products.image[0]}
                   alt=""
                 />
               </div>
-              <div className="col-lg-10 col-sm-12 ps-5">
-                <div className="mb-4">
-                  <div className="d-flex justify-content-between">
+              <div className="col-lg-10 col-sm-12 ps-md-5 p-0">
+                <div className="mb-3">
+                  <div className="d-flex justify-content-lg-between justify-content-center ">
                     <h6>Penawaran Product</h6>
-                    <p>{formatDate(createdAt, "full")}</p>
                   </div>
-                  <h5>{productSizes.products.name}</h5>
+                  <h5 className="text-center text-md-start">
+                    {productSizes.products.name}
+                  </h5>
                 </div>
-                <div className="d-flex justify-content-start mb-3">
-                  <div className="me-auto">
+                <div className="row mb-3">
+                  <div className="col-lg-2 col-md-2 text-center text-md-start">
                     <h6>Size</h6>
                     <h5>{productSizes.sizes.size}</h5>
                   </div>
-                  <div className="me-auto">
-                    <h6>Harga Awal</h6>
-                    <h5>
-                      <s>Rp. {productSizes.products.price}</s>
-                    </h5>
+                  <div className="col-lg-7 col-md-7 d-flex justify-content-between mb-3">
+                    <div className="ps-3 ps-md-4">
+                      <h6>Harga Awal</h6>
+                      <h5>
+                        <s>Rp. {formatPrice(productSizes.products.price)}</s>
+                      </h5>
+                    </div>
+                    <div className="pe-3 pe-md-4">
+                      <h6>Ditawar</h6>
+                      <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                        Rp. {formatPrice(priceBid)}
+                      </h5>
+                    </div>
                   </div>
-                  <div className="me-auto">
-                    <h6>Ditawar</h6>
-                    <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
-                      Rp. {priceBid}
-                    </h5>
-                  </div>
-                  <div className="me-auto">
+                  <div className="col-lg-3 col-md-3 text-center">
                     <h6>Status</h6>
 
                     {status === "success" ? (

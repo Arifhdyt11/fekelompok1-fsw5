@@ -8,7 +8,7 @@ import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { getListSize } from "store/actions/sizeAction";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Galery({ productId }) {
   const { isAuthenticated, user, accessToken } = useSelector(
@@ -35,6 +35,7 @@ export default function Galery({ productId }) {
     window.scrollTo(0, 300);
   };
 
+  const location = useLocation();
   // console.log(getProductIdResult);
   return (
     <>
@@ -159,14 +160,16 @@ export default function Galery({ productId }) {
                         .sort((a, b) => a.sizes.id - b.sizes.id)
                         .map((item) => {
                           return (
-                            <Button
-                              className={`btn  mx-2 my-2 `}
-                              isSecondary
-                              isDisabled
-                              key={item.id}
-                            >
-                              {item.sizes.size}
-                            </Button>
+                            <>
+                              <Button
+                                className={`btn  mx-2 my-2 `}
+                                isSecondary
+                                isDisabled
+                                key={item.id}
+                              >
+                                {item.sizes.size}
+                              </Button>
+                            </>
                           );
                         })
                     ) : (
@@ -177,23 +180,25 @@ export default function Galery({ productId }) {
                         .sort((a, b) => a.sizes.id - b.sizes.id)
                         .map((item) => {
                           return (
-                            <Link
-                              key={item.id}
-                              to={`/product/${productId}`}
-                              state={{
-                                item: { ...item },
-                              }}
-                            >
-                              <Button
-                                className={`btn mx-2 my-2 ${
-                                  active == item.sizeId && "btn-active"
-                                }`}
-                                isSecondaryOutline
-                                onClick={() => chooseSize(item.sizeId)}
+                            <>
+                              <Link
+                                key={item.id}
+                                to={`/product/${productId}`}
+                                state={{
+                                  item: { ...item },
+                                }}
                               >
-                                {item.sizes.size}
-                              </Button>
-                            </Link>
+                                <Button
+                                  className={`btn mx-2 my-2 ${
+                                    active == item.sizeId && "btn-active"
+                                  }`}
+                                  isSecondaryOutline
+                                  onClick={() => chooseSize(item.sizeId)}
+                                >
+                                  {item.sizes.size}
+                                </Button>
+                              </Link>
+                            </>
                           );
                         })
                     )
@@ -203,18 +208,50 @@ export default function Galery({ productId }) {
                       .sort((a, b) => a.sizes.id - b.sizes.id)
                       .map((item) => {
                         return (
-                          <Button
-                            className={`btn btn-filter mx-2 my-2 ${
-                              active == item.sizeId && "btn-active"
-                            }`}
-                            isSecondary
+                          <Link
                             key={item.id}
-                            onClick={() => chooseSize(item.sizeId)}
+                            to={`/product/${productId}`}
+                            state={{
+                              item: { ...item },
+                            }}
                           >
-                            {item.sizes.size}
-                          </Button>
+                            <Button
+                              className={`btn mx-2 my-2 ${
+                                active == item.sizeId && "btn-active"
+                              }`}
+                              isSecondaryOutline
+                              onClick={() => chooseSize(item.sizeId)}
+                            >
+                              {item.sizes.size}
+                            </Button>
+                          </Link>
                         );
                       })
+                  )
+                ) : getListSizeLoading ? (
+                  <Button isLoading></Button>
+                ) : (
+                  <p>{getListSizeError ? getListSizeError : "erro"}</p>
+                )}
+              </div>
+              <div className="mt-3">
+                {getListSizeResult ? (
+                  getListSizeResult.data.filter(
+                    (item) => item.productId === parseInt(productId)
+                  ).length === 0 ? (
+                    ""
+                  ) : isAuthenticated ? (
+                    user.data.role === "SELLER" ? (
+                      ""
+                    ) : (
+                      <h5>
+                        Stock :{location.state ? location.state.item.stock : ""}
+                      </h5>
+                    )
+                  ) : (
+                    <h5>
+                      Stock : {location.state ? location.state.item.stock : ""}
+                    </h5>
                   )
                 ) : getListSizeLoading ? (
                   <Button isLoading></Button>

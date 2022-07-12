@@ -112,7 +112,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
 
     const result = await response.json();
     console.log("3. Berhasil dapet data:", result);
-
+    window.location.href = "/";
     dispatch({
       type: UPDATE_PROFILE,
       user: result,
