@@ -16,6 +16,7 @@ class LandingPage extends Component {
     document.title = "Shoesnarian | Home";
     window.scrollTo(0, 0);
   }
+
   render() {
     return (
       <>

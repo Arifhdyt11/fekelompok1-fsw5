@@ -15,7 +15,7 @@ function ProductList() {
     getListProductSellerLoading,
     getListProductSellerError,
   } = useSelector((state) => state.ProductReducer);
-  const { accessToken } = useSelector((state) => state.AuthReducer);
+  const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
 
   //-----------------------SEARCH ---------------------
@@ -55,15 +55,21 @@ function ProductList() {
     <div className="col-lg-9 col-md-8 col-12">
       <div className="row justify-content-between mb-4 mt-2">
         <div className="col-lg-7 col-md-6 col-sm-12 mb-3 mb-md-0">
-          <Button
-            className="btn active"
-            hasShadow
-            isPrimary
-            href="/add-product"
-            type="link"
-          >
-            Tambah Produk
-          </Button>
+          {user.data.name === null ||
+          user.data.city === null ||
+          user.data.phone === null ? (
+            ""
+          ) : (
+            <Button
+              className="btn active"
+              hasShadow
+              isPrimary
+              href="/add-product"
+              type="link"
+            >
+              Tambah Produk
+            </Button>
+          )}
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 align-self-center">
           <input

@@ -17,9 +17,26 @@ export default function ProductTitle() {
 
   return (
     <>
+      <div className="container mt-lg-4 mt-1  pb-1">
+        <Button
+          className="btn arrow-back position-absolute d-flex justify-content-center "
+          nonStyle
+          type="link"
+          href={
+            isAuthenticated
+              ? user.data.role === "SELLER"
+                ? "/seller"
+                : "/"
+              : "/"
+          }
+        >
+          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
+          <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
+        </Button>
+      </div>
       <Fade bottom>
-        <section className="container section-title-product">
-          <div className="product-title text-center">
+        <section className="container section-title-product pt-5 pt-md-0 mt-4 mt-md-1">
+          <div className="product-title text-center px-md-5">
             {isAuthenticated ? (
               user.data.role === "SELLER" ? (
                 getProductIdSellerResult ? ( //SELLER

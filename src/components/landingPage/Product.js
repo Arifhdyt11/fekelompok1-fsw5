@@ -9,12 +9,17 @@ import { formatPrice, titleShorten } from "utils/defaultFormat";
 
 import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
+import { GET_PRODUCT_ID } from "store/types";
 
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
   const dispatch = useDispatch();
-  const { getListProductResult, getListProductLoading, getListProductError } =
-    useSelector((state) => state.ProductReducer);
+  const {
+    getListProductResult,
+    getListProductLoading,
+    getListProductError,
+    getProductIdResult,
+  } = useSelector((state) => state.ProductReducer);
 
   const getInitialData = getListProductResult.data;
 
@@ -71,6 +76,19 @@ export default function Product(props) {
     }
     setActive(kategori);
   };
+
+  useEffect(() => {
+    if (getProductIdResult) {
+      dispatch({
+        type: GET_PRODUCT_ID,
+        payload: {
+          loading: true,
+          data: false,
+          errorMessage: false,
+        },
+      });
+    }
+  });
 
   return (
     <>
@@ -163,7 +181,7 @@ export default function Product(props) {
                             />
                             <div className="product-name mb-1">
                               <h5 style={{ height: 45 }}>
-                                {titleShorten(item.name, 50, " ")}
+                                {titleShorten(item.name, 40, " ")}
                               </h5>
                             </div>
                             <p>{item.categories.name}</p>
