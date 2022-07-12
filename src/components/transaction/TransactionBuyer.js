@@ -1,9 +1,9 @@
 import Button from "elements/Button";
-import { formatDate } from "utils/defaultFormat";
+import { formatDate, formatPrice } from "utils/defaultFormat";
 
 export default function TransactionBuyer({
   id,
-  price,
+  priceBid,
   status,
   productSizes,
   updatedAt,
@@ -11,9 +11,9 @@ export default function TransactionBuyer({
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>
-        <h5 className="d-flex flex-row-reverse me-4 mb-4">
+        <p className="d-flex flex-row-reverse me-4 mb-4">
           {formatDate(updatedAt, "full")}
-        </h5>
+        </p>
         <div className="row">
           <div className="col-lg-8 col-md-9 col-sm-12">
             <div className="row">
@@ -26,37 +26,37 @@ export default function TransactionBuyer({
               </div>
               <div className="col-lg-8 col-md-7 col-sm-12 align-self-center ">
                 <div className="mb-4">
-                  <h5>Penawaran Product</h5>
-                  <h4>{productSizes.products.name}</h4>
+                  <h6>Penawaran Product</h6>
+                  <h5>{productSizes.products.name}</h5>
                 </div>
                 <div className="d-flex justify-content-start">
-                  <h5 className="me-3 align-self-center">Size : </h5>
-                  <h4>{productSizes.sizes.size}</h4>
+                  <h6 className="me-3 align-self-center">Size : </h6>
+                  <h5>{productSizes.sizes.size}</h5>
                 </div>
                 <div className="d-flex justify-content-start mb-4 mb-md-0">
                   <div className="me-auto">
-                    <h5>Harga Awal</h5>
+                    <h6>Harga Awal</h6>
                     {status === "cancel" ? (
-                      <h4>Rp. {productSizes.products.price}</h4>
+                      <h5>Rp. {formatPrice(productSizes.products.price)}</h5>
                     ) : (
-                      <h4>
-                        <s>Rp. {productSizes.products.price}</s>
-                      </h4>
+                      <h5>
+                        <s>Rp. {formatPrice(productSizes.products.price)}</s>
+                      </h5>
                     )}
                   </div>
                   <div className="me-auto">
-                    <h5>Ditawar</h5>
+                    <h6>Ditawar</h6>
 
                     {status === "cancel" ? (
                       <s style={{ color: "#dc3545" }}>
-                        <h4 style={{ color: "#1abc9c", fontWeight: "500" }}>
-                          Rp. {price}
-                        </h4>
+                        <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                          Rp. {formatPrice(priceBid)}
+                        </h5>
                       </s>
                     ) : (
-                      <h4 style={{ color: "#1abc9c", fontWeight: "500" }}>
-                        Rp. {price}
-                      </h4>
+                      <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                        Rp. {formatPrice(priceBid)}
+                      </h5>
                     )}
                   </div>
                 </div>
@@ -71,23 +71,23 @@ export default function TransactionBuyer({
                 alt=""
               />
               <div>
-                <h4>{productSizes.products.userAsSeller.name}</h4>
+                <h5>{productSizes.products.userAsSeller.name}</h5>
                 <p>{productSizes.products.userAsSeller.city}</p>
               </div>
             </div>
 
             {status === "success" ? (
-              <h4 className="text-center" style={{ color: "#198754" }}>
+              <h5 className="text-center" style={{ color: "#198754" }}>
                 Success
-              </h4>
+              </h5>
             ) : status === "pending" ? (
-              <h4 className="text-center" style={{ color: "#ffc107" }}>
+              <h5 className="text-center" style={{ color: "#ffc107" }}>
                 Pending
-              </h4>
+              </h5>
             ) : (
-              <h4 className="text-center" style={{ color: "#dc3545" }}>
+              <h5 className="text-center" style={{ color: "#dc3545" }}>
                 Penawaran Ditolak
-              </h4>
+              </h5>
             )}
 
             {status === "success" ? (
@@ -114,10 +114,10 @@ export default function TransactionBuyer({
                 Menunggu Response Penjual
               </Button>
             ) : (
-              <h5 className="text-center">
+              <p className="text-center">
                 Maaf, Product Yang Ditawarkan Ditolak Penjual. Silahkan Ajukan
                 Lagi Penawaran
-              </h5>
+              </p>
             )}
           </div>
         </div>

@@ -8,6 +8,7 @@ export default function PageNotFound() {
     document.title = "404 | Page Not Found";
     window.scrollTo(0, 0);
   });
+
   return (
     <div>
       <Navbar />

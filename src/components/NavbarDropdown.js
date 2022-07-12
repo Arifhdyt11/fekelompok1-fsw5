@@ -23,7 +23,6 @@ export default function NavbarDropdown(props) {
     dispatch(logout());
   };
 
-  const { isSeller } = props;
   const location = useLocation();
   return (
     <>
@@ -59,17 +58,20 @@ export default function NavbarDropdown(props) {
               ""
             ) : (
               <>
-                {" "}
                 <li>
-                  <a className="dropdown-item" href="/wishlist">
+                  <Button
+                    className="dropdown-item"
+                    type="link"
+                    href="/wishlist"
+                  >
                     <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
-                  </a>
+                  </Button>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/history">
+                  <Button className="dropdown-item" type="link" href="/history">
                     <i className="fa-duotone fa-arrows-repeat me-3"></i>History
                     Transaksi
-                  </a>
+                  </Button>
                 </li>
               </>
             )}

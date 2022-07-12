@@ -12,7 +12,7 @@ function ModalChangePass() {
   const { user } = useSelector((state) => state.AuthReducer);
 
   const dispatch = useDispatch();
-  console.log(user.data.password);
+  // console.log(user.data.password);
 
   const handleSubmit = (event) => {
     event.preventDefault();

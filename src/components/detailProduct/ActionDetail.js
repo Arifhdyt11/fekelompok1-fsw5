@@ -5,7 +5,7 @@ import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { deleteProduct } from "store/actions/productAction";
+import { deleteProduct, updateProduct } from "store/actions/productAction";
 import {
   addWishlist,
   deleteWishlist,
@@ -18,7 +18,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
-  // console.log(getProductIdResult);
+  console.log(getProductIdResult);
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
@@ -72,7 +72,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
   const location = useLocation();
   if (location.state) {
     var { item } = location.state;
-    // console.log(location);
+    console.log(location);
   }
   // const getProductIdResult =
   // location.state.getProductIdResult.getProductIdResult;
@@ -93,9 +93,46 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
     if (user.data.role === "SELLER") {
       return (
         <>
-          <Button className="btn mt-3 ms-auto py-2" isPrimary hasShadow isBlock>
-            Terbitkan
-          </Button>
+          {getProductIdSellerResult ? (
+            getProductIdSellerResult.status === "published" ? (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isSecondary
+                hasShadow
+                isBlock
+                isDisabled
+              >
+                Published
+                <i
+                  className="fa-solid fa-check fa-lg ms-4"
+                  style={{ color: "#1abc9c" }}
+                ></i>
+              </Button>
+            ) : (
+              <Button
+                className="btn mt-3 ms-auto py-2"
+                isPrimary
+                hasShadow
+                isBlock
+                onClick={() =>
+                  dispatch(
+                    updateProduct({
+                      id: id,
+                      // name: getProductIdSellerResult.name,
+                      // name: getProductIdSellerResult.name,
+                      status: "published",
+                      oldImage: [""],
+                    })
+                  )
+                }
+              >
+                Terbitkan
+              </Button>
+            )
+          ) : (
+            ""
+          )}
+
           <Link
             to={`/update-product/${id}`}
             state={{ getProductIdSellerResult: { getProductIdSellerResult } }}
@@ -134,6 +171,17 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
             >
               Please Choose Size
             </button>
+          ) : user.data.name === null ||
+            user.data.city === null ||
+            user.data.phone === null ? (
+            <Button
+              className="btn mt-3 ms-auto py-2 btn-warning"
+              isBlock
+              type="link"
+              href="/profile"
+            >
+              Please Update Profile!!
+            </Button>
           ) : getListTransactionBuyerResult ? (
             getListTransactionBuyerResult.data.filter(
               (data) =>
@@ -148,7 +196,11 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
                 Tertarik dan Nego
               </button>
             ) : (
-              <Button className="btn mt-3 ms-auto py-2 btn-warning" isBlock>
+              <Button
+                className="btn mt-3 ms-auto py-2 btn-warning"
+                isBlock
+                style={{ cursor: "context-menu" }}
+              >
                 Menunggu Respon Penjual
               </Button>
             )
@@ -178,15 +230,8 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
               </Button>
             ) : (
               <>
-                <h5 className="mt-3 text-center">
-                  Already On Wishlist
-                  <i
-                    className="fa-solid fa-check fa-lg ms-4"
-                    style={{ color: "#1abc9c" }}
-                  ></i>
-                </h5>
                 <Button
-                  className="btn btn-outline-danger ms-auto py-2"
+                  className="btn btn-outline-danger ms-auto py-2 mt-3"
                   hasShadow
                   isBlock
                   onClick={() =>

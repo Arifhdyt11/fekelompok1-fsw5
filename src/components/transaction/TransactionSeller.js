@@ -1,5 +1,5 @@
 import Button from "elements/Button";
-import { formatDate } from "utils/defaultFormat";
+import { formatDate, formatPrice } from "utils/defaultFormat";
 
 export default function TransactionSeller({
   id,
@@ -35,25 +35,25 @@ export default function TransactionSeller({
                   />
                 </div>
                 <div className="col-lg-8 col-md-7 col-sm-12 align-self-center ">
-                  <div className="mb-4">
+                  <div className="mb-4 text-center text-md-start">
                     <h6>Penawaran Product</h6>
                     <h5>{productSizes.products.name}</h5>
                   </div>
-                  <div className="d-flex justify-content-start">
+                  <div className="d-flex justify-content-lg-start justify-content-center mb-3">
                     <h6 className="me-3 align-self-center">Size : </h6>
                     <h5>{productSizes.sizes.size}</h5>
                   </div>
-                  <div className="d-flex justify-content-start mb-4 mb-md-0">
-                    <div className="me-auto">
+                  <div className="d-flex justify-content-lg-start justify-content-between mb-4 mb-md-0">
+                    <div className="me-lg-auto mx-2">
                       <h6>Harga Awal</h6>
                       <h5>
-                        <s>Rp. {productSizes.products.price}</s>
+                        <s>Rp. {formatPrice(productSizes.products.price)}</s>
                       </h5>
                     </div>
-                    <div className="me-auto">
+                    <div className="me-lg-auto mx-2">
                       <h6>Ditawar</h6>
                       <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
-                        Rp. {priceBid}
+                        Rp. {formatPrice(priceBid)}
                       </h5>
                     </div>
                   </div>

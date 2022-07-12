@@ -85,12 +85,12 @@ function ProductItem({
                   className="img-fluid product-img mb-4"
                 />
                 <div className="product-name mb-1">
-                  <h4 style={{ height: 45 }}>
-                    {titleShorten(products.name, 50, " ")}
-                  </h4>
+                  <h5 style={{ height: 45 }}>
+                    {titleShorten(products.name, 40, " ")}
+                  </h5>
                 </div>
                 <p>{products.categories.name}</p>
-                <h4>Rp. {formatPrice(products.price)}</h4>
+                <h5>Rp. {formatPrice(products.price)}</h5>
               </Button>
             ) : (
               //All Product
@@ -107,10 +107,10 @@ function ProductItem({
                   className="img-fluid product-img mb-4"
                 />
                 <div className="product-name mb-1">
-                  <h4 style={{ height: 45 }}>{titleShorten(name, 50, " ")}</h4>
+                  <h5 style={{ height: 45 }}>{titleShorten(name, 50, " ")}</h5>
                 </div>
                 <p>{categories.name}</p>
-                <h4>Rp. {formatPrice(price)}</h4>
+                <h5>Rp. {formatPrice(price)}</h5>
               </Button>
             )}
           </div>
