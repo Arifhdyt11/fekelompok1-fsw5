@@ -40,7 +40,7 @@ export default function FormActionProduct({ isAdd }) {
           <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
         </Button>
       </div>
-      <section className="container pt-5 pt-md-0 mt-4 mt-md-1" id="produk">
+      <section className="container pt-5 pt-md-0 mt-4 mt-md-1 mb-5" id="produk">
         <ShowTitle isAdd={isAdd} />
         <FormProduct />
       </section>
