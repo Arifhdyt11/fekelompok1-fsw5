@@ -118,10 +118,12 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
                   dispatch(
                     updateProduct({
                       id: id,
-                      // name: getProductIdSellerResult.name,
-                      // name: getProductIdSellerResult.name,
+                      image: getProductIdSellerResult.image,
+                      name: getProductIdSellerResult.name,
+                      price: getProductIdSellerResult.price,
+                      description: getProductIdSellerResult.description,
+                      categoryId: getProductIdSellerResult.categoryId,
                       status: "published",
-                      oldImage: [""],
                     })
                   )
                 }
