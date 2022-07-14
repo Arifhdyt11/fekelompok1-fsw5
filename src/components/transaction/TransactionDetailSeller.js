@@ -7,6 +7,7 @@ import {
   updateTransactionSeller,
 } from "store/actions/transactionAction";
 import { formatDate, formatPrice } from "utils/defaultFormat";
+import ModalStatusSeller from "./ModalStatus";
 import ModalTransactionSeller from "./ModalTransactionSeller";
 
 function BuyerInfo({ userAsBuyer }) {
@@ -110,27 +111,39 @@ function ProductInfo({
                       <h5 className="text-center" style={{ color: "#ffc107" }}>
                         Pending
                       </h5>
-                    ) : (
+                    ) : status === "cancel" ? (
                       <h5 className="text-center" style={{ color: "#dc3545" }}>
                         Cancel
+                      </h5>
+                    ) : (
+                      <h5 className="text-center" style={{ color: "#dc3545" }}>
+                        Perbarui Status
                       </h5>
                     )}
                   </div>
                 </div>
                 {status === "success" ? (
                   <div className="d-flex flex-row-reverse">
-                    <Button
-                      className="btn btn-primary mx-2 btn-has-radius"
-                      style={{ width: "400px" }}
-                      isPrimary
-                      hasShadow
-                      isExternal
-                      type="link"
-                      href={`https://wa.me/${userAsBuyer.phone}`}
-                    >
-                      Hubungi
-                      <i className="fa-brands fa-whatsapp ms-2"></i>
-                    </Button>
+                    <div>
+                      <Button
+                        className="btn btn-primary mx-2 btn-has-radius"
+                        style={{ width: "400px" }}
+                        isPrimary
+                        hasShadow
+                        isExternal
+                        type="link"
+                        href={`https://wa.me/${userAsBuyer.phone}`}
+                      >
+                        Hubungi
+                        <i className="fa-brands fa-whatsapp ms-2"></i>
+                      </Button>
+                    </div>
+                    <ModalStatusSeller
+                      id={id}
+                      dataProduct={productSizes.products}
+                      priceBid={priceBid}
+                      createdAt={createdAt}
+                    />
                   </div>
                 ) : status === "pending" ? (
                   <div className="d-flex justify-content-center">
@@ -164,8 +177,42 @@ function ProductInfo({
                       createdAt={createdAt}
                     />
                   </div>
-                ) : (
+                ) : status === "cancel" ? (
                   <></>
+                ) : (
+                  <div className="d-flex flex-row-reverse">
+                    <div>
+                      <button
+                        className="btn btn-secondary mx-2 btn-has-radius"
+                        style={{ width: "400px" }}
+                        hasShadow
+                        isExternal
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalStatusInfoPenawar"
+                      >
+                        Status
+                      </button>
+                      <Button
+                        className="btn btn-primary mx-2 btn-has-radius"
+                        style={{ width: "400px" }}
+                        isPrimary
+                        hasShadow
+                        isExternal
+                        type="link"
+                        href={`https://wa.me/${userAsBuyer.phone}`}
+                      >
+                        Hubungi
+                        <i className="fa-brands fa-whatsapp ms-2"></i>
+                      </Button>
+                    </div>
+                    <ModalStatusSeller
+                      id={id}
+                      dataProduct={productSizes.products}
+                      priceBid={priceBid}
+                      createdAt={createdAt}
+                    />
+                  </div>
                 )}
               </div>
             </div>

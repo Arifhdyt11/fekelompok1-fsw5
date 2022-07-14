@@ -19,7 +19,7 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTransaction({ productsizeId: item.id, price: price }));
+    dispatch(addTransaction({ productsizeId: item.id, priceBid: price }));
   };
 
   useEffect(() => {

@@ -238,7 +238,14 @@ export const updateTransactionSeller = (data) => {
         if (data.status === "success") {
           Swal.fire({
             icon: "success",
-            title: "Transaction Success",
+            title: "Transaction Status Updated",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else if (data.status === "perbarui") {
+          Swal.fire({
+            icon: "success",
+            title: "Transaction Success ",
             showConfirmButton: false,
             timer: 1500,
           });

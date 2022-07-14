@@ -90,7 +90,6 @@ export default function ModalTransactionSeller({
                   </div>
                 </div>
               </div>
-
               <button
                 className="btn btn-primary btn-shadow px-5 py-2"
                 data-bs-dismiss="modal"
@@ -99,7 +98,7 @@ export default function ModalTransactionSeller({
                   dispatch(
                     updateTransactionSeller({
                       transactionId: id,
-                      status: "success",
+                      status: "perbarui",
                     })
                   )
                 }
