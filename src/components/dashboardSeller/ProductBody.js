@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
-import { Link, Navigate } from "react-router-dom";
+
 import Button from "elements/Button";
+import DraftProduct from "./DraftProduct";
 function ProductBody() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
@@ -19,7 +20,14 @@ function ProductBody() {
   }, [dispatch]);
 
   if (getListProductSellerResult) {
-    var countProduct = getListProductSellerResult.data.length;
+    var countProduct = getListProductSellerResult.data.filter(
+      (item) => item.status === "published"
+    ).length;
+  }
+  if (getListProductSellerResult) {
+    var countDraft = getListProductSellerResult.data.filter(
+      (item) => item.status === "draft"
+    ).length;
   }
 
   //------------------TOTAL WISHLIST------------------
@@ -37,23 +45,28 @@ function ProductBody() {
 
   //--------------------------------------------------------------
 
-  const [total, setTotal] = useState(countProduct);
-  const [wishlist, setWishlist] = useState(countWishlist);
-
-  useEffect(() => {
-    setTotal(countProduct);
-  }, [countProduct]);
+  const [total, setTotal] = useState(null);
+  const [draft, setDraft] = useState("");
+  const [wishlist, setWishlist] = useState("");
 
   const [show, setShow] = useState(<ProductList />);
   const handleShow = (itShow) => {
     if (itShow === "All") {
       setShow(<ProductList />);
       setTotal(countProduct);
+      setDraft("");
+      setWishlist("");
+    }
+    if (itShow === "Draft") {
+      setShow(<DraftProduct />);
+      setTotal("");
+      setDraft(countDraft);
       setWishlist("");
     }
     if (itShow === "Diminati") {
       setShow(<Wishlist />);
       setTotal("");
+      setDraft("");
       setWishlist(countWishlist);
     }
   };
@@ -69,9 +82,22 @@ function ProductBody() {
               onClick={() => handleShow("All")}
             >
               <div className="icon-list">
-                <i className="uil uil-cube item-icon"></i> Semua Produk
+                <i className="fa-regular fa-cube fa-xs item-icon"></i>Semua
+                Produk
               </div>
-              <span className="badge bg-primary">{total}</span>
+              <span className="badge bg-primary">
+                {total === null ? countProduct : total}
+              </span>
+            </li>
+
+            <li
+              className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"
+              onClick={() => handleShow("Draft")}
+            >
+              <div className="icon-list">
+                <i className="fa-regular fa-heart fa-xs item-icon"></i>Draft
+              </div>
+              <span className="badge bg-primary">{draft}</span>
             </li>
 
             <li
@@ -79,8 +105,7 @@ function ProductBody() {
               onClick={() => handleShow("Diminati")}
             >
               <div className="icon-list">
-                <i className="uil uil-heart item-icon"></i>
-                Diminati
+                <i className="fa-regular fa-heart fa-xs item-icon"></i>Diminati
               </div>
               <span className="badge bg-primary">{wishlist}</span>
             </li>
@@ -90,7 +115,8 @@ function ProductBody() {
               href="/transaction"
             >
               <div className="icon-list">
-                <i className="uil uil-dollar-alt item-icon"></i> Terjual
+                <i className="fa-solid fa-dollar-sign fa-xs item-icon"></i>
+                Terjual
               </div>
             </Button>
           </ul>

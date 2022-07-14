@@ -1,4 +1,4 @@
-import TransactionBody from "components/TransactionBody";
+import TransactionBody from "components/transaction/TransactionBody";
 import Navbar from "components/Navbar";
 import React, { useEffect } from "react";
 

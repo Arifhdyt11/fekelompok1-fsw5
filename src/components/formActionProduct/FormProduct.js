@@ -11,7 +11,7 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
-import fotoProduct from "../assets/images/addProduct.png";
+import fotoProduct from "assets/images/addProduct.png";
 import Swal from "sweetalert2";
 
 export default function FormAddProduct() {
@@ -24,9 +24,9 @@ export default function FormAddProduct() {
   const location = useLocation();
 
   const { id } = useParams();
-  console.log(location);
   if (id) {
     var { getProductIdSellerResult } = location.state.getProductIdSellerResult;
+    // console.log(getProductIdSellerResult);
   }
   const [images, setImages] = useState("");
   const [images2, setImages2] = useState("");
@@ -36,6 +36,7 @@ export default function FormAddProduct() {
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
 
   const dispatch = useDispatch();
 
@@ -82,8 +83,6 @@ export default function FormAddProduct() {
     }
   };
 
-  console.log(images2);
-
   const handleUpload4 = (e) => {
     if (e.target.files[0]) {
       const reader = new FileReader();
@@ -105,35 +104,34 @@ export default function FormAddProduct() {
       setPrice(getProductIdSellerResult.price);
       setCategoryId(getProductIdSellerResult.categoryId);
       setDescription(getProductIdSellerResult.description);
-
-      setImages(
-        getProductIdSellerResult.image[0] !== undefined
-          ? (getProductIdSellerResult.image[0],
-            (document.getElementById("filePhoto").src =
-              getProductIdSellerResult.image[0]))
-          : (document.getElementById("filePhoto").src = fotoProduct)
-      );
-      setImages2(
-        getProductIdSellerResult.image[1] !== undefined
-          ? (getProductIdSellerResult.image[1],
-            (document.getElementById("filePhoto2").src =
-              getProductIdSellerResult.image[1]))
-          : (document.getElementById("filePhoto2").src = fotoProduct)
-      );
-      setImages3(
-        getProductIdSellerResult.image[2] !== undefined
-          ? (getProductIdSellerResult.image[2],
-            (document.getElementById("filePhoto3").src =
-              getProductIdSellerResult.image[2]))
-          : (document.getElementById("filePhoto3").src = fotoProduct)
-      );
-      setImages4(
-        getProductIdSellerResult.image[3] !== undefined
-          ? (getProductIdSellerResult.image[3],
-            (document.getElementById("filePhoto4").src =
-              getProductIdSellerResult.image[3]))
-          : (document.getElementById("filePhoto4").src = fotoProduct)
-      );
+      if (getProductIdSellerResult.image[0]) {
+        setImages(getProductIdSellerResult.image[0]);
+        document.getElementById("filePhoto").src =
+          getProductIdSellerResult.image[0];
+      } else {
+        document.getElementById("filePhoto").src = fotoProduct;
+      }
+      if (getProductIdSellerResult.image[1]) {
+        setImages2(getProductIdSellerResult.image[1]);
+        document.getElementById("filePhoto2").src =
+          getProductIdSellerResult.image[1];
+      } else {
+        document.getElementById("filePhoto2").src = fotoProduct;
+      }
+      if (getProductIdSellerResult.image[2]) {
+        setImages3(getProductIdSellerResult.image[2]);
+        document.getElementById("filePhoto3").src =
+          getProductIdSellerResult.image[2];
+      } else {
+        document.getElementById("filePhoto3").src = fotoProduct;
+      }
+      if (getProductIdSellerResult.image[3]) {
+        setImages4(getProductIdSellerResult.image[3]);
+        document.getElementById("filePhoto4").src =
+          getProductIdSellerResult.image[3];
+      } else {
+        document.getElementById("filePhoto4").src = fotoProduct;
+      }
     }
   }, [id, dispatch]);
 
@@ -153,24 +151,41 @@ export default function FormAddProduct() {
   }, [updateProductResult, dispatch]);
 
   const oldImage = [];
-
+  console.log(images);
+  // console.log(images2);
+  // console.log(images3);
+  // console.log(images4);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
       //update
       if (images !== "" && getProductIdSellerResult.image[0] !== undefined) {
-        oldImage.push(getProductIdSellerResult.image[0].substring(62, 82));
+        if (images === getProductIdSellerResult.image[0]) {
+          oldImage.push("");
+        } else {
+          oldImage.push(getProductIdSellerResult.image[0].substring(62, 82));
+        }
       }
       if (images2 !== "" && getProductIdSellerResult.image[1] !== undefined) {
-        oldImage.push(getProductIdSellerResult.image[1].substring(62, 82));
-      } else {
-        oldImage.push(images2);
+        if (images2 === getProductIdSellerResult.image[1]) {
+          oldImage.push("");
+        } else {
+          oldImage.push(getProductIdSellerResult.image[1].substring(62, 82));
+        }
       }
       if (images3 !== "" && getProductIdSellerResult.image[2] !== undefined) {
-        oldImage.push(getProductIdSellerResult.image[2].substring(62, 82));
+        if (images3 === getProductIdSellerResult.image[2]) {
+          oldImage.push("");
+        } else {
+          oldImage.push(getProductIdSellerResult.image[2].substring(62, 82));
+        }
       }
       if (images4 !== "" && getProductIdSellerResult.image[3] !== undefined) {
-        oldImage.push(getProductIdSellerResult.image[3].substring(62, 82));
+        if (images4 === getProductIdSellerResult.image[3]) {
+          oldImage.push("");
+        } else {
+          oldImage.push(getProductIdSellerResult.image[3].substring(62, 82));
+        }
       }
       const SwalUpdateProduct = {
         id: id,
@@ -180,36 +195,97 @@ export default function FormAddProduct() {
         price: price,
         categoryId: categoryId,
         description: description,
+        status: status,
         oldImage,
       };
-      Swal.fire({
-        title: "Data sudah benar ?",
-        text: "Apakah anda yakin ingin menyimpan data ini ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, Simpan!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({ title: "Data Berhasil di edit!", icon: "success" });
-          dispatch(updateProduct(SwalUpdateProduct)).then(function () {
-            // window.location.href = "/seller";
-          });
-        }
-      });
+
+      if (status === "published") {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Apakah anda yakin ingin menyimpan data ini ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Data Berhasil di tambahkan!",
+              icon: "success",
+            });
+            dispatch(updateProduct(SwalUpdateProduct));
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Product Akan di Simpan di Draft",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Loading Preview...",
+              icon: "success",
+            });
+            dispatch(updateProduct(SwalUpdateProduct));
+          }
+        });
+      }
     } else {
       //add
-      dispatch(
-        addProduct({
-          userId: user.data.id,
-          name: name,
-          image: [images, images2, images3, images4],
-          price: price,
-          categoryId: categoryId,
-          description: description,
-        })
-      );
+      const SwalAddProduct = {
+        userId: user.data.id,
+        name: name,
+        image: [images, images2, images3, images4],
+        price: price,
+        categoryId: categoryId,
+        description: description,
+        status: status,
+      };
+      if (status === "published") {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Apakah anda yakin ingin menyimpan data ini ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Data Berhasil di tambahkan!",
+              icon: "success",
+              showConfirmButton: false,
+            });
+            dispatch(addProduct(SwalAddProduct));
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Data sudah benar ?",
+          text: "Product Akan di Simpan di Draft",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Ya, Simpan!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Loading Preview...",
+              icon: "success",
+              showConfirmButton: false,
+            });
+            dispatch(addProduct(SwalAddProduct));
+          }
+        });
+      }
     }
   };
 
@@ -365,8 +441,7 @@ export default function FormAddProduct() {
           hasShadow
           isSecondary
           isBlock
-          type="link"
-          href="/preview-product"
+          onClick={() => setStatus("draft")}
         >
           Preview
         </Button>
@@ -375,7 +450,7 @@ export default function FormAddProduct() {
           hasShadow
           isPrimary
           isBlock
-          // onClick={ClearInputImage}
+          onClick={() => setStatus("published")}
         >
           Terbitkan
         </Button>

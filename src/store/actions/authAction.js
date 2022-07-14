@@ -3,7 +3,7 @@ import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
   try {
-    const response = await fetch("http://localhost:8000/api/v1/login", {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -12,7 +12,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     });
     const result = await response.json();
 
-    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
+    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,10 +35,11 @@ export const loginViaForm = (data) => async (dispatch) => {
         timer: 1500,
       });
     } else {
+      console.log(result);
       authError(result.error);
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
+        title: `${result.message}`,
         showConfirmButton: false,
         timer: 1500,
       });
@@ -47,7 +48,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     authError(error);
     Swal.fire({
       icon: "error",
-      title: "Email or Password is incorrect",
+      title: `${error}`,
       showConfirmButton: false,
       timer: 1500,
     });
@@ -101,7 +102,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
 
     const result = await response.json();
     console.log("3. Berhasil dapet data:", result);
-
+    window.location.href = "/";
     dispatch({
       type: UPDATE_PROFILE,
       user: result,

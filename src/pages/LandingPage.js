@@ -1,8 +1,8 @@
 import "assets/css/landingPage.css";
 
 import Navbar from "components/Navbar";
-import Hero from "components/Hero";
-import Product from "components/Product";
+import Hero from "components/landingPage/Hero";
+import Product from "components/landingPage/Product";
 import Footer from "components/Footer";
 import React, { Component } from "react";
 
@@ -16,6 +16,7 @@ class LandingPage extends Component {
     document.title = "Shoesnarian | Home";
     window.scrollTo(0, 0);
   }
+
   render() {
     return (
       <>

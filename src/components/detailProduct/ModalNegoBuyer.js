@@ -1,13 +1,13 @@
-import Button from "elements/Button";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addTransaction,
-  getListTransactionBuyer,
-} from "store/actions/transactionAction";
-import { formatDate } from "utils/defaultFormat";
+import { addTransaction } from "store/actions/transactionAction";
+import { formatDate, formatPrice } from "utils/defaultFormat";
 
 export default function ModalNegoBuyer({ item, dataProduct }) {
+  const { addTransactionResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
+
   const date = new Date();
   const [price, setPrice] = useState("");
 
@@ -21,6 +21,12 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
     e.preventDefault();
     dispatch(addTransaction({ productsizeId: item.id, price: price }));
   };
+
+  useEffect(() => {
+    if (addTransactionResult) {
+      setPrice("");
+    }
+  }, [addTransactionResult, dispatch]);
 
   return (
     <div id="modalInfoProduk">
@@ -43,7 +49,7 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
               ></button>
             </div>
             <div className="modal-body text-center">
-              <h4>Masukan Harga Tawar</h4>
+              <h5>Masukan Harga Tawar</h5>
               <p className="mt-3 mb-3">
                 Harga tawaranmu akan diketahui penjual, jika penjual cocok kamu
                 akan segera dihubungi penjual.
@@ -60,17 +66,17 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
                     style={{ width: "50%" }}
                   />
                   <div className="mb-3">
-                    <h5>Penawaran Product</h5>
-                    <h4>{dataProduct.name}</h4>
+                    <h6>Penawaran Product</h6>
+                    <h5>{dataProduct.name}</h5>
                   </div>
                   <div className="mb-3">
-                    <h5>Harga Awal</h5>
-                    <h4>
-                      <s>Rp. {dataProduct.price}</s>
-                    </h4>
+                    <h6>Harga Awal</h6>
+                    <h5>
+                      <s>Rp. {formatPrice(dataProduct.price)}</s>
+                    </h5>
                   </div>
                   <div>
-                    <h5>Ajukan Harga Tawar</h5>
+                    <h6>Ajukan Harga Tawar</h6>
                     <form onSubmit={handleSubmit}>
                       <div class="mb-3 mx-5 ">
                         <input

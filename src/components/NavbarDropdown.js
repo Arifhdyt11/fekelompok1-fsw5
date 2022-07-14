@@ -6,13 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "store/actions/authAction";
 import { useLocation } from "react-router-dom";
 
-function CekSeller(props) {
-  const { isSeller } = props;
-  if (isSeller === "yes") {
-    return <></>;
-  }
-}
-
 export default function NavbarDropdown(props) {
   // TODO: Ini buat logout
   const dispatch = useDispatch();
@@ -30,7 +23,6 @@ export default function NavbarDropdown(props) {
     dispatch(logout());
   };
 
-  const { isSeller } = props;
   const location = useLocation();
   return (
     <>
@@ -66,17 +58,20 @@ export default function NavbarDropdown(props) {
               ""
             ) : (
               <>
-                {" "}
                 <li>
-                  <a className="dropdown-item" href="/wishlist">
+                  <Button
+                    className="dropdown-item"
+                    type="link"
+                    href="/wishlist"
+                  >
                     <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
-                  </a>
+                  </Button>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="/history">
+                  <Button className="dropdown-item" type="link" href="/history">
                     <i className="fa-duotone fa-arrows-repeat me-3"></i>History
                     Transaksi
-                  </a>
+                  </Button>
                 </li>
               </>
             )}
@@ -92,7 +87,7 @@ export default function NavbarDropdown(props) {
                       type="link"
                       href="/seller"
                       className="dropdown-item text-center"
-                      isPrimary
+                      isSecondary
                       hasShadow
                       isBlock
                     >
@@ -106,8 +101,9 @@ export default function NavbarDropdown(props) {
                   <Button
                     type="link"
                     href="/"
-                    className="dropdown-item text-center btn-third"
+                    className="dropdown-item text-center"
                     hasShadow
+                    isPrimary
                     isBlock
                     onClick={handleLogout}
                   >
@@ -133,8 +129,6 @@ export default function NavbarDropdown(props) {
                 </li>
               </>
             )}
-
-            <CekSeller isSeller={isSeller} />
           </ul>
         </div>
       </div>

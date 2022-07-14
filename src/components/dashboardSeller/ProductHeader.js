@@ -1,4 +1,3 @@
-import SellerImg from "assets/images/login2.png";
 import { useSelector } from "react-redux";
 
 function ProductHeader() {
@@ -14,12 +13,14 @@ function ProductHeader() {
           <img className="seller-image me-3" src={user.data.image} alt="" />
           <div>
             <h4>{user.data.name}</h4>
-            {user.data.city ? (
-              <p>{user.data.city}</p>
-            ) : (
+            {user.data.name === null ||
+            user.data.city === null ||
+            user.data.phone === null ? (
               <p style={{ color: "red", fontWeight: 500 }}>
-                Update Profile Required
+                Update Profile Required to Add Product!!!
               </p>
+            ) : (
+              <p>{user.data.city}</p>
             )}
           </div>
         </div>

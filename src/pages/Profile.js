@@ -5,7 +5,6 @@ import kamera from "assets/images/fotoProfile.png";
 import "assets/css/profile.css";
 import Button from "elements/Button";
 import ModalChangePass from "components/ModalChangePass";
-import { useLocation, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
 import Swal from "sweetalert2";
@@ -18,13 +17,9 @@ export default function ProfilePage() {
   });
 
   const dispatch = useDispatch();
-  const location = useLocation();
-  const { isAuthenticated, user, status } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { user } = useSelector((state) => state.AuthReducer);
 
   const [image, setImage] = useState(kamera);
-  const [progress, setProgress] = useState(0);
 
   const handleUpload = (e) => {
     if (e.target.files[0]) {
@@ -41,11 +36,7 @@ export default function ProfilePage() {
   };
 
   React.useEffect(() => {
-    if (location.pathname === "/profile") getUser();
-  });
-
-  function getUser() {
-    if (user !== undefined && status !== true) {
+    if (user !== undefined) {
       if (user.data.name !== null)
         document.getElementById("nameInput").value = user.data.name;
       if (user.data.city !== null)
@@ -60,9 +51,10 @@ export default function ProfilePage() {
         document.getElementById("filePhoto").src = kamera;
       }
     }
-  }
+  });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const update = {
       name: document.getElementById("nameInput").value,
       city: document.getElementById("cityInput").value,
@@ -80,21 +72,25 @@ export default function ProfilePage() {
       confirmButtonText: "Ya, Simpan!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Data Berhasil Di Update!", "", "success");
+        Swal.fire({
+          icon: "success",
+          title: "Data Berhasil Di Update!",
+          showConfirmButton: false,
+        });
         dispatch(updateUserDetail(update));
       }
     });
   };
 
-  console.log("image : ", image);
+  // console.log("image : ", image);
 
-  if (status === true) {
-    if (user.data.role === "SELLER") {
-      return <Navigate to={`/seller`} />;
-    } else {
-      return <Navigate to={`/`} />;
-    }
-  }
+  // if (status === true) {
+  //   if (user.data.role === "SELLER") {
+  //     return <Navigate to={`/seller`} />;
+  //   } else {
+  //     return <Navigate to={`/`} />;
+  //   }
+  // }
 
   return (
     <div>
@@ -105,7 +101,7 @@ export default function ProfilePage() {
         <div className="container mt-lg-5 mb-5" id="profile">
           <div className="row ">
             <div className="col-md-1 col-sm-12  divArrow">
-              <a href="/" className="arrow">
+              <Button type="link" href="/" className="arrow" nonStyle>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="35"
@@ -119,17 +115,10 @@ export default function ProfilePage() {
                     d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
                   />
                 </svg>
-              </a>
+              </Button>
             </div>
             <div className="col-md-11 col-sm-12 mb-4 ">
-              <form>
-                <input
-                  type="text"
-                  placeholder="Nama"
-                  hidden
-                  id="idUser"
-                  required
-                />
+              <form onSubmit={handleSubmit}>
                 <div className="mb-3 text-center">
                   <label htmlFor="file-input" id="preview">
                     <img
@@ -201,7 +190,6 @@ export default function ProfilePage() {
                     hasShadow
                     isPrimary
                     type="button"
-                    onClick={() => handleSubmit()}
                   >
                     Simpan
                   </Button>

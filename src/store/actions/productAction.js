@@ -187,8 +187,18 @@ export const getProductIdSeller = (id) => {
   };
 };
 
-export const addProduct = (data) => async (dispatch) => {
-  try {
+export const addProduct = (data) => {
+  return (dispatch) => {
+    //loading
+    dispatch({
+      type: ADD_PRODUCT,
+      payload: {
+        loading: true,
+        data: false,
+        errorMessage: false,
+      },
+    });
+
     console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
     formdata.append("userId", data.userId);
@@ -196,6 +206,7 @@ export const addProduct = (data) => async (dispatch) => {
     formdata.append("price", data.price);
     formdata.append("categoryId", data.categoryId);
     formdata.append("description", data.description);
+    formdata.append("status", data.status);
 
     if (data.image.length > 0) {
       if (
@@ -224,32 +235,50 @@ export const addProduct = (data) => async (dispatch) => {
       }
     }
 
-    console.log("DI ACTION 2 :", data);
-    const response = await fetch(`${process.env.REACT_APP_HOST}/product`, {
+    //get API
+    axios({
       method: "POST",
-      body: formdata,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-    });
-
-    const result = await response.json();
-
-    dispatch({
-      type: ADD_PRODUCT,
-      payload: result,
-    });
-  } catch (error) {
-    dispatch({
-      type: ADD_PRODUCT,
-      payload: error.response,
-    });
-  }
+      url: `${process.env.REACT_APP_HOST}/product`,
+      timeout: 120000,
+      data: formdata,
+    })
+      .then((response) => {
+        //berhasil get API
+        console.log("3. Berhasil Dapat Data", response.data);
+        if (response.data.product.status === "draft") {
+          window.location.href = "/seller-product/" + response.data.product.id;
+        } else {
+          window.location.href = "/seller";
+        }
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        console.log("3. Gagal Dapat Data", error.response.data);
+        //error get api
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
+      });
+  };
 };
 
-export const updateProduct = (data) => async (dispatch) => {
-  try {
-    console.log(data);
+export const updateProduct = (data) => {
+  return (dispatch) => {
     //loading
     dispatch({
       type: UPDATE_PRODUCT,
@@ -259,33 +288,52 @@ export const updateProduct = (data) => async (dispatch) => {
         errorMessage: false,
       },
     });
-    //get API
+
+    console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
     formdata.append("name", data.name);
     formdata.append("price", data.price);
     formdata.append("categoryId", data.categoryId);
     formdata.append("description", data.description);
     formdata.append("oldImage", data.oldImage);
-    if (data.image.length > 0) {
-      if (
+    formdata.append("status", data.status);
+
+    if (data.image[0]) {
+      if (data.image[0] !== "") {
+        formdata.append("image", data.image[0]);
+      } else if (
         data.image[0].type === "image/jpeg" ||
         data.image[0].type === "image/png"
       ) {
         formdata.append("image", data.image[0]);
       }
-      if (
+    }
+
+    if (data.image[1]) {
+      if (data.image[1] !== "") {
+        formdata.append("image", data.image[1]);
+      } else if (
         data.image[1].type === "image/jpeg" ||
         data.image[1].type === "image/png"
       ) {
         formdata.append("image", data.image[1]);
       }
-      if (
+    }
+
+    if (data.image[2]) {
+      if (data.image[2] !== "") {
+        formdata.append("image", data.image[2]);
+      } else if (
         data.image[2].type === "image/jpeg" ||
         data.image[2].type === "image/png"
       ) {
         formdata.append("image", data.image[2]);
       }
-      if (
+    }
+    if (data.image[3]) {
+      if (data.image[3] !== "") {
+        formdata.append("image", data.image[3]);
+      } else if (
         data.image[3].type === "image/jpeg" ||
         data.image[3].type === "image/png"
       ) {
@@ -293,36 +341,139 @@ export const updateProduct = (data) => async (dispatch) => {
       }
     }
 
-    fetch(`${process.env.REACT_APP_HOST}/product/` + data.id, {
+    //get API
+    axios({
       method: "PUT",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
+      url: `${process.env.REACT_APP_HOST}/product/` + data.id,
       timeout: 120000,
-      body: formdata,
-    }).then((response) => {
-      //berhasil get API
-      dispatch({
-        type: UPDATE_PRODUCT,
-        payload: {
-          loading: false,
-          data: response.data,
-          errorMessage: false,
-        },
+      data: formdata,
+    })
+      .then((response) => {
+        //berhasil get API
+        console.log("3. Berhasil Dapat Data", response.data);
+        if (response.data.product.status === "draft") {
+          window.location.href = "/seller-product/" + response.data.product.id;
+        } else {
+          window.location.href = "/seller";
+        }
+        dispatch({
+          type: UPDATE_PRODUCT,
+          payload: {
+            loading: false,
+            data: response.data,
+            errorMessage: false,
+          },
+        });
+      })
+      .catch((error) => {
+        // console.log("3. Gagal Dapat Data", error.response.data);
+        //error get api
+        dispatch({
+          type: UPDATE_PRODUCT,
+          payload: {
+            loading: false,
+            data: false,
+            errorMessage: error.message,
+          },
+        });
       });
-    });
-  } catch (error) {
-    //error get api
-    dispatch({
-      type: UPDATE_PRODUCT,
-      payload: {
-        loading: false,
-        data: false,
-        errorMessage: error.message,
-      },
-    });
-  }
+  };
 };
+
+// export const updateProduct1 = (data) => async (dispatch) => {
+//   try {
+//     console.log(data);
+//     //loading
+//     dispatch({
+//       type: UPDATE_PRODUCT,
+//       payload: {
+//         loading: true,
+//         data: false,
+//         errorMessage: false,
+//       },
+//     });
+//     //get API
+//     var formdata = new FormData();
+//     formdata.append("name", data.name);
+//     formdata.append("price", data.price);
+//     formdata.append("categoryId", data.categoryId);
+//     formdata.append("description", data.description);
+//     formdata.append("oldImage", data.oldImage);
+
+//     if (data.image.length > 0) {
+//       if (
+//         data.image[0].type === "image/jpeg" ||
+//         data.image[0].type === "image/png"
+//       ) {
+//         formdata.append("image", data.image[0]);
+//       } else if (data.image[0] !== "") {
+//         formdata.append("image", data.image[0]);
+//       }
+//       if (
+//         data.image[1].type === "image/jpeg" ||
+//         data.image[1].type === "image/png"
+//       ) {
+//         formdata.append("image", data.image[1]);
+//       } else if (data.image[1] !== "") {
+//         formdata.append("image", data.image[1]);
+//       }
+//       if (
+//         data.image[2].type === "image/jpeg" ||
+//         data.image[2].type === "image/png"
+//       ) {
+//         formdata.append("image", data.image[2]);
+//       } else if (data.image[2] !== "") {
+//         formdata.append("image", data.image[2]);
+//       }
+//       if (
+//         data.image[3].type === "image/jpeg" ||
+//         data.image[3].type === "image/png"
+//       ) {
+//         formdata.append("image", data.image[3]);
+//       } else if (data.image[3] !== "") {
+//         formdata.append("image", data.image[3]);
+//       }
+//     }
+
+//     fetch(`${process.env.REACT_APP_HOST}/product/` + data.id, {
+//       method: "PUT",
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+//       },
+//       timeout: 120000,
+//       body: formdata,
+//     }).then((response) => {
+//       //berhasil get API
+//       console.log(response);
+//       if (response.data.product.status === "draft") {
+//         window.location.href = "/seller-product/" + response.data.product.id;
+//       } else {
+//         window.location.href = "/seller";
+//       }
+//       dispatch({
+//         type: UPDATE_PRODUCT,
+//         payload: {
+//           loading: false,
+//           data: response.data,
+//           errorMessage: false,
+//         },
+//       });
+//     });
+//   } catch (error) {
+//     //error get api
+//     dispatch({
+//       type: UPDATE_PRODUCT,
+//       payload: {
+//         loading: false,
+//         data: false,
+//         errorMessage: error.message,
+//       },
+//     });
+//   }
+// };
 
 export const deleteProduct = (id) => {
   console.log("2. Masuk ke action");

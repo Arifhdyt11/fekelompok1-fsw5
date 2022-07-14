@@ -21,6 +21,8 @@ function Register() {
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
 
+  const [passwordShown, setPasswordShown] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
@@ -31,6 +33,10 @@ function Register() {
     );
   };
 
+  const togglePasswordVisiblity = () => {
+    setPasswordShown(passwordShown ? false : true);
+  };
+
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       dispatch(loginWithGoogle(tokenResponse.access_token));
@@ -39,8 +45,6 @@ function Register() {
       alert(error);
     },
   });
-
-
 
   return (
     <main>
@@ -90,7 +94,7 @@ function Register() {
                   <label htmlFor="password">Password</label>
                   <div className="input-group">
                     <input
-                      type="password"
+                      type={passwordShown ? "text" : "password"}
                       name="password"
                       className="form-control form-control-password"
                       placeholder="Masukkan password"
@@ -99,7 +103,14 @@ function Register() {
                       required
                     />
                     <span className="input-group-text " id="basic-addon2">
-                      <i className="uil uil-eye"></i>
+                      <i
+                        class={
+                          passwordShown
+                            ? "fa-solid fa-eye-slash fa-lg"
+                            : "fa-solid fa-eye fa-lg"
+                        }
+                        onClick={togglePasswordVisiblity}
+                      ></i>
                     </span>
                   </div>
                 </div>
@@ -135,13 +146,13 @@ function Register() {
                 </Link>
               </p>
 
-              <button
+              {/* <button
                 className="btn btn-block login-btn"
                 type="button"
                 onClick={() => googleLogin()}
               >
                 <i className="uil uil-google"></i> Sign in with Google
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

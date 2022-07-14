@@ -21,7 +21,7 @@ export const getListWishlistSeller = (sellerId, token) => {
     axios({
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      url: `${process.env.REACT_APP_HOST}/wishlist/seller/` + sellerId,
+      url: `${process.env.REACT_APP_HOST}/wishlist/seller`,
       timeout: 120000,
     })
       .then((response) => {
@@ -64,7 +64,7 @@ export const getListWishlistBuyer = (buyerId, token) => {
     axios({
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
-      url: `${process.env.REACT_APP_HOST}/wishlist/buyer/` + buyerId,
+      url: `${process.env.REACT_APP_HOST}/wishlist/buyer`,
       timeout: 120000,
     })
       .then((response) => {

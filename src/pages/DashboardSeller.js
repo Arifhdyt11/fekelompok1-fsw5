@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-import "assets/css/daftarJual.css";
+import "assets/css/dashboardSeller.css";
 
 import Navbar from "components/Navbar";
-import ProductHeader from "components/daftar-jual/ProductHeader";
-import ProductBody from "components/daftar-jual/ProductBody";
+import ProductHeader from "components/dashboardSeller/ProductHeader";
+import ProductBody from "components/dashboardSeller/ProductBody";
 import Footer from "components/Footer";
 // import Button from "elements/Button";
 

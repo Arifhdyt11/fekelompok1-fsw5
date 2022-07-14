@@ -1,22 +1,49 @@
 import "assets/css/detailProduct.css";
 
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductId, getProductIdSeller } from "store/actions/productAction";
 
-import ActionDetail from "components/ActionDetail";
-import DescriptionProduct from "components/DescriptionProduct";
+import ActionDetail from "components/detailProduct/ActionDetail";
+import DescriptionProduct from "components/detailProduct/DescriptionProduct";
 import Footer from "components/Footer";
-import Galery from "components/Galery";
+import Galery from "components/detailProduct/Galery";
 import Navbar from "components/Navbar";
-import ProductTitle from "components/ProductTitle";
+import ProductTitle from "components/detailProduct/ProductTitle";
+import PageNotFound from "./404";
+
+function ShowDetailProduct() {
+  const { id } = useParams();
+  return (
+    <>
+      <Navbar />
+      <ProductTitle />
+      <Galery productId={id} />
+      <section className="container section-detail-product mt-5 mb-5">
+        <div className="row">
+          <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+            <ActionDetail id={id} />
+          </div>
+          <div className="col-lg-7 order-sm-1 ">
+            <DescriptionProduct />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
 
 export default function DetailProduct() {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
+  const {
+    getProductIdResult,
+
+    getProductSellerIdResult,
+  } = useSelector((state) => state.ProductReducer);
 
   const { id } = useParams();
 
@@ -40,20 +67,31 @@ export default function DetailProduct() {
 
   return (
     <>
-      <Navbar />
-      <ProductTitle />
-      <Galery productId={id} />
-      <section className="container section-detail-product mt-5 mb-5">
-        <div className="row">
-          <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
-            <ActionDetail id={id} />
-          </div>
-          <div className="col-lg-7 order-sm-1 ">
-            <DescriptionProduct />
-          </div>
-        </div>
-      </section>
-      <Footer />
+      {isAuthenticated ? (
+        user.data.role === "SELLER" ? (
+          getProductSellerIdResult ? (
+            <ShowDetailProduct />
+          ) : (
+            <ShowDetailProduct />
+          )
+        ) : getProductIdResult ? (
+          getProductIdResult.status === "published" ? (
+            <ShowDetailProduct />
+          ) : (
+            <Navigate to={`/404`} />
+          )
+        ) : (
+          <ShowDetailProduct />
+        )
+      ) : getProductIdResult ? (
+        getProductIdResult.status === "published" ? (
+          <ShowDetailProduct />
+        ) : (
+          <Navigate to={`/404`} />
+        )
+      ) : (
+        <ShowDetailProduct />
+      )}
     </>
   );
 }

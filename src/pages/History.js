@@ -1,8 +1,6 @@
-import TransactionBody from "components/TransactionBody";
+import TransactionBody from "components/transaction/TransactionBody";
 import Navbar from "components/Navbar";
-import React, { useEffect, useState } from "react";
-
-import { getInitialData } from "json/data.js";
+import React, { useEffect } from "react";
 
 export default function History() {
   useEffect(() => {
@@ -10,11 +8,10 @@ export default function History() {
     window.scrollTo(0, 0);
   });
 
-  const [product] = useState(getInitialData());
   return (
     <>
       <Navbar />
-      <TransactionBody product={product} />
+      <TransactionBody />
     </>
   );
 }

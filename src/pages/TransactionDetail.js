@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "components/Navbar";
 
-import TransactionDetailBody from "components/TransactionDetailBody";
+import TransactionDetailSeller from "components/transaction/TransactionDetailSeller";
 
 export default function TransactionDetail() {
   useEffect(() => {
@@ -11,7 +11,7 @@ export default function TransactionDetail() {
   return (
     <>
       <Navbar />
-      <TransactionDetailBody />
+      <TransactionDetailSeller />
     </>
   );
 }

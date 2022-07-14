@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import image403 from "../assets/images/image403.png";
+import image403 from "assets/images/image403.png";
 import Button from "elements/Button";
 import Navbar from "components/Navbar";
 

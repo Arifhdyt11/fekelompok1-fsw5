@@ -1,3 +1,4 @@
+import Button from "elements/Button";
 import { useSelector } from "react-redux";
 
 export default function DescriptionProduct() {
@@ -21,27 +22,33 @@ export default function DescriptionProduct() {
           getProductIdSellerResult ? ( //SELLER
             <p>{getProductIdSellerResult.description}</p>
           ) : getProductIdSellerLoading ? (
-            <h3>Loading....</h3>
+            <Button isLoading></Button>
           ) : (
             <p>
               {getProductIdSellerError
                 ? getProductIdSellerError
-                : "Data Kosong"}
+                : "Please Reload or Try Again"}
             </p>
           )
         ) : getProductIdResult ? (
           <p> {getProductIdResult.description}</p>
         ) : getProductIdLoading ? (
-          <h3>Loading....</h3>
+          <Button isLoading></Button>
         ) : (
-          <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
+          <p>
+            {getProductIdError
+              ? getProductIdError
+              : "Please Reload or Try Again"}
+          </p>
         )
       ) : getProductIdResult ? (
         <p> {getProductIdResult.description}</p>
       ) : getProductIdLoading ? (
-        <h3>Loading....</h3>
+        <Button isLoading></Button>
       ) : (
-        <p>{getProductIdError ? getProductIdError : "Data Kosong"}</p>
+        <p>
+          {getProductIdError ? getProductIdError : "Please Reload or Try Again"}
+        </p>
       )}
     </div>
   );
