@@ -80,7 +80,7 @@ export default function TransactionBuyer({
               <h5 className="text-center" style={{ color: "#198754" }}>
                 Success
               </h5>
-            ) : status === "pending" ? (
+            ) : status === "pending" || status === "perbarui" ? (
               <h5 className="text-center" style={{ color: "#ffc107" }}>
                 Pending
               </h5>
@@ -90,7 +90,7 @@ export default function TransactionBuyer({
               </h5>
             )}
 
-            {status === "success" ? (
+            {status === "success" || status === "perbarui" ? (
               <Button
                 className="btn btn-success mt-1 py-2 mx-0"
                 isBlock

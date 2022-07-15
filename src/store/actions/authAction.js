@@ -82,17 +82,7 @@ export const logout = () => async (dispatch) => {
 };
 
 export const updateUserDetail = (data) => async (dispatch) => {
-  console.log("actions : ", data);
   try {
-    console.log(data.image);
-
-    // var raw = JSON.stringify({
-    //   name: data.name,
-    //   city: data.city,
-    //   address: data.address,
-    //   phone: data.phone,
-    //   image: data.image,
-    // });
     var formdata = new FormData();
     if (data.image) {
       formdata.append("image", data.image);

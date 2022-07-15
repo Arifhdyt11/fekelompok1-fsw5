@@ -141,7 +141,6 @@ export default function FormAddProduct() {
       dispatch(getListProductSeller());
     }
   }, [addProductResult, dispatch]);
-
   useEffect(() => {
     if (updateProductResult) {
       dispatch(getListProduct());
