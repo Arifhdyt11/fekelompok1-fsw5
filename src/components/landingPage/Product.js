@@ -37,8 +37,8 @@ export default function Product(props) {
 
   console.log(product);
   useEffect(() => {
-    // const SERVER = "https://shoesnarian.herokuapp.com";
-    const SERVER = "http://localhost:5000";
+    const SERVER = "https://shoesnarian.herokuapp.com";
+    // const SERVER = "http://localhost:5000";
     var socket = socketClient(SERVER);
     socket.on("connection", () => {
       console.log(`I'm connected with the back-end`);

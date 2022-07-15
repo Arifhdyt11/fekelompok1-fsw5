@@ -2,12 +2,15 @@ import React, { useEffect } from "react";
 import image403 from "assets/images/image403.png";
 import Button from "elements/Button";
 import Navbar from "components/Navbar";
+import { useSelector } from "react-redux";
 
 export default function Forbidden() {
   useEffect(() => {
     document.title = "403 | Access Denied";
     window.scrollTo(0, 0);
   });
+
+  const { user } = useSelector((state) => state.AuthReducer);
   return (
     <div>
       <Navbar />
@@ -23,7 +26,7 @@ export default function Forbidden() {
             hasShadow
             isPrimary
             type="link"
-            href="/"
+            href={user.data.role === "SELLER" ? "/seller" : "/"}
           >
             GO BACK
           </Button>
