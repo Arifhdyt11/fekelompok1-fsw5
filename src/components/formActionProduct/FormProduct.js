@@ -8,7 +8,7 @@ import {
   getProductIdSeller,
   updateProduct,
 } from "store/actions/productAction";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
 import fotoProduct from "assets/images/addProduct.png";
@@ -28,6 +28,7 @@ export default function FormAddProduct() {
     var { getProductIdSellerResult } = location.state.getProductIdSellerResult;
     // console.log(getProductIdSellerResult);
   }
+
   const [images, setImages] = useState("");
   const [images2, setImages2] = useState("");
   const [images3, setImages3] = useState("");
@@ -153,9 +154,6 @@ export default function FormAddProduct() {
 
   const oldImage = [];
   console.log(images);
-  // console.log(images2);
-  // console.log(images3);
-  // console.log(images4);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
@@ -214,6 +212,7 @@ export default function FormAddProduct() {
             Swal.fire({
               title: "Data Berhasil di tambahkan!",
               icon: "success",
+              showConfirmButton: false,
             });
             dispatch(updateProduct(SwalUpdateProduct));
           }
@@ -232,8 +231,11 @@ export default function FormAddProduct() {
             Swal.fire({
               title: "Loading Preview...",
               icon: "success",
+              showConfirmButton: false,
             });
-            dispatch(updateProduct(SwalUpdateProduct));
+            dispatch(updateProduct(SwalUpdateProduct)).then(function () {
+              <Navigate to={`/seller`} />;
+            });
           }
         });
       }
@@ -349,6 +351,8 @@ export default function FormAddProduct() {
           <option value="1">Sneakers</option>
           <option value="2">Sport</option>
           <option value="3">Casual</option>
+          <option value="4">Boots</option>
+          <option value="5">Formals</option>
         </select>
       </div>
 

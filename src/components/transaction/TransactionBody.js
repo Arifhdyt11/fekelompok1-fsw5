@@ -39,7 +39,7 @@ export default function TransactionBody() {
           type="link"
           href="/seller"
         >
-          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
+          <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
           <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
         </Button>
       </div>

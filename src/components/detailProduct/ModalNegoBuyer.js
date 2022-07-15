@@ -19,7 +19,7 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTransaction({ productsizeId: item.id, price: price }));
+    dispatch(addTransaction({ productsizeId: item.id, priceBid: price }));
   };
 
   useEffect(() => {
@@ -78,10 +78,10 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
                   <div>
                     <h6>Ajukan Harga Tawar</h6>
                     <form onSubmit={handleSubmit}>
-                      <div class="mb-3 mx-5 ">
+                      <div className="mb-3 mx-5 ">
                         <input
                           type="number"
-                          class="form-control search-form text-center"
+                          className="form-control search-form text-center"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
                           value={price}

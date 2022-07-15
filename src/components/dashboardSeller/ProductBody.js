@@ -95,7 +95,7 @@ function ProductBody() {
               onClick={() => handleShow("Draft")}
             >
               <div className="icon-list">
-                <i className="fa-regular fa-heart fa-xs item-icon"></i>Draft
+                <i className="fa-solid fa-book-blank fa-xs item-icon"></i>Draft
               </div>
               <span className="badge bg-primary">{draft}</span>
             </li>

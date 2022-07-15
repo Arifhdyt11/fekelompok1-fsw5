@@ -84,6 +84,10 @@ export const getProductId = (id) => {
       })
       .catch((error) => {
         //error get api
+        console.log(error.response.data);
+        if (error.response.data.message === "Data not found") {
+          window.location.href = "/404";
+        }
         dispatch({
           type: GET_PRODUCT_ID,
           payload: {
@@ -164,6 +168,7 @@ export const getProductIdSeller = (id) => {
     })
       .then((response) => {
         //berhasil get API
+        console.log(response);
         dispatch({
           type: GET_PRODUCT_ID_SELLER,
           payload: {
@@ -174,6 +179,10 @@ export const getProductIdSeller = (id) => {
         });
       })
       .catch((error) => {
+        console.log(error.response.data);
+        if (error.response.data.message === "Data not found") {
+          window.location.href = "/404";
+        }
         //error get api
         dispatch({
           type: GET_PRODUCT_ID_SELLER,
@@ -354,8 +363,8 @@ export const updateProduct = (data) => {
       .then((response) => {
         //berhasil get API
         console.log("3. Berhasil Dapat Data", response.data);
-        if (response.data.product.status === "draft") {
-          window.location.href = "/seller-product/" + response.data.product.id;
+        if (data.status === "draft") {
+          window.location.href = "/seller-product/" + data.id;
         } else {
           window.location.href = "/seller";
         }
@@ -496,6 +505,7 @@ export const deleteProduct = (id) => {
       timeout: 120000,
     })
       .then((response) => {
+        window.location.href = "/seller";
         console.log("3. Berhasil dapet data:", response);
         //berhasil get api
         dispatch({

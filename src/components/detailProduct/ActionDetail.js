@@ -5,7 +5,11 @@ import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { deleteProduct, updateProduct } from "store/actions/productAction";
+import {
+  deleteProduct,
+  getProductIdSeller,
+  updateProduct,
+} from "store/actions/productAction";
 import {
   addWishlist,
   deleteWishlist,
@@ -13,12 +17,21 @@ import {
 } from "store/actions/wishlistAction";
 import ModalNegoBuyer from "./ModalNegoBuyer";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
+import Swal from "sweetalert2";
 
-function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
+function CheckButton({
+  id,
+  getProductIdResult,
+  getProductIdSellerResult,
+  getProductIdSellerLoading,
+}) {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
-  console.log(getProductIdResult);
+
+  const { updateProductResult } = useSelector((state) => state.ProductReducer);
+
+  // console.log(getProductIdResult);
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
@@ -67,12 +80,20 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
     }
   }, [addTransactionResult, dispatch]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (updateProductResult) {
+        dispatch(getProductIdSeller(id));
+      }
+    }
+  }, [updateProductResult, dispatch]);
+
   const productId = parseInt(id);
 
   const location = useLocation();
   if (location.state) {
     var { item } = location.state;
-    console.log(location);
+    // console.log(location);
   }
   // const getProductIdResult =
   // location.state.getProductIdResult.getProductIdResult;
@@ -88,6 +109,27 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
 
   // console.log(item);
   // console.log(getListTransactionBuyerResult.data);
+
+  const handleDeleteProduct = () => {
+    Swal.fire({
+      title: "Delete Product",
+      text: "Apakah anda yakin ingin menghapus product ini ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Simpan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Data Berhasil di Hapus!",
+          icon: "success",
+          showConfirmButton: false,
+        });
+        dispatch(deleteProduct(id, accessToken));
+      }
+    });
+  };
 
   if (isAuthenticated) {
     if (user.data.role === "SELLER") {
@@ -131,6 +173,14 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
                 Terbitkan
               </Button>
             )
+          ) : getProductIdSellerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isSecondary
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
           ) : (
             ""
           )}
@@ -151,7 +201,7 @@ function CheckButton({ id, getProductIdResult, getProductIdSellerResult }) {
             className="btn btn-danger mt-3 ms-auto py-2"
             hasShadow
             isBlock
-            onClick={() => dispatch(deleteProduct(id, accessToken))}
+            onClick={handleDeleteProduct}
           >
             Delete
           </Button>
@@ -284,22 +334,11 @@ export default function ActionDetail({ id }) {
     getProductIdResult,
     getProductIdLoading,
     getProductIdError,
-    deleteProductResult,
 
     getProductIdSellerResult,
     getProductIdSellerLoading,
     getProductIdSellerError,
   } = useSelector((state) => state.ProductReducer);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    //Biar realtime pas delete
-    if (deleteProductResult) {
-      alert("Data Berhasil diapus");
-      window.location.href = "/seller";
-    }
-  }, [deleteProductResult, dispatch]);
 
   return (
     <div className="card is-block ms-auto p-4">
@@ -366,6 +405,7 @@ export default function ActionDetail({ id }) {
         id={id}
         getProductIdSellerResult={getProductIdSellerResult}
         getProductIdResult={getProductIdResult}
+        getProductIdSellerLoading={getProductIdSellerLoading}
       />
     </div>
   );

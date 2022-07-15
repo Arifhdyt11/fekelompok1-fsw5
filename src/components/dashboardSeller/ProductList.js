@@ -84,10 +84,9 @@ function ProductList() {
 
       <div className="section-produk my-2 s">
         <div className="row justify-content-center">
-          {getListProductSellerResult ? (
-            getListProductSellerResult.data.filter(
-              (item) => item.status === "published"
-            ).length === 0 ? (
+          {productSeller ? (
+            productSeller.filter((item) => item.status === "published")
+              .length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
                 <div>
                   <img src={img} alt="" className="img-fluid mb-3" />
@@ -95,7 +94,7 @@ function ProductList() {
                 </div>
               </div>
             ) : (
-              getListProductSellerResult.data
+              productSeller
                 .filter((item) => item.status === "published")
                 .map((item, index) => {
                   return <ProductItem key={item.id} {...item} index={index} />;
