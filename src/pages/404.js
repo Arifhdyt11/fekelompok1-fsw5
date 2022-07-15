@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import image404 from "assets/images/image404.png";
 import Button from "elements/Button";
 import Navbar from "components/Navbar";
+import { useSelector } from "react-redux";
 
 export default function PageNotFound() {
   useEffect(() => {
@@ -9,6 +10,7 @@ export default function PageNotFound() {
     window.scrollTo(0, 0);
   });
 
+  const { user } = useSelector((state) => state.AuthReducer);
   return (
     <div>
       <Navbar />
@@ -24,7 +26,7 @@ export default function PageNotFound() {
             hasShadow
             isPrimary
             type="link"
-            href="/"
+            href={user.data.role === "SELLER" ? "/seller" : "/"}
           >
             GO BACK
           </Button>

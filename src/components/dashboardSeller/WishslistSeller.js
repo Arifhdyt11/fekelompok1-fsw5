@@ -23,13 +23,13 @@ export default function WishlistSeller() {
 
   const dataWishlist = getListWishlistSellerResult.data;
   const uniqueWishlist = _(dataWishlist)
-    .groupBy("productId")
+    .groupBy("products.id")
     .map((items) => ({
       count: items.length,
       ...items[0],
     }))
     .value();
-
+  console.log(dataWishlist);
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">

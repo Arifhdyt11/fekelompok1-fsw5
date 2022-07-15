@@ -118,7 +118,7 @@ function CheckButton({
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Simpan!",
+      confirmButtonText: "Ya, Delete Product!",
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
