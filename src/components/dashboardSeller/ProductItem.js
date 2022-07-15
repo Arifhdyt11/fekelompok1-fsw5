@@ -29,6 +29,7 @@ function ProductItem({
     dispatch(getListSize(accessToken));
   }, [dispatch]);
 
+  // console.log(products);
   return (
     <>
       <div className="col-lg-4 col-md-6 col-sm-6 ">
@@ -45,8 +46,9 @@ function ProductItem({
               //All Product Badge Stock
               <div className="d-md-flex flex-row-reverse">
                 {getListSizeResult ? (
-                  getListSizeResult.data.filter((item) => item.productId === id)
-                    .length === 0 ? (
+                  getListSizeResult.data.filter(
+                    (item) => item.productId === id && item.stock > 0
+                  ).length === 0 ? (
                     <span
                       className="badge bg-danger p-2 zoom"
                       data-bs-toggle="modal"
@@ -74,7 +76,7 @@ function ProductItem({
               //wishlist
               <Button
                 type="link"
-                href={`/seller-product/${productId}`}
+                href={`/seller-product/${products.id}`}
                 className=" "
                 style={{ textDecoration: "none" }}
                 key={id}
