@@ -82,17 +82,7 @@ export const logout = () => async (dispatch) => {
 };
 
 export const updateUserDetail = (data) => async (dispatch) => {
-  console.log("actions : ", data);
   try {
-    console.log(data.image);
-
-    // var raw = JSON.stringify({
-    //   name: data.name,
-    //   city: data.city,
-    //   address: data.address,
-    //   phone: data.phone,
-    //   image: data.image,
-    // });
     var formdata = new FormData();
     if (data.image) {
       formdata.append("image", data.image);
@@ -112,7 +102,11 @@ export const updateUserDetail = (data) => async (dispatch) => {
 
     const result = await response.json();
     console.log("3. Berhasil dapet data:", result);
-    window.location.href = "/";
+    if (result.data.role === "SELLER") {
+      window.location.href = "/seller";
+    } else {
+      window.location.href = "/";
+    }
     dispatch({
       type: UPDATE_PROFILE,
       user: result,
@@ -128,7 +122,7 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     const data = {
       access_token: accessToken,
     };
-    const response = await fetch("http://localhost:8000/api/v1/google", {
+    const response = await fetch(`${process.env.REACT_APP_HOST}/google`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -136,23 +130,23 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    console.log(data);
-    console.log(result);
+    // console.log(data);
+    // console.log(result);
 
     // profile
-    const userInfo = await fetch("http://localhost:8000/api/v1/profile", {
+    const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${result.accessToken}`,
+        Authorization: `Bearer ${result.token}`,
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
-    if (result.accessToken) {
+    if (result.token) {
       dispatch({
         type: LOGIN,
-        payload: result.accessToken,
+        payload: result.token,
         user: user,
       });
       Swal.fire({

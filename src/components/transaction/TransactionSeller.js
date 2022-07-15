@@ -80,6 +80,10 @@ export default function TransactionSeller({
               <h5 className="text-center" style={{ color: "#198754" }}>
                 Success
               </h5>
+            ) : status === "process" ? (
+              <h5 className="text-center" style={{ color: "#e9c46a" }}>
+                On Process
+              </h5>
             ) : status === "pending" ? (
               <h5 className="text-center" style={{ color: "#ffc107" }}>
                 Pending
@@ -101,7 +105,7 @@ export default function TransactionSeller({
               >
                 Check Detail
               </Button>
-            ) : status === "pending" ? (
+            ) : status === "pending" || status === "process" ? (
               <Button
                 className="btn btn-warning mt-1 py-2 mx-0"
                 hasShadow

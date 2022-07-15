@@ -54,13 +54,19 @@ export default function DetailProduct() {
   });
 
   useEffect(() => {
-    dispatch(getProductId(id));
+    if (isAuthenticated) {
+      if (user.data.role === "BUYER") {
+        dispatch(getProductId(id));
+      }
+    } else {
+      dispatch(getProductId(id));
+    }
   }, [dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
       if (user.data.role === "SELLER") {
-        dispatch(getProductIdSeller(id, accessToken));
+        dispatch(getProductIdSeller(id));
       }
     }
   }, [dispatch]);

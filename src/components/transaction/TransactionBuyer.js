@@ -8,6 +8,7 @@ export default function TransactionBuyer({
   productSizes,
   updatedAt,
 }) {
+  console.log(status);
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>
@@ -80,6 +81,10 @@ export default function TransactionBuyer({
               <h5 className="text-center" style={{ color: "#198754" }}>
                 Success
               </h5>
+            ) : status === "process" ? (
+              <h5 className="text-center" style={{ color: "#e9c46a" }}>
+                On Proccess
+              </h5>
             ) : status === "pending" ? (
               <h5 className="text-center" style={{ color: "#ffc107" }}>
                 Pending
@@ -91,6 +96,19 @@ export default function TransactionBuyer({
             )}
 
             {status === "success" ? (
+              <Button
+                className="btn btn-success mt-1 py-2 mx-0"
+                isBlock
+                hasRadius
+                hasShadow
+                isExternal
+                type="link"
+                href="https://wa.me/628974233275"
+              >
+                Hubungi Penjual
+                <i className="fa-brands fa-whatsapp ms-3"></i>
+              </Button>
+            ) : status === "process" ? (
               <Button
                 className="btn btn-success mt-1 py-2 mx-0"
                 isBlock

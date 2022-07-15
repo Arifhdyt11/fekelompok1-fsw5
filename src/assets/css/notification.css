@@ -1,0 +1,25 @@
+.notification .card-notif {
+  /* flex-direction: column; */
+  background: #ffffff;
+  box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px 2px;
+  border-radius: 5px;
+  padding: 5px;
+}
+.notification .card-notif .img-notif {
+  height: 80px;
+}
+
+.notification .card-notif span.success {
+  color: #198754;
+  font-weight: 500;
+}
+
+.notification .card-notif span.cancel {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.notification .card-notif .price {
+  color: #152c5b;
+  font-weight: 500;
+}

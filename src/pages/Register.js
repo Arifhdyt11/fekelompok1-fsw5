@@ -104,7 +104,7 @@ function Register() {
                     />
                     <span className="input-group-text " id="basic-addon2">
                       <i
-                        class={
+                        className={
                           passwordShown
                             ? "fa-solid fa-eye-slash fa-lg"
                             : "fa-solid fa-eye fa-lg"

@@ -30,7 +30,7 @@ export default function ProductTitle() {
               : "/"
           }
         >
-          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
+          <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
           <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
         </Button>
       </div>
@@ -53,7 +53,7 @@ export default function ProductTitle() {
                       : "Please Reload or Try Again"}
                   </p>
                 )
-              ) : getProductIdResult ? (
+              ) : getProductIdResult ? ( //BUYER
                 <div>
                   <h2>{getProductIdResult.name}</h2>
                   <p>{getProductIdResult.categories.name}</p>
@@ -67,7 +67,7 @@ export default function ProductTitle() {
                     : "Please Reload or Try Again"}
                 </p>
               )
-            ) : getProductIdResult ? (
+            ) : getProductIdResult ? ( //NOT LOGEED IN
               <div>
                 <h2>{getProductIdResult.name}</h2>
                 <p>{getProductIdResult.categories.name}</p>

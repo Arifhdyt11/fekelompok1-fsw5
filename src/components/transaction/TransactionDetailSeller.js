@@ -7,6 +7,7 @@ import {
   updateTransactionSeller,
 } from "store/actions/transactionAction";
 import { formatDate, formatPrice } from "utils/defaultFormat";
+import ModalStatusSeller from "./ModalStatus";
 import ModalTransactionSeller from "./ModalTransactionSeller";
 
 function BuyerInfo({ userAsBuyer }) {
@@ -19,7 +20,7 @@ function BuyerInfo({ userAsBuyer }) {
           type="link"
           href="/transaction"
         >
-          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 align-self-center"></i>
+          <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 align-self-center"></i>
           <h6 className="mb-0 ">Back to Transaction</h6>
         </Button>
       </div>
@@ -106,6 +107,10 @@ function ProductInfo({
                       <h5 className="text-center" style={{ color: "#198754" }}>
                         Success
                       </h5>
+                    ) : status === "process" ? (
+                      <h5 className="text-center" style={{ color: "#e9c46a" }}>
+                        On Process
+                      </h5>
                     ) : status === "pending" ? (
                       <h5 className="text-center" style={{ color: "#ffc107" }}>
                         Pending
@@ -119,18 +124,26 @@ function ProductInfo({
                 </div>
                 {status === "success" ? (
                   <div className="d-flex flex-row-reverse">
-                    <Button
-                      className="btn btn-primary mx-2 btn-has-radius"
-                      style={{ width: "400px" }}
-                      isPrimary
-                      hasShadow
-                      isExternal
-                      type="link"
-                      href={`https://wa.me/${userAsBuyer.phone}`}
-                    >
-                      Hubungi
-                      <i className="fa-brands fa-whatsapp ms-2"></i>
-                    </Button>
+                    <div>
+                      <Button
+                        className="btn btn-primary mx-2 btn-has-radius"
+                        style={{ width: "400px" }}
+                        isPrimary
+                        hasShadow
+                        isExternal
+                        type="link"
+                        href={`https://wa.me/${userAsBuyer.phone}`}
+                      >
+                        Hubungi
+                        <i className="fa-brands fa-whatsapp ms-2"></i>
+                      </Button>
+                    </div>
+                    <ModalStatusSeller
+                      id={id}
+                      dataProduct={productSizes.products}
+                      priceBid={priceBid}
+                      createdAt={createdAt}
+                    />
                   </div>
                 ) : status === "pending" ? (
                   <div className="d-flex justify-content-center">
@@ -149,14 +162,24 @@ function ProductInfo({
                     >
                       Tolak
                     </Button>
-                    <button
-                      type="button"
-                      className="btn btn-primary mx-2 is-block btn-has-radius"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalInfoPenawar"
-                    >
-                      Terima
-                    </button>
+                    {productSizes.stock > 0 ? (
+                      <button
+                        type="button"
+                        className="btn btn-primary is-block btn-has-radius"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalInfoPenawar"
+                      >
+                        Terima
+                      </button>
+                    ) : (
+                      <h6
+                        className="px-5 is-block text-center"
+                        style={{ color: "red" }}
+                      >
+                        Tidak Bisa Terima Penawaran Karena Tidak Ada Stock
+                        Product
+                      </h6>
+                    )}
                     <ModalTransactionSeller
                       id={id}
                       dataProduct={productSizes.products}
@@ -164,8 +187,41 @@ function ProductInfo({
                       createdAt={createdAt}
                     />
                   </div>
-                ) : (
+                ) : status === "cancel" ? (
                   <></>
+                ) : (
+                  <div className="d-flex flex-row-reverse">
+                    <button
+                      className="btn btn-secondary btn-has-radius"
+                      style={{ width: "400px" }}
+                      hasShadow
+                      isExternal
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#modalStatusInfoPenawar"
+                    >
+                      Status
+                    </button>
+                    <Button
+                      className="btn btn-primary mx-2 btn-has-radius"
+                      style={{ width: "400px" }}
+                      isPrimary
+                      hasShadow
+                      isExternal
+                      type="link"
+                      href={`https://wa.me/${userAsBuyer.phone}`}
+                    >
+                      Hubungi
+                      <i className="fa-brands fa-whatsapp ms-2"></i>
+                    </Button>
+
+                    <ModalStatusSeller
+                      id={id}
+                      dataProduct={productSizes.products}
+                      priceBid={priceBid}
+                      createdAt={createdAt}
+                    />
+                  </div>
                 )}
               </div>
             </div>
