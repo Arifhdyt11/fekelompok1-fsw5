@@ -8,6 +8,7 @@ import ModalChangePass from "components/ModalChangePass";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
 import Swal from "sweetalert2";
+import { set } from "lodash";
 
 export default function ProfilePage() {
   useEffect(() => {

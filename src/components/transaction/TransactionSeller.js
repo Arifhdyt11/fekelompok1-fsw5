@@ -80,7 +80,7 @@ export default function TransactionSeller({
               <h5 className="text-center" style={{ color: "#198754" }}>
                 Success
               </h5>
-            ) : status === "pending" ? (
+            ) : status === "pending" || status === "perbarui" ? (
               <h5 className="text-center" style={{ color: "#ffc107" }}>
                 Pending
               </h5>
@@ -101,7 +101,7 @@ export default function TransactionSeller({
               >
                 Check Detail
               </Button>
-            ) : status === "pending" ? (
+            ) : status === "pending" || status === "perbarui" ? (
               <Button
                 className="btn btn-warning mt-1 py-2 mx-0"
                 hasShadow
