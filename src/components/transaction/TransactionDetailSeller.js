@@ -20,7 +20,7 @@ function BuyerInfo({ userAsBuyer }) {
           type="link"
           href="/transaction"
         >
-          <i class="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 align-self-center"></i>
+          <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 align-self-center"></i>
           <h6 className="mb-0 ">Back to Transaction</h6>
         </Button>
       </div>
@@ -162,14 +162,24 @@ function ProductInfo({
                     >
                       Tolak
                     </Button>
-                    <button
-                      type="button"
-                      className="btn btn-primary mx-2 is-block btn-has-radius"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modalInfoPenawar"
-                    >
-                      Terima
-                    </button>
+                    {productSizes.stock > 0 ? (
+                      <button
+                        type="button"
+                        className="btn btn-primary mx-2 is-block btn-has-radius"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalInfoPenawar"
+                      >
+                        Terima
+                      </button>
+                    ) : (
+                      <h6
+                        className="px-5 is-block text-center"
+                        style={{ color: "red" }}
+                      >
+                        Tidak Bisa Terima Penawaran Karena Tidak Ada Stock
+                        Product
+                      </h6>
+                    )}
                     <ModalTransactionSeller
                       id={id}
                       dataProduct={productSizes.products}

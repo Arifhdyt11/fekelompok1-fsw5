@@ -26,12 +26,12 @@ export default function Galery({ productId }) {
   }, [dispatch]);
 
   //--------------------------Choose Size---------------
-  const [size, setSize] = useState("");
+  // const [size, setSize] = useState("");
   const [active, setActive] = useState("");
 
   const chooseSize = (size) => {
-    setSize(size);
-    setActive(size);
+    // setSize(size);
+    // setActive(size);
     window.scrollTo(0, 300);
   };
 
@@ -155,17 +155,19 @@ export default function Galery({ productId }) {
                     user.data.role === "SELLER" ? (
                       getListSizeResult.data
                         .filter(
-                          (item) => item.productId === parseInt(productId)
+                          (item) =>
+                            item.productId === parseInt(productId) &&
+                            item.stock !== 0
                         )
                         .sort((a, b) => a.sizes.id - b.sizes.id)
-                        .map((item) => {
+                        .map((item, index) => {
                           return (
                             <>
                               <Button
                                 className={`btn  mx-2 my-2 `}
                                 isSecondary
                                 isDisabled
-                                key={item.id}
+                                key={index}
                               >
                                 {item.sizes.size}
                               </Button>
@@ -174,15 +176,18 @@ export default function Galery({ productId }) {
                         })
                     ) : (
                       getListSizeResult.data
+
                         .filter(
-                          (item) => item.productId === parseInt(productId)
+                          (item) =>
+                            item.productId === parseInt(productId) &&
+                            item.stock !== 0
                         )
                         .sort((a, b) => a.sizes.id - b.sizes.id)
-                        .map((item) => {
+                        .map((item, index) => {
                           return (
                             <>
                               <Link
-                                key={item.id}
+                                key={index}
                                 to={`/product/${productId}`}
                                 state={{
                                   item: { ...item },
@@ -204,12 +209,16 @@ export default function Galery({ productId }) {
                     )
                   ) : (
                     getListSizeResult.data
-                      .filter((item) => item.productId === parseInt(productId))
+                      .filter(
+                        (item) =>
+                          item.productId === parseInt(productId) &&
+                          item.stock !== 0
+                      )
                       .sort((a, b) => a.sizes.id - b.sizes.id)
-                      .map((item) => {
+                      .map((item, index) => {
                         return (
                           <Link
-                            key={item.id}
+                            key={index}
                             to={`/product/${productId}`}
                             state={{
                               item: { ...item },
@@ -234,6 +243,8 @@ export default function Galery({ productId }) {
                   <p>{getListSizeError ? getListSizeError : "erro"}</p>
                 )}
               </div>
+
+              {/* STOCK */}
               <div className="mt-3">
                 {getListSizeResult ? (
                   getListSizeResult.data.filter(
@@ -245,7 +256,8 @@ export default function Galery({ productId }) {
                       ""
                     ) : (
                       <h5>
-                        Stock :{location.state ? location.state.item.stock : ""}
+                        Stock :{" "}
+                        {location.state ? location.state.item.stock : ""}
                       </h5>
                     )
                   ) : (

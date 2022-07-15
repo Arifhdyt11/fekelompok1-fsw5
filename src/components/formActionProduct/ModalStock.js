@@ -9,6 +9,7 @@ import {
   getListSize,
   updateSize,
 } from "store/actions/sizeAction";
+import Swal from "sweetalert2";
 
 export default function ModalStock({ productId }) {
   const { accessToken } = useSelector((state) => state.AuthReducer);
@@ -94,7 +95,12 @@ export default function ModalStock({ productId }) {
           });
         console.log(size);
         if (listSize.has(`${size}`)) {
-          console.log("gagal karena sudah ada");
+          Swal.fire({
+            icon: "error",
+            title: "Size Already in List",
+            showConfirmButton: false,
+            timer: 2500,
+          });
         } else {
           dispatch(
             addSize({
@@ -149,8 +155,8 @@ export default function ModalStock({ productId }) {
             ></button>
           </div>
           <div className="modal-body pb-5">
-            <form onSubmit={handleSubmit} className="row mb-3 ">
-              <div className="col-auto">
+            <form onSubmit={handleSubmit} className="row mb-4 ">
+              <div className="col-lg-4 col-md-4 col-sm-12 mb-3 mb-md-0">
                 <select
                   className="form-select"
                   aria-label="Default select example"
@@ -173,7 +179,7 @@ export default function ModalStock({ productId }) {
                 </select>
               </div>
 
-              <div className="col-auto">
+              <div className="col-lg-4 col-md-4 col-sm-12 mb-3 mb-md-0">
                 <input
                   type="number"
                   className="form-control"
@@ -185,13 +191,24 @@ export default function ModalStock({ productId }) {
                   ref={inputRefStock}
                 />
               </div>
-              <div className="col-auto mt-auto">
-                <Button className="btn " hasShadow isPrimary>
+              <div className="col-lg-3 col-md-4 col-sm-12 mt-auto d-flex justify-content-around">
+                <Button
+                  className="btn me-2 w-100 d-block d-sm-none"
+                  isSecondary
+                  onClick={handleClose}
+                >
+                  Clear
+                </Button>
+                <Button className="btn ms-2 w-100" hasShadow isPrimary>
                   Submit Stock
                 </Button>
               </div>
             </form>
-            <Button className="btn mb-3" isSecondary onClick={handleClose}>
+            <Button
+              className="btn mb-3 mb-md-0  d-none d-sm-block"
+              isSecondary
+              onClick={handleClose}
+            >
               Clear
             </Button>
 

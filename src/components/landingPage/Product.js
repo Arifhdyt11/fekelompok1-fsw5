@@ -11,6 +11,8 @@ import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
 import { GET_PRODUCT_ID } from "store/types";
 
+import socketClient from "socket.io-client";
+
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
   const dispatch = useDispatch();
@@ -23,7 +25,8 @@ export default function Product(props) {
 
   const getInitialData = getListProductResult.data;
 
-  const [product, setProduct] = useState(getInitialData);
+  const [product, setProduct] = useState([]);
+
   useEffect(() => {
     setProduct(dispatch(getListProduct()));
   }, [dispatch]);
@@ -32,6 +35,28 @@ export default function Product(props) {
     setProduct(getInitialData);
   }, [getInitialData]);
 
+  console.log(product);
+  useEffect(() => {
+    // const SERVER = "https://shoesnarian.herokuapp.com";
+    const SERVER = "http://localhost:5000";
+    var socket = socketClient(SERVER);
+    socket.on("connection", () => {
+      console.log(`I'm connected with the back-end`);
+    });
+
+    socket.on("add-products", (newProduct) => {
+      setProduct((product) => [...product, newProduct]);
+      dispatch(getListProduct());
+    });
+
+    socket.on("message", (message) => {
+      console.log(message);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnecting");
+    });
+  }, [getListProduct]);
   //-----------------------SEARCH ---------------------
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -162,6 +187,9 @@ export default function Product(props) {
               ) : (
                 product
                   .filter((item) => item.status === "published")
+                  // .sort(
+                  //   (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                  // )
                   .map((item, index) => {
                     return (
                       <Button
@@ -184,7 +212,7 @@ export default function Product(props) {
                                 {titleShorten(item.name, 40, " ")}
                               </h5>
                             </div>
-                            <p>{item.categories.name}</p>
+                            {/* <p>{item.categories.name}</p> */}
                             <h5>Rp. {formatPrice(item.price)}</h5>
                           </div>
                         </Fade>

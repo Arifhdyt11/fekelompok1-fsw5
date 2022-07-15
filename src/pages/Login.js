@@ -9,6 +9,8 @@ import { loginViaForm, loginWithGoogle } from "store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
 
 import LoginImg from "assets/images/login5.jpg";
+import IconGoogle from "assets/images/ic_google.svg";
+import Button from "elements/Button";
 
 function Login() {
   useEffect(() => {
@@ -100,7 +102,7 @@ function Login() {
                         />
                         <span className="input-group-text " id="basic-addon2">
                           <i
-                            class={
+                            className={
                               passwordShown
                                 ? "fa-solid fa-eye-slash fa-lg"
                                 : "fa-solid fa-eye fa-lg"
@@ -127,13 +129,19 @@ function Login() {
                     </Link>
                   </p>
 
-                  {/* <button
-                    className="btn btn-block login-btn"
-                    type="button"
+                  <Button
+                    className="btn login-google"
+                    isBlock
                     onClick={() => googleLogin()}
                   >
-                    <i className="uil uil-google"></i> Sign in with Google
-                  </button> */}
+                    <img
+                      className="img-fluid me-2"
+                      style={{ width: "20px" }}
+                      src={IconGoogle}
+                      alt=""
+                    />
+                    Sign In / Sign Up
+                  </Button>
                 </div>
               </div>
             </div>

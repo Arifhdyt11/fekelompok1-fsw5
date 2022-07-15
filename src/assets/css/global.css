@@ -245,6 +245,23 @@ p {
   border-radius: 16px;
   height: 40px;
 }
+.fas[data-count] {
+  position: relative;
+}
+.fas[data-count]:after {
+  position: absolute;
+  right: -0.75em;
+  top: -1.725em;
+  content: attr(data-count);
+  padding: 0.5em;
+  border-radius: 10em;
+  line-height: 0.9em;
+  color: white;
+  background: #1565c0;
+  text-align: center;
+  min-width: 2em;
+  font: bold 0.4em sans-serif;
+}
 
 section {
   margin-top: 40px;
