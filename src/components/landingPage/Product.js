@@ -12,6 +12,7 @@ import { getListCategory } from "store/actions/categoryAction";
 import { GET_PRODUCT_ID } from "store/types";
 
 import socketClient from "socket.io-client";
+import CardLoading from "components/CardLoading";
 
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
@@ -35,28 +36,27 @@ export default function Product(props) {
     setProduct(getInitialData);
   }, [getInitialData]);
 
-  console.log(product);
+  // console.log(product);
   useEffect(() => {
-    const SERVER = "https://shoesnarian.herokuapp.com";
-    // const SERVER = "http://localhost:5000";
+    const { REACT_APP_SOCKET } = process.env;
+    const SERVER = `${REACT_APP_SOCKET}`;
+
     var socket = socketClient(SERVER);
+    console.log(socket);
     socket.on("connection", () => {
       console.log(`I'm connected with the back-end`);
-    });
-
-    socket.on("add-products", (newProduct) => {
-      setProduct((product) => [...product, newProduct]);
       dispatch(getListProduct());
     });
 
-    socket.on("message", (message) => {
-      console.log(message);
+    socket.on("add-products", (newProduct) => {
+      console.log(newProduct);
+      setProduct((data) => [...data, newProduct]);
     });
 
     socket.on("disconnect", () => {
       console.log("Socket disconnecting");
     });
-  }, [getListProduct]);
+  }, []);
   //-----------------------SEARCH ---------------------
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -187,9 +187,9 @@ export default function Product(props) {
               ) : (
                 product
                   .filter((item) => item.status === "published")
-                  // .sort(
-                  //   (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
-                  // )
+                  .sort(
+                    (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                  )
                   .map((item, index) => {
                     return (
                       <Button
@@ -222,7 +222,7 @@ export default function Product(props) {
               )
             ) : getListProductLoading ? (
               <>
-                <h3>Loading...</h3>
+                <CardLoading col="4" count="8" />
               </>
             ) : (
               <p>

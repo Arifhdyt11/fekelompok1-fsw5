@@ -12,6 +12,7 @@ import {
 } from "store/actions/wishlistAction";
 
 import { formatPrice, titleShorten } from "utils/defaultFormat";
+import CardLoading from "components/CardLoading";
 export default function WishlistProduct() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const buyerId = user.data.id;
@@ -61,7 +62,8 @@ export default function WishlistProduct() {
                     alt=""
                     className="img-fluid mb-3"
                   />
-                  <p>Produk tidak ditemukan</p>
+                  <p>Wishlist tidak ditemukan</p>
+                  <p>Silahkan Tambahkan Wishlist</p>
                 </div>
               </div>
             ) : (
@@ -133,7 +135,7 @@ export default function WishlistProduct() {
               })
             )
           ) : getListWishlistBuyerLoading ? (
-            <h3>Loading...</h3>
+            <CardLoading col="4" count="8" />
           ) : (
             <p>
               {getListWishlistBuyerError

@@ -28,15 +28,6 @@ export default function NavbarDropdown(props) {
     <>
       <div className="d-flex justify-content-center ms-auto">
         <div className="dropstart notif ms-3">
-          <button
-            className=" btn-none-style "
-            type="button"
-            id="dropdownnotif"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="fas fa-bell fa-lg" data-count="2"></i>
-          </button>
           <Notification />
         </div>
 
