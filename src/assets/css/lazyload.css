@@ -1,0 +1,24 @@
+.card-loading {
+  background: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  cursor: context-menu;
+  height: 100%;
+}
+
+.card-loading .img-loading {
+  height: 190px;
+  border-radius: 5px;
+  background: #dee2e6;
+}
+
+.card-loading .description-loading {
+  height: 30px;
+  border-radius: 5px;
+  background: #e9ecef;
+}
+.card-loading .info-loading {
+  height: 30px;
+  border-radius: 5px;
+  background: #e9ecef;
+}

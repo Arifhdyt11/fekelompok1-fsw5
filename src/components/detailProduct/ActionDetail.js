@@ -14,6 +14,7 @@ import {
   addWishlist,
   deleteWishlist,
   getListWishlistBuyer,
+  getListWishlistSeller,
 } from "store/actions/wishlistAction";
 import ModalNegoBuyer from "./ModalNegoBuyer";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
@@ -49,8 +50,12 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (addWishlistResult) {
-        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      if (user.data.role === "BUYER") {
+        if (addWishlistResult) {
+          dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        }
+      } else {
+        dispatch(getListWishlistSeller(user.data.id, accessToken));
       }
     }
   }, [addWishlistResult, dispatch]);

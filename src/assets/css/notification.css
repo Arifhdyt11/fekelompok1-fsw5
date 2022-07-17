@@ -14,6 +14,15 @@
   font-weight: 500;
 }
 
+.notification .card-notif span.process {
+  color: #e9c46a;
+  font-weight: 500;
+}
+.notification .card-notif span.pending {
+  color: #ffc107;
+  font-weight: 500;
+}
+
 .notification .card-notif span.cancel {
   color: #dc3545;
   font-weight: 500;
