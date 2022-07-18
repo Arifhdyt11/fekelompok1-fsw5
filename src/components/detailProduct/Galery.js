@@ -143,7 +143,8 @@ export default function Galery({ productId }) {
               <div className="size-ready justify-content-center">
                 {getListSizeResult ? (
                   getListSizeResult.data.filter(
-                    (item) => item.productId === parseInt(productId)
+                    (item) =>
+                      item.productId === parseInt(productId) && item.stock > 0
                   ).length === 0 ? (
                     <Button
                       className="btn btn-danger mt-3 py-2 mx-0"
@@ -248,7 +249,8 @@ export default function Galery({ productId }) {
               <div className="mt-3">
                 {getListSizeResult ? (
                   getListSizeResult.data.filter(
-                    (item) => item.productId === parseInt(productId)
+                    (item) =>
+                      item.productId === parseInt(productId) && item.stock > 0
                   ).length === 0 ? (
                     ""
                   ) : isAuthenticated ? (

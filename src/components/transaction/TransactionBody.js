@@ -1,4 +1,7 @@
 import Button from "elements/Button";
+
+import ProductNotFound from "assets/images/ilustrasi.svg";
+
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,6 +10,8 @@ import {
 } from "store/actions/transactionAction";
 import TransactionBuyer from "./TransactionBuyer";
 import TransactionSeller from "./TransactionSeller";
+import CardLoading from "components/CardLoading";
+import { io } from "socket.io-client";
 
 export default function TransactionBody() {
   const { user } = useSelector((state) => state.AuthReducer);
@@ -22,13 +27,34 @@ export default function TransactionBody() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user.data.role === "SELLER") dispatch(getListTransactionSeller());
+    if (user.data.role === "SELLER") {
+      dispatch(getListTransactionSeller());
+    }
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "BUYER") dispatch(getListTransactionBuyer());
+    if (user.data.role === "BUYER") {
+      dispatch(getListTransactionBuyer());
+    }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      const socket = io(process.env.REACT_APP_SOCKET);
+
+      socket.on("connection", () => {
+        // console.log("connct");
+        socket.on("add-transaction", (message) => {
+          console.log(message);
+          dispatch(getListTransactionSeller());
+        });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
+  }, [dispatch, getListTransactionSeller]);
   // console.log(getListTransactionSellerResult);
   return (
     <>
@@ -51,15 +77,31 @@ export default function TransactionBody() {
         )}
         {user.data.role === "SELLER" ? (
           getListTransactionSellerResult ? (
-            getListTransactionSellerResult.data
-              .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
-              .map((item, index) => {
-                return (
-                  <TransactionSeller key={item.id} {...item} index={index} />
-                );
-              })
+            getListTransactionSellerResult.data.length === 0 ? (
+              <div className="d-flex justify-content-center null-illustration p-5">
+                <div className="text-center">
+                  <img
+                    src={ProductNotFound}
+                    alt=""
+                    className="img-fluid mb-3"
+                  />
+                  <p>Wishlist tidak ditemukan</p>
+                  <p>Silahkan Tambahkan Wishlist</p>
+                </div>
+              </div>
+            ) : (
+              getListTransactionSellerResult.data
+                .sort(
+                  (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                )
+                .map((item, index) => {
+                  return (
+                    <TransactionSeller key={item.id} {...item} index={index} />
+                  );
+                })
+            )
           ) : getListTransactionSellerLoading ? (
-            <h3>Loading.....</h3>
+            <CardLoading transaction col="1" count="2" />
           ) : (
             <p>
               {getListTransactionSellerError
@@ -68,13 +110,25 @@ export default function TransactionBody() {
             </p>
           )
         ) : getListTransactionBuyerResult ? (
-          getListTransactionBuyerResult.data
-            .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
-            .map((item, index) => {
-              return <TransactionBuyer key={item.id} {...item} index={index} />;
-            })
+          getListTransactionBuyerResult.data.length === 0 ? (
+            <div className="d-flex justify-content-center null-illustration p-5">
+              <div className="text-center">
+                <img src={ProductNotFound} alt="" className="img-fluid mb-3" />
+                <p>Transaksi tidak ditemukan</p>
+                <p>Silahkan Belanja</p>
+              </div>
+            </div>
+          ) : (
+            getListTransactionBuyerResult.data
+              .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
+              .map((item, index) => {
+                return (
+                  <TransactionBuyer key={item.id} {...item} index={index} />
+                );
+              })
+          )
         ) : getListTransactionBuyerLoading ? (
-          <h3>Loading.....</h3>
+          <CardLoading transaction col="1" count="2" />
         ) : (
           <p>
             {getListTransactionBuyerError

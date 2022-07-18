@@ -98,7 +98,7 @@ export default function ModalTransactionSeller({
                   dispatch(
                     updateTransactionSeller({
                       transactionId: id,
-                      status: "perbarui",
+                      status: "process",
                     })
                   )
                 }

@@ -9,6 +9,16 @@ import { addRegister } from "store/actions/registerAction";
 
 import { loginWithGoogle } from "store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
+import Swal from "sweetalert2";
+
+function handleError(message) {
+  return Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
 
 function Register() {
   useEffect(() => {
@@ -27,10 +37,28 @@ function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    dispatch(
-      addRegister({ email: email, password: password, name: name, role: role })
-    );
+    if (email === "") {
+      handleError("Email cannot be empt");
+    }
+    if (password === "") {
+      handleError("Password cannot be empty");
+    }
+    if (name === "") {
+      handleError("Name cannot be empty");
+    }
+    if (role === "") {
+      handleError("Role cannot be empty");
+    }
+    if (email !== "" && password !== "" && name !== "" && role !== "") {
+      dispatch(
+        addRegister({
+          email: email,
+          password: password,
+          name: name,
+          role: role,
+        })
+      );
+    }
   };
 
   const togglePasswordVisiblity = () => {

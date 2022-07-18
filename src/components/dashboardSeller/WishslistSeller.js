@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
 
@@ -6,6 +6,9 @@ import img from "assets/images/ilustrasi.svg";
 import ProductItem from "./ProductItem";
 
 import _ from "lodash";
+
+import { io } from "socket.io-client";
+import CardLoading from "components/CardLoading";
 
 export default function WishlistSeller() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
@@ -16,12 +19,45 @@ export default function WishlistSeller() {
     getListWishlistSellerError,
   } = useSelector((state) => state.WishlistReducer);
 
+  const [wishlist, setWishlist] = useState([]);
+
+  if (user.data.role === "SELLER") {
+    var initialWishlist = getListWishlistSellerResult.data;
+  }
+
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getListWishlistSeller(sellerId, accessToken));
+    if (user.data.role === "SELLER") {
+      setWishlist(dispatch(getListWishlistSeller(sellerId, accessToken)));
+    }
   }, [dispatch]);
 
-  const dataWishlist = getListWishlistSellerResult.data;
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setWishlist(initialWishlist);
+    }
+  }, [initialWishlist]);
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_SOCKET);
+
+    socket.on("connection", () => {
+      // console.log("connct");
+      socket.on("add-wishlist", () => {
+        dispatch(getListWishlistSeller(sellerId, accessToken));
+      });
+      socket.on("delete-wishlist", () => {
+        dispatch(getListWishlistSeller(sellerId, accessToken));
+      });
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnecting");
+    });
+  }, [getListWishlistSeller]);
+
+  const dataWishlist = wishlist;
   const uniqueWishlist = _(dataWishlist)
     .groupBy("products.id")
     .map((items) => ({
@@ -29,7 +65,9 @@ export default function WishlistSeller() {
       ...items[0],
     }))
     .value();
+
   console.log(dataWishlist);
+
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
@@ -57,12 +95,12 @@ export default function WishlistSeller() {
               </div>
             )
           ) : getListWishlistSellerLoading ? (
-            <h3>Loading....</h3>
+            <CardLoading col="3" count="3" />
           ) : (
             <p>
               {getListWishlistSellerError
                 ? getListWishlistSellerError
-                : "Data Kosong"}
+                : "Please Reload and Try Again"}
             </p>
           )}
         </div>
