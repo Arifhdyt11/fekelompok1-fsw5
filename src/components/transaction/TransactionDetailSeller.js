@@ -1,3 +1,4 @@
+import CardLoading from "components/CardLoading";
 import Button from "elements/Button";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -256,9 +257,11 @@ export default function TransactionDetailSeller() {
           <ProductInfo {...getTransactionIdSellerResult.data[0]} />
         </>
       ) : getTransactionIdSellerLoading ? (
-        <h3>Loading...</h3>
+        <CardLoading transaction col="1" count="2" />
       ) : (
-        ""
+        <p>
+          {getTransactionIdSellerError ? getTransactionIdSellerError : "Error"}
+        </p>
       )}
     </section>
   );

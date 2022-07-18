@@ -8,6 +8,7 @@ import ProductItem from "./ProductItem";
 import img from "assets/images/ilustrasi.svg";
 import Button from "elements/Button";
 import _ from "lodash";
+import CardLoading from "components/CardLoading";
 
 function ProductList() {
   const {
@@ -101,12 +102,12 @@ function ProductList() {
                 })
             )
           ) : getListProductSellerLoading ? (
-            <h3>Loading....</h3>
+            <CardLoading col="3" count="3" />
           ) : (
             <p>
               {getListProductSellerError
                 ? getListProductSellerError
-                : "Data Kosong"}
+                : "Please Reload And Try Again"}
             </p>
           )}
         </div>

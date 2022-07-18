@@ -1,94 +1,146 @@
 import Button from "elements/Button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "assets/css/notification.css";
 
-export default function Notification() {
-  // const handleClear = (e) => {
-  //   const element = document.getElementById("dropdown-notif");
-  //   element.classList.add("show");
-  //   console.log("click");
-  // };
-  return (
-    <ul
-      className="dropdown-menu notification p-3"
-      aria-labelledby="dropdownnotif"
-      style={{ width: "40vw" }}
-      id="dropdown-notif"
-    >
-      <li className="d-flex justify-content-between dropdown-item item">
-        <Button className="btn me-5" nonStyle>
-          <h5>Notification</h5>
-        </Button>
-        <button
-          class="button btn ms-5"
-          nonStyle
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExample"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-        >
-        Clear All
-        </button>
-      </li>
-      <hr className="my-0" />
+import { io } from "socket.io-client";
 
-      <div className="collapse show" id="collapseExample">
-        <li className=" dropdown-item item my-2 card-notif p-3">
-          <div className=" d-flex justify-content-start">
-            <img
-              className="img-fluid img-notif me-4 align-self-center"
-              src="https://res.cloudinary.com/dwqz3oqb8/image/upload/v1657716236/hpmu1mqth40nzgzjmzmu.png"
-              alt=""
-            />
-            <div className="">
-              <h5>
-                Penawaran Product <span className="success">Success</span>
-              </h5>
-              <p>Jordan 1 High Element Gore-Tex Light Curry</p>
-              <div className="d-flex justify-content-between">
-                <div>
-                  <p>Harga Awal</p>
-                  <p className="price">
-                    <s>Rp. 500.000</s>
-                  </p>
-                </div>
-                <i class="fa-solid fa-arrow-right-long align-self-center"></i>
-                <div>
-                  <p>Harga Tawar</p>
-                  <p className="price">Rp. 100.000</p>
-                </div>
-              </div>
-            </div>
-          </div>
+import { useDispatch, useSelector } from "react-redux";
+import { getListTransactionBuyer } from "store/actions/transactionAction";
+import _ from "lodash";
+
+export default function Notification() {
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
+
+  const [transaction, setTransaction] = useState("");
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const socket = io(process.env.REACT_APP_SOCKET);
+
+      socket.on("connection", () => {
+        console.log("connct");
+        socket.on("add-transaction", (newTransaction) => {
+          console.log(newTransaction);
+          setTransaction((prev) => [...prev, newTransaction]);
+        });
+
+        socket.on("update-transaction", (updateTransaction) => {
+          console.log(updateTransaction);
+          setTransaction((prev) => [...prev, updateTransaction]);
+        });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
+  }, []);
+
+  // console.log(transaction);
+  const handleClear = (e) => {
+    setTransaction([]);
+  };
+  // if (transaction) {
+  //   const data = transaction.map((item) => {
+  //     console.log(item.productSizes.products);
+  //   });
+  // }
+
+  console.log(transaction);
+
+  const dataTransaction = transaction;
+  const uniqueTransaction = _(dataTransaction)
+    .groupBy("status")
+    .map((items) => ({
+      ...items[0],
+    }))
+    .value();
+
+  console.log(uniqueTransaction);
+
+  if (transaction) {
+    var countTransaction = uniqueTransaction.length;
+  }
+  return (
+    <>
+      <button
+        className=" btn-none-style "
+        type="button"
+        id="dropdownnotif"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i className="fas fa-bell fa-lg" data-count={countTransaction}></i>
+      </button>
+      <ul
+        className="dropdown-menu notification p-3"
+        aria-labelledby="dropdownnotif"
+        style={{ width: "40vw" }}
+        id="dropdown-notif"
+      >
+        <li className="d-flex justify-content-between dropdown-item item">
+          <Button className="btn me-5" nonStyle>
+            <h5>Notification</h5>
+          </Button>
+          <Button className="btn ms-5" nonStyle onClick={handleClear}>
+            <p>Clear All</p>
+          </Button>
         </li>
-        <li className=" dropdown-item item my-2 card-notif p-3 ">
-          <div className=" d-flex justify-content-start ">
-            <img
-              className="img-fluid img-notif me-4 align-self-center"
-              src="	https://res.cloudinary.com/dwqz3oqb8/image/upload/v1657832634/ststuajikthitazu4eua.png"
-              alt=""
-            />
-            <div className="align-self-center ">
-              <h5>
-                Penawaran Product <span className="cancel">Gagal</span>
-              </h5>
-              <p>Jordan 1 High Element Gore-Tex Light Curry</p>
-              <div className="d-flex justify-content-between">
-                <div>
-                  <p>Harga Awal</p>
-                  <p className="price">Rp. 500.000</p>
-                </div>
-                <i class="fa-solid fa-arrow-right-long align-self-center"></i>
-                <div>
-                  <p>Harga Tawar</p>
-                  <p className="price">Rp. 100.000</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </div>
-    </ul>
+        <hr className="my-0" />
+        {transaction ? (
+          uniqueTransaction.length === 0 ? (
+            <p className="text-center my-3">Notification Not Found</p>
+          ) : (
+            uniqueTransaction
+              .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
+              .map((item) => {
+                return (
+                  <li className=" dropdown-item item my-2 card-notif p-3">
+                    <div className=" d-flex justify-content-start">
+                      <img
+                        className="img-fluid img-notif me-4 align-self-center"
+                        src={item.productSizes.products.image[0]}
+                        alt=""
+                      />
+                      <div className="">
+                        <h5>
+                          Penawaran Product
+                          <span className="success">
+                            {item.status === "success" ? (
+                              <span className="success"> Success</span>
+                            ) : item.status === "process" ? (
+                              <span className="process"> On Process</span>
+                            ) : item.status === "pending" ? (
+                              <span className="pending"> Pending</span>
+                            ) : (
+                              <span className="cancel"> Cancel</span>
+                            )}
+                          </span>
+                        </h5>
+                        <p>{item.productSizes.products.name}</p>
+                        <div className="d-flex justify-content-between">
+                          <div>
+                            <p>Harga Awal</p>
+                            <p className="price">
+                              <s>Rp. {item.productSizes.products.price}</s>
+                            </p>
+                          </div>
+                          <i className="fa-solid fa-arrow-right-long align-self-center"></i>
+                          <div>
+                            <p>Harga Tawar</p>
+                            <p className="price">Rp. {item.priceBid}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })
+          )
+        ) : (
+          ""
+        )}
+      </ul>
+    </>
   );
 }

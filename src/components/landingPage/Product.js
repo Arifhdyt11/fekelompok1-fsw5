@@ -11,7 +11,8 @@ import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
 import { GET_PRODUCT_ID } from "store/types";
 
-import socketClient from "socket.io-client";
+import { io } from "socket.io-client";
+import CardLoading from "components/CardLoading";
 
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
@@ -35,28 +36,23 @@ export default function Product(props) {
     setProduct(getInitialData);
   }, [getInitialData]);
 
-  console.log(product);
+  // console.log(product);
   useEffect(() => {
-    // const SERVER = "https://shoesnarian.herokuapp.com";
-    const SERVER = "http://localhost:5000";
-    var socket = socketClient(SERVER);
+    const socket = io(process.env.REACT_APP_SOCKET);
+
     socket.on("connection", () => {
-      console.log(`I'm connected with the back-end`);
-    });
-
-    socket.on("add-products", (newProduct) => {
-      setProduct((product) => [...product, newProduct]);
-      dispatch(getListProduct());
-    });
-
-    socket.on("message", (message) => {
-      console.log(message);
+      // console.log("connct");
+      socket.on("add-products", (message) => {
+        console.log(message);
+        dispatch(getListProduct());
+      });
     });
 
     socket.on("disconnect", () => {
       console.log("Socket disconnecting");
     });
   }, [getListProduct]);
+
   //-----------------------SEARCH ---------------------
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -187,9 +183,9 @@ export default function Product(props) {
               ) : (
                 product
                   .filter((item) => item.status === "published")
-                  // .sort(
-                  //   (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
-                  // )
+                  .sort(
+                    (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                  )
                   .map((item, index) => {
                     return (
                       <Button
@@ -212,7 +208,7 @@ export default function Product(props) {
                                 {titleShorten(item.name, 40, " ")}
                               </h5>
                             </div>
-                            {/* <p>{item.categories.name}</p> */}
+                            <p>{item.categories.name}</p>
                             <h5>Rp. {formatPrice(item.price)}</h5>
                           </div>
                         </Fade>
@@ -222,7 +218,7 @@ export default function Product(props) {
               )
             ) : getListProductLoading ? (
               <>
-                <h3>Loading...</h3>
+                <CardLoading col="4" count="8" />
               </>
             ) : (
               <p>

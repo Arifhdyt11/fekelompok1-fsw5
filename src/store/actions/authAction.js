@@ -46,6 +46,7 @@ export const loginViaForm = (data) => async (dispatch) => {
     }
   } catch (error) {
     authError(error);
+    console.log(error);
     Swal.fire({
       icon: "error",
       title: `${error}`,
