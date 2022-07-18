@@ -10,31 +10,30 @@ import _ from "lodash";
 
 export default function Notification() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
-  const dispatch = useDispatch();
-  const {
-    getListTransactionBuyerResult,
-    getListTransactionBuyerLoading,
-    getListTransactionBuyerError,
-  } = useSelector((state) => state.TransactionReducer);
-
-  const getInitialData = getListTransactionBuyerResult.data;
 
   const [transaction, setTransaction] = useState("");
 
   useEffect(() => {
-    const socket = io(process.env.REACT_APP_SOCKET);
+    if (isAuthenticated) {
+      const socket = io(process.env.REACT_APP_SOCKET);
 
-    socket.on("connection", () => {
-      console.log("connct");
-      socket.on("add-transaction", (newTransaction) => {
-        console.log(newTransaction);
-        setTransaction((prev) => [...prev, newTransaction]);
+      socket.on("connection", () => {
+        console.log("connct");
+        socket.on("add-transaction", (newTransaction) => {
+          console.log(newTransaction);
+          setTransaction((prev) => [...prev, newTransaction]);
+        });
+
+        socket.on("update-transaction", (updateTransaction) => {
+          console.log(updateTransaction);
+          setTransaction((prev) => [...prev, updateTransaction]);
+        });
       });
-    });
 
-    socket.on("disconnect", () => {
-      console.log("Socket disconnecting");
-    });
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
   }, []);
 
   // console.log(transaction);
@@ -51,7 +50,7 @@ export default function Notification() {
 
   const dataTransaction = transaction;
   const uniqueTransaction = _(dataTransaction)
-    .groupBy("id")
+    .groupBy("status")
     .map((items) => ({
       ...items[0],
     }))
@@ -88,8 +87,11 @@ export default function Notification() {
           </Button>
         </li>
         <hr className="my-0" />
-        {/* {transaction
-          ? transaction
+        {transaction ? (
+          uniqueTransaction.length === 0 ? (
+            <p className="text-center my-3">Notification Not Found</p>
+          ) : (
+            uniqueTransaction
               .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
               .map((item) => {
                 return (
@@ -134,7 +136,10 @@ export default function Notification() {
                   </li>
                 );
               })
-          : ""} */}
+          )
+        ) : (
+          ""
+        )}
       </ul>
     </>
   );

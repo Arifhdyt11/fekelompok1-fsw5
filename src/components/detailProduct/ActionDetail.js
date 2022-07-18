@@ -19,6 +19,7 @@ import {
 import ModalNegoBuyer from "./ModalNegoBuyer";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
 import Swal from "sweetalert2";
+import { io } from "socket.io-client";
 
 function CheckButton({
   id,
@@ -92,6 +93,24 @@ function CheckButton({
       }
     }
   }, [updateProductResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const socket = io(process.env.REACT_APP_SOCKET);
+
+      socket.on("connection", () => {
+        console.log("connct");
+
+        socket.on("update-transaction", () => {
+          dispatch(getListTransactionBuyer());
+        });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
+  }, [getListTransactionBuyer]);
 
   const productId = parseInt(id);
 
