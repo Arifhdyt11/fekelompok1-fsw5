@@ -2,9 +2,12 @@ import Button from "elements/Button";
 import React, { useEffect, useState } from "react";
 import "assets/css/notification.css";
 
-import socketClient from "socket.io-client";
+import { io } from "socket.io-client";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
+import _ from "lodash";
+
 export default function Notification() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
@@ -16,44 +19,23 @@ export default function Notification() {
 
   const getInitialData = getListTransactionBuyerResult.data;
 
-  const [transaction, setTransaction] = useState([]);
+  const [transaction, setTransaction] = useState("");
 
   useEffect(() => {
-    if (user.data.role === "BUYER") {
-      setTransaction(dispatch(getListTransactionBuyer()));
-    }
-  }, [dispatch]);
+    const socket = io(process.env.REACT_APP_SOCKET);
 
-  useEffect(() => {
-    setTransaction(getInitialData);
-  }, [getInitialData]);
+    socket.on("connection", () => {
+      console.log("connct");
+      socket.on("add-transaction", (newTransaction) => {
+        console.log(newTransaction);
+        setTransaction((prev) => [...prev, newTransaction]);
+      });
+    });
 
-  // setTransaction(["adasd", "asdasd"]);
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     if (user.data.role === "BUYER") {
-  //       const { REACT_APP_SOCKET } = process.env;
-  //       const SERVER = `${REACT_APP_SOCKET}`;
-
-  //       var socket = socketClient(SERVER);
-  //       console.log(socket);
-  //       socket.on("connection", (data) => {
-  //         console.log(`I'm connected with the back-end`);
-
-  //         // data.on("add-transaction", (newTransaction) => {
-  //         //   console.log(newTransaction);
-  //         //   // setTransaction((transaction) => [...transaction, newTransaction]);
-  //         //   // dispatch(getListTransactionBuyer());
-  //         // });
-  //       });
-
-  //       socket.on("disconnect", () => {
-  //         console.log("Socket disconnecting");
-  //       });
-  //     }
-  //   }
-  // }, []);
+    socket.on("disconnect", () => {
+      console.log("Socket disconnecting");
+    });
+  }, []);
 
   // console.log(transaction);
   const handleClear = (e) => {
@@ -65,8 +47,20 @@ export default function Notification() {
   //   });
   // }
 
+  console.log(transaction);
+
+  const dataTransaction = transaction;
+  const uniqueTransaction = _(dataTransaction)
+    .groupBy("id")
+    .map((items) => ({
+      ...items[0],
+    }))
+    .value();
+
+  console.log(uniqueTransaction);
+
   if (transaction) {
-    var countTransaction = transaction.length;
+    var countTransaction = uniqueTransaction.length;
   }
   return (
     <>

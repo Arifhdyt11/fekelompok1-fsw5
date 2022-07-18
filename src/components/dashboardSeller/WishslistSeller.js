@@ -39,24 +39,23 @@ export default function WishlistSeller() {
     }
   }, [initialWishlist]);
 
-  // useEffect(() => {
-  //   const socket = io(process.env.REACT_APP_SOCKET);
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_SOCKET);
 
-  //   socket.on("connection", () => {
-  //     console.log(`I'm connected with the back-end`);
-  //     dispatch(getListWishlistSeller(sellerId, accessToken));
-  //   });
+    socket.on("connection", () => {
+      // console.log("connct");
+      socket.on("add-wishlist", () => {
+        dispatch(getListWishlistSeller(sellerId, accessToken));
+      });
+      socket.on("delete-wishlist", () => {
+        dispatch(getListWishlistSeller(sellerId, accessToken));
+      });
+    });
 
-  //   socket.on("add-wishlist", (newWishlist) => {
-  //     console.log(newWishlist);
-  //     setWishlist((prev) => [...prev, newWishlist]);
-  //     dispatch(getListWishlistSeller(sellerId, accessToken));
-  //   });
-
-  //   socket.on("disconnect", () => {
-  //     console.log("Socket disconnecting");
-  //   });
-  // }, []);
+    socket.on("disconnect", () => {
+      console.log("Socket disconnecting");
+    });
+  }, [getListWishlistSeller]);
 
   const dataWishlist = wishlist;
   const uniqueWishlist = _(dataWishlist)
