@@ -11,6 +11,7 @@ import {
 import TransactionBuyer from "./TransactionBuyer";
 import TransactionSeller from "./TransactionSeller";
 import CardLoading from "components/CardLoading";
+import { io } from "socket.io-client";
 
 export default function TransactionBody() {
   const { user } = useSelector((state) => state.AuthReducer);
@@ -37,6 +38,23 @@ export default function TransactionBody() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      const socket = io(process.env.REACT_APP_SOCKET);
+
+      socket.on("connection", () => {
+        // console.log("connct");
+        socket.on("add-transaction", (message) => {
+          console.log(message);
+          dispatch(getListTransactionSeller());
+        });
+      });
+
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
+  }, [dispatch, getListTransactionSeller]);
   // console.log(getListTransactionSellerResult);
   return (
     <>

@@ -41,6 +41,7 @@ export default function Product(props) {
     const socket = io(process.env.REACT_APP_SOCKET);
 
     socket.on("connection", () => {
+      // console.log("connct");
       socket.on("add-products", (message) => {
         console.log(message);
         dispatch(getListProduct());
