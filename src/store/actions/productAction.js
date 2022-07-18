@@ -8,6 +8,7 @@ import {
   ADD_PRODUCT,
   UPDATE_PRODUCT,
   DELETE_PRODUCT,
+  LOGOUT,
 } from "store/types";
 
 export const getListProduct = () => {
@@ -133,6 +134,7 @@ export const getListProductSeller = () => {
       })
       .catch((error) => {
         //error get api
+        console.log(error.response.status);
         dispatch({
           type: GET_LIST_PRODUCT_SELLER,
           payload: {
@@ -141,6 +143,11 @@ export const getListProductSeller = () => {
             errorMessage: error.message,
           },
         });
+        if (error.response.status == 401) {
+          dispatch({
+            type: LOGOUT,
+          }).then((window.location.href = "/login"));
+        }
       });
   };
 };
@@ -183,6 +190,7 @@ export const getProductIdSeller = (id) => {
         if (error.response.data.message === "Data not found") {
           window.location.href = "/404";
         }
+
         //error get api
         dispatch({
           type: GET_PRODUCT_ID_SELLER,
@@ -272,7 +280,7 @@ export const addProduct = (data) => {
         });
       })
       .catch((error) => {
-        console.log("3. Gagal Dapat Data", error.response.data);
+        console.log("3. Gagal Dapat Data", error.response);
         //error get api
         dispatch({
           type: ADD_PRODUCT,

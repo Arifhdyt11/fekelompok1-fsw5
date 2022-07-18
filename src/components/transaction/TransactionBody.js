@@ -26,11 +26,15 @@ export default function TransactionBody() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (user.data.role === "SELLER") dispatch(getListTransactionSeller());
+    if (user.data.role === "SELLER") {
+      dispatch(getListTransactionSeller());
+    }
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "BUYER") dispatch(getListTransactionBuyer());
+    if (user.data.role === "BUYER") {
+      dispatch(getListTransactionBuyer());
+    }
   }, [dispatch]);
 
   // console.log(getListTransactionSellerResult);

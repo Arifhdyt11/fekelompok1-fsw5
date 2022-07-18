@@ -8,6 +8,7 @@ import ProductItem from "./ProductItem";
 import _ from "lodash";
 
 import { io } from "socket.io-client";
+import CardLoading from "components/CardLoading";
 
 export default function WishlistSeller() {
   const { user, accessToken } = useSelector((state) => state.AuthReducer);
@@ -20,15 +21,22 @@ export default function WishlistSeller() {
 
   const [wishlist, setWishlist] = useState([]);
 
-  const initialWishlist = getListWishlistSellerResult.data;
+  if (user.data.role === "SELLER") {
+    var initialWishlist = getListWishlistSellerResult.data;
+  }
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setWishlist(dispatch(getListWishlistSeller(sellerId, accessToken)));
+    if (user.data.role === "SELLER") {
+      setWishlist(dispatch(getListWishlistSeller(sellerId, accessToken)));
+    }
   }, [dispatch]);
 
   useEffect(() => {
-    setWishlist(initialWishlist);
+    if (user.data.role === "SELLER") {
+      setWishlist(initialWishlist);
+    }
   }, [initialWishlist]);
 
   // useEffect(() => {
@@ -88,12 +96,12 @@ export default function WishlistSeller() {
               </div>
             )
           ) : getListWishlistSellerLoading ? (
-            <h3>Loading....</h3>
+            <CardLoading col="3" count="3" />
           ) : (
             <p>
               {getListWishlistSellerError
                 ? getListWishlistSellerError
-                : "Data Kosong"}
+                : "Please Reload and Try Again"}
             </p>
           )}
         </div>

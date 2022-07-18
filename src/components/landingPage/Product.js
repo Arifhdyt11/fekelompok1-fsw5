@@ -11,7 +11,7 @@ import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
 import { GET_PRODUCT_ID } from "store/types";
 
-import socketClient from "socket.io-client";
+import { io } from "socket.io-client";
 import CardLoading from "components/CardLoading";
 
 export default function Product(props) {
@@ -38,25 +38,20 @@ export default function Product(props) {
 
   // console.log(product);
   useEffect(() => {
-    const { REACT_APP_SOCKET } = process.env;
-    const SERVER = `${REACT_APP_SOCKET}`;
+    const socket = io(process.env.REACT_APP_SOCKET);
 
-    var socket = socketClient(SERVER);
-    console.log(socket);
     socket.on("connection", () => {
-      console.log(`I'm connected with the back-end`);
-      dispatch(getListProduct());
-    });
-
-    socket.on("add-products", (newProduct) => {
-      console.log(newProduct);
-      setProduct((data) => [...data, newProduct]);
+      socket.on("add-products", (message) => {
+        console.log(message);
+        dispatch(getListProduct());
+      });
     });
 
     socket.on("disconnect", () => {
       console.log("Socket disconnecting");
     });
-  }, []);
+  }, [getListProduct]);
+
   //-----------------------SEARCH ---------------------
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -212,7 +207,7 @@ export default function Product(props) {
                                 {titleShorten(item.name, 40, " ")}
                               </h5>
                             </div>
-                            {/* <p>{item.categories.name}</p> */}
+                            <p>{item.categories.name}</p>
                             <h5>Rp. {formatPrice(item.price)}</h5>
                           </div>
                         </Fade>

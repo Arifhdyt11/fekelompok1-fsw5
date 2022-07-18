@@ -19,7 +19,9 @@ export default function Notification() {
   const [transaction, setTransaction] = useState([]);
 
   useEffect(() => {
-    setTransaction(dispatch(getListTransactionBuyer()));
+    if (user.data.role === "BUYER") {
+      setTransaction(dispatch(getListTransactionBuyer()));
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -75,7 +77,7 @@ export default function Notification() {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <i class="fas fa-bell fa-lg" data-count={countTransaction}></i>
+        <i className="fas fa-bell fa-lg" data-count={countTransaction}></i>
       </button>
       <ul
         className="dropdown-menu notification p-3"
@@ -127,7 +129,7 @@ export default function Notification() {
                               <s>Rp. {item.productSizes.products.price}</s>
                             </p>
                           </div>
-                          <i class="fa-solid fa-arrow-right-long align-self-center"></i>
+                          <i className="fa-solid fa-arrow-right-long align-self-center"></i>
                           <div>
                             <p>Harga Tawar</p>
                             <p className="price">Rp. {item.priceBid}</p>
