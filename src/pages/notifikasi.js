@@ -1,46 +1,58 @@
-import React, { useState, useCallback, useEffect } from "react";
-import Footer from "components/Footer";
-import Navbar from "components/Navbar";
+import React from "react";
 import Button from "elements/Button";
-import ModalChangePass from "components/ModalChangePass";
 
 export default function NotifikasiPage() {
   return (
-    <div>
-      <div>
-        <Navbar isLogin="yes" />
+    <>
+      <div className="container mt-lg-4 mt-1  pb-1">
+        <Button
+          className="btn arrow-back position-absolute d-flex justify-content-center "
+          nonStyle
+          type="link"
+          href="/"
+        >
+          <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
+          <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
+        </Button>
       </div>
-      <div>
-        <div className="container mt-lg-5 mb-5" id="profile">
-          <div className="row ">
-            <div className="col-md-1 col-sm-12  divArrow">
-              <Button type="link" href="/" className="arrow" nonStyle>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="35"
-                  height="35"
-                  fill="currentColor"
-                  className="bi bi-arrow-left-short"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
-                  />
-                </svg>
-              </Button>
-            </div>
-            <div className="col-md-11 col-sm-12 mb-4 ">
-              <p>Halo</p>
+      <section className="container  pt-5 pt-md-0 mt-4 mt-md-1">
+        <h2 className="mb-4 text-center">Notifikasi</h2>
+
+        <div className="card is-block ms-auto p-4 mb-3">
+          <p className="d-flex flex-row-reverse me-4 mb-4">2021</p>
+          <div className="row">
+            <div className="col-lg-8 col-md-9 col-sm-12">
+              <div className="row">
+                <div className="col-lg-4 col-md-5 col-sm-12  text-center">
+                  <img className="img-fluid mb-lg-0 mb-4" src="" alt="seller" />
+                </div>
+                <div className="col-lg-8 col-md-7 col-sm-12 align-self-center ">
+                  <div className="mb-4">
+                    <h6>Penawaran Product</h6>
+                    <h5>Mobil</h5>
+                  </div>
+                  <div className="d-flex justify-content-start">
+                    <h6 className="me-3 align-self-center">Size : </h6>
+                    <h5>24px</h5>
+                  </div>
+                  <div className="d-flex justify-content-start mb-4 mb-md-0">
+                    <div className="me-auto">
+                      <h6>Harga Awal</h6>
+                      <h5>Rp.1000</h5>
+                    </div>
+                    <div className="me-auto">
+                      <h6>Ditawar</h6>
+                      <h5 style={{ color: "#1abc9c", fontWeight: "500" }}>
+                        Rp. 1000
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Footer />
-      </div>
-
-      <ModalChangePass />
-    </div>
+      </section>
+    </>
   );
 }
