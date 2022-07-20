@@ -7,6 +7,7 @@ import { logout } from "store/actions/authAction";
 import { getListProduct } from "store/actions/productAction";
 import BrandIcon from "./IconText";
 import NavbarDropdown from "./NavbarDropdown";
+import Notification from "./Notification";
 
 function CheckLogin({ isAuthenticated }) {
   if (isAuthenticated) {
@@ -61,6 +62,10 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                 <i className="fa-duotone fa-gears me-3"></i>Edit Profile
               </button>
             </Link>
+
+            <Button className="dropdown-item" type="link" href="/notifikasi">
+              <i className="fas fa-bell fa-lg me-3"></i>Notifikasi
+            </Button>
           </li>
           {user.data.role === "SELLER" ? (
             <li className=" mt-3">

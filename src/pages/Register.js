@@ -107,6 +107,7 @@ function Register() {
                 <div className="form-group">
                   <label htmlFor="name">Nama</label>
                   <input
+                    data-testid="input-nameUser"
                     type="text"
                     name="name"
                     id="name"
@@ -121,6 +122,7 @@ function Register() {
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input
+                    data-testid="input-emailUser"
                     type="email"
                     name="email"
                     id="email"
@@ -136,6 +138,7 @@ function Register() {
                   <label htmlFor="password">Password</label>
                   <div className="input-group">
                     <input
+                      data-testid="input-passwordUser"
                       type={passwordShown ? "text" : "password"}
                       name="password"
                       className="form-control form-control-password"
@@ -163,12 +166,17 @@ function Register() {
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
                     required
+                    data-testid="select-role"
                   >
                     <option hidden selected>
                       -- Pilih Role --
                     </option>
-                    <option value="SELLER">Seller</option>
-                    <option value="BUYER">Buyer</option>
+                    <option data-testid="select-option" value="SELLER">
+                      Seller
+                    </option>
+                    <option data-testid="select-option" value="BUYER">
+                      Buyer
+                    </option>
                   </select>
                 </div>
                 {addRegisterLoading ? (

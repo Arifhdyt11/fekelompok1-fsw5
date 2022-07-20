@@ -89,6 +89,7 @@ function Login() {
                     <div className="form-group">
                       <label htmlFor="email">Email</label>
                       <input
+                        data-testid="input-emailUserLogin"
                         type="email"
                         name="email"
                         id="email"
@@ -104,6 +105,7 @@ function Login() {
                       <label htmlFor="password">Password</label>
                       <div className="input-group">
                         <input
+                          data-testid="input-passwordUserLogin"
                           type={passwordShown ? "text" : "password"}
                           name="password"
                           className="form-control form-control-password"
