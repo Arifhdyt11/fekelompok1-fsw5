@@ -85,8 +85,7 @@ export default function TransactionBody() {
                     alt=""
                     className="img-fluid mb-3"
                   />
-                  <p>Wishlist tidak ditemukan</p>
-                  <p>Silahkan Tambahkan Wishlist</p>
+                  <p>Transaksi tidak ditemukan</p>
                 </div>
               </div>
             ) : (

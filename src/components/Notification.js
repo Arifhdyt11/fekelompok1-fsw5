@@ -95,7 +95,7 @@ export default function Notification() {
               .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
               .map((item) => {
                 return (
-                  <li className=" dropdown-item item my-2 card-notif p-3">
+                  <li className=" dropdown-item item my-2 card-notif p-3 overflow-hidden">
                     <div className=" d-flex justify-content-start">
                       <img
                         className="img-fluid img-notif me-4 align-self-center"
@@ -118,7 +118,7 @@ export default function Notification() {
                           </span>
                         </h5>
                         <p>{item.productSizes.products.name}</p>
-                        <div className="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between ">
                           <div>
                             <p>Harga Awal</p>
                             <p className="price">
@@ -126,9 +126,9 @@ export default function Notification() {
                             </p>
                           </div>
                           <i className="fa-solid fa-arrow-right-long align-self-center"></i>
-                          <div>
+                          <div className="">
                             <p>Harga Tawar</p>
-                            <p className="price">Rp. {item.priceBid}</p>
+                            <p className="price ">Rp. {item.priceBid}</p>
                           </div>
                         </div>
                       </div>

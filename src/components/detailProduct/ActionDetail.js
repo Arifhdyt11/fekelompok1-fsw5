@@ -40,12 +40,18 @@ function CheckButton({
     getListWishlistBuyerError,
 
     addWishlistResult,
+    addWishlistLoading,
     deleteWishlistResult,
+    deleteWishlistLoading,
   } = useSelector((state) => state.WishlistReducer);
 
-  const { getListTransactionBuyerResult, addTransactionResult } = useSelector(
-    (state) => state.TransactionReducer
-  );
+  const {
+    getListTransactionBuyerResult,
+    getListTransactionBuyerLoading,
+
+    addTransactionResult,
+    addTransactionLoading,
+  } = useSelector((state) => state.TransactionReducer);
 
   const dispatch = useDispatch();
 
@@ -63,11 +69,31 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
+      if (user.data.role === "BUYER") {
+        if (addWishlistLoading) {
+          dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        }
+      } else {
+        dispatch(getListWishlistSeller(user.data.id, accessToken));
+      }
+    }
+  }, [addWishlistLoading, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
       if (deleteWishlistResult) {
         dispatch(getListWishlistBuyer(user.data.id, accessToken));
       }
     }
   }, [deleteWishlistResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (deleteWishlistLoading) {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
+    }
+  }, [deleteWishlistLoading, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -85,6 +111,14 @@ function CheckButton({
       }
     }
   }, [addTransactionResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (addTransactionLoading) {
+        dispatch(getListTransactionBuyer());
+      }
+    }
+  }, [addTransactionLoading]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -261,7 +295,8 @@ function CheckButton({
           ) : getListTransactionBuyerResult ? (
             getListTransactionBuyerResult.data.filter(
               (data) =>
-                data.productsizeId === item.id && data.status === "pending"
+                data.productsizeId === item.id &&
+                (data.status === "pending" || data.status === "process")
             ).length === 0 ? (
               <button
                 type="button"
@@ -271,6 +306,17 @@ function CheckButton({
               >
                 Tertarik dan Nego
               </button>
+            ) : getListTransactionBuyerResult.data.filter(
+                (data) =>
+                  data.productsizeId === item.id && data.status === "pending"
+              ).length === 0 ? (
+              <Button
+                className="btn mt-3 ms-auto py-2 btn-warning"
+                isBlock
+                style={{ cursor: "context-menu" }}
+              >
+                Transaksi Sedang Dalam Proses
+              </Button>
             ) : (
               <Button
                 className="btn mt-3 ms-auto py-2 btn-warning"
@@ -280,6 +326,14 @@ function CheckButton({
                 Menunggu Respon Penjual
               </Button>
             )
+          ) : getListTransactionBuyerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isPrimary
+              isLoading
+              hasShadow
+              isBlock
+            ></Button>
           ) : (
             ""
           )}

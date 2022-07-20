@@ -6,18 +6,48 @@ import {
   updateTransactionSeller,
 } from "store/actions/transactionAction";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function ModalStatusSeller({ id, dataProduct, priceBid }) {
-  const { updateTransactionSellerResult } = useSelector(
-    (state) => state.TransactionReducer
-  );
+  // const { updateTransactionSellerResult } = useSelector(
+  //   (state) => state.TransactionReducer
+  // );
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (updateTransactionSellerResult) {
-      dispatch(getTransactionIdSeller(id));
-    }
-  }, [updateTransactionSellerResult, dispatch]);
+  // useEffect(() => {
+  //   if (updateTransactionSellerResult) {
+  //     dispatch(getTransactionIdSeller(id));
+  //   }
+  // }, [updateTransactionSellerResult, dispatch]);
 
+  const handleUpdate = (status) => {
+    Swal.fire({
+      title: "Apakah Yakin ?",
+      text: `Transaksi Akan di Rubah Menjadi ${status}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Simpan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title:
+            status === "success"
+              ? "Transaksi Berhasil"
+              : "Transaksi Dibatalkan",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        dispatch(
+          updateTransactionSeller({
+            transactionId: id,
+            status: status,
+          })
+        );
+      }
+    });
+  };
   return (
     <div>
       <div
@@ -78,14 +108,7 @@ export default function ModalStatusSeller({ id, dataProduct, priceBid }) {
                   className="btn btn-primary is-block btn-shadow px-5 py-2 me-2"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() =>
-                    dispatch(
-                      updateTransactionSeller({
-                        transactionId: id,
-                        status: "success",
-                      })
-                    )
-                  }
+                  onClick={() => handleUpdate("success")}
                 >
                   Berhasil Terjual
                 </button>
@@ -93,14 +116,7 @@ export default function ModalStatusSeller({ id, dataProduct, priceBid }) {
                   className="btn btn-danger is-block btn-shadow px-5 py-2 ms-2"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                  onClick={() =>
-                    dispatch(
-                      updateTransactionSeller({
-                        transactionId: id,
-                        status: "cancel",
-                      })
-                    )
-                  }
+                  onClick={() => handleUpdate("cancel")}
                 >
                   Gagal
                 </button>

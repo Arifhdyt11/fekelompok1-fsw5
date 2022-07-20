@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 
 import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
@@ -14,9 +14,15 @@ export default function Galery({ productId }) {
   const { isAuthenticated, user, accessToken } = useSelector(
     (state) => state.AuthReducer
   );
-  const { getProductIdResult, getProductIdSellerResult } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const {
+    getProductIdResult,
+    getProductIdLoading,
+    getProductIdError,
+
+    getProductIdSellerResult,
+    getProductIdSellerLoading,
+    getProductIdSellerError,
+  } = useSelector((state) => state.ProductReducer);
   const { getListSizeResult, getListSizeLoading, getListSizeError } =
     useSelector((state) => state.SizeReducer);
 
@@ -45,26 +51,62 @@ export default function Galery({ productId }) {
             <div className="img-product-big mb-4 text-center">
               <img
                 src={
-                  isAuthenticated
-                    ? user.data.role === "SELLER"
-                      ? getProductIdSellerResult //SELLER
-                        ? `${getProductIdSellerResult.image[0]}`
-                        : ""
-                      : getProductIdResult //BUYER
-                      ? `${getProductIdResult.image[0]}`
-                      : ""
-                    : getProductIdResult //NOT LOGGED IN
-                    ? `${getProductIdResult.image[0]}`
-                    : ""
+                  isAuthenticated ? (
+                    user.data.role === "SELLER" ? (
+                      getProductIdSellerResult ? ( //SELLER
+                        `${getProductIdSellerResult.image[0]}`
+                      ) : getProductIdSellerLoading ? (
+                        <Button isLoading></Button>
+                      ) : (
+                        <p>
+                          {getProductIdSellerError
+                            ? getProductIdSellerError
+                            : "error"}
+                        </p>
+                      )
+                    ) : getProductIdResult ? ( //BUYER
+                      `${getProductIdResult.image[0]}`
+                    ) : getProductIdLoading ? (
+                      <Button isLoading></Button>
+                    ) : (
+                      <p>{getProductIdError ? getProductIdError : "error"}</p>
+                    )
+                  ) : getProductIdResult ? ( //NOT LOGGED IN
+                    `${getProductIdResult.image[0]}`
+                  ) : getProductIdLoading ? (
+                    <Button isLoading></Button>
+                  ) : (
+                    <p>{getProductIdError ? getProductIdError : "error"}</p>
+                  )
                 }
                 alt={
-                  isAuthenticated
-                    ? user.data.role === "SELLER"
-                      ? getProductIdSellerResult //SELLER
-                        ? getProductIdSellerResult.name
-                        : ""
-                      : getProductIdResult.name //BUYER
-                    : getProductIdResult.name //NOT LOGGED IN
+                  isAuthenticated ? (
+                    user.data.role === "SELLER" ? (
+                      getProductIdSellerResult ? ( //SELLER
+                        getProductIdSellerResult.name
+                      ) : getProductIdSellerLoading ? (
+                        <Button className="btn" nonStyle isLoading></Button>
+                      ) : (
+                        <p>
+                          {getProductIdSellerError
+                            ? getProductIdSellerError
+                            : "error"}
+                        </p>
+                      )
+                    ) : getProductIdResult ? (
+                      getProductIdResult.name
+                    ) : getProductIdLoading ? ( //BUYER
+                      <Button isLoading></Button>
+                    ) : (
+                      <p>{getProductIdError ? getProductIdError : "error"}</p>
+                    )
+                  ) : getProductIdResult ? ( //NOT LOGGED IN
+                    getProductIdResult.name
+                  ) : getProductIdLoading ? (
+                    <Button isLoading></Button>
+                  ) : (
+                    <p>{getProductIdError ? getProductIdError : "error"}</p>
+                  )
                 }
                 className="default-image shoes mb-n3"
               />
@@ -94,25 +136,10 @@ export default function Galery({ productId }) {
                 },
               }}
             >
-              {isAuthenticated
-                ? user.data.role === "SELLER"
-                  ? getProductIdSellerResult
-                    ? getProductIdSellerResult.image.map((item, index) => {
-                        return (
-                          <div className="card-thumb" key={index}>
-                            <Button hasShadow className="thumb-img">
-                              <img
-                                className=" img-fluid"
-                                src={`${item}`}
-                                alt=""
-                              />
-                            </Button>
-                          </div>
-                        );
-                      })
-                    : "Image Tidak Ditemukan"
-                  : getProductIdResult //BUYER
-                  ? getProductIdResult.image.map((item, index) => {
+              {isAuthenticated ? (
+                user.data.role === "SELLER" ? (
+                  getProductIdSellerResult ? (
+                    getProductIdSellerResult.image.map((item, index) => {
                       return (
                         <div className="card-thumb" key={index}>
                           <Button hasShadow className="thumb-img">
@@ -125,9 +152,17 @@ export default function Galery({ productId }) {
                         </div>
                       );
                     })
-                  : "Image Tidak Ditemukan"
-                : getProductIdResult //NOT LOGGED IN
-                ? getProductIdResult.image.map((item, index) => {
+                  ) : getProductIdSellerLoading ? (
+                    <Button isLoading></Button>
+                  ) : (
+                    <p>
+                      {getProductIdSellerError
+                        ? getProductIdSellerError
+                        : "error"}
+                    </p>
+                  )
+                ) : getProductIdResult ? ( //BUYER
+                  getProductIdResult.image.map((item, index) => {
                     return (
                       <div className="card-thumb" key={index}>
                         <Button hasShadow className="thumb-img">
@@ -136,7 +171,26 @@ export default function Galery({ productId }) {
                       </div>
                     );
                   })
-                : "Image Tidak Ditemukan"}
+                ) : getProductIdLoading ? (
+                  <Button isLoading></Button>
+                ) : (
+                  <p>{getProductIdError ? getProductIdError : "error"}</p>
+                )
+              ) : getProductIdResult ? ( //NOT LOGGED IN
+                getProductIdResult.image.map((item, index) => {
+                  return (
+                    <div className="card-thumb" key={index}>
+                      <Button hasShadow className="thumb-img">
+                        <img className=" img-fluid" src={`${item}`} alt="" />
+                      </Button>
+                    </div>
+                  );
+                })
+              ) : getProductIdLoading ? (
+                <Button isLoading></Button>
+              ) : (
+                <p>{getProductIdError ? getProductIdError : "error"}</p>
+              )}
             </OwlCarousel>
             <div className="size ms-2">
               <h3>Size Ready</h3>
@@ -177,7 +231,6 @@ export default function Galery({ productId }) {
                         })
                     ) : (
                       getListSizeResult.data
-
                         .filter(
                           (item) =>
                             item.productId === parseInt(productId) &&

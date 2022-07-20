@@ -7,6 +7,7 @@ import {
   getTransactionIdSeller,
   updateTransactionSeller,
 } from "store/actions/transactionAction";
+import Swal from "sweetalert2";
 import { formatDate, formatPrice } from "utils/defaultFormat";
 import ModalStatusSeller from "./ModalStatus";
 import ModalTransactionSeller from "./ModalTransactionSeller";
@@ -54,6 +55,40 @@ function ProductInfo({
   userAsBuyer,
 }) {
   const dispatch = useDispatch();
+
+  const handleUpdate = (status) => {
+    Swal.fire({
+      title: "Apakah Yakin ?",
+      text: `Transaksi Akan di Rubah Menjadi ${status}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Simpan!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          icon: "success",
+          title:
+            status === "success"
+              ? "Transaksi Berhasil"
+              : status === "process"
+              ? "Transaksi Dalam Proses"
+              : status === "cancel" || status === "reject"
+              ? "Transaksi Dibatalkan"
+              : "",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        dispatch(
+          updateTransactionSeller({
+            transactionId: id,
+            status: status,
+          })
+        );
+      }
+    });
+  };
   return (
     <div className="mt-4 mb-5">
       <div>
@@ -146,51 +181,7 @@ function ProductInfo({
                       createdAt={createdAt}
                     />
                   </div>
-                ) : status === "pending" ? (
-                  <div className="d-flex justify-content-center">
-                    <Button
-                      className="btn btn-secondary mx-2 "
-                      isBlock
-                      hasRadius
-                      onClick={() =>
-                        dispatch(
-                          updateTransactionSeller({
-                            transactionId: id,
-                            status: "cancel",
-                          })
-                        )
-                      }
-                    >
-                      Tolak
-                    </Button>
-                    {productSizes.stock > 0 ? (
-                      <button
-                        type="button"
-                        className="btn btn-primary is-block btn-has-radius"
-                        data-bs-toggle="modal"
-                        data-bs-target="#modalInfoPenawar"
-                      >
-                        Terima
-                      </button>
-                    ) : (
-                      <h6
-                        className="px-5 is-block text-center"
-                        style={{ color: "red" }}
-                      >
-                        Tidak Bisa Terima Penawaran Karena Tidak Ada Stock
-                        Product
-                      </h6>
-                    )}
-                    <ModalTransactionSeller
-                      id={id}
-                      dataProduct={productSizes.products}
-                      priceBid={priceBid}
-                      createdAt={createdAt}
-                    />
-                  </div>
-                ) : status === "cancel" ? (
-                  <></>
-                ) : (
+                ) : status === "process" ? (
                   <div className="d-flex flex-row-reverse">
                     <button
                       className="btn btn-secondary btn-has-radius"
@@ -223,6 +214,39 @@ function ProductInfo({
                       createdAt={createdAt}
                     />
                   </div>
+                ) : status === "pending" ? (
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      className="btn btn-secondary mx-2 "
+                      isBlock
+                      hasRadius
+                      onClick={() => handleUpdate("reject")}
+                    >
+                      Tolak
+                    </Button>
+                    {productSizes.stock > 0 ? (
+                      <Button
+                        className="btn btn-primary mx-2 "
+                        isBlock
+                        hasRadius
+                        onClick={() => handleUpdate("process")}
+                      >
+                        Terima Tawaran dan Lanjut Transaksi
+                      </Button>
+                    ) : (
+                      <h6
+                        className="px-5 is-block text-center"
+                        style={{ color: "red" }}
+                      >
+                        Tidak Bisa Terima Penawaran Karena Tidak Ada Stock
+                        Product
+                      </h6>
+                    )}
+                  </div>
+                ) : status === "cancel" ? (
+                  <></>
+                ) : (
+                  ""
                 )}
               </div>
             </div>
@@ -240,6 +264,10 @@ export default function TransactionDetailSeller() {
     getTransactionIdSellerResult,
     getTransactionIdSellerLoading,
     getTransactionIdSellerError,
+
+    updateTransactionSellerResult,
+    updateTransactionSellerLoading,
+    updateTransactionSellerError,
   } = useSelector((state) => state.TransactionReducer);
 
   const { id } = useParams();
@@ -247,6 +275,12 @@ export default function TransactionDetailSeller() {
   useEffect(() => {
     dispatch(getTransactionIdSeller(id));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (updateTransactionSellerResult) {
+      dispatch(getTransactionIdSeller(id));
+    }
+  }, [updateTransactionSellerResult]);
 
   // console.log(getTransactionIdSellerResult);
   return (
@@ -257,7 +291,7 @@ export default function TransactionDetailSeller() {
           <ProductInfo {...getTransactionIdSellerResult.data[0]} />
         </>
       ) : getTransactionIdSellerLoading ? (
-        <CardLoading transaction col="1" count="2" />
+        <CardLoading transaction col="1" count="1" />
       ) : (
         <p>
           {getTransactionIdSellerError ? getTransactionIdSellerError : "Error"}

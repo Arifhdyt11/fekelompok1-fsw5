@@ -10,16 +10,28 @@ import { updateUserDetail } from "store/actions/authAction";
 import Swal from "sweetalert2";
 import { set } from "lodash";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
+function handleError(message) {
+  return Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
 export default function ProfilePage() {
   useEffect(() => {
     document.title = "Shoesnarian | Profile";
-    window.scrollTo(0, 0);
   });
 
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
 
   const [image, setImage] = useState(kamera);
+  const [phone, setPhone] = useState("");
 
   const handleUpload = (e) => {
     if (e.target.files[0]) {
@@ -35,62 +47,61 @@ export default function ProfilePage() {
     }
   };
 
-  React.useEffect(() => {
-    if (user !== undefined) {
+  useEffect(() => {
+    if (user) {
       if (user.data.name !== null)
         document.getElementById("nameInput").value = user.data.name;
       if (user.data.city !== null)
         document.getElementById("cityInput").value = user.data.city;
       if (user.data.address !== null)
         document.getElementById("addressInput").value = user.data.address;
-      if (user.data.phone !== null)
-        document.getElementById("phoneInput").value = user.data.phone;
+      if (user.data.phone !== null) setPhone(user.data.phone);
       if (user.data.image !== null) {
         document.getElementById("filePhoto").src = user.data.image;
       } else {
         document.getElementById("filePhoto").src = kamera;
       }
     }
-  });
+  }, []);
+
+  console.log(phone);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (phone === "") {
+      handleError("Phone Number cannot be empty");
+    }
+    if (phone.length <= 8) {
+      handleError("Phone Number cannot be less than 9");
+    }
     const update = {
       name: document.getElementById("nameInput").value,
       city: document.getElementById("cityInput").value,
       address: document.getElementById("addressInput").value,
-      phone: document.getElementById("phoneInput").value,
+      phone: phone,
       image,
     };
-    Swal.fire({
-      title: "Data sudah benar ?",
-      text: "Apakah anda yakin ingin menyimpan data ini ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Simpan!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          icon: "success",
-          title: "Data Berhasil Di Update!",
-          showConfirmButton: false,
-        });
-        dispatch(updateUserDetail(update));
-      }
-    });
+    if (phone.length > 9) {
+      Swal.fire({
+        title: "Data sudah benar ?",
+        text: "Apakah anda yakin ingin menyimpan data ini ?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Simpan!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            title: "Data Berhasil Di Update!",
+            showConfirmButton: false,
+          });
+          dispatch(updateUserDetail(update));
+        }
+      });
+    }
   };
-
-  // console.log("image : ", image);
-
-  // if (status === true) {
-  //   if (user.data.role === "SELLER") {
-  //     return <Navigate to={`/seller`} />;
-  //   } else {
-  //     return <Navigate to={`/`} />;
-  //   }
-  // }
 
   return (
     <div>
@@ -133,15 +144,17 @@ export default function ProfilePage() {
                     id="file-input"
                     name="myfile"
                     type="file"
+                    accept=".jpg,.jpeg,.png"
                     onChange={handleUpload}
                     hidden
                   />
                 </div>
                 <div className="mb-3 ">
                   <label htmlFor="nameInput" className="form-label">
-                    Nama<label className="notifInfoPenawaran">*</label>
+                    Nama <label className="text-red">*</label>
                   </label>
                   <input
+                    required
                     type="text"
                     className="form-control borderRadius"
                     id="nameInput"
@@ -151,9 +164,10 @@ export default function ProfilePage() {
 
                 <div className="mb-3 ">
                   <label htmlFor="cityInput" className="form-label">
-                    Kota
+                    Kota <label className="text-red">*</label>
                   </label>
                   <input
+                    required
                     type="text"
                     className="form-control borderRadius"
                     id="cityInput"
@@ -163,9 +177,10 @@ export default function ProfilePage() {
 
                 <div className="mb-3 ">
                   <label htmlFor="addressInput" className="form-label">
-                    Alamat
+                    Alamat <label className="text-red">*</label>
                   </label>
                   <textarea
+                    required
                     className="form-control borderRadius"
                     id="addressInput"
                     rows="3"
@@ -174,14 +189,13 @@ export default function ProfilePage() {
                 </div>
                 <div className="mb-3 ">
                   <label htmlFor="phoneInput" className="form-label">
-                    No Handphone
-                    <label className="notifInfoPenawaran">*</label>
+                    No Handphone <label className="text-red">*</label>
                   </label>
-                  <input
-                    type="number"
-                    className="form-control borderRadius"
-                    id="phoneInput"
-                    placeholder="+628123456789"
+                  <PhoneInput
+                    country={"id"}
+                    value={phone}
+                    onChange={setPhone}
+                    inputClass={""}
                   />
                 </div>
                 <div className="d-flex flex-column">
@@ -193,17 +207,25 @@ export default function ProfilePage() {
                   >
                     Simpan
                   </Button>
-
-                  <a
-                    href="#1"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalPassword"
-                    className="text-center mt-4"
-                  >
-                    Change Password
-                  </a>
                 </div>
               </form>
+              {user ? (
+                user.data.registeredVia === "auth-form" ? (
+                  <button
+                    className="btn btn-dark borderRadius is-block mt-4 "
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalPassword"
+                  >
+                    Change Password
+                  </button>
+                ) : (
+                  ""
+                )
+              ) : (
+                ""
+              )}
+
+              <ModalChangePass />
             </div>
           </div>
         </div>
@@ -211,8 +233,6 @@ export default function ProfilePage() {
       <div>
         <Footer />
       </div>
-
-      <ModalChangePass />
     </div>
   );
 }

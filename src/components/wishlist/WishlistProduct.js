@@ -55,7 +55,7 @@ export default function WishlistProduct() {
         <div className="row">
           {getListWishlistBuyerResult ? (
             getListWishlistBuyerResult.data.length === 0 ? (
-              <div className="d-flex justify-content-center null-illustration p-5">
+              <div className="d-flex justify-content-center null-illustration p-5 text-center">
                 <div>
                   <img
                     src={ProductNotFound}

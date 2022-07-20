@@ -2,6 +2,16 @@ import Swal from "sweetalert2";
 import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
+  dispatch({
+    type: LOGIN,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false,
+    },
+    user: false,
+  });
+
   try {
     const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
       method: "POST",
@@ -25,7 +35,11 @@ export const loginViaForm = (data) => async (dispatch) => {
     if (result.accessToken) {
       dispatch({
         type: LOGIN,
-        payload: result.accessToken,
+        payload: {
+          loading: false,
+          data: result.accessToken,
+          errorMessage: false,
+        },
         user: user,
       });
       Swal.fire({

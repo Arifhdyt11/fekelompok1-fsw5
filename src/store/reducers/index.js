@@ -9,12 +9,12 @@ import WishlistReducer from "./wishlist";
 import TransactionReducer from "./transaction";
 
 export default combineReducers({
-  ProductReducer,
   RegisterReducer,
   AuthReducer,
-  CategoryReducer,
-  SizeReducer,
   ChangePasswordReducer,
+  CategoryReducer,
+  ProductReducer,
+  SizeReducer,
   WishlistReducer,
   TransactionReducer,
 });

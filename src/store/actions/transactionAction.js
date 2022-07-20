@@ -235,30 +235,6 @@ export const updateTransactionSeller = (data) => {
             errorMessage: false,
           },
         });
-        if (data.status === "success") {
-          Swal.fire({
-            icon: "success",
-            title: "Transaction Status Updated",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-        // else if (data.status === "perbarui") {
-        //   Swal.fire({
-        //     icon: "success",
-        //     title: "Transaction Success ",
-        //     showConfirmButton: false,
-        //     timer: 1500,
-        //   });
-        // }
-        else {
-          Swal.fire({
-            icon: "success",
-            title: "Transaction Telah Dibatalkan",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
       })
       .catch((error) => {
         //error get api
