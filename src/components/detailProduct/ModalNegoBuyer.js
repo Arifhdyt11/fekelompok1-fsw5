@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTransaction } from "store/actions/transactionAction";
+import Swal from "sweetalert2";
 import { formatDate, formatPrice } from "utils/defaultFormat";
+
+function handleError(message) {
+  return Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 3500,
+  });
+}
 
 export default function ModalNegoBuyer({ item, dataProduct }) {
   const { addTransactionResult } = useSelector(
@@ -18,8 +28,20 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
+    const hargaAwal = dataProduct.price;
+    // const reqHargaTawar = (10 / 100) * hargaAwal;
+    const reqHargaTawar = hargaAwal - (10 / 100) * hargaAwal;
+
+    if (price < reqHargaTawar) {
+      handleError(
+        `Harga Tawar Maksimal 10% Dari Harga Awal. Yaitu : ${reqHargaTawar}`
+      );
+    }
     e.preventDefault();
-    dispatch(addTransaction({ productsizeId: item.id, priceBid: price }));
+
+    if (price >= reqHargaTawar) {
+      dispatch(addTransaction({ productsizeId: item.id, priceBid: price }));
+    }
   };
 
   useEffect(() => {

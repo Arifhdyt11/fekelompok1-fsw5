@@ -3,13 +3,15 @@ import { Link } from "react-router-dom";
 import "assets/css/login.css";
 import BrandIcon from "components/IconText";
 
+import IconGoogle from "assets/images/ic_google.svg";
 // TODO: Redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addRegister } from "store/actions/registerAction";
 
 import { loginWithGoogle } from "store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
 import Swal from "sweetalert2";
+import Button from "elements/Button";
 
 function handleError(message) {
   return Swal.fire({
@@ -21,6 +23,9 @@ function handleError(message) {
 }
 
 function Register() {
+  const { addRegisterResult, addRegisterLoading } = useSelector(
+    (state) => state.RegisterReducer
+  );
   useEffect(() => {
     document.title = "Shoesnarian | Register";
     window.scrollTo(0, 0);
@@ -43,13 +48,22 @@ function Register() {
     if (password === "") {
       handleError("Password cannot be empty");
     }
+    if (password.length <= 6) {
+      handleError("Password cannot be less than 7");
+    }
     if (name === "") {
       handleError("Name cannot be empty");
     }
     if (role === "") {
       handleError("Role cannot be empty");
     }
-    if (email !== "" && password !== "" && name !== "" && role !== "") {
+    if (
+      email !== "" &&
+      password !== "" &&
+      password.length > 7 &&
+      name !== "" &&
+      role !== ""
+    ) {
       dispatch(
         addRegister({
           email: email,
@@ -93,6 +107,7 @@ function Register() {
                 <div className="form-group">
                   <label htmlFor="name">Nama</label>
                   <input
+                    data-testid="input-nameUser"
                     type="text"
                     name="name"
                     id="name"
@@ -107,6 +122,7 @@ function Register() {
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
                   <input
+                    data-testid="input-emailUser"
                     type="email"
                     name="email"
                     id="email"
@@ -122,6 +138,7 @@ function Register() {
                   <label htmlFor="password">Password</label>
                   <div className="input-group">
                     <input
+                      data-testid="input-passwordUser"
                       type={passwordShown ? "text" : "password"}
                       name="password"
                       className="form-control form-control-password"
@@ -149,38 +166,60 @@ function Register() {
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
                     required
+                    data-testid="select-role"
                   >
                     <option hidden selected>
                       -- Pilih Role --
                     </option>
-                    <option value="SELLER">Seller</option>
-                    <option value="BUYER">Buyer</option>
+                    <option data-testid="select-option" value="SELLER">
+                      Seller
+                    </option>
+                    <option data-testid="select-option" value="BUYER">
+                      Buyer
+                    </option>
                   </select>
                 </div>
-                <button
-                  name="login"
-                  id="login"
-                  className="btn btn-block login-btn"
-                  type="submit"
-                  value="Masuk"
-                >
-                  Daftar
-                </button>
+                {addRegisterLoading ? (
+                  <Button
+                    className="btn btn-block login-btn"
+                    isLoading
+                  ></Button>
+                ) : (
+                  <button
+                    name="login"
+                    id="login"
+                    className="btn btn-block login-btn"
+                    type="submit"
+                    value="Masuk"
+                  >
+                    Daftar
+                  </button>
+                )}
               </form>
-              <p className="login-wrapper-footer-text">
+              <p className="login-wrapper-footer-text mb-3">
                 Sudah punya akun?
                 <Link to="/login" className="text-reset">
                   Masuk di sini
                 </Link>
               </p>
 
-              {/* <button
-                className="btn btn-block login-btn"
-                type="button"
-                onClick={() => googleLogin()}
-              >
-                <i className="uil uil-google"></i> Sign in with Google
-              </button> */}
+              {addRegisterLoading ? (
+                <Button className="btn btn-dark" isBlock isLoading></Button>
+              ) : (
+                <Button
+                  className="btn btn-dark"
+                  isBlock
+                  onClick={() => googleLogin()}
+                >
+                  <img
+                    className="img-fluid me-2"
+                    style={{ width: "20px" }}
+                    src={IconGoogle}
+                    alt=""
+                  />
+                  Sign Up With Google
+                </Button>
+              )}
             </div>
           </div>
         </div>

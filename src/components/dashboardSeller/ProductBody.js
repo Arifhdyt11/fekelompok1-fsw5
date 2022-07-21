@@ -75,7 +75,7 @@ function ProductBody() {
     <div className="row  my-4">
       <div className="col-lg-3 col-md-4 col-12">
         <div className="section-sidebar my-2">
-          <h5>Categories </h5>
+          <h5>Menu </h5>
           <ul className="list-group">
             <li
               className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"

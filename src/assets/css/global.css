@@ -4,6 +4,10 @@ body {
   font-style: normal;
 }
 
+a{
+  text-decoration: none;
+}
+
 /* TYPOGRAPY */
 h1,
 h2,
@@ -48,6 +52,10 @@ p {
   font-weight: 300;
   font-size: 16px;
   color: #b0b0b0;
+}
+
+.text-red{
+  color: red;
 }
 
 /* MARGIN NEGATIVE */
@@ -213,6 +221,10 @@ p {
   background: #eeeeee;
   border-radius: 16px;
   width: 300px;
+}
+
+button.dropdown-item{
+  text-decoration: none;
 }
 
 .dropdown-menu .item {

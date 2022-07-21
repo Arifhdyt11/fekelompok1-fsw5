@@ -11,6 +11,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import LoginImg from "assets/images/login5.jpg";
 import IconGoogle from "assets/images/ic_google.svg";
 import Button from "elements/Button";
+import Swal from "sweetalert2";
 
 function Login() {
   useEffect(() => {
@@ -19,7 +20,7 @@ function Login() {
   });
 
   const dispatch = useDispatch();
-  const { isAuthenticated, user, error } = useSelector(
+  const { isAuthenticated, isAuthenticatedLoading, user, error } = useSelector(
     (state) => state.AuthReducer
   );
 
@@ -59,9 +60,20 @@ function Login() {
     },
   });
 
+  console.log(user);
   return (
     <>
-      {!isAuthenticated ? (
+      {isAuthenticated ? (
+        user ? (
+          user.data.role === "SELLER" ? (
+            <Navigate to={`/seller`} />
+          ) : (
+            <Navigate to={`/`} />
+          )
+        ) : (
+          ""
+        )
+      ) : (
         <main>
           <div className="container-fluid">
             <div className="row">
@@ -77,6 +89,7 @@ function Login() {
                     <div className="form-group">
                       <label htmlFor="email">Email</label>
                       <input
+                        data-testid="input-emailUserLogin"
                         type="email"
                         name="email"
                         id="email"
@@ -92,6 +105,7 @@ function Login() {
                       <label htmlFor="password">Password</label>
                       <div className="input-group">
                         <input
+                          data-testid="input-passwordUserLogin"
                           type={passwordShown ? "text" : "password"}
                           name="password"
                           className="form-control form-control-password"
@@ -112,15 +126,23 @@ function Login() {
                         </span>
                       </div>
                     </div>
-                    <button
-                      name="login"
-                      id="login"
-                      className="btn btn-block login-btn"
-                      type="submit"
-                      value="Masuk"
-                    >
-                      Masuk
-                    </button>
+                    {isAuthenticatedLoading ? (
+                      <Button
+                        className="btn login-btn btn-block"
+                        isLoading
+                        nonStyle
+                      ></Button>
+                    ) : (
+                      <button
+                        name="login"
+                        id="login"
+                        className="btn btn-block login-btn"
+                        type="submit"
+                        value="Masuk"
+                      >
+                        Masuk
+                      </button>
+                    )}
                   </form>
                   <p className="login-wrapper-footer-text mb-3">
                     Belum punya akun?
@@ -128,29 +150,28 @@ function Login() {
                       Daftar di sini
                     </Link>
                   </p>
-
-                  <Button
-                    className="btn login-google"
-                    isBlock
-                    onClick={() => googleLogin()}
-                  >
-                    <img
-                      className="img-fluid me-2"
-                      style={{ width: "20px" }}
-                      src={IconGoogle}
-                      alt=""
-                    />
-                    Sign In / Sign Up
-                  </Button>
+                  {isAuthenticatedLoading ? (
+                    <Button className="btn btn-dark" isBlock isLoading></Button>
+                  ) : (
+                    <Button
+                      className="btn btn-dark"
+                      isBlock
+                      onClick={() => googleLogin()}
+                    >
+                      <img
+                        className="img-fluid me-2"
+                        style={{ width: "20px" }}
+                        src={IconGoogle}
+                        alt=""
+                      />
+                      Sign In With Google
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </main>
-      ) : user.data.role === "SELLER" ? (
-        <Navigate to={`/seller`} />
-      ) : (
-        <Navigate to={`/`} />
       )}
     </>
   );
