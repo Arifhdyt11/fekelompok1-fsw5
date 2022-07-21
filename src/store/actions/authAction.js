@@ -2,6 +2,16 @@ import Swal from "sweetalert2";
 import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
+  dispatch({
+    type: LOGIN,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false,
+    },
+    user: false,
+  });
+
   try {
     const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
       method: "POST",
@@ -25,7 +35,11 @@ export const loginViaForm = (data) => async (dispatch) => {
     if (result.accessToken) {
       dispatch({
         type: LOGIN,
-        payload: result.accessToken,
+        payload: {
+          loading: false,
+          data: result.accessToken,
+          errorMessage: false,
+        },
         user: user,
       });
       Swal.fire({
@@ -36,7 +50,25 @@ export const loginViaForm = (data) => async (dispatch) => {
       });
     } else {
       console.log(result);
-      authError(result.error);
+      dispatch({
+        type: LOGIN,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+
       Swal.fire({
         icon: "error",
         title: `${result.message}`,
@@ -45,7 +77,24 @@ export const loginViaForm = (data) => async (dispatch) => {
       });
     }
   } catch (error) {
-    authError(error);
+    dispatch({
+      type: LOGIN,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
     console.log(error);
     Swal.fire({
       icon: "error",
@@ -59,13 +108,23 @@ export const loginViaForm = (data) => async (dispatch) => {
 const authError = (error) => async (dispatch) => {
   dispatch({
     type: AUTH_ERROR,
-    payload: error.message,
+    payload: {
+      loading: false,
+      data: false,
+      errorMessage: error.message,
+    },
+    user: false,
   });
 
   setTimeout(() => {
     dispatch({
       type: AUTH_ERROR,
-      payload: null,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error.message,
+      },
+      user: false,
     });
   }, 5000);
 };

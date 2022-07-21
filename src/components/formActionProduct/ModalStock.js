@@ -11,6 +11,15 @@ import {
 } from "store/actions/sizeAction";
 import Swal from "sweetalert2";
 
+function handleError(message) {
+  return Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
+
 export default function ModalStock({ productId }) {
   const { accessToken } = useSelector((state) => state.AuthReducer);
 
@@ -22,10 +31,17 @@ export default function ModalStock({ productId }) {
     getListSizeResult,
     getListSizeLoading,
     getListSizeError,
-    addSizeResult,
+
     detailSizeResult,
+
+    addSizeResult,
+    addSizeLoading,
+
     updateSizeResult,
+    updateSizeLoading,
+
     deleteSizeResult,
+    deleteSizeLoading,
   } = useSelector((state) => state.SizeReducer);
 
   const dispatch = useDispatch();
@@ -56,6 +72,12 @@ export default function ModalStock({ productId }) {
   }, [addSizeResult, dispatch]);
 
   useEffect(() => {
+    if (addSizeLoading) {
+      dispatch(getListSize(accessToken));
+    }
+  }, [addSizeLoading, dispatch]);
+
+  useEffect(() => {
     if (updateSizeResult) {
       dispatch(getListSize(accessToken));
       setId("");
@@ -63,6 +85,15 @@ export default function ModalStock({ productId }) {
       setStock("");
     }
   }, [updateSizeResult, dispatch]);
+
+  useEffect(() => {
+    if (updateSizeLoading) {
+      dispatch(getListSize(accessToken));
+      setId("");
+      setSize("");
+      setStock("");
+    }
+  }, [updateSizeLoading, dispatch]);
 
   useEffect(() => {
     if (deleteSizeResult) {
@@ -73,17 +104,34 @@ export default function ModalStock({ productId }) {
     }
   }, [deleteSizeResult, dispatch]);
 
+  useEffect(() => {
+    if (deleteSizeLoading) {
+      dispatch(getListSize(accessToken));
+      setId("");
+      setSize("");
+      setStock("");
+    }
+  }, [deleteSizeLoading, dispatch]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (stock > 1000) {
+      handleError("Stock Tidak Bisa lebih dari 1000");
+    }
+    if (stock <= 0) {
+      handleError("Stock Tidak Boleh Kosong atau Minus");
+    }
     if (id) {
-      dispatch(
-        updateSize({
-          token: accessToken,
-          id: id,
-          sizeId: size,
-          stock: stock,
-        })
-      );
+      if (stock > 0 && stock <= 1000) {
+        dispatch(
+          updateSize({
+            token: accessToken,
+            id: id,
+            sizeId: size,
+            stock: stock,
+          })
+        );
+      }
     } else {
       // Handle If Size Already In Table Size
       if (getListSizeResult) {
@@ -102,14 +150,16 @@ export default function ModalStock({ productId }) {
             timer: 2500,
           });
         } else {
-          dispatch(
-            addSize({
-              token: accessToken,
-              productId: productId,
-              sizeId: size,
-              stock: stock,
-            })
-          );
+          if (stock > 0 && stock <= 1000) {
+            dispatch(
+              addSize({
+                token: accessToken,
+                productId: productId,
+                sizeId: size,
+                stock: stock,
+              })
+            );
+          }
         }
       }
     }
@@ -199,9 +249,20 @@ export default function ModalStock({ productId }) {
                 >
                   Clear
                 </Button>
-                <Button className="btn ms-2 w-100" hasShadow isPrimary>
-                  Submit Stock
-                </Button>
+                {getListSizeResult ? (
+                  <Button className="btn ms-2 w-100" hasShadow isPrimary>
+                    Submit Stock
+                  </Button>
+                ) : getListSizeLoading ? (
+                  <Button
+                    className="btn ms-2 w-100"
+                    hasShadow
+                    isPrimary
+                    isLoading
+                  ></Button>
+                ) : (
+                  <p>{getListSizeError ? getListSizeError : "error"}</p>
+                )}
               </div>
             </form>
             <Button

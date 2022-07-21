@@ -32,7 +32,6 @@ export default function NavbarDropdown(props) {
         </div>
 
         <div className="dropstart user ms-3">
-          {/* <Notification /> */}
           <button
             className=" btn-none-style "
             type="button"
@@ -134,7 +133,6 @@ export default function NavbarDropdown(props) {
             )}
           </ul>
         </div>
-        
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import Button from "elements/Button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { logout } from "store/actions/authAction";
 import { getListProduct } from "store/actions/productAction";
@@ -52,10 +52,24 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
           </li>
           <hr />
           <li>
-            {/* <Button className="dropdown-item" type="link" href="/profile">
-              <i className="fa-duotone fa-gears me-3"></i>Edit Profile
-            </Button> */}
-            <Button className="dropdown-item" type="link" href="/notifikasi">
+            <Link to="/profile">
+              <button
+                type="button"
+                className="dropdown-item"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              >
+                <i className="fa-duotone fa-gears me-3"></i>Edit Profile
+              </button>
+            </Link>
+
+            <Button
+              className="dropdown-item"
+              type="link"
+              href="/notifications"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            >
               <i className="fas fa-bell fa-lg me-3"></i>Notifikasi
             </Button>
           </li>
@@ -79,47 +93,61 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
           ) : (
             <>
               <li>
-                <a className="dropdown-item" href="/wishlist">
-                  <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
-                </a>
+                <Link to="/wishlist">
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  >
+                    <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
+                  </button>
+                </Link>
               </li>
+
               <li>
-                <a className="dropdown-item" href="/history">
-                  <i className="fa-duotone fa-arrows-repeat me-3"></i>History
-                  Transaksi
-                </a>
+                <Link to="/history">
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  >
+                    <i className="fa-duotone fa-arrows-repeat me-3"></i>History
+                    Transaksi
+                  </button>
+                </Link>
               </li>
             </>
           )}
           <li>
-            <Button
-              className="btn ms-auto mt-3"
-              hasShadow
-              isBlock
-              isPrimary
-              href="/"
-              type="link"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+            <Link to="/">
+              <button
+                type="button"
+                className="btn btn-primary is-block ms-auto mt-3"
+                onClick={handleLogout}
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              >
+                Logout
+              </button>
+            </Link>
           </li>
         </ul>
       </>
     );
   } else {
     return (
-      <Button
-        className="btn ms-auto px-3 py-2"
-        hasShadow
-        isBlock
-        isPrimary
-        href="/login"
-        type="link"
-        onClick={() => (document.querySelector("body").style.overflow = "auto")}
-      >
-        Masuk
-      </Button>
+      <Link to="/login">
+        <button
+          type="button"
+          className="btn btn-primary ms-auto px-3 py-2 btn-shadow is-block"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        >
+          Masuk
+        </button>
+      </Link>
     );
   }
 }
@@ -130,46 +158,52 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light py-3">
-      <div className="container">
-        <BrandIcon />
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className="offcanvas offcanvas-end"
-          tabIndex="-1"
-          id="offcanvasRight"
-          aria-labelledby="offcanvasRightLabel"
-        >
-          <div className="offcanvas-header">
-            <BrandIcon />
-            <button
-              type="button"
-              className="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="offcanvas-body">
-            <CheckLoginMobile
-              isAuthenticated={isAuthenticated}
-              user={user}
-              error={error}
-            />
-          </div>
+    <>
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasRight"
+        aria-labelledby="offcanvasRightLabel"
+      >
+        <div class="offcanvas-header">
+          <BrandIcon />
+          <button
+            type="button"
+            className="btn-close text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
         </div>
-        <div className="collapse navbar-collapse " id="navbarSupportedContent">
-          <CheckLogin isAuthenticated={isAuthenticated} />
+        <div class="offcanvas-body">
+          <CheckLoginMobile
+            isAuthenticated={isAuthenticated}
+            user={user}
+            error={error}
+          />
         </div>
       </div>
-    </nav>
+
+      <nav className="navbar navbar-expand-lg navbar-light py-3">
+        <div className="container">
+          <BrandIcon />
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div
+            className="collapse navbar-collapse "
+            id="navbarSupportedContent"
+          >
+            <CheckLogin isAuthenticated={isAuthenticated} />
+          </div>
+        </div>
+      </nav>
+    </>
   );
 }

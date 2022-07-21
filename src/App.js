@@ -17,7 +17,7 @@ import Unauthorized from "pages/401";
 import Forbidden from "pages/403";
 import PageNotFound from "pages/404";
 import Transaction from "pages/Transaction";
-import NotifikasiPage from "pages/notifikasi";
+import NotificationPages from "pages/NotificationPages";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -90,12 +90,14 @@ function App() {
         />
         <Route path="/history" element={<History />} />
 
+        <Route
+          path="/notifications"
+          element={<Middleware role="BOTH" childern={<NotificationPages />} />}
+        />
+
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<Forbidden />} />
         <Route path="*" element={<PageNotFound />} />
-
-        {/* TODO: NOTIF */}
-        <Route path="notifikasi" element={<NotifikasiPage />} />
       </Routes>
     </Router>
   );

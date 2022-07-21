@@ -1,38 +1,36 @@
 import axios from "axios";
-import Swal from "sweetalert2";
-
 import {
-  GET_LIST_TRANSACTION_BUYER,
-  GET_LIST_TRANSACTION_SELLER,
-  GET_TRANSACTION_ID_SELLER,
-  UPDATE_TRANSACTION_SELLER,
-  ADD_TRANSACTION,
+  NOTIFICATION_BUYER,
+  NOTIFICATION_SELLER,
+  UPDATE_NOTIFICATION_BUYER,
+  UPDATE_NOTIFICATION_SELLER,
 } from "store/types";
 
-export const getListTransactionBuyer = () => {
+export const getNotificationBuyer = () => {
   return (dispatch) => {
     //loading
     dispatch({
-      type: GET_LIST_TRANSACTION_BUYER,
+      type: NOTIFICATION_BUYER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
+
     //get API
     axios({
       method: "GET",
+      url: `${process.env.REACT_APP_HOST}/notif/buyer`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      url: `${process.env.REACT_APP_HOST}/transaction/buyer`,
       timeout: 120000,
     })
       .then((response) => {
         //berhasil get API
         dispatch({
-          type: GET_LIST_TRANSACTION_BUYER,
+          type: NOTIFICATION_BUYER,
           payload: {
             loading: false,
             data: response.data,
@@ -43,7 +41,7 @@ export const getListTransactionBuyer = () => {
       .catch((error) => {
         //error get api
         dispatch({
-          type: GET_LIST_TRANSACTION_BUYER,
+          type: NOTIFICATION_BUYER,
           payload: {
             loading: false,
             data: false,
@@ -54,30 +52,31 @@ export const getListTransactionBuyer = () => {
   };
 };
 
-export const getListTransactionSeller = () => {
+export const getNotificationSeller = () => {
   return (dispatch) => {
     //loading
     dispatch({
-      type: GET_LIST_TRANSACTION_SELLER,
+      type: NOTIFICATION_SELLER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
+
     //get API
     axios({
       method: "GET",
+      url: `${process.env.REACT_APP_HOST}/notif/seller`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      url: `${process.env.REACT_APP_HOST}/transaction/seller`,
       timeout: 120000,
     })
       .then((response) => {
         //berhasil get API
         dispatch({
-          type: GET_LIST_TRANSACTION_SELLER,
+          type: NOTIFICATION_SELLER,
           payload: {
             loading: false,
             data: response.data,
@@ -88,7 +87,7 @@ export const getListTransactionSeller = () => {
       .catch((error) => {
         //error get api
         dispatch({
-          type: GET_LIST_TRANSACTION_SELLER,
+          type: NOTIFICATION_SELLER,
           payload: {
             loading: false,
             data: false,
@@ -99,69 +98,26 @@ export const getListTransactionSeller = () => {
   };
 };
 
-export const getTransactionIdSeller = (transactionId) => {
+export const updateNotificationBuyer = (data) => {
   return (dispatch) => {
     //loading
+    console.log(data);
     dispatch({
-      type: GET_TRANSACTION_ID_SELLER,
+      type: UPDATE_NOTIFICATION_BUYER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
-    //get API
-    axios({
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      },
-      url: `${process.env.REACT_APP_HOST}/transaction/seller/${transactionId}`,
-      timeout: 120000,
-    })
-      .then((response) => {
-        //berhasil get API
-        dispatch({
-          type: GET_TRANSACTION_ID_SELLER,
-          payload: {
-            loading: false,
-            data: response.data,
-            errorMessage: false,
-          },
-        });
-      })
-      .catch((error) => {
-        //error get api
-        dispatch({
-          type: GET_TRANSACTION_ID_SELLER,
-          payload: {
-            loading: false,
-            data: false,
-            errorMessage: error.message,
-          },
-        });
-      });
-  };
-};
 
-export const addTransaction = (data) => {
-  return (dispatch) => {
-    //loading
-    dispatch({
-      type: ADD_TRANSACTION,
-      payload: {
-        loading: true,
-        data: false,
-        errorMessage: false,
-      },
-    });
     //get API
     axios({
-      method: "POST",
+      method: "PUT",
+      url: `${process.env.REACT_APP_HOST}/notif/buyer`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      url: `${process.env.REACT_APP_HOST}/transaction`,
       timeout: 120000,
       data: data,
     })
@@ -169,66 +125,54 @@ export const addTransaction = (data) => {
         //berhasil get API
         console.log(response);
         dispatch({
-          type: ADD_TRANSACTION,
+          type: UPDATE_NOTIFICATION_BUYER,
           payload: {
             loading: false,
             data: response.data,
             errorMessage: false,
           },
         });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Melakukan Penawaran",
-          showConfirmButton: false,
-          timer: 1500,
-        });
       })
       .catch((error) => {
         //error get api
-
         dispatch({
-          type: ADD_TRANSACTION,
+          type: UPDATE_NOTIFICATION_BUYER,
           payload: {
             loading: false,
             data: false,
             errorMessage: error.message,
           },
         });
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Melakukan Penawaran",
-          showConfirmButton: false,
-          timer: 1500,
-        });
       });
   };
 };
 
-export const updateTransactionSeller = (data) => {
+export const updateNotificationSeller = (data) => {
   return (dispatch) => {
     //loading
     dispatch({
-      type: UPDATE_TRANSACTION_SELLER,
+      type: UPDATE_NOTIFICATION_SELLER,
       payload: {
         loading: true,
         data: false,
         errorMessage: false,
       },
     });
+
     //get API
     axios({
       method: "PUT",
+      url: `${process.env.REACT_APP_HOST}/notif/seller`,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       },
-      url: `${process.env.REACT_APP_HOST}/transaction/${data.transactionId}`,
       timeout: 120000,
       data: data,
     })
       .then((response) => {
         //berhasil get API
         dispatch({
-          type: UPDATE_TRANSACTION_SELLER,
+          type: UPDATE_NOTIFICATION_SELLER,
           payload: {
             loading: false,
             data: response.data,
@@ -239,7 +183,7 @@ export const updateTransactionSeller = (data) => {
       .catch((error) => {
         //error get api
         dispatch({
-          type: UPDATE_TRANSACTION_SELLER,
+          type: UPDATE_NOTIFICATION_SELLER,
           payload: {
             loading: false,
             data: false,

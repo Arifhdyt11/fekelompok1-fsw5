@@ -2,6 +2,12 @@ import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 const initialState = {
   isAuthenticated: !!localStorage.getItem("accessToken"),
+
+  // isAuthenticated: false,
+  // accessToken: false,
+  // user: false,
+
+  isAuthenticatedLoading: false,
   accessToken: localStorage.getItem("accessToken"),
   user: JSON.parse(localStorage.getItem("user")),
   error: null,
@@ -10,18 +16,20 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      localStorage.setItem("accessToken", action.payload);
+      localStorage.setItem("accessToken", action.payload.data);
       localStorage.setItem("user", JSON.stringify(action.user));
 
       document.querySelector("body").style.overflow = "auto";
 
       return {
         ...state,
-        isAuthenticated: true,
-        accessToken: action.payload,
+        isAuthenticated: action.payload.data,
+        isAuthenticatedLoading: action.payload.loading,
+        accessToken: action.payload.data,
         user: action.user,
         error: null,
       };
+
     case LOGOUT:
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
@@ -34,6 +42,7 @@ const authReducer = (state = initialState, action) => {
         accessToken: null,
         error: null,
       };
+
     case UPDATE_PROFILE:
       console.log("reducer : ", action);
       localStorage.setItem("user", JSON.stringify(action.user));
@@ -49,7 +58,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         accessToken: null,
-        error: action.payload,
+        error: action.payload.error,
       };
     default:
       return state;
