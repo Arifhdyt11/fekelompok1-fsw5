@@ -49,7 +49,7 @@ export const loginViaForm = (data) => async (dispatch) => {
         timer: 1500,
       });
     } else {
-      console.log(result);
+      // console.log(result);
       dispatch({
         type: LOGIN,
         payload: {
@@ -178,6 +178,15 @@ export const updateUserDetail = (data) => async (dispatch) => {
 };
 
 export const loginWithGoogle = (accessToken) => async (dispatch) => {
+  dispatch({
+    type: LOGIN,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false,
+    },
+    user: false,
+  });
   try {
     const data = {
       access_token: accessToken,
@@ -206,7 +215,11 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     if (result.token) {
       dispatch({
         type: LOGIN,
-        payload: result.token,
+        payload: {
+          loading: false,
+          data: result.accessToken,
+          errorMessage: false,
+        },
         user: user,
       });
       Swal.fire({
@@ -217,7 +230,25 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       });
       window.location.href = "/";
     } else {
-      authError(result.error);
+      // authError(result.error);
+      dispatch({
+        type: LOGIN,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
       Swal.fire({
         icon: "error",
         title: "Login Failed",
@@ -226,7 +257,25 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       });
     }
   } catch (error) {
-    authError(error);
+    // authError(error);
+    dispatch({
+      type: LOGIN,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
     Swal.fire({
       position: "top-end",
       icon: "error",
