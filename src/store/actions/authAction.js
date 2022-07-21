@@ -217,7 +217,7 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
         type: LOGIN,
         payload: {
           loading: false,
-          data: result.accessToken,
+          data: result.token,
           errorMessage: false,
         },
         user: user,
