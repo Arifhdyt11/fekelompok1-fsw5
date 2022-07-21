@@ -12,6 +12,7 @@ import { set } from "lodash";
 
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { getKota, getProvinsi } from "store/actions/cityAction";
 
 function handleError(message) {
   return Swal.fire({
@@ -30,8 +31,24 @@ export default function ProfilePage() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
 
+  const { getProvinsiResult, getKotaResult } = useSelector(
+    (state) => state.CityReducer
+  );
+
   const [image, setImage] = useState(kamera);
   const [phone, setPhone] = useState("");
+  const [provinsi, setProvinsi] = useState("");
+  const [kota, setKota] = useState("");
+
+  useEffect(() => {
+    dispatch(getProvinsi());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (provinsi) {
+      dispatch(getKota(provinsi));
+    }
+  }, [provinsi, dispatch]);
 
   const handleUpload = (e) => {
     if (e.target.files[0]) {
@@ -51,8 +68,10 @@ export default function ProfilePage() {
     if (user) {
       if (user.data.name !== null)
         document.getElementById("nameInput").value = user.data.name;
-      if (user.data.city !== null)
-        document.getElementById("cityInput").value = user.data.city;
+      if (user.data.city !== null) {
+        // document.getElementById("cityInput").value = user.data.city;
+        setKota(user.data.city);
+      }
       if (user.data.address !== null)
         document.getElementById("addressInput").value = user.data.address;
       if (user.data.phone !== null) setPhone(user.data.phone);
@@ -64,7 +83,7 @@ export default function ProfilePage() {
     }
   }, []);
 
-  console.log(phone);
+  // console.log(phone);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,7 +95,7 @@ export default function ProfilePage() {
     }
     const update = {
       name: document.getElementById("nameInput").value,
-      city: document.getElementById("cityInput").value,
+      city: kota,
       address: document.getElementById("addressInput").value,
       phone: phone,
       image,
@@ -103,6 +122,15 @@ export default function ProfilePage() {
     }
   };
 
+  const handleProvinsi = (e) => {
+    setProvinsi(e.target.value);
+  };
+  const handleKota = (e) => {
+    setKota(e.target.value);
+  };
+
+  console.log(provinsi);
+  console.log(kota);
   return (
     <div>
       <div>
@@ -162,17 +190,55 @@ export default function ProfilePage() {
                   />
                 </div>
 
+                <div className="mb-3">
+                  <label htmlFor="provinsiInput" className="form-label">
+                    Provinsi <label className="text-red">*</label>
+                  </label>
+                  <select
+                    className="form-select borderRadius"
+                    aria-label="Default select example"
+                    id="provinsiInput"
+                    name="provinsi"
+                    value={provinsi}
+                    onChange={handleProvinsi}
+                  >
+                    {getProvinsiResult
+                      ? getProvinsiResult.map((item) => {
+                          return (
+                            <>
+                              {/* <option value="">Pilih Provinsi</option> */}
+                              <option value={item.id}>{item.name}</option>
+                            </>
+                          );
+                        })
+                      : ""}
+                  </select>
+                </div>
+
                 <div className="mb-3 ">
                   <label htmlFor="cityInput" className="form-label">
                     Kota <label className="text-red">*</label>
                   </label>
-                  <input
-                    required
-                    type="text"
-                    className="form-control borderRadius"
+                  <select
+                    className="form-select borderRadius"
+                    aria-label="Default select example"
                     id="cityInput"
                     placeholder="Pilih Kota"
-                  />
+                    required
+                    value={kota}
+                    onChange={handleKota}
+                  >
+                    {getKotaResult
+                      ? getKotaResult.map((item) => {
+                          return (
+                            <>
+                              {/* <option value="">Pilih Kota</option> */}
+                              <option value={item.name}>{item.name}</option>
+                            </>
+                          );
+                        })
+                      : ""}
+                  </select>
                 </div>
 
                 <div className="mb-3 ">

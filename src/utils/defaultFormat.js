@@ -32,6 +32,8 @@ export const formatDate = (data, format) => {
 
   if (format === "full") {
     return `${date} ${month} ${year}, ${hour}:${minute} `;
+  } else if (format === "hours") {
+    return `${hour}:${minute} `;
   } else {
     return `${date} ${month}, ${year}`;
   }

@@ -204,7 +204,7 @@ export default function Galery({ productId }) {
                       className="btn btn-danger mt-3 py-2 mx-0"
                       style={{ cursor: "context-menu" }}
                     >
-                      Size Not Available
+                      Mohon Maaf Product Habis
                     </Button>
                   ) : isAuthenticated ? (
                     user.data.role === "SELLER" ? (
@@ -229,6 +229,17 @@ export default function Galery({ productId }) {
                             </>
                           );
                         })
+                    ) : getListSizeResult.data.filter(
+                        (item) =>
+                          item.productId === parseInt(productId) &&
+                          item.products.status === "draft"
+                      ).length > 0 ? (
+                      <Button
+                        className="btn btn-warning mt-3 py-2 mx-0"
+                        style={{ cursor: "context-menu" }}
+                      >
+                        Product Tidak Tersedia Untuk Sementara
+                      </Button>
                     ) : (
                       getListSizeResult.data
                         .filter(
@@ -261,6 +272,17 @@ export default function Galery({ productId }) {
                           );
                         })
                     )
+                  ) : getListSizeResult.data.filter(
+                      (item) =>
+                        item.productId === parseInt(productId) &&
+                        item.products.status === "draft"
+                    ).length > 0 ? (
+                    <Button
+                      className="btn btn-warning mt-3 py-2 mx-0"
+                      style={{ cursor: "context-menu" }}
+                    >
+                      Product Tidak Tersedia Untuk Sementara
+                    </Button>
                   ) : (
                     getListSizeResult.data
                       .filter(
@@ -271,23 +293,25 @@ export default function Galery({ productId }) {
                       .sort((a, b) => a.sizes.id - b.sizes.id)
                       .map((item, index) => {
                         return (
-                          <Link
-                            key={index}
-                            to={`/product/${productId}`}
-                            state={{
-                              item: { ...item },
-                            }}
-                          >
-                            <Button
-                              className={`btn mx-2 my-2 ${
-                                active == item.sizeId && "btn-active"
-                              }`}
-                              isSecondaryOutline
-                              onClick={() => chooseSize(item.sizeId)}
+                          <>
+                            <Link
+                              key={index}
+                              to={`/product/${productId}`}
+                              state={{
+                                item: { ...item },
+                              }}
                             >
-                              {item.sizes.size}
-                            </Button>
-                          </Link>
+                              <Button
+                                className={`btn mx-2 my-2 ${
+                                  active == item.sizeId && "btn-active"
+                                }`}
+                                isSecondaryOutline
+                                onClick={() => chooseSize(item.sizeId)}
+                              >
+                                {item.sizes.size}
+                              </Button>
+                            </Link>
+                          </>
                         );
                       })
                   )

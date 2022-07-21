@@ -13,6 +13,7 @@ import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
 import fotoProduct from "assets/images/addProduct.png";
 import Swal from "sweetalert2";
+import ImgPlaceholder from "assets/images/placeholder.png";
 
 function handleError(message) {
   return Swal.fire({
@@ -26,9 +27,12 @@ function handleError(message) {
 export default function FormAddProduct() {
   const { user } = useSelector((state) => state.AuthReducer);
 
-  const { addProductResult, updateProductResult } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const {
+    addProductResult,
+    addProductLoading,
+    updateProductResult,
+    updateProductLoading,
+  } = useSelector((state) => state.ProductReducer);
 
   const location = useLocation();
 
@@ -151,9 +155,17 @@ export default function FormAddProduct() {
       dispatch(getListProductSeller());
     }
   }, [addProductResult, dispatch]);
+
+  useEffect(() => {
+    if (addProductLoading) {
+      dispatch(getListProductSeller());
+    }
+  }, [addProductLoading, dispatch]);
+
   useEffect(() => {
     if (updateProductResult) {
       dispatch(getListProduct());
+      dispatch(getListProductSeller());
       setName("");
       setPrice("");
       setCategoryId("");
@@ -161,8 +173,20 @@ export default function FormAddProduct() {
     }
   }, [updateProductResult, dispatch]);
 
+  useEffect(() => {
+    if (updateProductLoading) {
+      dispatch(getListProduct());
+      dispatch(getListProductSeller());
+      setName("");
+      setPrice("");
+      setCategoryId("");
+      setDescription("");
+    }
+  }, [updateProductLoading, dispatch]);
+
   const oldImage = [];
   console.log(images);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -171,6 +195,9 @@ export default function FormAddProduct() {
     }
     if (categoryId === "") {
       handleError("Category cannot be empty");
+    }
+    if (price < 0) {
+      handleError("Price cannot be minus");
     }
     if (price === "") {
       handleError("Price cannot be empty");
@@ -262,9 +289,7 @@ export default function FormAddProduct() {
                 icon: "success",
                 showConfirmButton: false,
               });
-              dispatch(updateProduct(SwalUpdateProduct)).then(function () {
-                <Navigate to={`/seller`} />;
-              });
+              dispatch(updateProduct(SwalUpdateProduct));
             }
           });
         }
@@ -482,10 +507,59 @@ export default function FormAddProduct() {
         />
       </div>
       <div className="d-flex justify-content-center">
-        {id ? (
-          status === "draft" ? (
-            ""
+        {getProductIdSellerResult ? (
+          updateProductLoading ? (
+            <Button
+              className="btn px-3 py-2 btn-primary borderRadius ms-2"
+              hasShadow
+              isPrimary
+              isBlock
+              isLoading
+            ></Button>
+          ) : getProductIdSellerResult.status === "draft" ? (
+            <>
+              <Button
+                className="btn px-3 py-2 btn-primary borderRadius ms-2"
+                hasShadow
+                isPrimary
+                isBlock
+                onClick={() => setStatus("published")}
+              >
+                Terbitkan
+              </Button>
+            </>
           ) : (
+            <>
+              <Button
+                className="btn px-3 py-2 borderRadius me-2"
+                hasShadow
+                isSecondary
+                isBlock
+                onClick={() => setStatus("draft")}
+              >
+                Arsipkan
+              </Button>
+              <Button
+                className="btn px-3 py-2 btn-primary borderRadius ms-2"
+                hasShadow
+                isPrimary
+                isBlock
+                onClick={() => setStatus("published")}
+              >
+                Terbitkan
+              </Button>
+            </>
+          )
+        ) : addProductLoading ? (
+          <Button
+            className="btn px-3 py-2 btn-primary borderRadius ms-2"
+            hasShadow
+            isPrimary
+            isBlock
+            isLoading
+          ></Button>
+        ) : (
+          <>
             <Button
               className="btn px-3 py-2 borderRadius me-2"
               hasShadow
@@ -493,29 +567,19 @@ export default function FormAddProduct() {
               isBlock
               onClick={() => setStatus("draft")}
             >
-              Masukan Ke Draft
+              Arsipkan
             </Button>
-          )
-        ) : (
-          <Button
-            className="btn px-3 py-2 borderRadius me-2"
-            hasShadow
-            isSecondary
-            isBlock
-            onClick={() => setStatus("draft")}
-          >
-            Preview
-          </Button>
+            <Button
+              className="btn px-3 py-2 btn-primary borderRadius ms-2"
+              hasShadow
+              isPrimary
+              isBlock
+              onClick={() => setStatus("published")}
+            >
+              Terbitkan
+            </Button>
+          </>
         )}
-        <Button
-          className="btn px-3 py-2 btn-primary borderRadius ms-2"
-          hasShadow
-          isPrimary
-          isBlock
-          onClick={() => setStatus("published")}
-        >
-          Terbitkan
-        </Button>
       </div>
     </form>
   );

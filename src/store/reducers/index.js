@@ -7,6 +7,8 @@ import SizeReducer from "./size";
 import ChangePasswordReducer from "./changePassword";
 import WishlistReducer from "./wishlist";
 import TransactionReducer from "./transaction";
+import NotificationReducer from "./notification";
+import CityReducer from "./city";
 
 export default combineReducers({
   RegisterReducer,
@@ -17,4 +19,6 @@ export default combineReducers({
   SizeReducer,
   WishlistReducer,
   TransactionReducer,
+  NotificationReducer,
+  CityReducer,
 });

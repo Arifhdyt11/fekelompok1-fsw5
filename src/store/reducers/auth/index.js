@@ -29,6 +29,7 @@ const authReducer = (state = initialState, action) => {
         user: action.user,
         error: null,
       };
+
     case LOGOUT:
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");
@@ -41,6 +42,7 @@ const authReducer = (state = initialState, action) => {
         accessToken: null,
         error: null,
       };
+
     case UPDATE_PROFILE:
       console.log("reducer : ", action);
       localStorage.setItem("user", JSON.stringify(action.user));
@@ -56,7 +58,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: false,
         accessToken: null,
-        error: action.payload,
+        error: action.payload.error,
       };
     default:
       return state;

@@ -63,7 +63,13 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
               </button>
             </Link>
 
-            <Button className="dropdown-item" type="link" href="/notifikasi">
+            <Button
+              className="dropdown-item"
+              type="link"
+              href="/notifications"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            >
               <i className="fas fa-bell fa-lg me-3"></i>Notifikasi
             </Button>
           </li>
@@ -115,17 +121,17 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
             </>
           )}
           <li>
-            <Button
-              className="btn ms-auto mt-3"
-              hasShadow
-              isBlock
-              isPrimary
-              href="/"
-              type="link"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+            <Link to="/">
+              <button
+                type="button"
+                className="btn btn-primary is-block ms-auto mt-3"
+                onClick={handleLogout}
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              >
+                Logout
+              </button>
+            </Link>
           </li>
         </ul>
       </>

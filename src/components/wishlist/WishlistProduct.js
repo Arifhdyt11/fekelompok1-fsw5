@@ -110,23 +110,32 @@ export default function WishlistProduct() {
                           <p>{item.products.categories.name}</p>
                           <h4>Rp. {formatPrice(item.products.price)}</h4>
                           <hr />
-                          <div className="row">
-                            <div className="col-3">
-                              <img src={Seller} alt="" />
+                          {item.products.status === "draft" ? (
+                            <div
+                              class="alert alert-warning alert-draft text-center "
+                              role="alert"
+                            >
+                              Product Tidak Tersedia
                             </div>
-                            <div className="col-9 ps-4 align-self-center">
-                              <h6>
-                                {item.products
-                                  ? item.products.userAsSeller.name
-                                  : ""}
-                              </h6>
-                              <h5 className="mb-0">
-                                {item.products
-                                  ? item.products.userAsSeller.city
-                                  : ""}
-                              </h5>
+                          ) : (
+                            <div className="row">
+                              <div className="col-3 align-self-center">
+                                <img src={Seller} alt="" />
+                              </div>
+                              <div className="col-9 ps-3 align-self-center">
+                                <h6>
+                                  {item.products
+                                    ? item.products.userAsSeller.name
+                                    : ""}
+                                </h6>
+                                <h5 className="mb-0">
+                                  {item.products
+                                    ? item.products.userAsSeller.city
+                                    : ""}
+                                </h5>
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </Button>
                       </div>
                     </Fade>
