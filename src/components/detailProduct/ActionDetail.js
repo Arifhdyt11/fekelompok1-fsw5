@@ -462,11 +462,26 @@ export default function ActionDetail({ id }) {
     getProductIdSellerLoading,
     getProductIdSellerError,
   } = useSelector((state) => state.ProductReducer);
-
   return (
     <div className="card is-block ms-auto p-4">
       <div className="d-flex justify-content-start mb-4">
-        <img className="seller-image me-3" src={SellerImg} alt="" />
+        <img
+          className="seller-image me-3"
+          src={
+            isAuthenticated
+              ? user.data.role === "SELLER"
+                ? getProductIdSellerResult
+                  ? getProductIdSellerResult.userAsSeller.image
+                  : ""
+                : getProductIdResult
+                ? getProductIdResult.userAsSeller.image
+                : ""
+              : getProductIdResult
+              ? getProductIdResult.userAsSeller.image
+              : ""
+          }
+          alt=""
+        />
         <div>
           {isAuthenticated ? (
             user.data.role === "SELLER" ? ( //SELLER

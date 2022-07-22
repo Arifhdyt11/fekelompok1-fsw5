@@ -120,19 +120,27 @@ export default function WishlistProduct() {
                           ) : (
                             <div className="row">
                               <div className="col-3 align-self-center">
-                                <img src={Seller} alt="" />
+                                <img
+                                  className="seller-img-wishlist"
+                                  src={
+                                    item.products
+                                      ? item.products.userAsSeller.image
+                                      : ""
+                                  }
+                                  alt=""
+                                />
                               </div>
                               <div className="col-9 ps-3 align-self-center">
-                                <h6>
+                                <p className="seller-name-wishlist">
                                   {item.products
                                     ? item.products.userAsSeller.name
                                     : ""}
-                                </h6>
-                                <h5 className="mb-0">
+                                </p>
+                                <p className="mb-0">
                                   {item.products
                                     ? item.products.userAsSeller.city
                                     : ""}
-                                </h5>
+                                </p>
                               </div>
                             </div>
                           )}

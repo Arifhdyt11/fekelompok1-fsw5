@@ -10,6 +10,7 @@ import {
 } from "store/actions/notificationAction";
 import { Link } from "react-router-dom";
 import { io } from "socket.io-client";
+import _ from "lodash";
 
 export default function Notification() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
@@ -38,10 +39,14 @@ export default function Notification() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (updateNotificationSellerResult) {
-      dispatch(getNotificationSeller());
-    } else if (updateNotificationBuyerResult) {
-      dispatch(getNotificationBuyer());
+    if (user.data.role === "SELLER") {
+      if (updateNotificationSellerResult) {
+        dispatch(getNotificationSeller());
+      }
+    } else {
+      if (updateNotificationBuyerResult) {
+        dispatch(getNotificationBuyer());
+      }
     }
   }, [updateNotificationSellerResult, updateNotificationBuyerResult]);
 
@@ -53,9 +58,34 @@ export default function Notification() {
     }
   };
 
-  // console.log(getNotificationBuyerResult);
+  if (user.data.role === "SELLER") {
+    if (getNotificationSellerResult) {
+      const dataNotifSeller = getNotificationSellerResult.data;
+      console.log(dataNotifSeller);
+      var uniqueNotificationSeller = _(dataNotifSeller)
+        .groupBy("transactionId")
+        .map((items) => ({
+          count: items.length,
+          ...items.slice(-1)[0],
+        }))
+        .value();
 
-  // console.log(product);
+      console.log(uniqueNotificationSeller);
+    }
+  } else {
+    if (getNotificationBuyerResult) {
+      const dataNotifBuyer = getNotificationBuyerResult.data;
+      var uniqueNotificationBuyer = _(dataNotifBuyer)
+        .groupBy("transactionId")
+        .map((items) => ({
+          count: items.length,
+          ...items[0],
+        }))
+        .value();
+
+      // console.log(uniqueNotification);
+    }
+  }
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SOCKET);
 
@@ -134,7 +164,7 @@ export default function Notification() {
               ).length === 0 ? (
                 <h6 className="text-center my-4">Tidak ada notifikasi masuk</h6>
               ) : (
-                getNotificationSellerResult.data
+                uniqueNotificationSeller
                   .filter(
                     (item, index) => item.isReadSeller === false && index < 2
                   )
@@ -213,7 +243,7 @@ export default function Notification() {
             ).length === 0 ? (
               <h6 className="text-center my-4">Tidak ada notifikasi masuk</h6>
             ) : (
-              getNotificationBuyerResult.data
+              uniqueNotificationBuyer
                 .filter(
                   (item, index) => item.isReadBuyer === false && index < 2
                 )
