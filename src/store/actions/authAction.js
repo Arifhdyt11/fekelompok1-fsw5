@@ -148,6 +148,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
       formdata.append("image", data.image);
     }
     formdata.append("name", data.name);
+    formdata.append("province", data.province);
     formdata.append("city", data.city);
     formdata.append("address", data.address);
     formdata.append("phone", data.phone);

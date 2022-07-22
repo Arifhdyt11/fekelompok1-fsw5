@@ -68,6 +68,10 @@ export default function ProfilePage() {
     if (user) {
       if (user.data.name !== null)
         document.getElementById("nameInput").value = user.data.name;
+      if (user.data.province !== null) {
+        // document.getElementById("cityInput").value = user.data.city;
+        setProvinsi(user.data.province);
+      }
       if (user.data.city !== null) {
         // document.getElementById("cityInput").value = user.data.city;
         setKota(user.data.city);
@@ -87,6 +91,9 @@ export default function ProfilePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (kota === "") {
+      handleError("City cannot be empty");
+    }
     if (phone === "") {
       handleError("Phone Number cannot be empty");
     }
@@ -95,12 +102,13 @@ export default function ProfilePage() {
     }
     const update = {
       name: document.getElementById("nameInput").value,
+      province: provinsi,
       city: kota,
       address: document.getElementById("addressInput").value,
       phone: phone,
       image,
     };
-    if (phone.length > 9) {
+    if (phone.length >= 9) {
       Swal.fire({
         title: "Data sudah benar ?",
         text: "Apakah anda yakin ingin menyimpan data ini ?",
@@ -128,9 +136,7 @@ export default function ProfilePage() {
   const handleKota = (e) => {
     setKota(e.target.value);
   };
-
-  console.log(provinsi);
-  console.log(kota);
+  console.log(phone);
   return (
     <div>
       <div>
@@ -158,6 +164,7 @@ export default function ProfilePage() {
             </div>
             <div className="col-md-11 col-sm-12 mb-4 ">
               <form onSubmit={handleSubmit}>
+                <p className="text-center">Click Image If You Want To Change</p>
                 <div className="mb-3 text-center">
                   <label htmlFor="file-input" id="preview">
                     <img
@@ -202,11 +209,11 @@ export default function ProfilePage() {
                     value={provinsi}
                     onChange={handleProvinsi}
                   >
+                    <option value="">Pilih Provinsi</option>
                     {getProvinsiResult
                       ? getProvinsiResult.map((item) => {
                           return (
                             <>
-                              {/* <option value="">Pilih Provinsi</option> */}
                               <option value={item.id}>{item.name}</option>
                             </>
                           );
@@ -228,6 +235,7 @@ export default function ProfilePage() {
                     value={kota}
                     onChange={handleKota}
                   >
+                    <option value="">Pilih Kota</option>
                     {getKotaResult
                       ? getKotaResult.map((item) => {
                           return (
@@ -261,7 +269,7 @@ export default function ProfilePage() {
                     country={"id"}
                     value={phone}
                     onChange={setPhone}
-                    inputClass={""}
+                    masks={{ id: "...-....-....-...." }}
                   />
                 </div>
                 <div className="d-flex flex-column">
