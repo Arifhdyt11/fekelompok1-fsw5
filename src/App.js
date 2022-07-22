@@ -88,7 +88,10 @@ function App() {
           path="/wishlist"
           element={<Middleware role="BUYER" childern={<Wishlist />} />}
         />
-        <Route path="/history" element={<History />} />
+        <Route
+          path="/history"
+          element={<Middleware role="BOTH" childern={<History />} />}
+        />
 
         <Route
           path="/notifications"
