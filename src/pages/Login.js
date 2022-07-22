@@ -120,6 +120,7 @@ function Login() {
                       className="btn btn-block login-btn"
                       type="submit"
                       value="Masuk"
+                      data-testid="login-submit"
                     >
                       Masuk
                     </button>

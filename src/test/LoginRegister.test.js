@@ -1,13 +1,11 @@
-import userEvent from "@testing-library/user-event";
-import axios from "axios";
 import { render as rtlRender, screen, fireEvent } from "@testing-library/react";
-import Navbar from "components/Navbar";
 import { Provider } from "react-redux";
 import store from "../store";
 import Register from "pages/Register";
 import { MemoryRouter as Router } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "pages/Login";
+
 window.scrollTo = jest.fn();
 
 const render = (component) =>
@@ -106,6 +104,20 @@ describe("Signup", () => {
     });
     expect(options[1].selected).toBeTruthy();
   });
+
+  const MOCK_SUBMIT_BTN = jest.fn();
+  it("Cek button daftar ", () => {
+    render(
+      <Router>
+        <GoogleOAuthProvider>
+          <Register onSubmit={MOCK_SUBMIT_BTN} />
+        </GoogleOAuthProvider>
+      </Router>
+    );
+    const btnSubmit = screen.getByTestId("register-submit");
+    fireEvent.click(btnSubmit);
+    expect(MOCK_SUBMIT_BTN).toBeTruthy();
+  });
 });
 
 describe("Login", () => {
@@ -161,5 +173,28 @@ describe("Login", () => {
     const { input } = setup();
     fireEvent.change(input, { target: { value: "iniPassword" } });
     expect(input.value).toBe("iniPassword");
+  });
+
+  // it("Text Daftar Jual Saya", () => {
+  //   render(
+  //     <Router>
+  //       <ProductHeader />
+  //     </Router>
+  //   );
+  //   expect(screen.getByText(/Daftar Jual Saya/)).toBeInTheDocument();
+  // });
+
+  const MOCK_SUBMIT_BTN = jest.fn();
+  it("Cek button masuk page Login ", () => {
+    render(
+      <Router>
+        <GoogleOAuthProvider>
+          <Login onSubmit={MOCK_SUBMIT_BTN} />
+        </GoogleOAuthProvider>
+      </Router>
+    );
+    const btnRegist = screen.getByTestId("login-submit");
+    fireEvent.click(btnRegist);
+    expect(MOCK_SUBMIT_BTN).toBeTruthy();
   });
 });

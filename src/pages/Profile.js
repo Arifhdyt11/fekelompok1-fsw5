@@ -142,6 +142,7 @@ export default function ProfilePage() {
                     Nama<label className="notifInfoPenawaran">*</label>
                   </label>
                   <input
+                    data-testid="input-namaProfile"
                     type="text"
                     className="form-control borderRadius"
                     id="nameInput"
@@ -154,6 +155,7 @@ export default function ProfilePage() {
                     Kota
                   </label>
                   <input
+                    data-testid="input-kotaProfile"
                     type="text"
                     className="form-control borderRadius"
                     id="cityInput"
@@ -166,6 +168,7 @@ export default function ProfilePage() {
                     Alamat
                   </label>
                   <textarea
+                    data-testid="input-alamatProfile"
                     className="form-control borderRadius"
                     id="addressInput"
                     rows="3"

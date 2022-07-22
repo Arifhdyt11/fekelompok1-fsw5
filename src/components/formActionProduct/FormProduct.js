@@ -152,7 +152,6 @@ export default function FormAddProduct() {
   }, [updateProductResult, dispatch]);
 
   const oldImage = [];
-  console.log(images);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id) {
@@ -311,6 +310,7 @@ export default function FormAddProduct() {
         </h4>
         <input
           type="text"
+          data-testid="input-namaProduk"
           className="form-control borderRadius"
           id="productNameInput"
           placeholder="Nama Produk"
@@ -326,6 +326,7 @@ export default function FormAddProduct() {
         </h4>
         <input
           type="number"
+          data-testid="input-hargaProduk"
           className="form-control borderRadius"
           id="priceInput"
           placeholder="Rp 0.00"
@@ -342,16 +343,27 @@ export default function FormAddProduct() {
         <select
           className="form-select borderRadius"
           aria-label="Default select example"
+          data-testid="select-pilihKategori"
           name="category"
           value={categoryId}
           onChange={handleCategoryId}
         >
           <option value="">Pilih Kategori</option>
-          <option value="1">Sneakers</option>
-          <option value="2">Sport</option>
-          <option value="3">Casual</option>
-          <option value="4">Boots</option>
-          <option value="5">Formals</option>
+          <option value="1" data-testid="select-kategori">
+            Sneakers
+          </option>
+          <option value="2" data-testid="select-kategori">
+            Sport
+          </option>
+          <option value="3" data-testid="select-kategori">
+            Casual
+          </option>
+          <option value="4" data-testid="select-kategori">
+            Boots
+          </option>
+          <option value="5" data-testid="select-kategori">
+            Formals
+          </option>
         </select>
       </div>
 
@@ -360,6 +372,7 @@ export default function FormAddProduct() {
           Deskripsi
         </h4>
         <textarea
+          data-testid="select-deskripsi"
           className="form-control borderRadius"
           id="descriptionInput"
           rows="3"
@@ -443,6 +456,7 @@ export default function FormAddProduct() {
         <Button
           className="btn px-3 py-2 borderRadius me-2"
           hasShadow
+          data-testid="terbitkan-submit"
           isSecondary
           isBlock
           onClick={() => setStatus("draft")}

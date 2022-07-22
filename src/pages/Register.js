@@ -171,6 +171,7 @@ function Register() {
                   className="btn btn-block login-btn"
                   type="submit"
                   value="Masuk"
+                  data-testid="register-submit"
                 >
                   Daftar
                 </button>
