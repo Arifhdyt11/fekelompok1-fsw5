@@ -84,7 +84,7 @@ export default function ProductTitle() {
           </div>
           {isAuthenticated ? (
             user.data.role === "SELLER" ? (
-              "seller"
+              ""
             ) : getProductIdResult ? (
               getProductIdResult.status === "draft" ? (
                 <div
@@ -97,7 +97,7 @@ export default function ProductTitle() {
                 ""
               )
             ) : (
-              "loading"
+              ""
             )
           ) : getProductIdResult ? (
             getProductIdResult.status === "draft" ? (
@@ -111,7 +111,7 @@ export default function ProductTitle() {
               ""
             )
           ) : (
-            "loading"
+            ""
           )}
         </section>
       </Fade>

@@ -27,8 +27,21 @@ export default function NotifikasiPage() {
     getNotificationSellerLoading,
     getNotificationSellerError,
 
+    updateNotificationSellerResult,
     updateNotificationBuyerResult,
   } = useSelector((state) => state.NotificationReducer);
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      if (updateNotificationSellerResult) {
+        dispatch(getNotificationSeller());
+      }
+    } else {
+      if (updateNotificationBuyerResult) {
+        dispatch(getNotificationBuyer());
+      }
+    }
+  }, [updateNotificationSellerResult, updateNotificationBuyerResult]);
 
   const dispatch = useDispatch();
   useEffect(() => {
