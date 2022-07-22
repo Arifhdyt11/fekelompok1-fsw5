@@ -22,13 +22,16 @@ import NotificationPages from "pages/NotificationPages";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
+  console.log(process.env);
   return (
     <Router>
       <Routes>
         <Route
           path="/login"
           element={
-            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+            <GoogleOAuthProvider
+              clientId={`${process.env.REACT_APP_CLIENT_ID}`}
+            >
               <Login />
             </GoogleOAuthProvider>
           }
@@ -37,7 +40,9 @@ function App() {
         <Route
           path="/register"
           element={
-            <GoogleOAuthProvider clientId="862620400274-70dbl8u153ks65c3rehml7qonmb2c2um.apps.googleusercontent.com">
+            <GoogleOAuthProvider
+              clientId={`${process.env.REACT_APP_CLIENT_ID}`}
+            >
               <Register />
             </GoogleOAuthProvider>
           }
