@@ -15,11 +15,9 @@
   -o-object-position: left;
   object-position: left;
 
-  background-image: linear-gradient(
-      360deg,
+  background-image: linear-gradient(360deg,
       #3252df -50%,
-      rgba(160, 110, 206, 0) 100%
-    ),
+      rgba(160, 110, 206, 0) 100%),
     url("../images/login5.jpg");
   background-size: cover;
 }
@@ -167,6 +165,14 @@
 
 .login-wrapper-footer-text .text-reset {
   font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #3252df !important;
+  text-decoration: none;
+}
+
+.text-forgot {
+  font-weight: 500;
   font-size: 14px;
   line-height: 20px;
   color: #3252df !important;

@@ -125,7 +125,11 @@ function Login() {
                           ></i>
                         </span>
                       </div>
+                      <Link to="/forgot-password" className="text-forgot mb-4">
+                        Forgot your password?
+                      </Link>
                     </div>
+
                     {isAuthenticatedLoading ? (
                       <Button
                         className="btn login-btn btn-block"

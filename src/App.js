@@ -19,6 +19,7 @@ import PageNotFound from "pages/404";
 import Transaction from "pages/Transaction";
 import NotificationPages from "pages/NotificationPages";
 import ForgotPassword from "pages/ForgotPassword";
+import ResetPassword from "pages/ResetPassword";
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -109,6 +110,7 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
 
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );
