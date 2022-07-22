@@ -8,7 +8,7 @@ export default function TransactionBuyer({
   productSizes,
   updatedAt,
 }) {
-  console.log(status);
+  // console.log(productSizes);
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>
@@ -103,7 +103,7 @@ export default function TransactionBuyer({
                 hasShadow
                 isExternal
                 type="link"
-                href="https://wa.me/628974233275"
+                href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >
                 Hubungi Penjual
                 <i className="fa-brands fa-whatsapp ms-3"></i>
@@ -116,7 +116,7 @@ export default function TransactionBuyer({
                 hasShadow
                 isExternal
                 type="link"
-                href="https://wa.me/628974233275"
+                href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >
                 Hubungi Penjual
                 <i className="fa-brands fa-whatsapp ms-3"></i>

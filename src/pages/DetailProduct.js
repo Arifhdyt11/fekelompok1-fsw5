@@ -81,19 +81,9 @@ export default function DetailProduct() {
             <ShowDetailProduct />
           )
         ) : getProductIdResult ? (
-          getProductIdResult.status === "published" ? (
-            <ShowDetailProduct />
-          ) : (
-            <Navigate to={`/404`} />
-          )
-        ) : (
-          <ShowDetailProduct />
-        )
-      ) : getProductIdResult ? (
-        getProductIdResult.status === "published" ? (
           <ShowDetailProduct />
         ) : (
-          <Navigate to={`/404`} />
+          <ShowDetailProduct />
         )
       ) : (
         <ShowDetailProduct />

@@ -1,40 +1,42 @@
-
-
 .borderRadius {
-    border-radius: 20px;  
-  }
-  
-  .btnColor {
-      background-color: #7126b5;
-      color: #fff;
-      height: 3em;
-  }
-  
-  .btnColor:hover {
-      background-color: #fff;
-      border-color: #7126b5;
-  }
-  .fotoProfile {
-     text-align: center;
-  }
-  
-  .arrow {
-      color: black;
-  }
-  
-  .arrow:hover {
-      color: #3252df;
-  }
-  
-  
-  @media screen and (min-width: 915px) {
-   #profile {
-      width: 50%;
-   }
-  }
-  
-  @media screen and (max-width: 991px) {
-  #profile {
-    margin-top: 2em;
- }
-  }
+    border-radius: 20px;
+}
+
+.fotoProfile {
+    text-align: center;
+}
+
+.arrow {
+    color: black;
+}
+
+.arrow:hover {
+    color: #3252df;
+}
+
+.react-tel-input{
+    
+}
+
+.react-tel-input .flag-dropdown {    
+    background-color: transparent !important; 
+    border: none !important; 
+}
+
+.react-tel-input .form-control {
+    /* padding: 5px !important; */
+    border-radius: 20px !important;
+    width: 100% !important;
+}
+
+@media screen and (min-width: 915px) {
+    #profile {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    #profile {
+        margin-top: 2em;
+    }
+}

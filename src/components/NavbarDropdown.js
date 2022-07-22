@@ -46,7 +46,7 @@ export default function NavbarDropdown(props) {
               <h4 className="dropdown-item item">
                 <i className="fa-duotone fa-user me-3"></i>
                 {user.data.name}
-                <span className="span-dropdown"> as</span>
+                <span className="span-dropdown"> as </span>
                 {user.data.role === "SELLER" ? "Seller" : "Buyer"}
               </h4>
             </li>

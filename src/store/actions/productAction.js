@@ -143,7 +143,7 @@ export const getListProductSeller = () => {
             errorMessage: error.message,
           },
         });
-        if (error.response.status == 401) {
+        if (error.response.status === 401) {
           dispatch({
             type: LOGOUT,
           }).then((window.location.href = "/login"));
@@ -265,8 +265,8 @@ export const addProduct = (data) => {
       .then((response) => {
         //berhasil get API
         console.log("3. Berhasil Dapat Data", response.data);
-        if (response.data.product.status === "draft") {
-          window.location.href = "/seller-product/" + response.data.product.id;
+        if (response.data.data.status === "draft") {
+          window.location.href = "/seller-product/" + response.data.data.id;
         } else {
           window.location.href = "/seller";
         }

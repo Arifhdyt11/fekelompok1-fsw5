@@ -22,3 +22,11 @@
   border-radius: 5px;
   background: #e9ecef;
 }
+
+.card-img-top{
+  background-color: rgb(134, 142, 150);
+  width: 100%;
+  min-height: 15vh;
+  height: 100%;
+
+}

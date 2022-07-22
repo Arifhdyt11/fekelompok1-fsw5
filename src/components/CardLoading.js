@@ -8,24 +8,27 @@ export default function CardLoading({ transaction, col, count }) {
       if (transaction) {
         countCard.push(
           <div key={i} className="mb-4 ">
-            <div className="card-loading transaction row  p-3 ">
-              <div className="col-md-4">
-                <div className="img-loading"></div>
-              </div>
-              <div className="col-md-4">
-                <div className="h-50 pb-2">
-                  <div className="description-loading h-100"></div>
+            <div class="card " aria-hidden="true">
+              <div className="row">
+                <div class="col-lg-3 col-md-6 col-sm-12  ">
+                  <div className="card-img-top"></div>
                 </div>
-                <div className="h-50 pt-2">
-                  <div className="info-loading h-100"></div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="h-50 pb-2">
-                  <div className="description-loading h-100"></div>
-                </div>
-                <div className="h-50 pt-2">
-                  <div className="info-loading h-100"></div>
+                <div class="col-lg-3 col-md-6 col-sm-12 card-body">
+                  <h5 class="card-title placeholder-glow">
+                    <span class="placeholder col-6"></span>
+                  </h5>
+                  <p class="card-text placeholder-glow">
+                    <span class="placeholder col-7"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-4"></span>
+                    <span class="placeholder col-6"></span>
+                    <span class="placeholder col-8"></span>
+                  </p>
+                  <a
+                    href="#"
+                    tabindex="-1"
+                    class="btn btn-secondary disabled placeholder col-11"
+                  ></a>
                 </div>
               </div>
             </div>
@@ -43,10 +46,24 @@ export default function CardLoading({ transaction, col, count }) {
                 : "col-lg-12 col-md-12 col-sm-12 "
             }`}
           >
-            <div className="card-loading p-3">
-              <div className="img-loading mb-2"></div>
-              <div className="description-loading mb-2"></div>
-              <div className="info-loading"></div>
+            <div class="card" aria-hidden="true">
+              <div class="card-img-top " style={{ minHeight: "30vh" }} />
+              <div class="card-body">
+                <h5 class="card-title placeholder-glow">
+                  <span class="placeholder col-6"></span>
+                </h5>
+                <p class="card-text placeholder-glow">
+                  <span class="placeholder col-7"></span>
+                  <span class="placeholder col-4"></span>
+                  <span class="placeholder col-4"></span>
+                  <span class="placeholder col-6"></span>
+                  <span class="placeholder col-8"></span>
+                </p>
+                <div
+                  tabindex="-1"
+                  class="btn btn-secondary disabled placeholder col-12"
+                ></div>
+              </div>
             </div>
           </div>
         );
@@ -54,5 +71,5 @@ export default function CardLoading({ transaction, col, count }) {
     }
     return countCard;
   };
-  return <>{showCard()};</>;
+  return <>{showCard()}</>;
 }

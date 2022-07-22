@@ -55,7 +55,7 @@ export default function WishlistProduct() {
         <div className="row">
           {getListWishlistBuyerResult ? (
             getListWishlistBuyerResult.data.length === 0 ? (
-              <div className="d-flex justify-content-center null-illustration p-5">
+              <div className="d-flex justify-content-center null-illustration p-5 text-center">
                 <div>
                   <img
                     src={ProductNotFound}
@@ -110,23 +110,40 @@ export default function WishlistProduct() {
                           <p>{item.products.categories.name}</p>
                           <h4>Rp. {formatPrice(item.products.price)}</h4>
                           <hr />
-                          <div className="row">
-                            <div className="col-3">
-                              <img src={Seller} alt="" />
+                          {item.products.status === "draft" ? (
+                            <div
+                              class="alert alert-warning alert-draft text-center "
+                              role="alert"
+                            >
+                              Product Tidak Tersedia
                             </div>
-                            <div className="col-9 ps-4 align-self-center">
-                              <h6>
-                                {item.products
-                                  ? item.products.userAsSeller.name
-                                  : ""}
-                              </h6>
-                              <h5 className="mb-0">
-                                {item.products
-                                  ? item.products.userAsSeller.city
-                                  : ""}
-                              </h5>
+                          ) : (
+                            <div className="row">
+                              <div className="col-3 align-self-center">
+                                <img
+                                  className="seller-img-wishlist"
+                                  src={
+                                    item.products
+                                      ? item.products.userAsSeller.image
+                                      : ""
+                                  }
+                                  alt=""
+                                />
+                              </div>
+                              <div className="col-9 ps-3 align-self-center">
+                                <p className="seller-name-wishlist">
+                                  {item.products
+                                    ? item.products.userAsSeller.name
+                                    : ""}
+                                </p>
+                                <p className="mb-0">
+                                  {item.products
+                                    ? item.products.userAsSeller.city
+                                    : ""}
+                                </p>
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </Button>
                       </div>
                     </Fade>

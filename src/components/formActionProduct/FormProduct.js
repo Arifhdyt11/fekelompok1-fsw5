@@ -13,13 +13,26 @@ import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
 import fotoProduct from "assets/images/addProduct.png";
 import Swal from "sweetalert2";
+import ImgPlaceholder from "assets/images/placeholder.png";
+
+function handleError(message) {
+  return Swal.fire({
+    icon: "error",
+    title: message,
+    showConfirmButton: false,
+    timer: 1500,
+  });
+}
 
 export default function FormAddProduct() {
   const { user } = useSelector((state) => state.AuthReducer);
 
-  const { addProductResult, updateProductResult } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const {
+    addProductResult,
+    addProductLoading,
+    updateProductResult,
+    updateProductLoading,
+  } = useSelector((state) => state.ProductReducer);
 
   const location = useLocation();
 
@@ -105,6 +118,7 @@ export default function FormAddProduct() {
       setPrice(getProductIdSellerResult.price);
       setCategoryId(getProductIdSellerResult.categoryId);
       setDescription(getProductIdSellerResult.description);
+      setStatus(getProductIdSellerResult.status);
       if (getProductIdSellerResult.image[0]) {
         setImages(getProductIdSellerResult.image[0]);
         document.getElementById("filePhoto").src =
@@ -141,9 +155,17 @@ export default function FormAddProduct() {
       dispatch(getListProductSeller());
     }
   }, [addProductResult, dispatch]);
+
+  useEffect(() => {
+    if (addProductLoading) {
+      dispatch(getListProductSeller());
+    }
+  }, [addProductLoading, dispatch]);
+
   useEffect(() => {
     if (updateProductResult) {
       dispatch(getListProduct());
+      dispatch(getListProductSeller());
       setName("");
       setPrice("");
       setCategoryId("");
@@ -151,9 +173,39 @@ export default function FormAddProduct() {
     }
   }, [updateProductResult, dispatch]);
 
+  useEffect(() => {
+    if (updateProductLoading) {
+      dispatch(getListProduct());
+      dispatch(getListProductSeller());
+      setName("");
+      setPrice("");
+      setCategoryId("");
+      setDescription("");
+    }
+  }, [updateProductLoading, dispatch]);
+
   const oldImage = [];
+  console.log(images);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (description === "") {
+      handleError("Desription cannot be empty");
+    }
+    if (categoryId === "") {
+      handleError("Category cannot be empty");
+    }
+    if (price < 0) {
+      handleError("Price cannot be minus");
+    }
+    if (price === "") {
+      handleError("Price cannot be empty");
+    }
+    if (name === "") {
+      handleError("Name cannot be empty");
+    }
+
     if (id) {
       //update
       if (images !== "" && getProductIdSellerResult.image[0] !== undefined) {
@@ -196,46 +248,51 @@ export default function FormAddProduct() {
         oldImage,
       };
 
-      if (status === "published") {
-        Swal.fire({
-          title: "Data sudah benar ?",
-          text: "Apakah anda yakin ingin menyimpan data ini ?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Ya, Simpan!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Data Berhasil di tambahkan!",
-              icon: "success",
-              showConfirmButton: false,
-            });
-            dispatch(updateProduct(SwalUpdateProduct));
-          }
-        });
-      } else {
-        Swal.fire({
-          title: "Data sudah benar ?",
-          text: "Product Akan di Simpan di Draft",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Ya, Simpan!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Loading Preview...",
-              icon: "success",
-              showConfirmButton: false,
-            });
-            dispatch(updateProduct(SwalUpdateProduct)).then(function () {
-              <Navigate to={`/seller`} />;
-            });
-          }
-        });
+      if (
+        name !== "" &&
+        price !== "" &&
+        categoryId !== "" &&
+        description !== ""
+      ) {
+        if (status === "published") {
+          Swal.fire({
+            title: "Data sudah benar ?",
+            text: "Apakah anda yakin ingin menyimpan data ini ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Simpan!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Data Berhasil di tambahkan!",
+                icon: "success",
+                showConfirmButton: false,
+              });
+              dispatch(updateProduct(SwalUpdateProduct));
+            }
+          });
+        } else {
+          Swal.fire({
+            title: "Data sudah benar ?",
+            text: "Product Akan di Simpan di Draft",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Simpan!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Loading Preview...",
+                icon: "success",
+                showConfirmButton: false,
+              });
+              dispatch(updateProduct(SwalUpdateProduct));
+            }
+          });
+        }
       }
     } else {
       //add
@@ -248,44 +305,51 @@ export default function FormAddProduct() {
         description: description,
         status: status,
       };
-      if (status === "published") {
-        Swal.fire({
-          title: "Data sudah benar ?",
-          text: "Apakah anda yakin ingin menyimpan data ini ?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Ya, Simpan!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Data Berhasil di tambahkan!",
-              icon: "success",
-              showConfirmButton: false,
-            });
-            dispatch(addProduct(SwalAddProduct));
-          }
-        });
-      } else {
-        Swal.fire({
-          title: "Data sudah benar ?",
-          text: "Product Akan di Simpan di Draft",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Ya, Simpan!",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Loading Preview...",
-              icon: "success",
-              showConfirmButton: false,
-            });
-            dispatch(addProduct(SwalAddProduct));
-          }
-        });
+      if (
+        name !== "" &&
+        price !== "" &&
+        categoryId !== "" &&
+        description !== ""
+      ) {
+        if (status === "published") {
+          Swal.fire({
+            title: "Data sudah benar ?",
+            text: "Apakah anda yakin ingin menyimpan data ini ?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Simpan!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Data Berhasil di tambahkan!",
+                icon: "success",
+                showConfirmButton: false,
+              });
+              dispatch(addProduct(SwalAddProduct));
+            }
+          });
+        } else {
+          Swal.fire({
+            title: "Data sudah benar ?",
+            text: "Product Akan di Simpan di Draft",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Simpan!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Loading Preview...",
+                icon: "success",
+                showConfirmButton: false,
+              });
+              dispatch(addProduct(SwalAddProduct));
+            }
+          });
+        }
       }
     }
   };
@@ -397,6 +461,7 @@ export default function FormAddProduct() {
           id="file-input"
           name="images"
           type="file"
+          accept=".jpg,.jpeg,.png"
           onChange={handleUpload}
           hidden
         />
@@ -414,6 +479,7 @@ export default function FormAddProduct() {
           id="file-input2"
           name="images2"
           type="file"
+          accept=".jpg,.jpeg,.png"
           onChange={handleUpload2}
           hidden
         />
@@ -431,6 +497,7 @@ export default function FormAddProduct() {
           id="file-input3"
           name="images3"
           type="file"
+          accept=".jpg,.jpeg,.png"
           onChange={handleUpload3}
           hidden
         />
@@ -448,30 +515,85 @@ export default function FormAddProduct() {
           id="file-input4"
           name="images4"
           type="file"
+          accept=".jpg,.jpeg,.png"
           onChange={handleUpload4}
           hidden
         />
       </div>
       <div className="d-flex justify-content-center">
-        <Button
-          className="btn px-3 py-2 borderRadius me-2"
-          hasShadow
-          data-testid="terbitkan-submit"
-          isSecondary
-          isBlock
-          onClick={() => setStatus("draft")}
-        >
-          Preview
-        </Button>
-        <Button
-          className="btn px-3 py-2 btn-primary borderRadius ms-2"
-          hasShadow
-          isPrimary
-          isBlock
-          onClick={() => setStatus("published")}
-        >
-          Terbitkan
-        </Button>
+        {getProductIdSellerResult ? (
+          updateProductLoading ? (
+            <Button
+              className="btn px-3 py-2 btn-primary borderRadius ms-2"
+              hasShadow
+              isPrimary
+              isBlock
+              isLoading
+            ></Button>
+          ) : getProductIdSellerResult.status === "draft" ? (
+            <>
+              <Button
+                className="btn px-3 py-2 btn-primary borderRadius ms-2"
+                hasShadow
+                isPrimary
+                isBlock
+                onClick={() => setStatus("published")}
+              >
+                Terbitkan
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                className="btn px-3 py-2 borderRadius me-2"
+                hasShadow
+                isSecondary
+                isBlock
+                onClick={() => setStatus("draft")}
+              >
+                Arsipkan
+              </Button>
+              <Button
+                className="btn px-3 py-2 btn-primary borderRadius ms-2"
+                hasShadow
+                isPrimary
+                isBlock
+                onClick={() => setStatus("published")}
+              >
+                Terbitkan
+              </Button>
+            </>
+          )
+        ) : addProductLoading ? (
+          <Button
+            className="btn px-3 py-2 btn-primary borderRadius ms-2"
+            hasShadow
+            isPrimary
+            isBlock
+            isLoading
+          ></Button>
+        ) : (
+          <>
+            <Button
+              className="btn px-3 py-2 borderRadius me-2"
+              hasShadow
+              isSecondary
+              isBlock
+              onClick={() => setStatus("draft")}
+            >
+              Arsipkan
+            </Button>
+            <Button
+              className="btn px-3 py-2 btn-primary borderRadius ms-2"
+              hasShadow
+              isPrimary
+              isBlock
+              onClick={() => setStatus("published")}
+            >
+              Terbitkan
+            </Button>
+          </>
+        )}
       </div>
     </form>
   );

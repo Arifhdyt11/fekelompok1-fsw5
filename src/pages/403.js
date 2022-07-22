@@ -10,7 +10,7 @@ export default function Forbidden() {
     window.scrollTo(0, 0);
   });
 
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   return (
     <div>
       <Navbar />
@@ -26,7 +26,13 @@ export default function Forbidden() {
             hasShadow
             isPrimary
             type="link"
-            href={user.data.role === "SELLER" ? "/seller" : "/"}
+            href={
+              isAuthenticated
+                ? user.data.role === "SELLER"
+                  ? "/seller"
+                  : "/"
+                : "/"
+            }
           >
             GO BACK
           </Button>

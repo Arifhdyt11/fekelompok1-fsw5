@@ -82,6 +82,37 @@ export default function ProductTitle() {
               </p>
             )}
           </div>
+          {isAuthenticated ? (
+            user.data.role === "SELLER" ? (
+              ""
+            ) : getProductIdResult ? (
+              getProductIdResult.status === "draft" ? (
+                <div
+                  class="alert alert-warning alert-draft text-center "
+                  role="alert"
+                >
+                  Product Tidak Tersedia Sementara
+                </div>
+              ) : (
+                ""
+              )
+            ) : (
+              ""
+            )
+          ) : getProductIdResult ? (
+            getProductIdResult.status === "draft" ? (
+              <div
+                class="alert alert-warning alert-draft text-center "
+                role="alert"
+              >
+                Product Tidak Tersedia Sementara
+              </div>
+            ) : (
+              ""
+            )
+          ) : (
+            ""
+          )}
         </section>
       </Fade>
     </>

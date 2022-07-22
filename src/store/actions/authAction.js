@@ -2,6 +2,16 @@ import Swal from "sweetalert2";
 import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
 
 export const loginViaForm = (data) => async (dispatch) => {
+  dispatch({
+    type: LOGIN,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false,
+    },
+    user: false,
+  });
+
   try {
     const response = await fetch(`${process.env.REACT_APP_HOST}/login`, {
       method: "POST",
@@ -25,7 +35,11 @@ export const loginViaForm = (data) => async (dispatch) => {
     if (result.accessToken) {
       dispatch({
         type: LOGIN,
-        payload: result.accessToken,
+        payload: {
+          loading: false,
+          data: result.accessToken,
+          errorMessage: false,
+        },
         user: user,
       });
       Swal.fire({
@@ -35,8 +49,26 @@ export const loginViaForm = (data) => async (dispatch) => {
         timer: 1500,
       });
     } else {
-      console.log(result);
-      authError(result.error);
+      // console.log(result);
+      dispatch({
+        type: LOGIN,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+
       Swal.fire({
         icon: "error",
         title: `${result.message}`,
@@ -45,7 +77,24 @@ export const loginViaForm = (data) => async (dispatch) => {
       });
     }
   } catch (error) {
-    authError(error);
+    dispatch({
+      type: LOGIN,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
     console.log(error);
     Swal.fire({
       icon: "error",
@@ -59,13 +108,23 @@ export const loginViaForm = (data) => async (dispatch) => {
 const authError = (error) => async (dispatch) => {
   dispatch({
     type: AUTH_ERROR,
-    payload: error.message,
+    payload: {
+      loading: false,
+      data: false,
+      errorMessage: error.message,
+    },
+    user: false,
   });
 
   setTimeout(() => {
     dispatch({
       type: AUTH_ERROR,
-      payload: null,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error.message,
+      },
+      user: false,
     });
   }, 5000);
 };
@@ -89,6 +148,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
       formdata.append("image", data.image);
     }
     formdata.append("name", data.name);
+    formdata.append("province", data.province);
     formdata.append("city", data.city);
     formdata.append("address", data.address);
     formdata.append("phone", data.phone);
@@ -119,6 +179,15 @@ export const updateUserDetail = (data) => async (dispatch) => {
 };
 
 export const loginWithGoogle = (accessToken) => async (dispatch) => {
+  dispatch({
+    type: LOGIN,
+    payload: {
+      loading: true,
+      data: false,
+      errorMessage: false,
+    },
+    user: false,
+  });
   try {
     const data = {
       access_token: accessToken,
@@ -147,7 +216,11 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     if (result.token) {
       dispatch({
         type: LOGIN,
-        payload: result.token,
+        payload: {
+          loading: false,
+          data: result.token,
+          errorMessage: false,
+        },
         user: user,
       });
       Swal.fire({
@@ -158,7 +231,25 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       });
       window.location.href = "/";
     } else {
-      authError(result.error);
+      // authError(result.error);
+      dispatch({
+        type: LOGIN,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: {
+          loading: false,
+          data: false,
+          errorMessage: result.message,
+        },
+        user: false,
+      });
       Swal.fire({
         icon: "error",
         title: "Login Failed",
@@ -167,7 +258,25 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       });
     }
   } catch (error) {
-    authError(error);
+    // authError(error);
+    dispatch({
+      type: LOGIN,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
+    dispatch({
+      type: AUTH_ERROR,
+      payload: {
+        loading: false,
+        data: false,
+        errorMessage: error,
+      },
+      user: false,
+    });
     Swal.fire({
       position: "top-end",
       icon: "error",

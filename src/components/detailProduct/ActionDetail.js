@@ -31,7 +31,9 @@ function CheckButton({
     (state) => state.AuthReducer
   );
 
-  const { updateProductResult } = useSelector((state) => state.ProductReducer);
+  const { updateProductResult, updateProductLoading } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   // console.log(getProductIdResult);
   const {
@@ -40,12 +42,18 @@ function CheckButton({
     getListWishlistBuyerError,
 
     addWishlistResult,
+    addWishlistLoading,
     deleteWishlistResult,
+    deleteWishlistLoading,
   } = useSelector((state) => state.WishlistReducer);
 
-  const { getListTransactionBuyerResult, addTransactionResult } = useSelector(
-    (state) => state.TransactionReducer
-  );
+  const {
+    getListTransactionBuyerResult,
+    getListTransactionBuyerLoading,
+
+    addTransactionResult,
+    addTransactionLoading,
+  } = useSelector((state) => state.TransactionReducer);
 
   const dispatch = useDispatch();
 
@@ -63,11 +71,31 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
+      if (user.data.role === "BUYER") {
+        if (addWishlistLoading) {
+          dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        }
+      } else {
+        dispatch(getListWishlistSeller(user.data.id, accessToken));
+      }
+    }
+  }, [addWishlistLoading, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
       if (deleteWishlistResult) {
         dispatch(getListWishlistBuyer(user.data.id, accessToken));
       }
     }
   }, [deleteWishlistResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (deleteWishlistLoading) {
+        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+      }
+    }
+  }, [deleteWishlistLoading, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -88,11 +116,27 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
+      if (addTransactionLoading) {
+        dispatch(getListTransactionBuyer());
+      }
+    }
+  }, [addTransactionLoading]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
       if (updateProductResult) {
         dispatch(getProductIdSeller(id));
       }
     }
   }, [updateProductResult, dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (updateProductLoading) {
+        dispatch(getProductIdSeller(id));
+      }
+    }
+  }, [updateProductLoading, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -117,11 +161,7 @@ function CheckButton({
   const location = useLocation();
   if (location.state) {
     var { item } = location.state;
-    // console.log(location);
   }
-  // const getProductIdResult =
-  // location.state.getProductIdResult.getProductIdResult;
-  // console.log(item);
 
   if (getListWishlistBuyerResult) {
     var wishlistId = getListWishlistBuyerResult.data
@@ -130,9 +170,6 @@ function CheckButton({
         return item.id;
       });
   }
-
-  // console.log(item);
-  // console.log(getListTransactionBuyerResult.data);
 
   const handleDeleteProduct = () => {
     Swal.fire({
@@ -151,6 +188,37 @@ function CheckButton({
           showConfirmButton: false,
         });
         dispatch(deleteProduct(id, accessToken));
+      }
+    });
+  };
+
+  const handleTerbitkan = () => {
+    Swal.fire({
+      title: "Terbitkan Product",
+      text: "Apakah anda yakin ingin menerbitkan product ini ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, Terbitkan Product!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Data Berhasil di Terbitkan!",
+          icon: "success",
+          showConfirmButton: false,
+        });
+        dispatch(
+          updateProduct({
+            id: id,
+            image: getProductIdSellerResult.image,
+            name: getProductIdSellerResult.name,
+            price: getProductIdSellerResult.price,
+            description: getProductIdSellerResult.description,
+            categoryId: getProductIdSellerResult.categoryId,
+            status: "published",
+          })
+        );
       }
     });
   };
@@ -180,19 +248,7 @@ function CheckButton({
                 isPrimary
                 hasShadow
                 isBlock
-                onClick={() =>
-                  dispatch(
-                    updateProduct({
-                      id: id,
-                      image: getProductIdSellerResult.image,
-                      name: getProductIdSellerResult.name,
-                      price: getProductIdSellerResult.price,
-                      description: getProductIdSellerResult.description,
-                      categoryId: getProductIdSellerResult.categoryId,
-                      status: "published",
-                    })
-                  )
-                }
+                onClick={handleTerbitkan}
               >
                 Terbitkan
               </Button>
@@ -209,26 +265,49 @@ function CheckButton({
             ""
           )}
 
-          <Link
-            to={`/update-product/${id}`}
-            state={{ getProductIdSellerResult: { getProductIdSellerResult } }}
-          >
-            <Button
-              className="btn btn-warning mt-3 ms-auto  py-2"
-              hasShadow
-              isBlock
-            >
-              Edit
-            </Button>
-          </Link>
-          <Button
-            className="btn btn-danger mt-3 ms-auto py-2"
-            hasShadow
-            isBlock
-            onClick={handleDeleteProduct}
-          >
-            Delete
-          </Button>
+          {getProductIdSellerResult ? (
+            <>
+              <Link
+                to={`/update-product/${id}`}
+                state={{
+                  getProductIdSellerResult: { getProductIdSellerResult },
+                }}
+              >
+                <Button
+                  className="btn btn-warning mt-3 ms-auto  py-2"
+                  hasShadow
+                  isBlock
+                >
+                  Edit
+                </Button>
+              </Link>
+              <Button
+                className="btn btn-danger mt-3 ms-auto py-2"
+                hasShadow
+                isBlock
+                onClick={handleDeleteProduct}
+              >
+                Delete
+              </Button>
+            </>
+          ) : getProductIdSellerLoading ? (
+            <>
+              <Button
+                className="btn btn-warning mt-3 ms-auto  py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+              <Button
+                className="btn btn-danger mt-3 ms-auto py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+            </>
+          ) : (
+            ""
+          )}
         </>
       );
     } else {
@@ -261,7 +340,8 @@ function CheckButton({
           ) : getListTransactionBuyerResult ? (
             getListTransactionBuyerResult.data.filter(
               (data) =>
-                data.productsizeId === item.id && data.status === "pending"
+                data.productsizeId === item.id &&
+                (data.status === "pending" || data.status === "process")
             ).length === 0 ? (
               <button
                 type="button"
@@ -271,6 +351,17 @@ function CheckButton({
               >
                 Tertarik dan Nego
               </button>
+            ) : getListTransactionBuyerResult.data.filter(
+                (data) =>
+                  data.productsizeId === item.id && data.status === "pending"
+              ).length === 0 ? (
+              <Button
+                className="btn mt-3 ms-auto py-2 btn-warning"
+                isBlock
+                style={{ cursor: "context-menu" }}
+              >
+                Transaksi Sedang Dalam Proses
+              </Button>
             ) : (
               <Button
                 className="btn mt-3 ms-auto py-2 btn-warning"
@@ -280,6 +371,14 @@ function CheckButton({
                 Menunggu Respon Penjual
               </Button>
             )
+          ) : getListTransactionBuyerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isPrimary
+              isLoading
+              hasShadow
+              isBlock
+            ></Button>
           ) : (
             ""
           )}
@@ -363,11 +462,26 @@ export default function ActionDetail({ id }) {
     getProductIdSellerLoading,
     getProductIdSellerError,
   } = useSelector((state) => state.ProductReducer);
-
   return (
     <div className="card is-block ms-auto p-4">
       <div className="d-flex justify-content-start mb-4">
-        <img className="seller-image me-3" src={SellerImg} alt="" />
+        <img
+          className="seller-image me-3"
+          src={
+            isAuthenticated
+              ? user.data.role === "SELLER"
+                ? getProductIdSellerResult
+                  ? getProductIdSellerResult.userAsSeller.image
+                  : ""
+                : getProductIdResult
+                ? getProductIdResult.userAsSeller.image
+                : ""
+              : getProductIdResult
+              ? getProductIdResult.userAsSeller.image
+              : ""
+          }
+          alt=""
+        />
         <div>
           {isAuthenticated ? (
             user.data.role === "SELLER" ? ( //SELLER
