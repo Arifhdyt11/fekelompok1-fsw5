@@ -10,15 +10,14 @@ import DraftProduct from "./DraftProduct";
 import { io } from "socket.io-client";
 import Sold from "./Sold";
 import { getListTransactionSeller } from "store/actions/transactionAction";
+import { Link } from "react-router-dom";
 function ProductBody() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
   //--------------------TOTAL PRODUCT--------------
-  const {
-    getListProductSellerResult,
-    getListProductSellerLoading,
-    getListProductSellerError,
-  } = useSelector((state) => state.ProductReducer);
+  const { getListProductSellerResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   useEffect(() => {
     dispatch(getListProductSeller());
@@ -98,25 +97,11 @@ function ProductBody() {
   const [wishlist, setWishlist] = useState("");
   const [sold, setSold] = useState("");
 
-  const [show, setShow] = useState(
-    <ProductList
-      getListProductSellerResult={getListProductSellerResult}
-      getListProductSellerLoading={getListProductSellerLoading}
-      getListProductSellerError={getListProductSellerError}
-    />
-  );
-
-  // console.log(getListProductSellerResult);
+  const [show, setShow] = useState(<ProductList />);
 
   const handleShow = (itShow) => {
     if (itShow === "All") {
-      setShow(
-        <ProductList
-          getListProductSellerResult={getListProductSellerResult}
-          getListProductSellerLoading={getListProductSellerLoading}
-          getListProductSellerError={getListProductSellerError}
-        />
-      );
+      setShow(<ProductList />);
       setTotal(countProduct);
       setDraft("");
       setWishlist("");
