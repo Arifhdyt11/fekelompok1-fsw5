@@ -11,6 +11,8 @@ const initialState = {
   accessToken: localStorage.getItem("accessToken"),
   user: JSON.parse(localStorage.getItem("user")),
   error: null,
+
+  loadingUpdate: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -48,6 +50,7 @@ const authReducer = (state = initialState, action) => {
       localStorage.setItem("user", JSON.stringify(action.user));
       return {
         ...state,
+        loadingUpdate: action.loading,
         user: action.user,
         status: action.status,
       };
