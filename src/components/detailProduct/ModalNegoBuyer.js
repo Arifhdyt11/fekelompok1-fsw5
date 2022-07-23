@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTransaction } from "store/actions/transactionAction";
 import Swal from "sweetalert2";
+
+import { addTransaction } from "store/actions/transactionAction";
 import { formatDate, formatPrice } from "utils/defaultFormat";
 
 function handleError(message) {
@@ -29,12 +30,11 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
 
   const handleSubmit = (e) => {
     const hargaAwal = dataProduct.price;
-    // const reqHargaTawar = (10 / 100) * hargaAwal;
-    const reqHargaTawar = hargaAwal - (10 / 100) * hargaAwal;
+    const reqHargaTawar = hargaAwal - (50 / 100) * hargaAwal;
 
     if (price < reqHargaTawar) {
       handleError(
-        `Harga Tawar Maksimal 10% Dari Harga Awal. Yaitu : ${reqHargaTawar}`
+        `Harga Tawar Minimal 50% Dari Harga Awal. Yaitu : ${reqHargaTawar}`
       );
     }
     e.preventDefault();

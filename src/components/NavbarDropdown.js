@@ -57,7 +57,12 @@ export default function NavbarDropdown(props) {
               </Button>
             </li>
             {user.data.role === "SELLER" ? (
-              ""
+              <li>
+                <Button className="dropdown-item" type="link" href="/history">
+                  <i className="fa-duotone fa-arrows-repeat me-3"></i>History
+                  Transaksi
+                </Button>
+              </li>
             ) : (
               <>
                 <li>

@@ -10,34 +10,37 @@ import Button from "elements/Button";
 import _ from "lodash";
 import CardLoading from "components/CardLoading";
 
-function ProductList() {
-  const {
-    getListProductSellerResult,
-    getListProductSellerLoading,
-    getListProductSellerError,
-  } = useSelector((state) => state.ProductReducer);
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
-  const dispatch = useDispatch();
+function ProductList({
+  getListProductSellerResult,
+  getListProductSellerLoading,
+  getListProductSellerError,
+}) {
+  // const {
+  //   getListProductSellerResult,
+  //   getListProductSellerLoading,
+  //   getListProductSellerError,
+  // } = useSelector((state) => state.ProductReducer);
+  const { user } = useSelector((state) => state.AuthReducer);
 
   //-----------------------SEARCH ---------------------
-  const getInitialData = getListProductSellerResult.data;
+  if (getListProductSellerResult) {
+    var getInitialData = getListProductSellerResult.data;
+  }
+
   const [productSeller, setProductSeller] = useState(getInitialData);
   const [searchValue, setSearchValue] = useState("");
 
-  useEffect(() => {
-    setProductSeller(dispatch(getListProductSeller(accessToken)));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   setProductSeller(dispatch(getListProductSeller()));
+  // }, [dispatch]);
 
-  useEffect(() => {
-    setProductSeller(getInitialData);
-  }, [getInitialData]);
-
-  // console.log(productSeller);
+  console.log(getInitialData);
 
   const handleSearchFilter = (e) => {
     setSearchValue(e.target.value);
   };
-
+  console.log(getListProductSellerResult);
+  console.log(productSeller);
   React.useEffect(() => {
     const timeout = setTimeout(() => {
       const filter = _.filter(getListProductSellerResult.data, (x) => {
@@ -62,7 +65,7 @@ function ProductList() {
             ""
           ) : (
             <Button
-              className="btn active"
+              className="btn"
               hasShadow
               isPrimary
               href="/add-product"
@@ -84,8 +87,10 @@ function ProductList() {
       </div>
 
       <div className="section-produk my-2 s">
-        <div className="row justify-content-center">
-          {productSeller ? (
+        <div className="row justify-content-start">
+          {getListProductSellerLoading ? (
+            <CardLoading col="3" count="3" />
+          ) : productSeller ? (
             productSeller.filter((item) => item.status === "published")
               .length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
@@ -97,12 +102,13 @@ function ProductList() {
             ) : (
               productSeller
                 .filter((item) => item.status === "published")
+                .sort(
+                  (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                )
                 .map((item, index) => {
                   return <ProductItem key={item.id} {...item} index={index} />;
                 })
             )
-          ) : getListProductSellerLoading ? (
-            <CardLoading col="3" count="3" />
           ) : (
             <p>
               {getListProductSellerError

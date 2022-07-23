@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleSwal } from "utils/sweetAlert";
 
 import {
   GET_LIST_PRODUCT,
@@ -13,7 +14,6 @@ import {
 
 export const getListProduct = () => {
   return (dispatch) => {
-    //loading
     dispatch({
       type: GET_LIST_PRODUCT,
       payload: {
@@ -30,7 +30,6 @@ export const getListProduct = () => {
       timeout: 120000,
     })
       .then((response) => {
-        //berhasil get API
         dispatch({
           type: GET_LIST_PRODUCT,
           payload: {
@@ -41,7 +40,6 @@ export const getListProduct = () => {
         });
       })
       .catch((error) => {
-        //error get api
         dispatch({
           type: GET_LIST_PRODUCT,
           payload: {
@@ -56,7 +54,6 @@ export const getListProduct = () => {
 
 export const getProductId = (id) => {
   return (dispatch) => {
-    //loading
     dispatch({
       type: GET_PRODUCT_ID,
       payload: {
@@ -66,14 +63,12 @@ export const getProductId = (id) => {
       },
     });
 
-    //get API
     axios({
       method: "GET",
       url: `${process.env.REACT_APP_HOST}/product/` + id,
       timeout: 120000,
     })
       .then((response) => {
-        //berhasil get API
         dispatch({
           type: GET_PRODUCT_ID,
           payload: {
@@ -84,10 +79,8 @@ export const getProductId = (id) => {
         });
       })
       .catch((error) => {
-        //error get api
-        console.log(error.response.data);
         if (error.response.data.message === "Data not found") {
-          window.location.href = "/404";
+          window.location = "/404";
         }
         dispatch({
           type: GET_PRODUCT_ID,
@@ -133,8 +126,6 @@ export const getListProductSeller = () => {
         });
       })
       .catch((error) => {
-        //error get api
-        console.log(error.response.status);
         dispatch({
           type: GET_LIST_PRODUCT_SELLER,
           payload: {
@@ -154,7 +145,6 @@ export const getListProductSeller = () => {
 
 export const getProductIdSeller = (id) => {
   return (dispatch) => {
-    //loading
     dispatch({
       type: GET_PRODUCT_ID_SELLER,
       payload: {
@@ -164,7 +154,6 @@ export const getProductIdSeller = (id) => {
       },
     });
 
-    //get API
     axios({
       method: "GET",
       headers: {
@@ -174,8 +163,6 @@ export const getProductIdSeller = (id) => {
       timeout: 120000,
     })
       .then((response) => {
-        //berhasil get API
-        console.log(response);
         dispatch({
           type: GET_PRODUCT_ID_SELLER,
           payload: {
@@ -186,12 +173,10 @@ export const getProductIdSeller = (id) => {
         });
       })
       .catch((error) => {
-        console.log(error.response.data);
         if (error.response.data.message === "Data not found") {
-          window.location.href = "/404";
+          window.location = "/404";
         }
 
-        //error get api
         dispatch({
           type: GET_PRODUCT_ID_SELLER,
           payload: {
@@ -216,7 +201,6 @@ export const addProduct = (data) => {
       },
     });
 
-    console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
     formdata.append("userId", data.userId);
     formdata.append("name", data.name);
@@ -263,13 +247,18 @@ export const addProduct = (data) => {
       data: formdata,
     })
       .then((response) => {
-        //berhasil get API
-        console.log("3. Berhasil Dapat Data", response.data);
         if (response.data.data.status === "draft") {
-          window.location.href = "/seller-product/" + response.data.data.id;
+          handleSwal("Loading Preview...", "success").then(function () {
+            window.location = "/seller-product/" + response.data.data.id;
+          });
         } else {
-          window.location.href = "/seller";
+          handleSwal("Data Berhasil di tambahkan!", "success").then(
+            function () {
+              window.location = "/seller";
+            }
+          );
         }
+
         dispatch({
           type: ADD_PRODUCT,
           payload: {
@@ -280,8 +269,6 @@ export const addProduct = (data) => {
         });
       })
       .catch((error) => {
-        console.log("3. Gagal Dapat Data", error.response);
-        //error get api
         dispatch({
           type: ADD_PRODUCT,
           payload: {
@@ -306,7 +293,6 @@ export const updateProduct = (data) => {
       },
     });
 
-    console.log("INI DI ACTION : ", data);
     var formdata = new FormData();
     formdata.append("name", data.name);
     formdata.append("price", data.price);
@@ -369,12 +355,16 @@ export const updateProduct = (data) => {
       data: formdata,
     })
       .then((response) => {
-        //berhasil get API
-        console.log("3. Berhasil Dapat Data", response.data);
         if (data.status === "draft") {
-          window.location.href = "/seller-product/" + data.id;
+          handleSwal("Loading Preview...", "success").then(function () {
+            window.location = "/seller-product/" + data.id;
+          });
         } else {
-          window.location.href = "/seller";
+          handleSwal("Data Berhasil di Terbitkan!", "success").then(
+            function () {
+              window.location = "/seller";
+            }
+          );
         }
         dispatch({
           type: UPDATE_PRODUCT,
@@ -386,8 +376,6 @@ export const updateProduct = (data) => {
         });
       })
       .catch((error) => {
-        // console.log("3. Gagal Dapat Data", error.response.data);
-        //error get api
         dispatch({
           type: UPDATE_PRODUCT,
           payload: {
@@ -400,100 +388,7 @@ export const updateProduct = (data) => {
   };
 };
 
-// export const updateProduct1 = (data) => async (dispatch) => {
-//   try {
-//     console.log(data);
-//     //loading
-//     dispatch({
-//       type: UPDATE_PRODUCT,
-//       payload: {
-//         loading: true,
-//         data: false,
-//         errorMessage: false,
-//       },
-//     });
-//     //get API
-//     var formdata = new FormData();
-//     formdata.append("name", data.name);
-//     formdata.append("price", data.price);
-//     formdata.append("categoryId", data.categoryId);
-//     formdata.append("description", data.description);
-//     formdata.append("oldImage", data.oldImage);
-
-//     if (data.image.length > 0) {
-//       if (
-//         data.image[0].type === "image/jpeg" ||
-//         data.image[0].type === "image/png"
-//       ) {
-//         formdata.append("image", data.image[0]);
-//       } else if (data.image[0] !== "") {
-//         formdata.append("image", data.image[0]);
-//       }
-//       if (
-//         data.image[1].type === "image/jpeg" ||
-//         data.image[1].type === "image/png"
-//       ) {
-//         formdata.append("image", data.image[1]);
-//       } else if (data.image[1] !== "") {
-//         formdata.append("image", data.image[1]);
-//       }
-//       if (
-//         data.image[2].type === "image/jpeg" ||
-//         data.image[2].type === "image/png"
-//       ) {
-//         formdata.append("image", data.image[2]);
-//       } else if (data.image[2] !== "") {
-//         formdata.append("image", data.image[2]);
-//       }
-//       if (
-//         data.image[3].type === "image/jpeg" ||
-//         data.image[3].type === "image/png"
-//       ) {
-//         formdata.append("image", data.image[3]);
-//       } else if (data.image[3] !== "") {
-//         formdata.append("image", data.image[3]);
-//       }
-//     }
-
-//     fetch(`${process.env.REACT_APP_HOST}/product/` + data.id, {
-//       method: "PUT",
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-//       },
-//       timeout: 120000,
-//       body: formdata,
-//     }).then((response) => {
-//       //berhasil get API
-//       console.log(response);
-//       if (response.data.product.status === "draft") {
-//         window.location.href = "/seller-product/" + response.data.product.id;
-//       } else {
-//         window.location.href = "/seller";
-//       }
-//       dispatch({
-//         type: UPDATE_PRODUCT,
-//         payload: {
-//           loading: false,
-//           data: response.data,
-//           errorMessage: false,
-//         },
-//       });
-//     });
-//   } catch (error) {
-//     //error get api
-//     dispatch({
-//       type: UPDATE_PRODUCT,
-//       payload: {
-//         loading: false,
-//         data: false,
-//         errorMessage: error.message,
-//       },
-//     });
-//   }
-// };
-
 export const deleteProduct = (id) => {
-  console.log("2. Masuk ke action");
   return (dispatch) => {
     dispatch({
       type: DELETE_PRODUCT,
@@ -503,7 +398,6 @@ export const deleteProduct = (id) => {
         errorMessage: false,
       },
     });
-    //get API
     axios({
       method: "DELETE",
       headers: {
@@ -513,9 +407,9 @@ export const deleteProduct = (id) => {
       timeout: 120000,
     })
       .then((response) => {
-        window.location.href = "/seller";
-        console.log("3. Berhasil dapet data:", response);
-        //berhasil get api
+        handleSwal("Data Berhasil di Hapus!", "success").then(function () {
+          window.location = "/seller";
+        });
         dispatch({
           type: DELETE_PRODUCT,
           payload: {
@@ -526,7 +420,6 @@ export const deleteProduct = (id) => {
         });
       })
       .catch((error) => {
-        console.log("3. Gagal dapet data : ", error);
         dispatch({
           type: DELETE_PRODUCT,
           payload: {

@@ -38,7 +38,7 @@ export default function Hero(props) {
           </div>
 
           <div className="col-lg-6 col-md-12 text-center">
-            <img className="img-fluid" src={ImageHero} alt="Image Hero" />
+            <img className="img-fluid" src={ImageHero} alt="ImageHero" />
           </div>
         </div>
       </section>

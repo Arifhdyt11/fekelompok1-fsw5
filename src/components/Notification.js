@@ -14,6 +14,7 @@ import _ from "lodash";
 
 export default function Notification() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
+
   const {
     getNotificationBuyerResult,
     getNotificationBuyerLoading,
@@ -23,20 +24,12 @@ export default function Notification() {
     getNotificationSellerLoading,
     getNotificationSellerError,
 
-    updateNotificationBuyerResult,
     updateNotificationSellerResult,
+    updateNotificationSellerLoading,
+    updateNotificationBuyerResult,
+    updateNotificationBuyerLoading,
   } = useSelector((state) => state.NotificationReducer);
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (user.data.role === "SELLER") {
-        dispatch(getNotificationSeller());
-      } else {
-        dispatch(getNotificationBuyer());
-      }
-    }
-  }, [dispatch]);
 
   useEffect(() => {
     if (user.data.role === "SELLER") {
@@ -50,31 +43,42 @@ export default function Notification() {
     }
   }, [updateNotificationSellerResult, updateNotificationBuyerResult]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user.data.role === "SELLER") {
+        dispatch(getNotificationSeller());
+      } else {
+        dispatch(getNotificationBuyer());
+      }
+    }
+  }, [dispatch]);
+
   const handleClear = () => {
     if (user.data.role === "SELLER") {
-      dispatch(updateNotificationSeller({ isReadSeller: "true" }));
+      dispatch(updateNotificationSeller({ isReadSeller: true }));
     } else {
-      dispatch(updateNotificationBuyer({ isReadBuyer: "true" }));
+      dispatch(updateNotificationBuyer({ isReadBuyer: true }));
     }
   };
 
   if (user.data.role === "SELLER") {
     if (getNotificationSellerResult) {
-      const dataNotifSeller = getNotificationSellerResult.data;
-      console.log(dataNotifSeller);
+      const dataNotifSeller = getNotificationSellerResult.data.sort(
+        (a, b) => b.id - a.id
+      );
       var uniqueNotificationSeller = _(dataNotifSeller)
         .groupBy("transactionId")
         .map((items) => ({
           count: items.length,
-          ...items.slice(-1)[0],
+          ...items[0],
         }))
         .value();
-
-      console.log(uniqueNotificationSeller);
     }
   } else {
     if (getNotificationBuyerResult) {
-      const dataNotifBuyer = getNotificationBuyerResult.data;
+      const dataNotifBuyer = getNotificationBuyerResult.data.sort(
+        (a, b) => b.id - a.id
+      );
       var uniqueNotificationBuyer = _(dataNotifBuyer)
         .groupBy("transactionId")
         .map((items) => ({
@@ -82,8 +86,6 @@ export default function Notification() {
           ...items[0],
         }))
         .value();
-
-      // console.log(uniqueNotification);
     }
   }
   useEffect(() => {
@@ -91,15 +93,19 @@ export default function Notification() {
 
     socket.on("connection", () => {
       // console.log("connct");
-      socket.on("add-transaction", (message) => {
-        console.log(message);
-        dispatch(getNotificationBuyer());
-        dispatch(getNotificationSeller());
+      socket.on("add-transaction", () => {
+        if (user.data.role === "SELLER") {
+          dispatch(getNotificationSeller());
+        } else {
+          dispatch(getNotificationBuyer());
+        }
       });
-      socket.on("update-transaction", (message) => {
-        console.log(message);
-        dispatch(getNotificationBuyer());
-        dispatch(getNotificationSeller());
+      socket.on("update-transaction", () => {
+        if (user.data.role === "SELLER") {
+          dispatch(getNotificationSeller());
+        } else {
+          dispatch(getNotificationBuyer());
+        }
       });
     });
 
@@ -117,24 +123,51 @@ export default function Notification() {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <i
-          className="fas fa-bell fa-lg"
-          data-count={
-            isAuthenticated
-              ? user.data.role === "SELLER"
-                ? getNotificationSellerResult
-                  ? getNotificationSellerResult.data.filter(
+        {isAuthenticated ? (
+          user.data.role === "SELLER" ? (
+            getNotificationSellerResult ? (
+              getNotificationSellerResult.data.filter(
+                (item) => item.isReadSeller === false
+              ).length > 0 ? (
+                <i
+                  className="fas fa-bell faa-ring animated fa-lg "
+                  data-count={
+                    getNotificationSellerResult.data.filter(
                       (item) => item.isReadSeller === false
                     ).length
-                  : ""
-                : getNotificationBuyerResult
-                ? getNotificationBuyerResult.data.filter(
+                  }
+                ></i>
+              ) : (
+                <i className="fas fa-bell fa-lg"></i>
+              )
+            ) : getNotificationSellerLoading ? (
+              <i className="fas fa-bell fa-lg" data-count="."></i>
+            ) : (
+              ""
+            )
+          ) : getNotificationBuyerResult ? (
+            getNotificationBuyerResult.data.filter(
+              (item) => item.isReadBuyer === false
+            ).length > 0 ? (
+              <i
+                className="fas fa-bell faa-ring animated fa-lg"
+                data-count={
+                  getNotificationBuyerResult.data.filter(
                     (item) => item.isReadBuyer === false
                   ).length
-                : ""
-              : ""
-          }
-        ></i>
+                }
+              ></i>
+            ) : (
+              <i className="fas fa-bell fa-lg"></i>
+            )
+          ) : getNotificationBuyerLoading ? (
+            <i className="fas fa-bell fa-lg" data-count="."></i>
+          ) : (
+            ""
+          )
+        ) : (
+          ""
+        )}
       </button>
       <ul
         className="dropdown-menu notification py-1 px-3"
@@ -151,9 +184,29 @@ export default function Notification() {
           >
             <h6>Notification</h6>
           </Button>
-          <Button className="btn ms-5" nonStyle onClick={handleClear}>
-            <p>Clear All</p>
-          </Button>
+          {user.data.role === "SELLER" ? (
+            updateNotificationSellerLoading ? (
+              <Button
+                className="btn ms-5 text-center"
+                nonStyle
+                isLoading
+              ></Button>
+            ) : (
+              <Button className="btn ms-5" nonStyle onClick={handleClear}>
+                <p>Clear All</p>
+              </Button>
+            )
+          ) : updateNotificationBuyerLoading ? (
+            <Button
+              className="btn ms-5 text-center"
+              nonStyle
+              isLoading
+            ></Button>
+          ) : (
+            <Button className="btn ms-5" nonStyle onClick={handleClear}>
+              <p>Clear All</p>
+            </Button>
+          )}
         </li>
         <hr className="my-0 py-0" />
         {isAuthenticated ? (
@@ -165,15 +218,13 @@ export default function Notification() {
                 <h6 className="text-center my-4">Tidak ada notifikasi masuk</h6>
               ) : (
                 uniqueNotificationSeller
+                  .sort((a, b) => b.id - a.id)
                   .filter(
                     (item, index) => item.isReadSeller === false && index < 2
                   )
-                  .sort(
-                    (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
-                  )
-                  .map((item) => {
+                  .map((item, index) => {
                     return (
-                      <Link to="/history">
+                      <Link to="/history" key={index}>
                         <li
                           key={item.id}
                           className={` dropdown-item item my-3 card-notif p-3 overflow-hidden ${
@@ -234,8 +285,10 @@ export default function Notification() {
                     );
                   })
               )
+            ) : getNotificationSellerLoading ? (
+              <i className="fa-solid fa-circle-notch fa-spin"></i>
             ) : (
-              ""
+              "hahaha"
             )
           ) : getNotificationBuyerResult ? (
             getNotificationBuyerResult.data.filter(
@@ -244,15 +297,13 @@ export default function Notification() {
               <h6 className="text-center my-4">Tidak ada notifikasi masuk</h6>
             ) : (
               uniqueNotificationBuyer
+                .sort((a, b) => b.id - a.id)
                 .filter(
                   (item, index) => item.isReadBuyer === false && index < 2
                 )
-                .sort(
-                  (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
-                )
-                .map((item) => {
+                .map((item, index) => {
                   return (
-                    <Link to="/history">
+                    <Link to="/history" key={index}>
                       <li
                         key={item.id}
                         className={` dropdown-item item my-3 card-notif p-3 overflow-hidden ${
@@ -313,8 +364,10 @@ export default function Notification() {
                   );
                 })
             )
+          ) : getNotificationBuyerLoading ? (
+            <i className="fa-solid fa-circle-notch fa-spin"></i>
           ) : (
-            ""
+            "hahaha"
           )
         ) : (
           ""

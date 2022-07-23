@@ -1,18 +1,15 @@
 import "assets/css/detailProduct.css";
-
-import { Navigate, useParams } from "react-router-dom";
-
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductId, getProductIdSeller } from "store/actions/productAction";
+import { useParams } from "react-router-dom";
 
-import ActionDetail from "components/detailProduct/ActionDetail";
-import DescriptionProduct from "components/detailProduct/DescriptionProduct";
-import Footer from "components/Footer";
-import Galery from "components/detailProduct/Galery";
 import Navbar from "components/Navbar";
 import ProductTitle from "components/detailProduct/ProductTitle";
-import PageNotFound from "./404";
+import Galery from "components/detailProduct/Galery";
+import DescriptionProduct from "components/detailProduct/DescriptionProduct";
+import ActionDetail from "components/detailProduct/ActionDetail";
+
+import { getProductId, getProductIdSeller } from "store/actions/productAction";
 
 function ShowDetailProduct() {
   const { id } = useParams();
@@ -36,38 +33,28 @@ function ShowDetailProduct() {
 }
 
 export default function DetailProduct() {
-  const { isAuthenticated, user, accessToken } = useSelector(
-    (state) => state.AuthReducer
-  );
-  const {
-    getProductIdResult,
+  useEffect(() => {
+    document.title = "Shoesnarian | Detail Product";
+  });
 
-    getProductSellerIdResult,
-  } = useSelector((state) => state.ProductReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
+  const { getProductIdResult, getProductSellerIdResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = "Shoesnarian | Detail Product";
-  });
-
-  useEffect(() => {
     if (isAuthenticated) {
-      if (user.data.role === "BUYER") {
+      if (user.data.role === "SELLER") {
+        dispatch(getProductIdSeller(id));
+      } else {
         dispatch(getProductId(id));
       }
     } else {
       dispatch(getProductId(id));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (user.data.role === "SELLER") {
-        dispatch(getProductIdSeller(id));
-      }
     }
   }, [dispatch]);
 

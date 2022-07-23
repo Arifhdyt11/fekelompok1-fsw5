@@ -69,23 +69,21 @@ export default function WishlistProduct() {
             ) : (
               getListWishlistBuyerResult.data.map((item, index) => {
                 return (
-                  <div className="col-lg-3 col-md-6 col-sm-6" key={item.id}>
+                  <div
+                    className="col-lg-3 col-md-6 col-sm-6 mb-4"
+                    key={item.id}
+                  >
                     <Fade bottom delay={300 * index}>
-                      <div className="card-product p-3 mb-4">
+                      <div className="card-product p-3 h-100">
                         <div className="d-md-flex flex-row-reverse">
                           <button
-                            style={{
-                              textDecoration: "none",
-                              color: "#3252df",
-                              backgroundColor: "transparent",
-                              border: "none",
-                            }}
                             onClick={() =>
                               dispatch(deleteWishlist(item.id, accessToken))
                             }
                             data-bs-toggle="tooltip"
                             data-bs-placement="bottom"
                             title="Delete Wihslist"
+                            className="btn love-wishlist"
                           >
                             <i className="fa-solid fa-heart fa-xl"></i>
                           </button>
@@ -109,10 +107,10 @@ export default function WishlistProduct() {
                           </div>
                           <p>{item.products.categories.name}</p>
                           <h4>Rp. {formatPrice(item.products.price)}</h4>
-                          <hr />
+                          <hr style={{ color: "#023e7d" }} />
                           {item.products.status === "draft" ? (
                             <div
-                              class="alert alert-warning alert-draft text-center "
+                              className="alert alert-warning alert-draft text-center p-1 py-2 mb-0"
                               role="alert"
                             >
                               Product Tidak Tersedia

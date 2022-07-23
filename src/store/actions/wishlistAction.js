@@ -6,7 +6,7 @@ import {
   DELETE_WISHLIST_BUYER,
 } from "store/types";
 
-export const getListWishlistSeller = (sellerId, token) => {
+export const getListWishlistSeller = () => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -20,7 +20,9 @@ export const getListWishlistSeller = (sellerId, token) => {
     //get API
     axios({
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/wishlist/seller`,
       timeout: 120000,
     })
@@ -49,7 +51,7 @@ export const getListWishlistSeller = (sellerId, token) => {
   };
 };
 
-export const getListWishlistBuyer = (buyerId, token) => {
+export const getListWishlistBuyer = () => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -63,7 +65,9 @@ export const getListWishlistBuyer = (buyerId, token) => {
     //get API
     axios({
       method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/wishlist/buyer`,
       timeout: 120000,
     })
@@ -107,7 +111,9 @@ export const addWishlist = (data) => {
     //get API
     axios({
       method: "POST",
-      headers: { Authorization: `Bearer ${data.accessToken}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/wishlist`,
       timeout: 120000,
       data: data,
@@ -150,7 +156,9 @@ export const deleteWishlist = (id, token) => {
     //get API
     axios({
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/wishlist/` + id,
       timeout: 120000,
     })

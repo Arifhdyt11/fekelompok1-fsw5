@@ -7,16 +7,21 @@ import { getListWishlistSeller } from "store/actions/wishlistAction";
 
 import Button from "elements/Button";
 import DraftProduct from "./DraftProduct";
+import { io } from "socket.io-client";
+import Sold from "./Sold";
+import { getListTransactionSeller } from "store/actions/transactionAction";
 function ProductBody() {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
-
+  const { user } = useSelector((state) => state.AuthReducer);
   //--------------------TOTAL PRODUCT--------------
-  const { getListProductSellerResult } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const {
+    getListProductSellerResult,
+    getListProductSellerLoading,
+    getListProductSellerError,
+  } = useSelector((state) => state.ProductReducer);
+
   useEffect(() => {
-    dispatch(getListProductSeller(accessToken));
+    dispatch(getListProductSeller());
   }, [dispatch]);
 
   if (getListProductSellerResult) {
@@ -31,43 +36,114 @@ function ProductBody() {
   }
 
   //------------------TOTAL WISHLIST------------------
-  const sellerId = user.data.id;
+
   const { getListWishlistSellerResult } = useSelector(
     (state) => state.WishlistReducer
   );
-  useEffect(() => {
-    dispatch(getListWishlistSeller(sellerId, accessToken));
-  }, [dispatch]);
-
   if (getListWishlistSellerResult) {
     var countWishlist = getListWishlistSellerResult.data.length;
   }
 
-  //--------------------------------------------------------------
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_SOCKET);
 
+    socket.on("connection", () => {
+      if (user.data.role === "SELLER") {
+        socket.on("add-wishlist", () => {
+          dispatch(getListWishlistSeller());
+        });
+        socket.on("delete-wishlist", () => {
+          dispatch(getListWishlistSeller());
+        });
+      }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnecting");
+    });
+  }, [dispatch]);
+
+  //-----------------------------TOTAL SOLD-------------------------------
+  const { getListTransactionSellerResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
+
+  // useEffect(() => {
+  //   dispatch(getListTransactionSeller());
+  // }, [dispatch]);
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      const socket = io(process.env.REACT_APP_SOCKET);
+      socket.on("connection", () => {
+        socket.on("update-transaction", () => {
+          dispatch(getListTransactionSeller());
+        });
+      });
+      socket.on("disconnect", () => {
+        console.log("Socket disconnecting");
+      });
+    }
+  }, [dispatch, getListTransactionSeller]);
+
+  if (getListTransactionSellerResult) {
+    var countSold = getListTransactionSellerResult.data.filter(
+      (item) => item.status === "success"
+    ).length;
+  }
+
+  // --------------------------------------------------------------
   const [total, setTotal] = useState(null);
   const [draft, setDraft] = useState("");
   const [wishlist, setWishlist] = useState("");
+  const [sold, setSold] = useState("");
 
-  const [show, setShow] = useState(<ProductList />);
+  const [show, setShow] = useState(
+    <ProductList
+      getListProductSellerResult={getListProductSellerResult}
+      getListProductSellerLoading={getListProductSellerLoading}
+      getListProductSellerError={getListProductSellerError}
+    />
+  );
+
+  // console.log(getListProductSellerResult);
+
   const handleShow = (itShow) => {
     if (itShow === "All") {
-      setShow(<ProductList />);
+      setShow(
+        <ProductList
+          getListProductSellerResult={getListProductSellerResult}
+          getListProductSellerLoading={getListProductSellerLoading}
+          getListProductSellerError={getListProductSellerError}
+        />
+      );
       setTotal(countProduct);
       setDraft("");
       setWishlist("");
+      setSold("");
     }
     if (itShow === "Draft") {
       setShow(<DraftProduct />);
       setTotal("");
       setDraft(countDraft);
       setWishlist("");
+      setSold("");
     }
     if (itShow === "Diminati") {
+      dispatch(getListWishlistSeller());
       setShow(<Wishlist />);
       setTotal("");
       setDraft("");
       setWishlist(countWishlist);
+      setSold("");
+    }
+    if (itShow === "Terjual") {
+      dispatch(getListTransactionSeller());
+      setShow(<Sold />);
+      setTotal("");
+      setDraft("");
+      setWishlist("");
+      setSold(countSold);
     }
   };
 
@@ -109,16 +185,16 @@ function ProductBody() {
               </div>
               <span className="badge bg-primary">{wishlist}</span>
             </li>
-            <Button
+            <li
               className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"
-              type="link"
-              href="/transaction"
+              onClick={() => handleShow("Terjual")}
             >
               <div className="icon-list">
                 <i className="fa-solid fa-dollar-sign fa-xs item-icon"></i>
                 Terjual
               </div>
-            </Button>
+              <span className="badge bg-primary">{sold}</span>
+            </li>
           </ul>
         </div>
       </div>
