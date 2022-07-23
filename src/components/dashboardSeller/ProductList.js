@@ -10,40 +10,41 @@ import Button from "elements/Button";
 import _ from "lodash";
 import CardLoading from "components/CardLoading";
 
-function ProductList({
-  getListProductSellerResult,
-  getListProductSellerLoading,
-  getListProductSellerError,
-}) {
-  // const {
-  //   getListProductSellerResult,
-  //   getListProductSellerLoading,
-  //   getListProductSellerError,
-  // } = useSelector((state) => state.ProductReducer);
+function ProductList() {
+  const {
+    getListProductSellerResult,
+    getListProductSellerLoading,
+    getListProductSellerError,
+  } = useSelector((state) => state.ProductReducer);
   const { user } = useSelector((state) => state.AuthReducer);
 
   //-----------------------SEARCH ---------------------
-  if (getListProductSellerResult) {
-    var getInitialData = getListProductSellerResult.data;
-  }
 
-  const [productSeller, setProductSeller] = useState(getInitialData);
+  const initialData = getListProductSellerResult.data;
+  const [productSeller, setProductSeller] = useState(initialData);
   const [searchValue, setSearchValue] = useState("");
 
   // useEffect(() => {
   //   setProductSeller(dispatch(getListProductSeller()));
   // }, [dispatch]);
+  // setProductSeller(initialData);
 
-  console.log(getInitialData);
+  console.log(getListProductSellerResult);
+
+  console.log(initialData);
+
+  console.log(productSeller);
+
+  useEffect(() => {
+    setProductSeller(initialData);
+  }, [initialData]);
 
   const handleSearchFilter = (e) => {
     setSearchValue(e.target.value);
   };
-  console.log(getListProductSellerResult);
-  console.log(productSeller);
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      const filter = _.filter(getListProductSellerResult.data, (x) => {
+      const filter = _.filter(initialData, (x) => {
         return _.includes(
           _.lowerCase(JSON.stringify(_.values(x))),
           _.lowerCase(searchValue)
@@ -110,11 +111,7 @@ function ProductList({
                 })
             )
           ) : (
-            <p>
-              {getListProductSellerError
-                ? getListProductSellerError
-                : "Please Reload And Try Again"}
-            </p>
+            <p>{getListProductSellerError ? getListProductSellerError : ""}</p>
           )}
         </div>
       </div>
