@@ -62,16 +62,18 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                 <i className="fa-duotone fa-gears me-3"></i>Edit Profile
               </button>
             </Link>
-
-            <Button
-              className="dropdown-item"
-              type="link"
-              href="/notifications"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            >
-              <i className="fas fa-bell fa-lg me-3"></i>Notifikasi
-            </Button>
+          </li>
+          <li>
+            <Link to="/notifications">
+              <button
+                type="button"
+                className="dropdown-item"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              >
+                <i className="fas fa-bell fa-lg me-3"></i>Notifications
+              </button>
+            </Link>
           </li>
           {user.data.role === "SELLER" ? (
             <li className=" mt-3">
@@ -174,7 +176,7 @@ export default function Navbar() {
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body overflow-hidden">
           <CheckLoginMobile
             isAuthenticated={isAuthenticated}
             user={user}

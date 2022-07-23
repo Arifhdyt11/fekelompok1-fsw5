@@ -142,6 +142,12 @@ export const logout = () => async (dispatch) => {
 };
 
 export const updateUserDetail = (data) => async (dispatch) => {
+  dispatch({
+    type: UPDATE_PROFILE,
+    loading: true,
+    user: JSON.parse(localStorage.getItem("user")),
+    status: true,
+  });
   try {
     var formdata = new FormData();
     if (data.image) {
@@ -163,13 +169,14 @@ export const updateUserDetail = (data) => async (dispatch) => {
 
     const result = await response.json();
     console.log("3. Berhasil dapet data:", result);
-    if (result.data.role === "SELLER") {
-      window.location.href = "/seller";
-    } else {
-      window.location.href = "/";
-    }
+    // if (result.data.role === "SELLER") {
+    //   window.location.href = "/seller";
+    // } else {
+    //   window.location.href = "/";
+    // }
     dispatch({
       type: UPDATE_PROFILE,
+      loading: false,
       user: result,
       status: true,
     });

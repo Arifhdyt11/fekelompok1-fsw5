@@ -29,7 +29,7 @@ export default function ProfilePage() {
   });
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { user, loadingUpdate } = useSelector((state) => state.AuthReducer);
 
   const { getProvinsiResult, getKotaResult } = useSelector(
     (state) => state.CityReducer
@@ -272,18 +272,34 @@ export default function ProfilePage() {
                     masks={{ id: "...-....-....-...." }}
                   />
                 </div>
+
                 <div className="d-flex flex-column">
-                  <Button
-                    className="btn px-3 py-2 borderRadius"
-                    hasShadow
-                    isPrimary
-                    type="button"
-                  >
-                    Simpan
-                  </Button>
+                  {loadingUpdate ? (
+                    <Button
+                      className="btn px-3 py-2 borderRadius"
+                      hasShadow
+                      isPrimary
+                      isLoading
+                    ></Button>
+                  ) : (
+                    <Button
+                      className="btn px-3 py-2 borderRadius"
+                      hasShadow
+                      isPrimary
+                      type="button"
+                    >
+                      Simpan
+                    </Button>
+                  )}
                 </div>
               </form>
-              {user ? (
+              {loadingUpdate ? (
+                <Button
+                  className="btn btn-dark borderRadius mt-4 "
+                  isBlock
+                  isLoading
+                ></Button>
+              ) : user ? (
                 user.data.registeredVia === "auth-form" ? (
                   <button
                     className="btn btn-dark borderRadius is-block mt-4 "
