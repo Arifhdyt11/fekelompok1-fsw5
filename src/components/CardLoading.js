@@ -8,26 +8,26 @@ export default function CardLoading({ transaction, col, count }) {
       if (transaction) {
         countCard.push(
           <div key={i} className="mb-4 ">
-            <div class="card " aria-hidden="true">
+            <div className="card " aria-hidden="true">
               <div className="row">
-                <div class="col-lg-3 col-md-6 col-sm-12  ">
+                <div className="col-lg-3 col-md-6 col-sm-12  ">
                   <div className="card-img-top"></div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12 card-body">
-                  <h5 class="card-title placeholder-glow">
-                    <span class="placeholder col-6"></span>
+                <div className="col-lg-3 col-md-6 col-sm-12 card-body">
+                  <h5 className="card-title placeholder-glow">
+                    <span className="placeholder col-6"></span>
                   </h5>
-                  <p class="card-text placeholder-glow">
-                    <span class="placeholder col-7"></span>
-                    <span class="placeholder col-4"></span>
-                    <span class="placeholder col-4"></span>
-                    <span class="placeholder col-6"></span>
-                    <span class="placeholder col-8"></span>
+                  <p className="card-text placeholder-glow">
+                    <span className="placeholder col-7"></span>
+                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-4"></span>
+                    <span className="placeholder col-6"></span>
+                    <span className="placeholder col-8"></span>
                   </p>
                   <a
                     href="#"
-                    tabindex="-1"
-                    class="btn btn-secondary disabled placeholder col-11"
+                    tabIndex="-1"
+                    className="btn btn-secondary disabled placeholder col-11"
                   ></a>
                 </div>
               </div>
@@ -46,22 +46,22 @@ export default function CardLoading({ transaction, col, count }) {
                 : "col-lg-12 col-md-12 col-sm-12 "
             }`}
           >
-            <div class="card" aria-hidden="true">
-              <div class="card-img-top " style={{ minHeight: "30vh" }} />
-              <div class="card-body">
-                <h5 class="card-title placeholder-glow">
-                  <span class="placeholder col-6"></span>
+            <div className="card" aria-hidden="true">
+              <div className="card-img-top " style={{ minHeight: "30vh" }} />
+              <div className="card-body">
+                <h5 className="card-title placeholder-glow">
+                  <span className="placeholder col-6"></span>
                 </h5>
-                <p class="card-text placeholder-glow">
-                  <span class="placeholder col-7"></span>
-                  <span class="placeholder col-4"></span>
-                  <span class="placeholder col-4"></span>
-                  <span class="placeholder col-6"></span>
-                  <span class="placeholder col-8"></span>
+                <p className="card-text placeholder-glow">
+                  <span className="placeholder col-7"></span>
+                  <span className="placeholder col-4"></span>
+                  <span className="placeholder col-4"></span>
+                  <span className="placeholder col-6"></span>
+                  <span className="placeholder col-8"></span>
                 </p>
                 <div
-                  tabindex="-1"
-                  class="btn btn-secondary disabled placeholder col-12"
+                  tabIndex="-1"
+                  className="btn btn-secondary disabled placeholder col-12"
                 ></div>
               </div>
             </div>

@@ -1,12 +1,16 @@
-import Button from "elements/Button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
 import { logout } from "store/actions/authAction";
+import {
+  getNotificationBuyer,
+  getNotificationSeller,
+} from "store/actions/notificationAction";
 import { getListProduct } from "store/actions/productAction";
 import BrandIcon from "./IconText";
 import NavbarDropdown from "./NavbarDropdown";
+import Button from "elements/Button";
 import Notification from "./Notification";
 
 function CheckLogin({ isAuthenticated }) {
@@ -28,17 +32,36 @@ function CheckLogin({ isAuthenticated }) {
 }
 
 function CheckLoginMobile({ isAuthenticated, user, error }) {
+  const {
+    getNotificationBuyerResult,
+    getNotificationBuyerLoading,
+
+    getNotificationSellerResult,
+    getNotificationSellerLoading,
+  } = useSelector((state) => state.NotificationReducer);
+
+  const dispatch = useDispatch();
+  const location = useLocation();
+
   useEffect(() => {
     if (error) {
       alert(error);
     }
   }, [error]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user.data.role === "SELLER") {
+        dispatch(getNotificationSeller);
+      } else {
+        dispatch(getNotificationBuyer);
+      }
+    }
+  }, [dispatch]);
+
   const handleLogout = () => {
     dispatch(logout());
   };
-  const location = useLocation();
   if (isAuthenticated) {
     return (
       <>
@@ -71,7 +94,69 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
               >
-                <i className="fas fa-bell fa-lg me-3"></i>Notifications
+                {isAuthenticated ? (
+                  user.data.role === "SELLER" ? (
+                    getNotificationSellerResult ? (
+                      getNotificationSellerResult.data.filter(
+                        (item) => item.isReadSeller === false
+                      ).length > 0 ? (
+                        <>
+                          <i
+                            className="fas fa-bell faa-ring animated me-4 "
+                            data-count={
+                              getNotificationSellerResult.data.filter(
+                                (item) => item.isReadSeller === false
+                              ).length
+                            }
+                          ></i>
+                          Notifications
+                        </>
+                      ) : (
+                        <>
+                          <i className="fas fa-bell me-4"></i>
+                          Notifications
+                        </>
+                      )
+                    ) : getNotificationSellerLoading ? (
+                      <>
+                        <i className="fa-solid fa-circle-notch fa-spin"></i>
+                        Notifications
+                      </>
+                    ) : (
+                      ""
+                    )
+                  ) : getNotificationBuyerResult ? (
+                    getNotificationBuyerResult.data.filter(
+                      (item) => item.isReadBuyer === false
+                    ).length > 0 ? (
+                      <>
+                        <i
+                          className="fas fa-bell faa-ring animated me-4"
+                          data-count={
+                            getNotificationBuyerResult.data.filter(
+                              (item) => item.isReadBuyer === false
+                            ).length
+                          }
+                        ></i>
+                        Notifications
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-bell me-4"></i>
+                        Notifications
+                      </>
+                    )
+                  ) : getNotificationBuyerLoading ? (
+                    <>
+                      <i className="fa-solid fa-circle-notch fa-spin"></i>
+                      Notifications
+                    </>
+                  ) : (
+                    ""
+                  )
+                ) : (
+                  ""
+                )}
               </button>
             </Link>
           </li>
@@ -162,12 +247,12 @@ export default function Navbar() {
   return (
     <>
       <div
-        class="offcanvas offcanvas-end"
-        tabindex="-1"
+        className="offcanvas offcanvas-end"
+        tabIndex="-1"
         id="offcanvasRight"
         aria-labelledby="offcanvasRightLabel"
       >
-        <div class="offcanvas-header">
+        <div className="offcanvas-header">
           <BrandIcon />
           <button
             type="button"
@@ -176,7 +261,7 @@ export default function Navbar() {
             aria-label="Close"
           ></button>
         </div>
-        <div class="offcanvas-body overflow-hidden">
+        <div className="offcanvas-body overflow-hidden">
           <CheckLoginMobile
             isAuthenticated={isAuthenticated}
             user={user}

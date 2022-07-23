@@ -1,19 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 
 import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
 import Pad from "assets/images/cover-img.png";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+
 import { getListSize } from "store/actions/sizeAction";
-import { Link, useLocation } from "react-router-dom";
 
 export default function Galery({ productId }) {
-  const { isAuthenticated, user, accessToken } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   const {
     getProductIdResult,
     getProductIdLoading,
@@ -26,28 +26,26 @@ export default function Galery({ productId }) {
   const { getListSizeResult, getListSizeLoading, getListSizeError } =
     useSelector((state) => state.SizeReducer);
 
+  const location = useLocation();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getListSize(accessToken));
+    dispatch(getListSize());
   }, [dispatch]);
 
   //--------------------------Choose Size---------------
-  // const [size, setSize] = useState("");
   const [active, setActive] = useState("");
 
   const chooseSize = (size) => {
-    // setSize(size);
-    // setActive(size);
+    setActive(size);
     window.scrollTo(0, 300);
   };
 
-  const location = useLocation();
-  // console.log(getProductIdResult);
   return (
     <>
       <section className="container section-galery-product">
-        <div className="row justify-content-between mx-lg-5">
-          <div className="col-lg-5 col-sm-12 px-4">
+        <div className="row justify-content-between ">
+          <div className="col-lg-7 col-sm-12 px-4">
             <div className="img-product-big mb-4 text-center">
               <img
                 src={
@@ -61,7 +59,7 @@ export default function Galery({ productId }) {
                         <p>
                           {getProductIdSellerError
                             ? getProductIdSellerError
-                            : "error"}
+                            : ""}
                         </p>
                       )
                     ) : getProductIdResult ? ( //BUYER
@@ -69,54 +67,27 @@ export default function Galery({ productId }) {
                     ) : getProductIdLoading ? (
                       <Button isLoading></Button>
                     ) : (
-                      <p>{getProductIdError ? getProductIdError : "error"}</p>
+                      <p>{getProductIdError ? getProductIdError : ""}</p>
                     )
                   ) : getProductIdResult ? ( //NOT LOGGED IN
                     `${getProductIdResult.image[0]}`
                   ) : getProductIdLoading ? (
                     <Button isLoading></Button>
                   ) : (
-                    <p>{getProductIdError ? getProductIdError : "error"}</p>
+                    <p>{getProductIdError ? getProductIdError : ""}</p>
                   )
                 }
-                alt={
-                  isAuthenticated ? (
-                    user.data.role === "SELLER" ? (
-                      getProductIdSellerResult ? ( //SELLER
-                        getProductIdSellerResult.name
-                      ) : getProductIdSellerLoading ? (
-                        <Button className="btn" nonStyle isLoading></Button>
-                      ) : (
-                        <p>
-                          {getProductIdSellerError
-                            ? getProductIdSellerError
-                            : "error"}
-                        </p>
-                      )
-                    ) : getProductIdResult ? (
-                      getProductIdResult.name
-                    ) : getProductIdLoading ? ( //BUYER
-                      <Button isLoading></Button>
-                    ) : (
-                      <p>{getProductIdError ? getProductIdError : "error"}</p>
-                    )
-                  ) : getProductIdResult ? ( //NOT LOGGED IN
-                    getProductIdResult.name
-                  ) : getProductIdLoading ? (
-                    <Button isLoading></Button>
-                  ) : (
-                    <p>{getProductIdError ? getProductIdError : "error"}</p>
-                  )
-                }
+                alt=""
                 className="default-image shoes mb-n3"
               />
               <img src={Shadow} alt="Shadow" className="shadow-image mb-n5 " />
               <img src={Pad} alt="Pad" className="pad-image mb-3 " />
             </div>
           </div>
-          <div className="col-lg-7 col-sm-12 px-5 align-self-center text-center">
+          <div className="col-lg-5 col-sm-12 px-0 align-self-center text-center">
             <OwlCarousel
               className="mb-1"
+              stagePadding={"0"}
               merge={true}
               loop={true}
               autoplay={true}
@@ -156,9 +127,7 @@ export default function Galery({ productId }) {
                     <Button isLoading></Button>
                   ) : (
                     <p>
-                      {getProductIdSellerError
-                        ? getProductIdSellerError
-                        : "error"}
+                      {getProductIdSellerError ? getProductIdSellerError : ""}
                     </p>
                   )
                 ) : getProductIdResult ? ( //BUYER
@@ -174,7 +143,7 @@ export default function Galery({ productId }) {
                 ) : getProductIdLoading ? (
                   <Button isLoading></Button>
                 ) : (
-                  <p>{getProductIdError ? getProductIdError : "error"}</p>
+                  <p>{getProductIdError ? getProductIdError : ""}</p>
                 )
               ) : getProductIdResult ? ( //NOT LOGGED IN
                 getProductIdResult.image.map((item, index) => {
@@ -189,10 +158,11 @@ export default function Galery({ productId }) {
               ) : getProductIdLoading ? (
                 <Button isLoading></Button>
               ) : (
-                <p>{getProductIdError ? getProductIdError : "error"}</p>
+                <p>{getProductIdError ? getProductIdError : ""}</p>
               )}
             </OwlCarousel>
-            <div className="size ms-2">
+
+            <div className="size mt-4">
               <h3>Size Ready</h3>
               <div className="size-ready justify-content-center">
                 {getListSizeResult ? (
@@ -200,12 +170,13 @@ export default function Galery({ productId }) {
                     (item) =>
                       item.productId === parseInt(productId) && item.stock > 0
                   ).length === 0 ? (
-                    <Button
-                      className="btn btn-danger mt-3 py-2 mx-0"
+                    <div
+                      class="alert alert-danger mt-4"
+                      role="alert"
                       style={{ cursor: "context-menu" }}
                     >
-                      Mohon Maaf Product Habis
-                    </Button>
+                      Mohon Maaf Stock Product Tidak Tersedia
+                    </div>
                   ) : isAuthenticated ? (
                     user.data.role === "SELLER" ? (
                       getListSizeResult.data
@@ -259,7 +230,7 @@ export default function Galery({ productId }) {
                                 }}
                               >
                                 <Button
-                                  className={`btn mx-2 my-2 ${
+                                  className={`btn btn-filter mx-2 my-2 ${
                                     active == item.sizeId && "btn-active"
                                   }`}
                                   isSecondaryOutline
@@ -302,7 +273,7 @@ export default function Galery({ productId }) {
                               }}
                             >
                               <Button
-                                className={`btn mx-2 my-2 ${
+                                className={`btn btn-filter mx-2 my-2 ${
                                   active == item.sizeId && "btn-active"
                                 }`}
                                 isSecondaryOutline
@@ -347,7 +318,7 @@ export default function Galery({ productId }) {
                 ) : getListSizeLoading ? (
                   <Button isLoading></Button>
                 ) : (
-                  <p>{getListSizeError ? getListSizeError : "erro"}</p>
+                  <p>{getListSizeError ? getListSizeError : ""}</p>
                 )}
               </div>
             </div>

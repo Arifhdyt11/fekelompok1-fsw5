@@ -1,44 +1,20 @@
-import imgBerhasil from "assets/images/checkModal-infoPenawar.png";
-import { formatDate, formatPrice } from "utils/defaultFormat";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getTransactionIdSeller,
-  updateTransactionSeller,
-} from "store/actions/transactionAction";
-import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { formatPrice } from "utils/defaultFormat";
+import { useDispatch } from "react-redux";
+import { updateTransactionSeller } from "store/actions/transactionAction";
+import { handleHeaderSwal } from "utils/sweetAlert";
 
 export default function ModalStatusSeller({ id, dataProduct, priceBid }) {
-  // const { updateTransactionSellerResult } = useSelector(
-  //   (state) => state.TransactionReducer
-  // );
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   if (updateTransactionSellerResult) {
-  //     dispatch(getTransactionIdSeller(id));
-  //   }
-  // }, [updateTransactionSellerResult, dispatch]);
 
   const handleUpdate = (status) => {
-    Swal.fire({
-      title: "Apakah Yakin ?",
-      text: `Transaksi Akan di Rubah Menjadi ${status}`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Simpan!",
-    }).then((result) => {
+    handleHeaderSwal(
+      "Apakah Yakin ?",
+      `Transaksi Akan di Rubah Menjadi ${status}`,
+      "warning",
+      true,
+      "Ya, Simpan!"
+    ).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          icon: "success",
-          title:
-            status === "success"
-              ? "Transaksi Berhasil"
-              : "Transaksi Dibatalkan",
-          showConfirmButton: false,
-          timer: 1500,
-        });
         dispatch(
           updateTransactionSeller({
             transactionId: id,

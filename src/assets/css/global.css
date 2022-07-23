@@ -75,21 +75,21 @@ p {
 .brand-text-icon {
   font-size: 26px;
   font-weight: 500;
-  color: #1565c0;
+  color: #023e7d;
   text-decoration: none;
 }
 
 .brand-text-icon :hover {
-  color: #1565c0;
+  color: #0466C8;
 }
 
 .brand-text-span {
-  color: #152c5b;
+  color: #0466C8;
 }
 
 /* BUTTON */
 .btn-primary {
-  background: #1565c0;
+  background: #023e7d;
   border-radius: 4px;
   font-weight: 500;
   font-size: 16px;
@@ -99,12 +99,12 @@ p {
 .btn-primary:hover {
   color: #fff;
   background-color: #0d47a1;
-  border-color: #1e3cc0;
+  border-color: #0d47a1;
 }
 
 .btn-secondary {
-  background-color: #023e7d;
-  border-color: #0d47a1;
+  background-color: #0466C8;
+  border-color: #0466C8;
   border-radius: 4px;
   font-weight: 500;
   font-size: 16px;
@@ -117,26 +117,26 @@ p {
 }
 
 .btn-outline-secondary {
-  color: #023e7d;
-  border-color: #023e7d;
+  color: #0466C8;
+  border-color: #0466C8;
 }
 
 .btn-outline-secondary:hover {
   color: #fff;
-  background-color: #023e7d;
-  border-color: #023e7d;
+  background-color: #0466C8;
+  border-color: #0466C8;
 }
 
 .btn-outline-secondary:active {
   color: #fff;
-  background-color: #023e7d;
-  border-color: #023e7d;
+  background-color: #0466C8;
+  border-color: #0466C8;
 }
 
 .btn-outline-secondary:focus {
   color: #fff;
-  background-color: #023e7d;
-  border-color: #023e7d;
+  background-color: #0466C8;
+  border-color: #0466C8;
   box-shadow: 0px 8px 15px rgba(25, 118, 210, 0.3);
 }
 
@@ -175,7 +175,7 @@ p {
 }
 
 .btn-active {
-  background: #023e7d;
+  background: #0466C8;
   color: #fff;
 }
 
@@ -276,7 +276,7 @@ button.dropdown-item {
   border-radius: 10em;
   line-height: 0.9em;
   color: white;
-  background: #1565c0;
+  background: #023e7d;
   text-align: center;
   min-width: 2em;
   font: bold 0.4em sans-serif;
@@ -321,6 +321,14 @@ p {
   margin-bottom: 5px;
 }
 
+.card-product .love-wishlist {
+  color: #023e7d;
+}
+
+.card-product .love-wishlist:hover {
+  color: #0466C8;
+}
+
 .customerTag {
   border-radius: 3px;
   padding: 0.3em;
@@ -332,6 +340,8 @@ p {
   position: relative;
   bottom: 1em;
 }
+
+
 
 .seller-img-wishlist {
   width: 48px;
@@ -386,6 +396,10 @@ footer .copyrights {
     max-width: 700px;
     margin: 1.75rem auto;
   }
+
+  .fas[data-count]:after {
+    top: 0em;
+  }
 }
 
 @media (min-width: 576px) {
@@ -393,10 +407,19 @@ footer .copyrights {
     max-width: 700px;
     margin: 1.75rem auto;
   }
+
+  .fas[data-count]:after {
+    top: 0em;
+  }
 }
 
 @media (min-width: 992px) {
   .offcanvas {
     width: 50%;
   }
+
+  .fas[data-count]:after {
+    top: -1.725em;
+  }
+
 }

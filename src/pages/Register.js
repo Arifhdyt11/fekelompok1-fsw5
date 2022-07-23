@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "assets/css/login.css";
-import BrandIcon from "components/IconText";
 
-import IconGoogle from "assets/images/ic_google.svg";
-// TODO: Redux
 import { useDispatch, useSelector } from "react-redux";
 import { addRegister } from "store/actions/registerAction";
-
 import { loginWithGoogle } from "store/actions/authAction";
 import { useGoogleLogin } from "@react-oauth/google";
-import Swal from "sweetalert2";
-import Button from "elements/Button";
 
-function handleError(message) {
-  return Swal.fire({
-    icon: "error",
-    title: message,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-}
+import IconGoogle from "assets/images/ic_google.svg";
+import Button from "elements/Button";
+import { handleSwal } from "utils/sweetAlert";
+import BrandIcon from "components/IconText";
 
 function Register() {
-  const { addRegisterResult, addRegisterLoading } = useSelector(
-    (state) => state.RegisterReducer
-  );
   useEffect(() => {
     document.title = "Shoesnarian | Register";
     window.scrollTo(0, 0);
   });
+
+  const { addRegisterLoading } = useSelector((state) => state.RegisterReducer);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,21 +31,22 @@ function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (email === "") {
-      handleError("Email cannot be empt");
-    }
-    if (password === "") {
-      handleError("Password cannot be empty");
+    if (role === "") {
+      handleSwal("Role cannot be empty!", "error");
     }
     if (password.length <= 6) {
-      handleError("Password cannot be less than 7");
+      handleSwal("Password cannot be less than 7!", "error");
+    }
+    if (password === "") {
+      handleSwal("Password cannot be empty!", "error");
+    }
+    if (email === "") {
+      handleSwal("Email cannot be empty!", "error");
     }
     if (name === "") {
-      handleError("Name cannot be empty");
+      handleSwal("Name cannot be empty!", "error");
     }
-    if (role === "") {
-      handleError("Role cannot be empty");
-    }
+
     if (
       email !== "" &&
       password !== "" &&
@@ -94,15 +84,13 @@ function Register() {
         <div className="row">
           {/* 1 */}
           <div className="col-sm-5 px-0 d-none d-sm-block img-section-wrapper">
-            <div alt="login image" className="login-img ">
-              {" "}
-            </div>
+            <div alt="login image" className="login-img register "></div>
           </div>
           {/* 2 */}
           <div className="col-sm-7 login-section-wrapper register">
             <div className="login-wrapper my-auto mx-auto">
               <BrandIcon />
-              <h1 className="login-title mt-2">Daftar</h1>
+              <h1 className="login-title mt-1">Daftar</h1>
               <form onSubmit={(event) => handleSubmit(event)}>
                 <div className="form-group">
                   <label htmlFor="name">Nama</label>
@@ -115,7 +103,6 @@ function Register() {
                     placeholder="Nama Lengkap"
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    required
                   />
                 </div>
 
@@ -130,7 +117,6 @@ function Register() {
                     placeholder="Contoh: johndee@gmail.com"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    required
                   />
                 </div>
 
@@ -145,7 +131,6 @@ function Register() {
                       placeholder="Masukkan password"
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
-                      required
                     />
                     <span className="input-group-text " id="basic-addon2">
                       <i
@@ -165,10 +150,9 @@ function Register() {
                     className="form-control form-control-custom"
                     value={role}
                     onChange={(event) => setRole(event.target.value)}
-                    required
                     data-testid="select-role"
                   >
-                    <option hidden selected>
+                    <option hidden defaultValue="">
                       -- Pilih Role --
                     </option>
                     <option data-testid="select-option" value="SELLER">
@@ -204,7 +188,7 @@ function Register() {
               </p>
 
               {addRegisterLoading ? (
-                <Button className="btn btn-dark" isBlock isLoading></Button>
+                ""
               ) : (
                 <Button
                   className="btn btn-dark"
