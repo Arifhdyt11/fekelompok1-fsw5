@@ -101,7 +101,6 @@ export const getNotificationSeller = () => {
 export const updateNotificationBuyer = (data) => {
   return (dispatch) => {
     //loading
-    console.log(data);
     dispatch({
       type: UPDATE_NOTIFICATION_BUYER,
       payload: {
@@ -123,7 +122,6 @@ export const updateNotificationBuyer = (data) => {
     })
       .then((response) => {
         //berhasil get API
-        console.log(response);
         dispatch({
           type: UPDATE_NOTIFICATION_BUYER,
           payload: {

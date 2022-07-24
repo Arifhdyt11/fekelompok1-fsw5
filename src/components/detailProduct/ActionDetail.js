@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 
 import { formatPrice } from "utils/defaultFormat";
 
@@ -116,24 +115,6 @@ function CheckButton({
     }
   }, [deleteProductResult, dispatch]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      const socket = io(process.env.REACT_APP_SOCKET);
-
-      socket.on("connection", () => {
-        socket.on("update-transaction", () => {
-          if (user.data.role === "BUYER") {
-            dispatch(getListTransactionBuyer());
-          }
-        });
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Socket disconnecting");
-      });
-    }
-  }, [getListTransactionBuyer]);
-
   const productId = parseInt(id);
 
   const location = useLocation();
@@ -192,7 +173,15 @@ function CheckButton({
     if (user.data.role === "SELLER") {
       return (
         <>
-          {getProductIdSellerLoading ? (
+          {updateProductLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isSecondary
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
+          ) : getProductIdSellerLoading ? (
             <Button
               className="btn mt-3 ms-auto py-2"
               isSecondary
@@ -230,7 +219,22 @@ function CheckButton({
             ""
           )}
 
-          {getProductIdSellerLoading ? (
+          {deleteProductLoading ? (
+            <>
+              <Button
+                className="btn btn-warning mt-3 ms-auto  py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+              <Button
+                className="btn btn-danger mt-3 ms-auto py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+            </>
+          ) : getProductIdSellerLoading ? (
             <>
               <Button
                 className="btn btn-warning mt-3 ms-auto  py-2"

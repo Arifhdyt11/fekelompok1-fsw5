@@ -6,13 +6,7 @@ function ModalChangePass() {
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
-  // const { changePasswordResult } = useSelector(
-  //   (state) => state.ChangePasswordReducer
-  // );
-  const { user } = useSelector((state) => state.AuthReducer);
-
   const dispatch = useDispatch();
-  // console.log(user.data.password);
 
   const handleSubmit = (event) => {
     event.preventDefault();

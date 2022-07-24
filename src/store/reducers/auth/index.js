@@ -46,7 +46,6 @@ const authReducer = (state = initialState, action) => {
       };
 
     case UPDATE_PROFILE:
-      console.log("reducer : ", action);
       localStorage.setItem("user", JSON.stringify(action.user));
       return {
         ...state,

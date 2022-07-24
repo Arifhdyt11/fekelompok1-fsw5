@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 export default function Middleware({ childern, role }) {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
 
-  // console.log(localStorage);
   return (
     <>
       {isAuthenticated ? (
