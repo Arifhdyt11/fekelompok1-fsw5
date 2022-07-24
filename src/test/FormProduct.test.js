@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import store from "../store";
 import { MemoryRouter as Router } from "react-router-dom";
 import FormActionProduct from "pages/FormActionProduct";
-import userEvent from "@testing-library/user-event";
 
 window.scrollTo = jest.fn();
 

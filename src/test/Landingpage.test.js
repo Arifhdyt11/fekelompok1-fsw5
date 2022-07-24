@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import store from "../store";
 import { MemoryRouter as Router } from "react-router-dom";
 import LandingPage from "pages/LandingPage";
-import Hero from "components/landingPage/Hero";
 
 window.scrollTo = jest.fn();
 
