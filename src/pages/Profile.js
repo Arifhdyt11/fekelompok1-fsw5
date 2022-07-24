@@ -8,7 +8,6 @@ import ModalChangePass from "components/ModalChangePass";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
 import Swal from "sweetalert2";
-
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { getKota, getProvinsi } from "store/actions/cityAction";
@@ -138,7 +137,12 @@ export default function ProfilePage() {
         <div className="container mt-lg-5 mb-5" id="profile">
           <div className="row ">
             <div className="col-md-1 col-sm-12  divArrow">
-              <Button type="link" href="/" className="arrow" nonStyle>
+              <Button
+                type="link"
+                href={user.data.role === "SELLER" ? "/seller" : "/"}
+                className="arrow"
+                nonStyle
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="35"
@@ -156,9 +160,11 @@ export default function ProfilePage() {
             </div>
             <div className="col-md-11 col-sm-12 mb-4 ">
               <form onSubmit={handleSubmit}>
-                <p className="text-center">Click Image If You Want To Change</p>
                 <div className="mb-3 text-center">
                   <label htmlFor="file-input" id="preview">
+                    <p className="text-center">
+                      Klik gambar untuk mengubah foto profile
+                    </p>
                     <img
                       id="filePhoto"
                       className="display-none uploadImageInput m-2"
