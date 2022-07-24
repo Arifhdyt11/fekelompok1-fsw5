@@ -164,7 +164,7 @@ export default function Galery({ productId }) {
                       item.productId === parseInt(productId) && item.stock > 0
                   ).length === 0 ? (
                     <div
-                      class="alert alert-danger mt-4"
+                      class="alert alert-danger mt-4 mx-2"
                       role="alert"
                       style={{ cursor: "context-menu" }}
                     >

@@ -17,9 +17,8 @@ function ProductBody() {
   const { user } = useSelector((state) => state.AuthReducer);
 
   //--------------------TOTAL PRODUCT--------------
-  const { getListProductSellerResult } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const { getListProductSellerResult, getListProductSellerLoading } =
+    useSelector((state) => state.ProductReducer);
 
   useEffect(() => {
     dispatch(getListProductSeller());
@@ -85,9 +84,8 @@ function ProductBody() {
   }, [dispatch]);
 
   //-----------------------------TOTAL SOLD-------------------------------
-  const { getListTransactionSellerResult } = useSelector(
-    (state) => state.TransactionReducer
-  );
+  const { getListTransactionSellerResult, getListTransactionSellerLoading } =
+    useSelector((state) => state.TransactionReducer);
 
   useEffect(() => {
     dispatch(getListTransactionSeller());
@@ -159,7 +157,13 @@ function ProductBody() {
                 <i className="fa-regular fa-cube fa-xs item-icon"></i>Semua
                 Produk
               </div>
-              <span className="badge bg-primary">{total}</span>
+              <span className="badge bg-primary">
+                {getListProductSellerLoading ? (
+                  <i className="fa-solid fa-circle-notch fa-spin"></i>
+                ) : (
+                  total
+                )}
+              </span>
             </li>
 
             <li
@@ -169,7 +173,13 @@ function ProductBody() {
               <div className="icon-list">
                 <i className="fa-solid fa-book-blank fa-xs item-icon"></i>Draft
               </div>
-              <span className="badge bg-primary">{draft}</span>
+              <span className="badge bg-primary">
+                {getListProductSellerLoading ? (
+                  <i className="fa-solid fa-circle-notch fa-spin"></i>
+                ) : (
+                  draft
+                )}
+              </span>
             </li>
 
             <li
@@ -195,7 +205,13 @@ function ProductBody() {
                 <i className="fa-solid fa-dollar-sign fa-xs item-icon"></i>
                 Terjual
               </div>
-              <span className="badge bg-primary">{sold}</span>
+              <span className="badge bg-primary">
+                {getListTransactionSellerLoading ? (
+                  <i className="fa-solid fa-circle-notch fa-spin"></i>
+                ) : (
+                  sold
+                )}
+              </span>
             </li>
           </ul>
         </div>
