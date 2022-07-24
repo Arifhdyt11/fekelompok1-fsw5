@@ -19,7 +19,7 @@ export default function Footer() {
                 </Button>
               </li>
               <li className="list-group-item">
-                <Button type="link" href="/properties">
+                <Button type="link" href="/properties" data-testid="footer">
                   Start Buy a Shoes
                 </Button>
               </li>

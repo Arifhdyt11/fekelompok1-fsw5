@@ -8,7 +8,6 @@ export default function TransactionBuyer({
   productSizes,
   updatedAt,
 }) {
-  // console.log(productSizes);
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>
@@ -102,6 +101,7 @@ export default function TransactionBuyer({
                 hasRadius
                 hasShadow
                 isExternal
+                target="_blank"
                 type="link"
                 href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >
@@ -115,6 +115,7 @@ export default function TransactionBuyer({
                 hasRadius
                 hasShadow
                 isExternal
+                target="_blank"
                 type="link"
                 href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >

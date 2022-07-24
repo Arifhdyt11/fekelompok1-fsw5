@@ -16,26 +16,11 @@ function DraftProduct() {
     getListProductSellerLoading,
     getListProductSellerError,
   } = useSelector((state) => state.ProductReducer);
-  const { accessToken } = useSelector((state) => state.AuthReducer);
-  const dispatch = useDispatch();
-
-  //-----------------------SEARCH ---------------------
-  const getInitialData = getListProductSellerResult.data;
-  const [productSeller, setProductSeller] = useState(getInitialData);
-  const [searchValue, setSearchValue] = useState("");
-
-  useEffect(() => {
-    setProductSeller(dispatch(getListProductSeller(accessToken)));
-  }, [dispatch]);
-
-  useEffect(() => {
-    setProductSeller(getInitialData);
-  }, [getInitialData]);
 
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">
-        <div className="row justify-content-center">
+        <div className="row justify-content-start">
           {getListProductSellerResult ? (
             getListProductSellerResult.data.filter(
               (item) => item.status === "draft"

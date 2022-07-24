@@ -1,18 +1,18 @@
 import "assets/css/detailProduct.css";
-
-import { Navigate, useParams } from "react-router-dom";
-
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductId, getProductIdSeller } from "store/actions/productAction";
+import { useParams } from "react-router-dom";
 
-import ActionDetail from "components/detailProduct/ActionDetail";
-import DescriptionProduct from "components/detailProduct/DescriptionProduct";
-import Footer from "components/Footer";
-import Galery from "components/detailProduct/Galery";
 import Navbar from "components/Navbar";
 import ProductTitle from "components/detailProduct/ProductTitle";
-import PageNotFound from "./404";
+import Galery from "components/detailProduct/Galery";
+import DescriptionProduct from "components/detailProduct/DescriptionProduct";
+import ActionDetail from "components/detailProduct/ActionDetail";
+
+import { getProductId, getProductIdSeller } from "store/actions/productAction";
+import { getListSize } from "store/actions/sizeAction";
+import { getListTransactionBuyer } from "store/actions/transactionAction";
+import { io } from "socket.io-client";
 
 function ShowDetailProduct() {
   const { id } = useParams();
@@ -23,10 +23,10 @@ function ShowDetailProduct() {
       <Galery productId={id} />
       <section className="container section-detail-product mt-5 mb-5">
         <div className="row">
-          <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+          <div className="col-lg-5 order-md-5 mb-5 mb-lg-0 d-flex align-items-center">
             <ActionDetail id={id} />
           </div>
-          <div className="col-lg-7 order-sm-1 ">
+          <div className="col-lg-7 order-md-1 ">
             <DescriptionProduct />
           </div>
         </div>
@@ -36,26 +36,24 @@ function ShowDetailProduct() {
 }
 
 export default function DetailProduct() {
-  const { isAuthenticated, user, accessToken } = useSelector(
-    (state) => state.AuthReducer
-  );
-  const {
-    getProductIdResult,
+  useEffect(() => {
+    document.title = "Shoesnarian | Detail Product";
+  });
 
-    getProductSellerIdResult,
-  } = useSelector((state) => state.ProductReducer);
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
+  const { getProductIdResult, getProductSellerIdResult } = useSelector(
+    (state) => state.ProductReducer
+  );
 
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    document.title = "Shoesnarian | Detail Product";
-  });
-
-  useEffect(() => {
     if (isAuthenticated) {
-      if (user.data.role === "BUYER") {
+      if (user.data.role === "SELLER") {
+        dispatch(getProductIdSeller(id));
+      } else {
         dispatch(getProductId(id));
       }
     } else {
@@ -64,12 +62,31 @@ export default function DetailProduct() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      if (user.data.role === "SELLER") {
-        dispatch(getProductIdSeller(id));
-      }
-    }
+    dispatch(getListSize());
   }, [dispatch]);
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_SOCKET);
+
+    socket.on("connection", () => {
+      if (isAuthenticated) {
+        if (user.data.role === "BUYER") {
+          socket.on("update-transaction", () => {
+            dispatch(getListTransactionBuyer());
+          });
+          socket.on("delete-products", () => {
+            dispatch(getProductId(id));
+          });
+          socket.on("update-products", () => {
+            dispatch(getProductId(id));
+          });
+          socket.on("add-products", () => {
+            dispatch(getProductId(id));
+          });
+        }
+      }
+    });
+  }, [getProductId, getListTransactionBuyer]);
 
   return (
     <>

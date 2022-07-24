@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSize, getListSize, updateSize } from "store/actions/sizeAction";
 
 export default function FormSize({ productId }) {
-  console.log(productId);
   const [size, setSize] = useState("");
   const [stock, setStock] = useState("");
   const [id, setId] = useState("");
@@ -13,8 +12,6 @@ export default function FormSize({ productId }) {
     (state) => state.SizeReducer
   );
 
-  console.log("size", size);
-  console.log(stock);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +50,7 @@ export default function FormSize({ productId }) {
 
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize());
+      // dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
@@ -70,7 +67,7 @@ export default function FormSize({ productId }) {
 
   useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize());
+      // dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");

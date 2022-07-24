@@ -5,18 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
 
-import Button from "elements/Button";
 import DraftProduct from "./DraftProduct";
+import { io } from "socket.io-client";
+import Sold from "./Sold";
+import { getListTransactionSeller } from "store/actions/transactionAction";
+import { getListSize } from "store/actions/sizeAction";
+import { update } from "lodash";
+import Button from "elements/Button";
 function ProductBody() {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.AuthReducer);
 
   //--------------------TOTAL PRODUCT--------------
   const { getListProductSellerResult } = useSelector(
     (state) => state.ProductReducer
   );
+
   useEffect(() => {
-    dispatch(getListProductSeller(accessToken));
+    dispatch(getListProductSeller());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getListSize());
   }, [dispatch]);
 
   if (getListProductSellerResult) {
@@ -30,44 +40,108 @@ function ProductBody() {
     ).length;
   }
 
-  //------------------TOTAL WISHLIST------------------
-  const sellerId = user.data.id;
-  const { getListWishlistSellerResult } = useSelector(
-    (state) => state.WishlistReducer
-  );
   useEffect(() => {
-    dispatch(getListWishlistSeller(sellerId, accessToken));
+    if (user.data.role === "SELLER") {
+      setTotal(countProduct);
+    }
+  }, [countProduct]);
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setDraft(countDraft);
+    }
+  }, [countDraft]);
+  //------------------TOTAL WISHLIST------------------
+
+  const { getListWishlistSellerResult, getListWishlistSellerLoading } =
+    useSelector((state) => state.WishlistReducer);
+  useEffect(() => {
+    dispatch(getListWishlistSeller());
   }, [dispatch]);
 
   if (getListWishlistSellerResult) {
     var countWishlist = getListWishlistSellerResult.data.length;
   }
 
-  //--------------------------------------------------------------
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setWishlist(countWishlist);
+    }
+  }, [countWishlist]);
+
+  useEffect(() => {
+    const socket = io(process.env.REACT_APP_SOCKET);
+
+    socket.on("connection", () => {
+      if (user.data.role === "SELLER") {
+        socket.on("add-wishlist", () => {
+          dispatch(getListWishlistSeller());
+        });
+        socket.on("delete-wishlist", () => {
+          dispatch(getListWishlistSeller());
+        });
+      }
+    });
+  }, [dispatch]);
+
+  //-----------------------------TOTAL SOLD-------------------------------
+  const { getListTransactionSellerResult } = useSelector(
+    (state) => state.TransactionReducer
+  );
+
+  useEffect(() => {
+    dispatch(getListTransactionSeller());
+  }, [dispatch]);
+
+  if (getListTransactionSellerResult) {
+    var countSold = getListTransactionSellerResult.data.filter(
+      (item) => item.status === "success"
+    ).length;
+  }
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setSold(countSold);
+    }
+  }, [countSold]);
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      const socket = io(process.env.REACT_APP_SOCKET);
+      socket.on("connection", () => {
+        socket.on("update-transaction", () => {
+          dispatch(getListTransactionSeller());
+        });
+      });
+    }
+  }, [dispatch]);
+
+  // --------------------------------------------------------------
 
   const [total, setTotal] = useState(null);
-  const [draft, setDraft] = useState("");
-  const [wishlist, setWishlist] = useState("");
+  const [draft, setDraft] = useState(null);
+  const [wishlist, setWishlist] = useState(null);
+  const [sold, setSold] = useState(null);
 
   const [show, setShow] = useState(<ProductList />);
+
   const handleShow = (itShow) => {
     if (itShow === "All") {
       setShow(<ProductList />);
       setTotal(countProduct);
-      setDraft("");
-      setWishlist("");
     }
     if (itShow === "Draft") {
       setShow(<DraftProduct />);
-      setTotal("");
+
       setDraft(countDraft);
-      setWishlist("");
     }
     if (itShow === "Diminati") {
       setShow(<Wishlist />);
-      setTotal("");
-      setDraft("");
       setWishlist(countWishlist);
+    }
+    if (itShow === "Terjual") {
+      setShow(<Sold />);
+      setSold(countSold);
     }
   };
 
@@ -85,9 +159,7 @@ function ProductBody() {
                 <i className="fa-regular fa-cube fa-xs item-icon"></i>Semua
                 Produk
               </div>
-              <span className="badge bg-primary">
-                {total === null ? countProduct : total}
-              </span>
+              <span className="badge bg-primary">{total}</span>
             </li>
 
             <li
@@ -107,18 +179,24 @@ function ProductBody() {
               <div className="icon-list">
                 <i className="fa-regular fa-heart fa-xs item-icon"></i>Diminati
               </div>
-              <span className="badge bg-primary">{wishlist}</span>
+              <span className="badge bg-primary">
+                {getListWishlistSellerLoading ? (
+                  <i className="fa-solid fa-circle-notch fa-spin"></i>
+                ) : (
+                  wishlist
+                )}
+              </span>
             </li>
-            <Button
+            <li
               className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"
-              type="link"
-              href="/transaction"
+              onClick={() => handleShow("Terjual")}
             >
               <div className="icon-list">
                 <i className="fa-solid fa-dollar-sign fa-xs item-icon"></i>
                 Terjual
               </div>
-            </Button>
+              <span className="badge bg-primary">{sold}</span>
+            </li>
           </ul>
         </div>
       </div>

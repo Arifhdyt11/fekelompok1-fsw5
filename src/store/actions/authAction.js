@@ -1,5 +1,5 @@
-import Swal from "sweetalert2";
 import { AUTH_ERROR, LOGIN, LOGOUT, UPDATE_PROFILE } from "store/types";
+import { handleSwal } from "utils/sweetAlert";
 
 export const loginViaForm = (data) => async (dispatch) => {
   dispatch({
@@ -30,9 +30,9 @@ export const loginViaForm = (data) => async (dispatch) => {
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
-    console.log(`Token user ${result.accessToken}`);
 
     if (result.accessToken) {
+      handleSwal("Login Successful!", "success");
       dispatch({
         type: LOGIN,
         payload: {
@@ -42,14 +42,7 @@ export const loginViaForm = (data) => async (dispatch) => {
         },
         user: user,
       });
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        showConfirmButton: false,
-        timer: 1500,
-      });
     } else {
-      // console.log(result);
       dispatch({
         type: LOGIN,
         payload: {
@@ -69,12 +62,7 @@ export const loginViaForm = (data) => async (dispatch) => {
         user: false,
       });
 
-      Swal.fire({
-        icon: "error",
-        title: `${result.message}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      handleSwal(result.message, "error");
     }
   } catch (error) {
     dispatch({
@@ -95,13 +83,7 @@ export const loginViaForm = (data) => async (dispatch) => {
       },
       user: false,
     });
-    console.log(error);
-    Swal.fire({
-      icon: "error",
-      title: `${error}`,
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    handleSwal(error, "error");
   }
 };
 
@@ -133,12 +115,7 @@ export const logout = () => async (dispatch) => {
   dispatch({
     type: LOGOUT,
   });
-  Swal.fire({
-    icon: "info",
-    title: "Logout Successful",
-    showConfirmButton: false,
-    timer: 1500,
-  });
+  handleSwal("Logout Successful", "success");
 };
 
 export const updateUserDetail = (data) => async (dispatch) => {
@@ -168,12 +145,15 @@ export const updateUserDetail = (data) => async (dispatch) => {
     });
 
     const result = await response.json();
-    console.log("3. Berhasil dapet data:", result);
-    // if (result.data.role === "SELLER") {
-    //   window.location.href = "/seller";
-    // } else {
-    //   window.location.href = "/";
-    // }
+    if (result.data.role === "SELLER") {
+      handleSwal("Data Berhasil Di Update", "success").then(function () {
+        window.location.href = "/seller";
+      });
+    } else {
+      handleSwal("Data Berhasil Di Update", "success").then(function () {
+        window.location.href = "/";
+      });
+    }
     dispatch({
       type: UPDATE_PROFILE,
       loading: false,
@@ -207,8 +187,6 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       body: JSON.stringify(data),
     });
     const result = await response.json();
-    // console.log(data);
-    // console.log(result);
 
     // profile
     const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
@@ -221,6 +199,7 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
 
     if (result.token) {
+      handleSwal("Login Successful!", "success");
       dispatch({
         type: LOGIN,
         payload: {
@@ -229,12 +208,6 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
           errorMessage: false,
         },
         user: user,
-      });
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        showConfirmButton: false,
-        timer: 1500,
       });
       window.location.href = "/";
     } else {
@@ -257,12 +230,7 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
         },
         user: false,
       });
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      handleSwal("Login Failed!", "error");
     }
   } catch (error) {
     // authError(error);
@@ -284,12 +252,6 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
       },
       user: false,
     });
-    Swal.fire({
-      position: "top-end",
-      icon: "error",
-      title: "Login Failed",
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    handleSwal(error, "error");
   }
 };

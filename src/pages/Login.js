@@ -12,6 +12,7 @@ import LoginImg from "assets/images/login5.jpg";
 import IconGoogle from "assets/images/ic_google.svg";
 import Button from "elements/Button";
 import Swal from "sweetalert2";
+import { handleSwal } from "utils/sweetAlert";
 
 function Login() {
   useEffect(() => {
@@ -34,19 +35,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (email === "") {
-      alert("Please enter your email");
-    }
-    if (password === "") {
-      alert("Password cannot be empty");
-    }
-    if (email !== "" && password !== "") {
-      dispatch(loginViaForm({ email, password }));
-    }
-  };
-
   const togglePasswordVisiblity = () => {
     setPasswordShown(passwordShown ? false : true);
   };
@@ -60,7 +48,19 @@ function Login() {
     },
   });
 
-  console.log(user);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password === "") {
+      handleSwal("Password cannot be empty!", "error");
+    }
+    if (email === "") {
+      handleSwal("Please enter your email!", "error");
+    }
+    if (email !== "" && password !== "") {
+      dispatch(loginViaForm({ email, password }));
+    }
+  };
+
   return (
     <>
       {isAuthenticated ? (
@@ -97,7 +97,6 @@ function Login() {
                         placeholder="Contoh: johndee@gmail.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                       />
                     </div>
 
@@ -112,7 +111,6 @@ function Login() {
                           placeholder="Masukkan password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
-                          required
                         />
                         <span className="input-group-text " id="basic-addon2">
                           <i
@@ -139,6 +137,7 @@ function Login() {
                         className="btn btn-block login-btn"
                         type="submit"
                         value="Masuk"
+                        data-testid="login-submit"
                       >
                         Masuk
                       </button>
@@ -151,7 +150,7 @@ function Login() {
                     </Link>
                   </p>
                   {isAuthenticatedLoading ? (
-                    <Button className="btn btn-dark" isBlock isLoading></Button>
+                    ""
                   ) : (
                     <Button
                       className="btn btn-dark"

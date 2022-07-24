@@ -13,30 +13,28 @@ function ProductItem({
   categories,
   price,
   image,
-  productId,
+  productSizes,
   products,
   index,
   count,
 }) {
-  const { accessToken } = useSelector((state) => state.AuthReducer);
-  const { getListSizeResult } = useSelector((state) => state.SizeReducer);
-  const { getProductIdSellerResult } = useSelector(
-    (state) => state.ProductReducer
+  const { getListSizeResult, getListSizeLoading } = useSelector(
+    (state) => state.SizeReducer
   );
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getListSize(accessToken));
-  }, [dispatch]);
-
-  // console.log(products);
   return (
     <>
       <div className="col-lg-4 col-md-6 col-sm-6 ">
         <Fade bottom delay={300 * index}>
           <div className="card-product p-3 mb-4">
-            {products ? (
-              //Wishlist Badge
+            {productSizes ? (
+              //Badge Terjual
+              <div className="d-md-flex flex-row-reverse">
+                <span className="badge bg-primary p-2">
+                  {`Terjual \xa0 : \xa0 ${count}`}
+                </span>
+              </div>
+            ) : products ? ( //Wishlist Badge
               <div className="d-md-flex flex-row-reverse">
                 <span className="badge bg-primary p-2">
                   {`Diminati \xa0 : \xa0 ${count}`}
@@ -67,13 +65,36 @@ function ProductItem({
                       <i className="fa-solid fa-plus"> </i> Stok
                     </span>
                   )
+                ) : getListSizeLoading ? (
+                  <Button className="btn" nonStyle isLoading></Button>
                 ) : (
                   ""
                 )}
               </div>
             )}
-            {products ? (
-              //wishlist
+            {/* INI ITEM PRODUCTNYA */}
+            {productSizes ? (
+              <Button
+                type="link"
+                href={`/history`}
+                className=" "
+                style={{ textDecoration: "none" }}
+                key={id}
+              >
+                <img
+                  src={`${productSizes.products.image[0]}`}
+                  alt={`${productSizes.products.image[0]}`}
+                  className="img-fluid product-img mb-4"
+                />
+                <div className="product-name mb-1">
+                  <h5 style={{ height: 45 }}>
+                    {titleShorten(productSizes.products.name, 40, " ")}
+                  </h5>
+                </div>
+                <p>{productSizes.products.categories.name}</p>
+                <h5>Rp. {formatPrice(productSizes.products.price)}</h5>
+              </Button>
+            ) : products ? ( //wishlist
               <Button
                 type="link"
                 href={`/seller-product/${products.id}`}

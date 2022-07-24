@@ -10,11 +10,12 @@ import {
   updateNotificationBuyer,
   updateNotificationSeller,
 } from "store/actions/notificationAction";
-import { formatDate } from "utils/defaultFormat";
 import CardLoading from "components/CardLoading";
 import Navbar from "components/Navbar";
 
 import ProductNotFound from "assets/images/ilustrasi.svg";
+
+import TimeAgo from "timeago-react";
 
 export default function NotifikasiPage() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
@@ -62,8 +63,6 @@ export default function NotifikasiPage() {
     }
   };
 
-  // console.log(getNotificationBuyerResult);
-
   return (
     <>
       <Navbar />
@@ -72,7 +71,7 @@ export default function NotifikasiPage() {
           className="btn arrow-back position-absolute d-flex justify-content-center "
           nonStyle
           type="link"
-          href="/"
+          href={user.data.role === "SELLER" ? "/seller" : "/"}
         >
           <i className="fa-solid fa-arrow-left-long fa-lg align-self-center me-4 mt-3"></i>
           <h6 className="m-0 mt-3 d-block d-md-none">Back to Home</h6>
@@ -96,6 +95,10 @@ export default function NotifikasiPage() {
                 </Button>
               </div>
             )
+          ) : getNotificationSellerLoading ? (
+            <div className="d-flex flex-row-reverse">
+              <Button className="btn mb-3" isPrimary isLoading></Button>
+            </div>
           ) : (
             ""
           )
@@ -113,6 +116,10 @@ export default function NotifikasiPage() {
               </Button>
             </div>
           )
+        ) : getNotificationBuyerLoading ? (
+          <div className="d-flex flex-row-reverse">
+            <Button className="btn mb-3" isPrimary isLoading></Button>
+          </div>
         ) : (
           ""
         )}
@@ -137,26 +144,16 @@ export default function NotifikasiPage() {
                   )
                   .map((item) => {
                     return (
-                      <Link to="/history" key={item.id}>
+                      <Link
+                        to={`/transaction/${item.transactionId}`}
+                        key={item.id}
+                      >
                         <div
-                          className={`card-notifications is-block px-4 py-3 mb-3 d-flex justify-content-start ${
+                          className={`card-notifications is-block px-4 py-3 mb-3  ${
                             item.isReadSeller === false ? "isRead" : ""
                           }`}
                         >
-                          <img
-                            className="img-fluid img-notifications align-self-center me-4"
-                            src={
-                              item.transactions.productSizes.products.image[0]
-                            }
-                            alt=""
-                          />
-                          <div className="align-self-center">
-                            <h5>{item.message}</h5>
-                            <h6>
-                              {item.transactions.productSizes.products.name}
-                            </h6>
-                          </div>
-                          <div className="ms-auto text-center">
+                          <div className="ms-auto text-center d-block d-md-none">
                             {item.isReadSeller === false ? (
                               <p
                                 className="me-3"
@@ -171,7 +168,43 @@ export default function NotifikasiPage() {
                             ) : (
                               ""
                             )}
-                            <p>{formatDate(item.createdAt, "hours")}</p>
+                            <p>
+                              <TimeAgo datetime={new Date(item.createdAt)} />
+                            </p>
+                          </div>
+                          <div className="d-flex justify-content-start">
+                            <img
+                              className="img-fluid img-notifications align-self-center me-4"
+                              src={
+                                item.transactions.productSizes.products.image[0]
+                              }
+                              alt=""
+                            />
+                            <div className="align-self-center">
+                              <h5>{item.message}</h5>
+                              <h6>
+                                {item.transactions.productSizes.products.name}
+                              </h6>
+                            </div>
+                            <div className="ms-auto text-center d-none d-md-block">
+                              {item.isReadSeller === false ? (
+                                <p
+                                  className="me-3"
+                                  style={{
+                                    color: "#023e7d",
+                                    fontSize: "12px",
+                                    fontWeight: 500,
+                                  }}
+                                >
+                                  New
+                                </p>
+                              ) : (
+                                ""
+                              )}
+                              <p>
+                                <TimeAgo datetime={new Date(item.createdAt)} />
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </Link>
@@ -208,22 +241,11 @@ export default function NotifikasiPage() {
                   return (
                     <Link to="/history" key={item.id}>
                       <div
-                        className={`card-notifications is-block px-4 py-3 mb-3 d-flex justify-content-start ${
+                        className={`card-notifications is-block px-4 py-3 mb-3  ${
                           item.isReadBuyer === false ? "isRead" : ""
                         }`}
                       >
-                        <img
-                          className="img-fluid img-notifications align-self-center me-4"
-                          src={item.transactions.productSizes.products.image[0]}
-                          alt=""
-                        />
-                        <div className="align-self-center">
-                          <h5>{item.message}</h5>
-                          <h6>
-                            {item.transactions.productSizes.products.name}
-                          </h6>
-                        </div>
-                        <div className="ms-auto text-center">
+                        <div className="ms-auto text-center d-block d-md-none">
                           {item.isReadBuyer === false ? (
                             <p
                               className="me-3"
@@ -238,7 +260,43 @@ export default function NotifikasiPage() {
                           ) : (
                             ""
                           )}
-                          <p>{formatDate(item.createdAt, "hours")}</p>
+                          <p>
+                            <TimeAgo datetime={new Date(item.createdAt)} />
+                          </p>
+                        </div>
+                        <div className="d-flex justify-content-start">
+                          <img
+                            className="img-fluid img-notifications align-self-center me-4"
+                            src={
+                              item.transactions.productSizes.products.image[0]
+                            }
+                            alt=""
+                          />
+                          <div className="align-self-center">
+                            <h5>{item.message}</h5>
+                            <h6>
+                              {item.transactions.productSizes.products.name}
+                            </h6>
+                          </div>
+                          <div className="ms-auto text-center d-none d-md-block">
+                            {item.isReadBuyer === false ? (
+                              <p
+                                className="me-3"
+                                style={{
+                                  color: "#023e7d",
+                                  fontSize: "12px",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                New
+                              </p>
+                            ) : (
+                              ""
+                            )}
+                            <p>
+                              <TimeAgo datetime={new Date(item.createdAt)} />
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </Link>

@@ -8,6 +8,7 @@ import {
   UPDATE_TRANSACTION_SELLER,
   ADD_TRANSACTION,
 } from "store/types";
+import { handleSwal } from "utils/sweetAlert";
 
 export const getListTransactionBuyer = () => {
   return (dispatch) => {
@@ -167,7 +168,6 @@ export const addTransaction = (data) => {
     })
       .then((response) => {
         //berhasil get API
-        console.log(response);
         dispatch({
           type: ADD_TRANSACTION,
           payload: {
@@ -226,6 +226,16 @@ export const updateTransactionSeller = (data) => {
       data: data,
     })
       .then((response) => {
+        handleSwal(
+          data.status === "success"
+            ? "Transaksi Berhasil"
+            : data.status === "process"
+            ? "Transaksi Dalam Proses"
+            : data.status === "cancel" || data.status === "reject"
+            ? "Transaksi Dibatalkan"
+            : "",
+          "success"
+        );
         //berhasil get API
         dispatch({
           type: UPDATE_TRANSACTION_SELLER,

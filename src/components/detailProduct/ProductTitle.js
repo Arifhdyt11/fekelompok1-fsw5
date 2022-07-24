@@ -1,7 +1,7 @@
-import Button from "elements/Button";
 import { useSelector } from "react-redux";
-
 import Fade from "react-reveal/Fade";
+
+import Button from "elements/Button";
 
 export default function ProductTitle() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
@@ -48,9 +48,7 @@ export default function ProductTitle() {
                   <Button isLoading></Button>
                 ) : (
                   <p>
-                    {getProductIdSellerError
-                      ? getProductIdSellerError
-                      : "Please Reload or Try Again"}
+                    {getProductIdSellerError ? getProductIdSellerError : ""}
                   </p>
                 )
               ) : getProductIdResult ? ( //BUYER
@@ -61,11 +59,7 @@ export default function ProductTitle() {
               ) : getProductIdLoading ? (
                 <Button isLoading></Button>
               ) : (
-                <p>
-                  {getProductIdError
-                    ? getProductIdError
-                    : "Please Reload or Try Again"}
-                </p>
+                <p>{getProductIdError ? getProductIdError : ""}</p>
               )
             ) : getProductIdResult ? ( //NOT LOGEED IN
               <div>
@@ -75,20 +69,18 @@ export default function ProductTitle() {
             ) : getProductIdLoading ? (
               <Button isLoading></Button>
             ) : (
-              <p>
-                {getProductIdError
-                  ? getProductIdError
-                  : "Please Reload or Try Again"}
-              </p>
+              <p>{getProductIdError ? getProductIdError : ""}</p>
             )}
           </div>
+
+          {/* ALERT */}
           {isAuthenticated ? (
             user.data.role === "SELLER" ? (
               ""
             ) : getProductIdResult ? (
               getProductIdResult.status === "draft" ? (
                 <div
-                  class="alert alert-warning alert-draft text-center "
+                  className="alert alert-warning alert-draft text-center "
                   role="alert"
                 >
                   Product Tidak Tersedia Sementara
@@ -102,7 +94,7 @@ export default function ProductTitle() {
           ) : getProductIdResult ? (
             getProductIdResult.status === "draft" ? (
               <div
-                class="alert alert-warning alert-draft text-center "
+                className="alert alert-warning alert-draft text-center "
                 role="alert"
               >
                 Product Tidak Tersedia Sementara

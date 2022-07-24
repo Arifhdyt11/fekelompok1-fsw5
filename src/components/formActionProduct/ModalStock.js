@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "elements/Button";
 import { useDispatch, useSelector } from "react-redux";
 
+import { handleSwal } from "utils/sweetAlert";
+
 import {
   addSize,
   deleteSize,
@@ -9,20 +11,9 @@ import {
   getListSize,
   updateSize,
 } from "store/actions/sizeAction";
-import Swal from "sweetalert2";
-
-function handleError(message) {
-  return Swal.fire({
-    icon: "error",
-    title: message,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-}
+import { DETAIL_SIZE } from "store/types";
 
 export default function ModalStock({ productId }) {
-  const { accessToken } = useSelector((state) => state.AuthReducer);
-
   const [size, setSize] = useState("");
   const [stock, setStock] = useState("");
   const [id, setId] = useState(false);
@@ -64,7 +55,7 @@ export default function ModalStock({ productId }) {
 
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize(accessToken));
+      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
@@ -72,14 +63,8 @@ export default function ModalStock({ productId }) {
   }, [addSizeResult, dispatch]);
 
   useEffect(() => {
-    if (addSizeLoading) {
-      dispatch(getListSize(accessToken));
-    }
-  }, [addSizeLoading, dispatch]);
-
-  useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize(accessToken));
+      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
@@ -87,45 +72,27 @@ export default function ModalStock({ productId }) {
   }, [updateSizeResult, dispatch]);
 
   useEffect(() => {
-    if (updateSizeLoading) {
-      dispatch(getListSize(accessToken));
-      setId("");
-      setSize("");
-      setStock("");
-    }
-  }, [updateSizeLoading, dispatch]);
-
-  useEffect(() => {
     if (deleteSizeResult) {
-      dispatch(getListSize(accessToken));
+      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
   }, [deleteSizeResult, dispatch]);
 
-  useEffect(() => {
-    if (deleteSizeLoading) {
-      dispatch(getListSize(accessToken));
-      setId("");
-      setSize("");
-      setStock("");
-    }
-  }, [deleteSizeLoading, dispatch]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (stock > 1000) {
-      handleError("Stock Tidak Bisa lebih dari 1000");
+      handleSwal("Stock Tidak Bisa lebih dari 1000", "error");
     }
     if (stock <= 0) {
-      handleError("Stock Tidak Boleh Kosong atau Minus");
+      handleSwal("Stock Tidak Boleh Kosong atau Minus", "error");
     }
+
     if (id) {
       if (stock > 0 && stock <= 1000) {
         dispatch(
           updateSize({
-            token: accessToken,
             id: id,
             sizeId: size,
             stock: stock,
@@ -139,21 +106,14 @@ export default function ModalStock({ productId }) {
         getListSizeResult.data
           .filter((item) => item.productId === productId)
           .map((item) => {
-            listSize.set(`${item.sizes.id}`);
+            return listSize.set(`${item.sizes.id}`);
           });
-        console.log(size);
         if (listSize.has(`${size}`)) {
-          Swal.fire({
-            icon: "error",
-            title: "Size Already in List",
-            showConfirmButton: false,
-            timer: 2500,
-          });
+          handleSwal("Size Already in List", "error");
         } else {
           if (stock > 0 && stock <= 1000) {
             dispatch(
               addSize({
-                token: accessToken,
                 productId: productId,
                 sizeId: size,
                 stock: stock,
@@ -166,6 +126,13 @@ export default function ModalStock({ productId }) {
   };
 
   const handleSize = (e) => {
+    dispatch({
+      type: DETAIL_SIZE,
+      payload: {
+        data: false,
+      },
+    });
+    setId("");
     setSize(e.target.value);
   };
 
@@ -174,7 +141,15 @@ export default function ModalStock({ productId }) {
   };
 
   const handleClose = (e) => {
-    dispatch(getListSize(accessToken));
+    setId("");
+    setSize("");
+    setStock("");
+    dispatch({
+      type: DETAIL_SIZE,
+      payload: {
+        data: false,
+      },
+    });
   };
 
   const inputRefSize = useRef(null);
@@ -215,7 +190,7 @@ export default function ModalStock({ productId }) {
                   onChange={handleSize}
                   ref={inputRefSize}
                 >
-                  <option selected>Pilih Ukuran</option>
+                  <option defaultValue="">Pilih Ukuran</option>
                   <option value="1">36</option>
                   <option value="2">37</option>
                   <option value="3">38</option>
@@ -242,26 +217,33 @@ export default function ModalStock({ productId }) {
                 />
               </div>
               <div className="col-lg-3 col-md-4 col-sm-12 mt-auto d-flex justify-content-around">
-                <Button
+                {/* <Button
                   className="btn me-2 w-100 d-block d-sm-none"
                   isSecondary
                   onClick={handleClose}
                 >
                   Clear
-                </Button>
-                {getListSizeResult ? (
-                  <Button className="btn ms-2 w-100" hasShadow isPrimary>
+                </Button> */}
+                {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
+                  <Button
+                    className="btn w-100"
+                    hasShadow
+                    isPrimary
+                    isLoading
+                  ></Button>
+                ) : getListSizeResult ? (
+                  <Button className="btn w-100" hasShadow isPrimary>
                     Submit Stock
                   </Button>
                 ) : getListSizeLoading ? (
                   <Button
-                    className="btn ms-2 w-100"
+                    className="btn w-100"
                     hasShadow
                     isPrimary
                     isLoading
                   ></Button>
                 ) : (
-                  <p>{getListSizeError ? getListSizeError : "error"}</p>
+                  <p>{getListSizeError ? getListSizeError : ""}</p>
                 )}
               </div>
             </form>
@@ -283,7 +265,11 @@ export default function ModalStock({ productId }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {getListSizeResult ? (
+                  {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
+                    <tr>
+                      <td>Loading...</td>
+                    </tr>
+                  ) : getListSizeResult ? (
                     getListSizeResult.data
                       .filter((item) => item.productId === productId)
                       .sort((a, b) => a.sizes.id - b.sizes.id)
@@ -297,13 +283,11 @@ export default function ModalStock({ productId }) {
                                 className="btn-none-style mx-1 zoom"
                                 onClick={() => dispatch(detailSize(item))}
                               >
-                                <i className="fa-duotone fa-lg fa-pen"></i>
+                                <i className="fa-duotone  fa-pen"></i>
                               </Button>
                               <Button
                                 className="btn-none-style mx-1 zoom"
-                                onClick={() =>
-                                  dispatch(deleteSize(item.id, accessToken))
-                                }
+                                onClick={() => dispatch(deleteSize(item.id))}
                               >
                                 <i className="fa-solid fa-trash"></i>
                               </Button>
@@ -313,7 +297,7 @@ export default function ModalStock({ productId }) {
                       })
                   ) : getListSizeLoading ? (
                     <tr>
-                      <td>Loading</td>
+                      <td>Loading...</td>
                     </tr>
                   ) : (
                     <tr>

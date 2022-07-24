@@ -1,10 +1,10 @@
 import "assets/css/landingPage.css";
+import React, { Component } from "react";
 
 import Navbar from "components/Navbar";
 import Hero from "components/landingPage/Hero";
 import Product from "components/landingPage/Product";
 import Footer from "components/Footer";
-import React, { Component } from "react";
 
 class LandingPage extends Component {
   constructor(props) {

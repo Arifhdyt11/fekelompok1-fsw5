@@ -14,6 +14,7 @@ function ProductHeader() {
           <div>
             <h4>{user.data.name}</h4>
             {user.data.name === null ||
+            user.data.address === null ||
             user.data.city === null ||
             user.data.phone === null ? (
               <p style={{ color: "red", fontWeight: 500 }}>

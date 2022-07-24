@@ -4,7 +4,7 @@ import "assets/fontawesome/css/all.css";
 import LandingPage from "pages/LandingPage";
 import Register from "pages/Register";
 import Login from "pages/Login";
-import DaftarJual from "pages/DashboardSeller";
+import DashboardSeller from "pages/DashboardSeller";
 import ProfilePage from "pages/Profile";
 import DetailProduct from "pages/DetailProduct";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -22,7 +22,6 @@ import NotificationPages from "pages/NotificationPages";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 function App() {
-  console.log(process.env);
   return (
     <Router>
       <Routes>
@@ -53,7 +52,7 @@ function App() {
 
         <Route
           path="/seller"
-          element={<Middleware role="SELLER" childern={<DaftarJual />} />}
+          element={<Middleware role="SELLER" childern={<DashboardSeller />} />}
         />
         <Route
           path="/seller-product/:id"
@@ -105,7 +104,7 @@ function App() {
 
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<Forbidden />} />
-        <Route path="*" element={<PageNotFound />} />
+        <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );
