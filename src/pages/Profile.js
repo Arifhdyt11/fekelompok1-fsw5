@@ -273,7 +273,6 @@ export default function ProfilePage() {
                     Alamat <label className="text-red">*</label>
                   </label>
                   <textarea
-                    required
                     className="form-control borderRadius"
                     id="addressInput"
                     rows="3"
