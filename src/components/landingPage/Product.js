@@ -46,10 +46,6 @@ export default function Product(props) {
         dispatch(getListProduct());
       });
     });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnecting");
-    });
   }, [getListProduct]);
 
   //-----------------------SEARCH ---------------------

@@ -38,8 +38,6 @@ export default function WishlistSeller() {
     }))
     .value();
 
-  console.log(dataWishlist);
-
   return (
     <div className="col-lg-9 col-md-8 col-12">
       <div className="section-produk my-2 s">

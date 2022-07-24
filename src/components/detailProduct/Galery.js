@@ -10,8 +10,6 @@ import Button from "elements/Button";
 import Shadow from "assets/images/shadow-img.png";
 import Pad from "assets/images/cover-img.png";
 
-import { getListSize } from "store/actions/sizeAction";
-
 export default function Galery({ productId }) {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
   const {
@@ -23,15 +21,11 @@ export default function Galery({ productId }) {
     getProductIdSellerLoading,
     getProductIdSellerError,
   } = useSelector((state) => state.ProductReducer);
+
   const { getListSizeResult, getListSizeLoading, getListSizeError } =
     useSelector((state) => state.SizeReducer);
 
   const location = useLocation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getListSize());
-  }, [dispatch]);
 
   //--------------------------Choose Size---------------
   const [active, setActive] = useState("");

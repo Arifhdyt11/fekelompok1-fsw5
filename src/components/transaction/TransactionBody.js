@@ -39,20 +39,20 @@ export default function TransactionBody() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.data.role === "SELLER") {
-      const socket = io(process.env.REACT_APP_SOCKET);
+    const socket = io(process.env.REACT_APP_SOCKET);
 
-      socket.on("connection", () => {
+    socket.on("connection", () => {
+      if (user.data.role === "SELLER") {
         socket.on("add-transaction", () => {
           dispatch(getListTransactionSeller());
         });
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Socket disconnecting");
-      });
-    }
-  }, [dispatch, getListTransactionSeller]);
+      } else {
+        socket.on("update-transaction", () => {
+          dispatch(getListTransactionBuyer());
+        });
+      }
+    });
+  }, [dispatch, getListTransactionBuyer, getListTransactionSeller]);
   return (
     <>
       <div className="container mt-lg-4 mt-1  pb-1">

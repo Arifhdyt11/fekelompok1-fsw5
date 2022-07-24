@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSize, getListSize, updateSize } from "store/actions/sizeAction";
 
 export default function FormSize({ productId }) {
-  console.log(productId);
   const [size, setSize] = useState("");
   const [stock, setStock] = useState("");
   const [id, setId] = useState("");

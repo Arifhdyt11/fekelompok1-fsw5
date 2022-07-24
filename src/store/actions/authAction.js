@@ -30,7 +30,6 @@ export const loginViaForm = (data) => async (dispatch) => {
       },
     });
     const user = JSON.parse(JSON.stringify(await userInfo.json()));
-    console.log(`Token user ${result.accessToken}`);
 
     if (result.accessToken) {
       handleSwal("Login Successful!", "success");
@@ -44,7 +43,6 @@ export const loginViaForm = (data) => async (dispatch) => {
         user: user,
       });
     } else {
-      // console.log(result);
       dispatch({
         type: LOGIN,
         payload: {

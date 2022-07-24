@@ -8,7 +8,6 @@ export default function TransactionBuyer({
   productSizes,
   updatedAt,
 }) {
-  // console.log(productSizes);
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>
