@@ -168,6 +168,7 @@ export const addTransaction = (data) => {
     })
       .then((response) => {
         //berhasil get API
+        handleSwal("Berhasil Melakukan Penawaran!", "success");
         dispatch({
           type: ADD_TRANSACTION,
           payload: {
@@ -176,16 +177,11 @@ export const addTransaction = (data) => {
             errorMessage: false,
           },
         });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Melakukan Penawaran",
-          showConfirmButton: false,
-          timer: 1500,
-        });
       })
       .catch((error) => {
         //error get api
 
+        handleSwal("Gagal Melakukan Penawaran!", "error");
         dispatch({
           type: ADD_TRANSACTION,
           payload: {
@@ -193,12 +189,6 @@ export const addTransaction = (data) => {
             data: false,
             errorMessage: error.message,
           },
-        });
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Melakukan Penawaran",
-          showConfirmButton: false,
-          timer: 1500,
         });
       });
   };

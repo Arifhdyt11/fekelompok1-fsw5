@@ -160,6 +160,19 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
               </button>
             </Link>
           </li>
+          <li>
+            <Link to="/history">
+              <button
+                type="button"
+                className="dropdown-item"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              >
+                <i className="fa-duotone fa-arrows-repeat me-3"></i>History
+                Transaksi
+              </button>
+            </Link>
+          </li>
           {user.data.role === "SELLER" ? (
             <li className=" mt-3">
               {location.pathname === "/" ? (
@@ -188,20 +201,6 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                     aria-label="Close"
                   >
                     <i className="fa-duotone fa-cart-shopping me-3"></i>Wishlist
-                  </button>
-                </Link>
-              </li>
-
-              <li>
-                <Link to="/history">
-                  <button
-                    type="button"
-                    className="dropdown-item"
-                    data-bs-dismiss="offcanvas"
-                    aria-label="Close"
-                  >
-                    <i className="fa-duotone fa-arrows-repeat me-3"></i>History
-                    Transaksi
                   </button>
                 </Link>
               </li>

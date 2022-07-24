@@ -9,7 +9,11 @@ import Galery from "components/detailProduct/Galery";
 import DescriptionProduct from "components/detailProduct/DescriptionProduct";
 import ActionDetail from "components/detailProduct/ActionDetail";
 
-import { getProductId, getProductIdSeller } from "store/actions/productAction";
+import {
+  getListProduct,
+  getProductId,
+  getProductIdSeller,
+} from "store/actions/productAction";
 import { getListSize } from "store/actions/sizeAction";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
 import { io } from "socket.io-client";
@@ -79,6 +83,7 @@ export default function DetailProduct() {
           });
           socket.on("update-products", () => {
             dispatch(getProductId(id));
+            dispatch(getListSize());
           });
           socket.on("add-products", () => {
             dispatch(getProductId(id));
