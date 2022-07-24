@@ -125,9 +125,7 @@ export const updateUserDetail = (data) => async (dispatch) => {
     user: JSON.parse(localStorage.getItem("user")),
     status: true,
   });
-  console.log(dispatch);
   try {
-    console.log(data);
     var formdata = new FormData();
     if (data.image) {
       formdata.append("image", data.image);
@@ -156,7 +154,6 @@ export const updateUserDetail = (data) => async (dispatch) => {
         window.location = "/";
       });
     }
-    console.log(result);
     dispatch({
       type: UPDATE_PROFILE,
       loading: false,

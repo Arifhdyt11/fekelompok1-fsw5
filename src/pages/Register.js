@@ -34,8 +34,8 @@ function Register() {
     if (role === "") {
       handleSwal("Role cannot be empty!", "error");
     }
-    if (password.length <= 6) {
-      handleSwal("Password cannot be less than 7!", "error");
+    if (password.length <= 7) {
+      handleSwal("Password cannot be less than 8!", "error");
     }
     if (password === "") {
       handleSwal("Password cannot be empty!", "error");
@@ -50,7 +50,7 @@ function Register() {
     if (
       email !== "" &&
       password !== "" &&
-      password.length > 7 &&
+      password.length >= 8 &&
       name !== "" &&
       role !== ""
     ) {

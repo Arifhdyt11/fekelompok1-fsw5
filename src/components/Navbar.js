@@ -119,7 +119,7 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                       )
                     ) : getNotificationSellerLoading ? (
                       <>
-                        <i className="fa-solid fa-circle-notch fa-spin"></i>
+                        <i className="fa-solid fa-circle-notch fa-spin me-4"></i>
                         Notifications
                       </>
                     ) : (
@@ -148,7 +148,7 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
                     )
                   ) : getNotificationBuyerLoading ? (
                     <>
-                      <i className="fa-solid fa-circle-notch fa-spin"></i>
+                      <i className="fa-solid fa-circle-notch fa-spin me-4"></i>
                       Notifications
                     </>
                   ) : (
