@@ -67,7 +67,7 @@ function CheckLoginMobile({ isAuthenticated, user, error }) {
       <>
         <ul className="navbar-nav ms-auto">
           <li>
-            <h4 className="dropdown-item item">
+            <h4 data-testid="user-name" className="dropdown-item item">
               {user.data.name}
               <span className="span-dropdown"> as</span>
               {user.data.role === "SELLER" ? "Seller" : "Buyer"}
