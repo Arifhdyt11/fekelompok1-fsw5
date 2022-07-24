@@ -25,9 +25,11 @@ export default function ProfilePage() {
   );
 
   const [image, setImage] = useState(kamera);
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
   const [provinsi, setProvinsi] = useState("");
   const [kota, setKota] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
 
   useEffect(() => {
     dispatch(getProvinsi());
@@ -55,8 +57,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (user) {
-      if (user.data.name !== null)
-        document.getElementById("nameInput").value = user.data.name;
+      if (user.data.name !== null) {
+        // document.getElementById("nameInput").value = user.data.name;
+        setName(user.data.name);
+      }
       if (user.data.province !== null) {
         // document.getElementById("cityInput").value = user.data.city;
         setProvinsi(user.data.province);
@@ -65,9 +69,13 @@ export default function ProfilePage() {
         // document.getElementById("cityInput").value = user.data.city;
         setKota(user.data.city);
       }
-      if (user.data.address !== null)
-        document.getElementById("addressInput").value = user.data.address;
-      if (user.data.phone !== null) setPhone(user.data.phone);
+      if (user.data.address !== null) {
+        setAddress(user.data.address);
+      }
+      if (user.data.phone !== null) {
+        // document.getElementById("addressInput").value = user.data.address;
+        setPhone(user.data.phone);
+      }
       if (user.data.image !== null) {
         document.getElementById("filePhoto").src = user.data.image;
       } else {
@@ -75,26 +83,41 @@ export default function ProfilePage() {
       }
     }
   }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (kota === "") {
-    }
-    if (phone === "") {
-      handleSwal("Phone Number cannot be empty", "error");
-    }
+
     if (phone.length <= 8) {
       handleSwal("Phone Number cannot be less than 9", "error");
     }
+    if (address == "") {
+      handleSwal("Address cannot be empty", "error");
+    }
+    if (kota === "") {
+      handleSwal("City cannot be empty", "error");
+    }
+    if (provinsi === "") {
+      handleSwal("Province cannot be empty", "error");
+    }
+    if (name === "") {
+      handleSwal("Name cannot be empty", "error");
+    }
+
     const update = {
-      name: document.getElementById("nameInput").value,
+      name: name,
       province: provinsi,
       city: kota,
-      address: document.getElementById("addressInput").value,
+      address: address,
       phone: phone,
       image,
     };
-    if (phone.length >= 9) {
+
+    if (
+      name !== "" &&
+      provinsi !== "" &&
+      kota !== "" &&
+      address !== "" &&
+      phone.length >= 9
+    ) {
       handleHeaderSwal(
         "Data sudah benar ?",
         "Apakah anda yakin ingin menyimpan data ini ?",
@@ -109,11 +132,17 @@ export default function ProfilePage() {
     }
   };
 
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
   const handleProvinsi = (e) => {
     setProvinsi(e.target.value);
   };
   const handleKota = (e) => {
     setKota(e.target.value);
+  };
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
   };
 
   return (
@@ -175,12 +204,13 @@ export default function ProfilePage() {
                     Nama <label className="text-red">*</label>
                   </label>
                   <input
-                    required
                     type="text"
                     className="form-control borderRadius"
                     id="nameInput"
                     placeholder="Nama"
                     data-testid="input-namaProfile"
+                    value={name}
+                    onChange={handleName}
                   />
                 </div>
 
@@ -219,7 +249,6 @@ export default function ProfilePage() {
                       aria-label="Default select example"
                       id="cityInput"
                       placeholder="Pilih Kota"
-                      required
                       value={kota}
                       onChange={handleKota}
                     >
@@ -228,7 +257,6 @@ export default function ProfilePage() {
                         ? getKotaResult.map((item) => {
                             return (
                               <>
-                                {/* <option value="">Pilih Kota</option> */}
                                 <option value={item.name}>{item.name}</option>
                               </>
                             );
@@ -251,6 +279,8 @@ export default function ProfilePage() {
                     rows="3"
                     placeholder="Contoh: Jalan Ikan Hiu 33"
                     data-testid="input-alamatProfile"
+                    value={address}
+                    onChange={handleAddress}
                   ></textarea>
                 </div>
                 <div className="mb-3 ">
