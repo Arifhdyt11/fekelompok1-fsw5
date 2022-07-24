@@ -104,8 +104,6 @@ function App() {
 
         <Route path="/401" element={<Unauthorized />} />
         <Route path="/403" element={<Forbidden />} />
-        <Route path="/seller-product/*" element={<PageNotFound />} />
-        <Route path="/product/*" element={<PageNotFound />} />
         <Route path="/*" element={<PageNotFound />} />
       </Routes>
     </Router>

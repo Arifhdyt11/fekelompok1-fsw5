@@ -107,14 +107,6 @@ function CheckButton({
     }
   }, [updateProductResult, dispatch]);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (deleteProductResult) {
-        dispatch(getProductIdSeller(id));
-      }
-    }
-  }, [deleteProductResult, dispatch]);
-
   const productId = parseInt(id);
 
   const location = useLocation();

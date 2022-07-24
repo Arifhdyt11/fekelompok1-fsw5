@@ -74,17 +74,17 @@ export default function DetailProduct() {
           socket.on("update-transaction", () => {
             dispatch(getListTransactionBuyer());
           });
+          socket.on("delete-products", () => {
+            dispatch(getProductId(id));
+          });
+          socket.on("update-products", () => {
+            dispatch(getProductId(id));
+          });
+          socket.on("add-products", () => {
+            dispatch(getProductId(id));
+          });
         }
       }
-      socket.on("add-products", () => {
-        dispatch(getProductId(id));
-      });
-      socket.on("update-products", () => {
-        dispatch(getProductId(id));
-      });
-      socket.on("delete-products", () => {
-        dispatch(getProductId(id));
-      });
     });
   }, [getProductId, getListTransactionBuyer]);
 
