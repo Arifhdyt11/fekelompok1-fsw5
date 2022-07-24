@@ -10,13 +10,12 @@ import {
   updateNotificationBuyer,
   updateNotificationSeller,
 } from "store/actions/notificationAction";
-import { formatDate } from "utils/defaultFormat";
 import CardLoading from "components/CardLoading";
 import Navbar from "components/Navbar";
 
 import ProductNotFound from "assets/images/ilustrasi.svg";
 
-import TimeAgo from "timeago-react"; // var TimeAgo = require('timeago-react');
+import TimeAgo from "timeago-react";
 
 export default function NotifikasiPage() {
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
@@ -97,11 +96,9 @@ export default function NotifikasiPage() {
               </div>
             )
           ) : getNotificationSellerLoading ? (
-            <Button
-              className="btn mb-3 btn-is-read-notif"
-              nonStyle
-              isLoading
-            ></Button>
+            <div className="d-flex flex-row-reverse">
+              <Button className="btn mb-3" isPrimary isLoading></Button>
+            </div>
           ) : (
             ""
           )
@@ -120,11 +117,9 @@ export default function NotifikasiPage() {
             </div>
           )
         ) : getNotificationBuyerLoading ? (
-          <Button
-            className="btn mb-3 btn-is-read-notif"
-            nonStyle
-            isLoading
-          ></Button>
+          <div className="d-flex flex-row-reverse">
+            <Button className="btn mb-3" isPrimary isLoading></Button>
+          </div>
         ) : (
           ""
         )}

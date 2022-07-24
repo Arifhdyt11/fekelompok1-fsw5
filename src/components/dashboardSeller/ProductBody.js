@@ -10,6 +10,8 @@ import { io } from "socket.io-client";
 import Sold from "./Sold";
 import { getListTransactionSeller } from "store/actions/transactionAction";
 import { getListSize } from "store/actions/sizeAction";
+import { update } from "lodash";
+import Button from "elements/Button";
 function ProductBody() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
@@ -51,9 +53,8 @@ function ProductBody() {
   }, [countDraft]);
   //------------------TOTAL WISHLIST------------------
 
-  const { getListWishlistSellerResult } = useSelector(
-    (state) => state.WishlistReducer
-  );
+  const { getListWishlistSellerResult, getListWishlistSellerLoading } =
+    useSelector((state) => state.WishlistReducer);
   useEffect(() => {
     dispatch(getListWishlistSeller());
   }, [dispatch]);
@@ -128,29 +129,18 @@ function ProductBody() {
     if (itShow === "All") {
       setShow(<ProductList />);
       setTotal(countProduct);
-      setDraft("");
-      setWishlist("");
-      setSold("");
     }
     if (itShow === "Draft") {
       setShow(<DraftProduct />);
-      setTotal("");
+
       setDraft(countDraft);
-      setWishlist("");
-      setSold("");
     }
     if (itShow === "Diminati") {
       setShow(<Wishlist />);
-      setTotal("");
-      setDraft("");
       setWishlist(countWishlist);
-      setSold("");
     }
     if (itShow === "Terjual") {
       setShow(<Sold />);
-      setTotal("");
-      setDraft("");
-      setWishlist("");
       setSold(countSold);
     }
   };
@@ -169,9 +159,7 @@ function ProductBody() {
                 <i className="fa-regular fa-cube fa-xs item-icon"></i>Semua
                 Produk
               </div>
-              <span className="badge bg-primary">
-                {total === null ? countProduct : total}
-              </span>
+              <span className="badge bg-primary">{total}</span>
             </li>
 
             <li
@@ -191,7 +179,13 @@ function ProductBody() {
               <div className="icon-list">
                 <i className="fa-regular fa-heart fa-xs item-icon"></i>Diminati
               </div>
-              <span className="badge bg-primary">{wishlist}</span>
+              <span className="badge bg-primary">
+                {getListWishlistSellerLoading ? (
+                  <i className="fa-solid fa-circle-notch fa-spin"></i>
+                ) : (
+                  wishlist
+                )}
+              </span>
             </li>
             <li
               className="list-group-item list-group-item-action d-flex justify-content-between align-items-center category"

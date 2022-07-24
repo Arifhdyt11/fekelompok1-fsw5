@@ -290,13 +290,33 @@ function CheckButton({
             ""
           )}
           {!item ? (
-            <button
-              type="button"
-              className="btn mt-3 ms-auto py-2 btn-warning is-block btn-shadow"
-              style={{ cursor: "context-menu" }}
-            >
-              Please Choose Size
-            </button>
+            getProductIdResult ? (
+              getProductIdResult.status === "draft" ? (
+                <button
+                  type="button"
+                  className="btn mt-3 ms-auto py-2 btn-warning is-block btn-shadow"
+                  style={{ cursor: "context-menu" }}
+                >
+                  Product Tidak Tersedia
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn mt-3 ms-auto py-2 btn-warning is-block btn-shadow"
+                  style={{ cursor: "context-menu" }}
+                >
+                  Please Choose Size
+                </button>
+              )
+            ) : (
+              <button
+                type="button"
+                className="btn mt-3 ms-auto py-2 btn-warning is-block btn-shadow"
+                style={{ cursor: "context-menu" }}
+              >
+                Please Choose Size
+              </button>
+            )
           ) : user.data.name === null ||
             user.data.city === null ||
             user.data.phone === null ? (

@@ -164,10 +164,6 @@ export default function FormAddProduct() {
     if (updateProductLoading) {
       dispatch(getListProduct());
       dispatch(getListProductSeller());
-      setName("");
-      setPrice("");
-      setCategoryId("");
-      setDescription("");
     }
   }, [updateProductLoading, dispatch]);
 
