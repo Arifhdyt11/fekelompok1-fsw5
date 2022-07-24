@@ -86,7 +86,6 @@ const product = (state = initialState, action) => {
         updateProductError: action.payload.errorMessage,
       };
     case DELETE_PRODUCT:
-      console.log("4. Masuk reducer", action);
       return {
         ...state,
         deleteProductResult: action.payload.data,

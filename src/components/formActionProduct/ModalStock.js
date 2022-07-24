@@ -108,7 +108,6 @@ export default function ModalStock({ productId }) {
           .map((item) => {
             return listSize.set(`${item.sizes.id}`);
           });
-        console.log(size);
         if (listSize.has(`${size}`)) {
           handleSwal("Size Already in List", "error");
         } else {
@@ -153,7 +152,6 @@ export default function ModalStock({ productId }) {
     });
   };
 
-  console.log(id);
   const inputRefSize = useRef(null);
   const inputRefStock = useRef(null);
   return (

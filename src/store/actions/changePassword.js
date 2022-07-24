@@ -17,7 +17,6 @@ export const changePassword = (data) => {
 
     // TODO: access Tokennnya disini
     const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
 
     // get API
     axios({
@@ -40,7 +39,7 @@ export const changePassword = (data) => {
             errorMessage: false,
           },
         });
-        console.log(data);
+
         // jika berhasil makan ke halaman login
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user");

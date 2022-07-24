@@ -24,17 +24,6 @@ function ProductList() {
   const [productSeller, setProductSeller] = useState(initialData);
   const [searchValue, setSearchValue] = useState("");
 
-  // useEffect(() => {
-  //   setProductSeller(dispatch(getListProductSeller()));
-  // }, [dispatch]);
-  // setProductSeller(initialData);
-
-  console.log(getListProductSellerResult);
-
-  console.log(initialData);
-
-  console.log(productSeller);
-
   useEffect(() => {
     setProductSeller(initialData);
   }, [initialData]);

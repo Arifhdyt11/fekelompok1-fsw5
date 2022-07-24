@@ -9,10 +9,6 @@ export default function TransactionSeller({
   userAsBuyer,
   updatedAt,
 }) {
-  if (productSizes.products) {
-    console.log(productSizes.products.image[0]);
-  }
-
   return (
     <>
       <div className="card is-block ms-auto p-4 mb-3" key={id}>

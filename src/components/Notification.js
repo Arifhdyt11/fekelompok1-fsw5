@@ -92,7 +92,6 @@ export default function Notification() {
     const socket = io(process.env.REACT_APP_SOCKET);
 
     socket.on("connection", () => {
-      // console.log("connct");
       socket.on("add-transaction", () => {
         if (user.data.role === "SELLER") {
           dispatch(getNotificationSeller());
@@ -107,10 +106,6 @@ export default function Notification() {
           dispatch(getNotificationBuyer());
         }
       });
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnecting");
     });
   }, [getNotificationBuyer, getNotificationSeller]);
 

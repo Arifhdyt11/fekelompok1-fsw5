@@ -86,8 +86,6 @@ export default function ProfilePage() {
     }
   }, []);
 
-  // console.log(phone);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (kota === "") {

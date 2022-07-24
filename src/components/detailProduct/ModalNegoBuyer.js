@@ -31,15 +31,21 @@ export default function ModalNegoBuyer({ item, dataProduct }) {
   const handleSubmit = (e) => {
     const hargaAwal = dataProduct.price;
     const reqHargaTawar = hargaAwal - (50 / 100) * hargaAwal;
+    const maxHargaTawar = 1000 * hargaAwal;
 
     if (price < reqHargaTawar) {
       handleError(
         `Harga Tawar Minimal 50% Dari Harga Awal. Yaitu : ${reqHargaTawar}`
       );
     }
+    if (price > maxHargaTawar) {
+      handleError(
+        `Harga Tawar Maximal 1000 kali Dari Harga Awal. Yaitu : ${maxHargaTawar}`
+      );
+    }
     e.preventDefault();
 
-    if (price >= reqHargaTawar) {
+    if (price >= reqHargaTawar && price <= maxHargaTawar) {
       dispatch(addTransaction({ productsizeId: item.id, priceBid: price }));
     }
   };

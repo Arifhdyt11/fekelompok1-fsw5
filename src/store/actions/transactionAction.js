@@ -168,7 +168,6 @@ export const addTransaction = (data) => {
     })
       .then((response) => {
         //berhasil get API
-        console.log(response);
         dispatch({
           type: ADD_TRANSACTION,
           payload: {
