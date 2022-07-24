@@ -186,6 +186,7 @@ export default function ProfilePage() {
                     className="form-control borderRadius"
                     id="nameInput"
                     placeholder="Nama"
+                    data-testid="input-namaProfile"
                   />
                 </div>
 
@@ -255,6 +256,7 @@ export default function ProfilePage() {
                     id="addressInput"
                     rows="3"
                     placeholder="Contoh: Jalan Ikan Hiu 33"
+                    data-testid="input-alamatProfile"
                   ></textarea>
                 </div>
                 <div className="mb-3 ">
