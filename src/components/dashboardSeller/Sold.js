@@ -16,8 +16,6 @@ export default function Sold() {
     getListTransactionSellerError,
   } = useSelector((state) => state.TransactionReducer);
 
-  const dispatch = useDispatch();
-
   const [sold, setSold] = useState([]);
 
   if (user.data.role === "SELLER") {
@@ -26,31 +24,9 @@ export default function Sold() {
 
   useEffect(() => {
     if (user.data.role === "SELLER") {
-      setSold(dispatch(getListTransactionSeller()));
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user.data.role === "SELLER") {
       setSold(initialSold);
     }
   }, [initialSold]);
-
-  useEffect(() => {
-    if (user.data.role === "SELLER") {
-      const socket = io(process.env.REACT_APP_SOCKET);
-
-      socket.on("connection", () => {
-        socket.on("add-transaction", () => {
-          dispatch(getListTransactionSeller());
-        });
-      });
-
-      socket.on("disconnect", () => {
-        console.log("Socket disconnecting");
-      });
-    }
-  }, [dispatch, getListTransactionSeller]);
 
   if (sold) {
     var filteredSold = sold.filter((item) => item.status === "success");

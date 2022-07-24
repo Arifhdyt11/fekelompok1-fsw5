@@ -11,6 +11,7 @@ import {
   getListSize,
   updateSize,
 } from "store/actions/sizeAction";
+import { DETAIL_SIZE } from "store/types";
 
 export default function ModalStock({ productId }) {
   const [size, setSize] = useState("");
@@ -105,7 +106,7 @@ export default function ModalStock({ productId }) {
         getListSizeResult.data
           .filter((item) => item.productId === productId)
           .map((item) => {
-            listSize.set(`${item.sizes.id}`);
+            return listSize.set(`${item.sizes.id}`);
           });
         console.log(size);
         if (listSize.has(`${size}`)) {
@@ -126,6 +127,13 @@ export default function ModalStock({ productId }) {
   };
 
   const handleSize = (e) => {
+    dispatch({
+      type: DETAIL_SIZE,
+      payload: {
+        data: false,
+      },
+    });
+    setId("");
     setSize(e.target.value);
   };
 
@@ -134,9 +142,18 @@ export default function ModalStock({ productId }) {
   };
 
   const handleClose = (e) => {
-    dispatch(getListSize());
+    setId("");
+    setSize("");
+    setStock("");
+    dispatch({
+      type: DETAIL_SIZE,
+      payload: {
+        data: false,
+      },
+    });
   };
 
+  console.log(id);
   const inputRefSize = useRef(null);
   const inputRefStock = useRef(null);
   return (
@@ -202,13 +219,13 @@ export default function ModalStock({ productId }) {
                 />
               </div>
               <div className="col-lg-3 col-md-4 col-sm-12 mt-auto d-flex justify-content-around">
-                <Button
+                {/* <Button
                   className="btn me-2 w-100 d-block d-sm-none"
                   isSecondary
                   onClick={handleClose}
                 >
                   Clear
-                </Button>
+                </Button> */}
                 {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
                   <Button
                     className="btn ms-2 w-100"

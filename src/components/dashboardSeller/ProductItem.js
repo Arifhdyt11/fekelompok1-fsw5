@@ -22,13 +22,6 @@ function ProductItem({
     (state) => state.SizeReducer
   );
 
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (!products && !productSizes) {
-      dispatch(getListSize());
-    }
-  }, [dispatch]);
-
   return (
     <>
       <div className="col-lg-4 col-md-6 col-sm-6 ">

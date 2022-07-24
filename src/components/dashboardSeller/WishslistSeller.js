@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getListWishlistSeller } from "store/actions/wishlistAction";
+import { useSelector } from "react-redux";
 
 import img from "assets/images/ilustrasi.svg";
 import ProductItem from "./ProductItem";
 
 import _ from "lodash";
 
-import { io } from "socket.io-client";
 import CardLoading from "components/CardLoading";
 
 export default function WishlistSeller() {
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
-  const sellerId = user.data.id;
+  const { user } = useSelector((state) => state.AuthReducer);
+
   const {
     getListWishlistSellerResult,
     getListWishlistSellerLoading,
@@ -25,36 +23,11 @@ export default function WishlistSeller() {
     var initialWishlist = getListWishlistSellerResult.data;
   }
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (user.data.role === "SELLER") {
-      setWishlist(dispatch(getListWishlistSeller(sellerId, accessToken)));
-    }
-  }, [dispatch]);
-
   useEffect(() => {
     if (user.data.role === "SELLER") {
       setWishlist(initialWishlist);
     }
-  }, [initialWishlist]);
-
-  useEffect(() => {
-    const socket = io(process.env.REACT_APP_SOCKET);
-
-    socket.on("connection", () => {
-      socket.on("add-wishlist", () => {
-        dispatch(getListWishlistSeller(sellerId, accessToken));
-      });
-      socket.on("delete-wishlist", () => {
-        dispatch(getListWishlistSeller(sellerId, accessToken));
-      });
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnecting");
-    });
-  }, [getListWishlistSeller]);
+  }, [initialWishlist, user]);
 
   const dataWishlist = wishlist;
   const uniqueWishlist = _(dataWishlist)
