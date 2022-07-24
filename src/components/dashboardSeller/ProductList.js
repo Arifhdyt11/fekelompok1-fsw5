@@ -16,31 +16,35 @@ function ProductList() {
     getListProductSellerLoading,
     getListProductSellerError,
   } = useSelector((state) => state.ProductReducer);
-  const { user, accessToken } = useSelector((state) => state.AuthReducer);
-  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.AuthReducer);
 
   //-----------------------SEARCH ---------------------
-  const getInitialData = getListProductSellerResult.data;
-  const [productSeller, setProductSeller] = useState(getInitialData);
+
+  const initialData = getListProductSellerResult.data;
+  const [productSeller, setProductSeller] = useState(initialData);
   const [searchValue, setSearchValue] = useState("");
 
-  useEffect(() => {
-    setProductSeller(dispatch(getListProductSeller(accessToken)));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   setProductSeller(dispatch(getListProductSeller()));
+  // }, [dispatch]);
+  // setProductSeller(initialData);
+
+  console.log(getListProductSellerResult);
+
+  console.log(initialData);
+
+  console.log(productSeller);
 
   useEffect(() => {
-    setProductSeller(getInitialData);
-  }, [getInitialData]);
-
-  // console.log(productSeller);
+    setProductSeller(initialData);
+  }, [initialData]);
 
   const handleSearchFilter = (e) => {
     setSearchValue(e.target.value);
   };
-
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      const filter = _.filter(getListProductSellerResult.data, (x) => {
+      const filter = _.filter(initialData, (x) => {
         return _.includes(
           _.lowerCase(JSON.stringify(_.values(x))),
           _.lowerCase(searchValue)
@@ -62,7 +66,7 @@ function ProductList() {
             ""
           ) : (
             <Button
-              className="btn active"
+              className="btn"
               hasShadow
               isPrimary
               href="/add-product"
@@ -84,8 +88,10 @@ function ProductList() {
       </div>
 
       <div className="section-produk my-2 s">
-        <div className="row justify-content-center">
-          {productSeller ? (
+        <div className="row justify-content-start">
+          {getListProductSellerLoading ? (
+            <CardLoading col="3" count="3" />
+          ) : productSeller ? (
             productSeller.filter((item) => item.status === "published")
               .length === 0 ? (
               <div className="d-flex justify-content-center null-illustration p-5">
@@ -97,18 +103,15 @@ function ProductList() {
             ) : (
               productSeller
                 .filter((item) => item.status === "published")
+                .sort(
+                  (a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt)
+                )
                 .map((item, index) => {
                   return <ProductItem key={item.id} {...item} index={index} />;
                 })
             )
-          ) : getListProductSellerLoading ? (
-            <CardLoading col="3" count="3" />
           ) : (
-            <p>
-              {getListProductSellerError
-                ? getListProductSellerError
-                : "Please Reload And Try Again"}
-            </p>
+            <p>{getListProductSellerError ? getListProductSellerError : ""}</p>
           )}
         </div>
       </div>

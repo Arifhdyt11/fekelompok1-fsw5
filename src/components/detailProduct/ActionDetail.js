@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
-import SellerImg from "assets/images/seller-1.png";
-import Button from "elements/Button";
-import { formatPrice } from "utils/defaultFormat";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
+
+import { formatPrice } from "utils/defaultFormat";
+
+import Button from "elements/Button";
+import ModalNegoBuyer from "./ModalNegoBuyer";
+import { handleHeaderSwal } from "utils/sweetAlert";
 
 import {
   deleteProduct,
@@ -16,10 +20,7 @@ import {
   getListWishlistBuyer,
   getListWishlistSeller,
 } from "store/actions/wishlistAction";
-import ModalNegoBuyer from "./ModalNegoBuyer";
 import { getListTransactionBuyer } from "store/actions/transactionAction";
-import Swal from "sweetalert2";
-import { io } from "socket.io-client";
 
 function CheckButton({
   id,
@@ -27,15 +28,15 @@ function CheckButton({
   getProductIdSellerResult,
   getProductIdSellerLoading,
 }) {
-  const { isAuthenticated, user, accessToken } = useSelector(
-    (state) => state.AuthReducer
-  );
+  const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
 
-  const { updateProductResult, updateProductLoading } = useSelector(
-    (state) => state.ProductReducer
-  );
+  const {
+    updateProductResult,
+    updateProductLoading,
+    deleteProductResult,
+    deleteProductLoading,
+  } = useSelector((state) => state.ProductReducer);
 
-  // console.log(getProductIdResult);
   const {
     getListWishlistBuyerResult,
     getListWishlistBuyerLoading,
@@ -43,6 +44,7 @@ function CheckButton({
 
     addWishlistResult,
     addWishlistLoading,
+
     deleteWishlistResult,
     deleteWishlistLoading,
   } = useSelector((state) => state.WishlistReducer);
@@ -61,46 +63,28 @@ function CheckButton({
     if (isAuthenticated) {
       if (user.data.role === "BUYER") {
         if (addWishlistResult) {
-          dispatch(getListWishlistBuyer(user.data.id, accessToken));
+          dispatch(getListWishlistBuyer());
         }
       } else {
-        dispatch(getListWishlistSeller(user.data.id, accessToken));
+        dispatch(getListWishlistSeller());
       }
     }
-  }, [addWishlistResult, dispatch]);
+  }, [addWishlistResult, , dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
       if (user.data.role === "BUYER") {
-        if (addWishlistLoading) {
-          dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        if (deleteWishlistResult) {
+          dispatch(getListWishlistBuyer());
         }
-      } else {
-        dispatch(getListWishlistSeller(user.data.id, accessToken));
-      }
-    }
-  }, [addWishlistLoading, dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (deleteWishlistResult) {
-        dispatch(getListWishlistBuyer(user.data.id, accessToken));
       }
     }
   }, [deleteWishlistResult, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (deleteWishlistLoading) {
-        dispatch(getListWishlistBuyer(user.data.id, accessToken));
-      }
-    }
-  }, [deleteWishlistLoading, dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
       if (user.data.role === "BUYER") {
-        dispatch(getListWishlistBuyer(user.data.id, accessToken));
+        dispatch(getListWishlistBuyer());
         dispatch(getListTransactionBuyer());
       }
     }
@@ -108,19 +92,13 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (addTransactionResult) {
-        dispatch(getListTransactionBuyer());
+      if (user.data.role === "BUYER") {
+        if (addTransactionResult) {
+          dispatch(getListTransactionBuyer());
+        }
       }
     }
   }, [addTransactionResult, dispatch]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (addTransactionLoading) {
-        dispatch(getListTransactionBuyer());
-      }
-    }
-  }, [addTransactionLoading]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -132,21 +110,21 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (updateProductLoading) {
+      if (deleteProductResult) {
         dispatch(getProductIdSeller(id));
       }
     }
-  }, [updateProductLoading, dispatch]);
+  }, [deleteProductResult, dispatch]);
 
   useEffect(() => {
     if (isAuthenticated) {
       const socket = io(process.env.REACT_APP_SOCKET);
 
       socket.on("connection", () => {
-        console.log("connct");
-
         socket.on("update-transaction", () => {
-          dispatch(getListTransactionBuyer());
+          if (user.data.role === "BUYER") {
+            dispatch(getListTransactionBuyer());
+          }
         });
       });
 
@@ -159,6 +137,7 @@ function CheckButton({
   const productId = parseInt(id);
 
   const location = useLocation();
+
   if (location.state) {
     var { item } = location.state;
   }
@@ -172,42 +151,28 @@ function CheckButton({
   }
 
   const handleDeleteProduct = () => {
-    Swal.fire({
-      title: "Delete Product",
-      text: "Apakah anda yakin ingin menghapus product ini ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Delete Product!",
-    }).then((result) => {
+    handleHeaderSwal(
+      "Delete Product",
+      "Apakah anda yakin ingin menghapus product ini ?",
+      "warning",
+      true,
+      "Ya, Delete Product!"
+    ).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Data Berhasil di Hapus!",
-          icon: "success",
-          showConfirmButton: false,
-        });
-        dispatch(deleteProduct(id, accessToken));
+        dispatch(deleteProduct(id));
       }
     });
   };
 
   const handleTerbitkan = () => {
-    Swal.fire({
-      title: "Terbitkan Product",
-      text: "Apakah anda yakin ingin menerbitkan product ini ?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Ya, Terbitkan Product!",
-    }).then((result) => {
+    handleHeaderSwal(
+      "Terbitkan Product",
+      "Apakah anda yakin ingin menerbitkan product ini ?",
+      "warning",
+      true,
+      "Ya, Terbitkan Product!"
+    ).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Data Berhasil di Terbitkan!",
-          icon: "success",
-          showConfirmButton: false,
-        });
         dispatch(
           updateProduct({
             id: id,
@@ -227,7 +192,15 @@ function CheckButton({
     if (user.data.role === "SELLER") {
       return (
         <>
-          {getProductIdSellerResult ? (
+          {getProductIdSellerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isSecondary
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
+          ) : getProductIdSellerResult ? (
             getProductIdSellerResult.status === "published" ? (
               <Button
                 className="btn mt-3 ms-auto py-2"
@@ -253,19 +226,26 @@ function CheckButton({
                 Terbitkan
               </Button>
             )
-          ) : getProductIdSellerLoading ? (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isSecondary
-              hasShadow
-              isBlock
-              isLoading
-            ></Button>
           ) : (
             ""
           )}
 
-          {getProductIdSellerResult ? (
+          {getProductIdSellerLoading ? (
+            <>
+              <Button
+                className="btn btn-warning mt-3 ms-auto  py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+              <Button
+                className="btn btn-danger mt-3 ms-auto py-2"
+                hasShadow
+                isBlock
+                isLoading
+              ></Button>
+            </>
+          ) : getProductIdSellerResult ? (
             <>
               <Link
                 to={`/update-product/${id}`}
@@ -290,21 +270,6 @@ function CheckButton({
                 Delete
               </Button>
             </>
-          ) : getProductIdSellerLoading ? (
-            <>
-              <Button
-                className="btn btn-warning mt-3 ms-auto  py-2"
-                hasShadow
-                isBlock
-                isLoading
-              ></Button>
-              <Button
-                className="btn btn-danger mt-3 ms-auto py-2"
-                hasShadow
-                isBlock
-                isLoading
-              ></Button>
-            </>
           ) : (
             ""
           )}
@@ -313,6 +278,8 @@ function CheckButton({
     } else {
       return (
         <>
+          {/* BUTTON BUAT TRANSAKSI */}
+
           {getProductIdResult ? ( //Load Modal If Product Detect
             <ModalNegoBuyer dataProduct={getProductIdResult} item={item} />
           ) : (
@@ -337,6 +304,22 @@ function CheckButton({
             >
               Please Update Profile!!
             </Button>
+          ) : addTransactionLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isPrimary
+              isLoading
+              hasShadow
+              isBlock
+            ></Button>
+          ) : getListTransactionBuyerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isPrimary
+              isLoading
+              hasShadow
+              isBlock
+            ></Button>
           ) : getListTransactionBuyerResult ? (
             getListTransactionBuyerResult.data.filter(
               (data) =>
@@ -371,18 +354,27 @@ function CheckButton({
                 Menunggu Respon Penjual
               </Button>
             )
-          ) : getListTransactionBuyerLoading ? (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isPrimary
-              isLoading
-              hasShadow
-              isBlock
-            ></Button>
           ) : (
             ""
           )}
-          {getListWishlistBuyerResult ? ( //BUAT BUTTON WISHLIST
+
+          {addWishlistLoading || deleteWishlistLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isThird
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
+          ) : getListWishlistBuyerLoading ? (
+            <Button
+              className="btn mt-3 ms-auto py-2"
+              isThird
+              hasShadow
+              isBlock
+              isLoading
+            ></Button>
+          ) : getListWishlistBuyerResult ? ( //BUAT BUTTON WISHLIST
             getListWishlistBuyerResult.data.filter(
               (item) => item.productId === productId
             ).length === 0 ? (
@@ -394,7 +386,6 @@ function CheckButton({
                 onClick={() =>
                   dispatch(
                     addWishlist({
-                      accessToken: accessToken,
                       userId: user.data.id,
                       productId: productId,
                     })
@@ -409,23 +400,13 @@ function CheckButton({
                   className="btn btn-outline-danger ms-auto py-2 mt-3"
                   hasShadow
                   isBlock
-                  onClick={() =>
-                    dispatch(deleteWishlist(wishlistId, accessToken))
-                  }
+                  onClick={() => dispatch(deleteWishlist(wishlistId))}
                 >
                   Remove From Wishlist
                   <i className="fa-solid fa-trash fa-md ms-4"></i>
                 </Button>
               </>
             )
-          ) : getListWishlistBuyerLoading ? (
-            <Button
-              className="btn mt-3 ms-auto py-2"
-              isThird
-              hasShadow
-              isBlock
-              isLoading
-            ></Button>
           ) : (
             <p className="mt-3">
               {getListWishlistBuyerError ? getListWishlistBuyerError : ""}

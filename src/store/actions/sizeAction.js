@@ -68,14 +68,15 @@ export const addSize = (data) => {
     //get API
     axios({
       method: "POST",
-      headers: { Authorization: `Bearer ${data.token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/size`,
       timeout: 120000,
       data: data,
     })
       .then((response) => {
         //berhasil get API
-        console.log("3. Berhasil Dapat Data", response.data);
         dispatch({
           type: ADD_SIZE,
           payload: {
@@ -86,7 +87,6 @@ export const addSize = (data) => {
         });
       })
       .catch((error) => {
-        console.log("3. Gagal Dapat Data", error.response.data);
         //error get api
         dispatch({
           type: ADD_SIZE,
@@ -128,7 +128,9 @@ export const updateSize = (data) => {
     //get API
     axios({
       method: "PUT",
-      headers: { Authorization: `Bearer ${data.token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/size/` + data.id,
       timeout: 120000,
       data: data,
@@ -158,7 +160,7 @@ export const updateSize = (data) => {
   };
 };
 
-export const deleteSize = (id, token) => {
+export const deleteSize = (id) => {
   return (dispatch) => {
     //loading
     dispatch({
@@ -173,7 +175,9 @@ export const deleteSize = (id, token) => {
     //get API
     axios({
       method: "DELETE",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
       url: `${process.env.REACT_APP_HOST}/size/` + id,
       timeout: 120000,
     })

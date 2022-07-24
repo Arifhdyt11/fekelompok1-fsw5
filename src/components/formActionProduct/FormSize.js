@@ -13,8 +13,6 @@ export default function FormSize({ productId }) {
     (state) => state.SizeReducer
   );
 
-  console.log("size", size);
-  console.log(stock);
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +51,7 @@ export default function FormSize({ productId }) {
 
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize());
+      // dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
@@ -70,7 +68,7 @@ export default function FormSize({ productId }) {
 
   useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize());
+      // dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");

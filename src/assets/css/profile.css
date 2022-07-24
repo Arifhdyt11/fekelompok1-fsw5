@@ -14,13 +14,11 @@
     color: #3252df;
 }
 
-.react-tel-input{
-    
-}
 
-.react-tel-input .flag-dropdown {    
-    background-color: transparent !important; 
-    border: none !important; 
+
+.react-tel-input .flag-dropdown {
+    background-color: transparent !important;
+    border: none !important;
 }
 
 .react-tel-input .form-control {

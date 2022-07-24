@@ -102,6 +102,7 @@ export default function TransactionBuyer({
                 hasRadius
                 hasShadow
                 isExternal
+                target="_blank"
                 type="link"
                 href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >
@@ -115,6 +116,7 @@ export default function TransactionBuyer({
                 hasRadius
                 hasShadow
                 isExternal
+                target="_blank"
                 type="link"
                 href={`https://wa.me/${productSizes.products.userAsSeller.phone}`}
               >

@@ -1,32 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import Fade from "react-reveal/Fade";
 import _ from "lodash";
+import { io } from "socket.io-client";
 
 import Button from "elements/Button";
 import ProductNotFound from "assets/images/ilustrasi.svg";
 import { formatPrice, titleShorten } from "utils/defaultFormat";
+import CardLoading from "components/CardLoading";
 
 import { getListProduct } from "store/actions/productAction";
 import { getListCategory } from "store/actions/categoryAction";
-import { GET_PRODUCT_ID } from "store/types";
-
-import { io } from "socket.io-client";
-import CardLoading from "components/CardLoading";
 
 export default function Product(props) {
   //--------------------GET PRODUCT AND SET PRODUCT--------------------
-  const dispatch = useDispatch();
-  const {
-    getListProductResult,
-    getListProductLoading,
-    getListProductError,
-    getProductIdResult,
-  } = useSelector((state) => state.ProductReducer);
+  const { getListProductResult, getListProductLoading, getListProductError } =
+    useSelector((state) => state.ProductReducer);
 
   const getInitialData = getListProductResult.data;
 
   const [product, setProduct] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setProduct(dispatch(getListProduct()));
@@ -36,14 +32,17 @@ export default function Product(props) {
     setProduct(getInitialData);
   }, [getInitialData]);
 
-  // console.log(product);
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SOCKET);
 
     socket.on("connection", () => {
-      // console.log("connct");
-      socket.on("add-products", (message) => {
-        console.log(message);
+      socket.on("add-products", () => {
+        dispatch(getListProduct());
+      });
+      socket.on("update-products", () => {
+        dispatch(getListProduct());
+      });
+      socket.on("delete-products", () => {
         dispatch(getListProduct());
       });
     });
@@ -98,19 +97,6 @@ export default function Product(props) {
     setActive(kategori);
   };
 
-  useEffect(() => {
-    if (getProductIdResult) {
-      dispatch({
-        type: GET_PRODUCT_ID,
-        payload: {
-          loading: true,
-          data: false,
-          errorMessage: false,
-        },
-      });
-    }
-  });
-
   return (
     <>
       <section className="container mt-2 mb-5" ref={props.refCallToAction}>
@@ -129,7 +115,9 @@ export default function Product(props) {
                 All
               </Button>
 
-              {getListCategoryResult ? (
+              {getListCategoryLoading ? (
+                <Button isLoading></Button>
+              ) : getListCategoryResult ? (
                 getListCategoryResult.data.map((kategori, index) => {
                   return (
                     <Button
@@ -145,8 +133,6 @@ export default function Product(props) {
                     </Button>
                   );
                 })
-              ) : getListCategoryLoading ? (
-                <Button isLoading></Button>
               ) : (
                 <p>
                   {getListCategoryError
@@ -169,7 +155,11 @@ export default function Product(props) {
 
         <div className="product">
           <div className="row justify-content-start">
-            {product ? (
+            {getListProductLoading ? (
+              <>
+                <CardLoading col="4" count="8" />
+              </>
+            ) : product ? (
               product.filter((item) => item.status === "published").length ===
               0 ? (
                 <div className="text-center null-illustration p-5">
@@ -216,10 +206,6 @@ export default function Product(props) {
                     );
                   })
               )
-            ) : getListProductLoading ? (
-              <>
-                <CardLoading col="4" count="8" />
-              </>
             ) : (
               <p>
                 {getListProductError

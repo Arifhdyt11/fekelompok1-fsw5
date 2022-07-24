@@ -8,7 +8,6 @@ import ModalChangePass from "components/ModalChangePass";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
 import Swal from "sweetalert2";
-import { set } from "lodash";
 
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -29,7 +28,7 @@ export default function ProfilePage() {
   });
 
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.AuthReducer);
+  const { user, loadingUpdate } = useSelector((state) => state.AuthReducer);
 
   const { getProvinsiResult, getKotaResult } = useSelector(
     (state) => state.CityReducer
@@ -119,11 +118,6 @@ export default function ProfilePage() {
         confirmButtonText: "Ya, Simpan!",
       }).then((result) => {
         if (result.isConfirmed) {
-          Swal.fire({
-            icon: "success",
-            title: "Data Berhasil Di Update!",
-            showConfirmButton: false,
-          });
           dispatch(updateUserDetail(update));
         }
       });
@@ -136,7 +130,7 @@ export default function ProfilePage() {
   const handleKota = (e) => {
     setKota(e.target.value);
   };
-  console.log(phone);
+
   return (
     <div>
       <div>
@@ -223,33 +217,36 @@ export default function ProfilePage() {
                   </select>
                 </div>
 
-                <div className="mb-3 ">
-                  <label htmlFor="cityInput" className="form-label">
-                    Kota <label className="text-red">*</label>
-                  </label>
-                  <select
-                    className="form-select borderRadius"
-                    aria-label="Default select example"
-                    id="cityInput"
-                    placeholder="Pilih Kota"
-                    required
-                    value={kota}
-                    onChange={handleKota}
-                    data-testid="input-kotaProfile"
-                  >
-                    <option value="">Pilih Kota</option>
-                    {getKotaResult
-                      ? getKotaResult.map((item) => {
-                          return (
-                            <>
-                              {/* <option value="">Pilih Kota</option> */}
-                              <option value={item.name}>{item.name}</option>
-                            </>
-                          );
-                        })
-                      : ""}
-                  </select>
-                </div>
+                {provinsi ? (
+                  <div className="mb-3 ">
+                    <label htmlFor="cityInput" className="form-label">
+                      Kota <label className="text-red">*</label>
+                    </label>
+                    <select
+                      className="form-select borderRadius"
+                      aria-label="Default select example"
+                      id="cityInput"
+                      placeholder="Pilih Kota"
+                      required
+                      value={kota}
+                      onChange={handleKota}
+                    >
+                      <option value="">Pilih Kota</option>
+                      {getKotaResult
+                        ? getKotaResult.map((item) => {
+                            return (
+                              <>
+                                {/* <option value="">Pilih Kota</option> */}
+                                <option value={item.name}>{item.name}</option>
+                              </>
+                            );
+                          })
+                        : ""}
+                    </select>
+                  </div>
+                ) : (
+                  ""
+                )}
 
                 <div className="mb-3 ">
                   <label htmlFor="addressInput" className="form-label">
@@ -275,18 +272,34 @@ export default function ProfilePage() {
                     masks={{ id: "...-....-....-...." }}
                   />
                 </div>
+
                 <div className="d-flex flex-column">
-                  <Button
-                    className="btn px-3 py-2 borderRadius"
-                    hasShadow
-                    isPrimary
-                    type="button"
-                  >
-                    Simpan
-                  </Button>
+                  {loadingUpdate ? (
+                    <Button
+                      className="btn px-3 py-2 borderRadius"
+                      hasShadow
+                      isPrimary
+                      isLoading
+                    ></Button>
+                  ) : (
+                    <Button
+                      className="btn px-3 py-2 borderRadius"
+                      hasShadow
+                      isPrimary
+                      type="button"
+                    >
+                      Simpan
+                    </Button>
+                  )}
                 </div>
               </form>
-              {user ? (
+              {loadingUpdate ? (
+                <Button
+                  className="btn btn-dark borderRadius mt-4 "
+                  isBlock
+                  isLoading
+                ></Button>
+              ) : user ? (
                 user.data.registeredVia === "auth-form" ? (
                   <button
                     className="btn btn-dark borderRadius is-block mt-4 "

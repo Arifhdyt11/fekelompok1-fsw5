@@ -4,25 +4,13 @@ import {
   addProduct,
   getListProduct,
   getListProductSeller,
-  getProductId,
-  getProductIdSeller,
   updateProduct,
 } from "store/actions/productAction";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Button from "elements/Button";
 import fotoProduct from "assets/images/addProduct.png";
-import Swal from "sweetalert2";
-import ImgPlaceholder from "assets/images/placeholder.png";
-
-function handleError(message) {
-  return Swal.fire({
-    icon: "error",
-    title: message,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-}
+import { handleHeaderSwal, handleSwal } from "utils/sweetAlert";
 
 export default function FormAddProduct() {
   const { user } = useSelector((state) => state.AuthReducer);
@@ -39,7 +27,6 @@ export default function FormAddProduct() {
   const { id } = useParams();
   if (id) {
     var { getProductIdSellerResult } = location.state.getProductIdSellerResult;
-    // console.log(getProductIdSellerResult);
   }
 
   const [images, setImages] = useState("");
@@ -185,25 +172,30 @@ export default function FormAddProduct() {
   }, [updateProductLoading, dispatch]);
 
   const oldImage = [];
-  console.log(images);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (images == "" || images2 == "" || images3 == "" || images4 == "") {
+      handleSwal("Images cannot be empty", "error");
+    }
     if (description === "") {
-      handleError("Desription cannot be empty");
+      handleSwal("Desription cannot be empty", "error");
     }
     if (categoryId === "") {
-      handleError("Category cannot be empty");
+      handleSwal("Category cannot be empty", "error");
+    }
+    if (price == 0) {
+      handleSwal("Price cannot be filled 0", "error");
     }
     if (price < 0) {
-      handleError("Price cannot be minus");
+      handleSwal("Price cannot be minus", "error");
     }
     if (price === "") {
-      handleError("Price cannot be empty");
+      handleSwal("Price cannot be empty", "error");
     }
     if (name === "") {
-      handleError("Name cannot be empty");
+      handleSwal("Name cannot be empty", "error");
     }
 
     if (id) {
@@ -236,6 +228,7 @@ export default function FormAddProduct() {
           oldImage.push(getProductIdSellerResult.image[3].substring(62, 82));
         }
       }
+
       const SwalUpdateProduct = {
         id: id,
         userId: user.data.id,
@@ -251,44 +244,32 @@ export default function FormAddProduct() {
       if (
         name !== "" &&
         price !== "" &&
+        price >= 1 &&
         categoryId !== "" &&
-        description !== ""
+        description !== "" &&
+        (images != "" || images2 != "" || images3 != "" || images4 != "")
       ) {
         if (status === "published") {
-          Swal.fire({
-            title: "Data sudah benar ?",
-            text: "Apakah anda yakin ingin menyimpan data ini ?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Simpan!",
-          }).then((result) => {
+          handleHeaderSwal(
+            "Data sudah benar ?",
+            "Apakah anda yakin ingin menyimpan data ini ?",
+            "warning",
+            true,
+            "Ya, Simpan!"
+          ).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Data Berhasil di tambahkan!",
-                icon: "success",
-                showConfirmButton: false,
-              });
               dispatch(updateProduct(SwalUpdateProduct));
             }
           });
         } else {
-          Swal.fire({
-            title: "Data sudah benar ?",
-            text: "Product Akan di Simpan di Draft",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Simpan!",
-          }).then((result) => {
+          handleHeaderSwal(
+            "Data sudah benar ?",
+            "Product Akan di Simpan di Draft",
+            "warning",
+            true,
+            "Ya, Simpan!"
+          ).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Loading Preview...",
-                icon: "success",
-                showConfirmButton: false,
-              });
               dispatch(updateProduct(SwalUpdateProduct));
             }
           });
@@ -308,44 +289,31 @@ export default function FormAddProduct() {
       if (
         name !== "" &&
         price !== "" &&
+        price >= 1 &&
         categoryId !== "" &&
         description !== ""
       ) {
         if (status === "published") {
-          Swal.fire({
-            title: "Data sudah benar ?",
-            text: "Apakah anda yakin ingin menyimpan data ini ?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Simpan!",
-          }).then((result) => {
+          handleHeaderSwal(
+            "Data sudah benar ?",
+            "Apakah anda yakin ingin menyimpan data ini ?",
+            "warning",
+            true,
+            "Ya, Simpan!"
+          ).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Data Berhasil di tambahkan!",
-                icon: "success",
-                showConfirmButton: false,
-              });
               dispatch(addProduct(SwalAddProduct));
             }
           });
         } else {
-          Swal.fire({
-            title: "Data sudah benar ?",
-            text: "Product Akan di Simpan di Draft",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Simpan!",
-          }).then((result) => {
+          handleHeaderSwal(
+            "Data sudah benar ?",
+            "Product Akan di Simpan di Draft",
+            "warning",
+            true,
+            "Ya, Simpan!"
+          ).then((result) => {
             if (result.isConfirmed) {
-              Swal.fire({
-                title: "Loading Preview...",
-                icon: "success",
-                showConfirmButton: false,
-              });
               dispatch(addProduct(SwalAddProduct));
             }
           });
@@ -440,7 +408,7 @@ export default function FormAddProduct() {
           className="form-control borderRadius"
           id="descriptionInput"
           rows="3"
-          placeholder="Contoh: Jalan Ikan Hiu 33"
+          placeholder="Contoh: Jalan Kenangan No. 33"
           name="description"
           value={description}
           onChange={handleDescription}
@@ -581,7 +549,7 @@ export default function FormAddProduct() {
               isBlock
               onClick={() => setStatus("draft")}
             >
-              Arsipkan
+              Preview
             </Button>
             <Button
               className="btn px-3 py-2 btn-primary borderRadius ms-2"

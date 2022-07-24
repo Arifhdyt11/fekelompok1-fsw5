@@ -1,6 +1,6 @@
-import axios from "axios";
 import { ADD_REGISTER } from "store/types";
-import Swal from "sweetalert2";
+import axios from "axios";
+import { handleSwal } from "utils/sweetAlert";
 
 // add
 export const addRegister = (data) => {
@@ -22,6 +22,9 @@ export const addRegister = (data) => {
       data: data,
     })
       .then((response) => {
+        handleSwal("Registration Successful!", "success").then(function () {
+          window.location = "/login";
+        });
         dispatch({
           // get data
           type: ADD_REGISTER,
@@ -31,16 +34,10 @@ export const addRegister = (data) => {
             errorMessage: false,
           },
         });
-        window.location.href = "/login";
-        Swal.fire({
-          icon: "success",
-          title: "Registration Successful",
-          showConfirmButton: false,
-          timer: 1500,
-        });
       })
       .catch((error) => {
         // error
+        handleSwal(error.response.data.message, "error");
         dispatch({
           type: ADD_REGISTER,
           payload: {
@@ -48,12 +45,6 @@ export const addRegister = (data) => {
             data: false,
             errorMessage: error.message,
           },
-        });
-        Swal.fire({
-          icon: "error",
-          title: error.response.data.message,
-          showConfirmButton: false,
-          timer: 1500,
         });
       });
   };

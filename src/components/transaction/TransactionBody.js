@@ -43,9 +43,7 @@ export default function TransactionBody() {
       const socket = io(process.env.REACT_APP_SOCKET);
 
       socket.on("connection", () => {
-        // console.log("connct");
-        socket.on("add-transaction", (message) => {
-          console.log(message);
+        socket.on("add-transaction", () => {
           dispatch(getListTransactionSeller());
         });
       });
@@ -55,7 +53,6 @@ export default function TransactionBody() {
       });
     }
   }, [dispatch, getListTransactionSeller]);
-  // console.log(getListTransactionSellerResult);
   return (
     <>
       <div className="container mt-lg-4 mt-1  pb-1">
@@ -105,7 +102,7 @@ export default function TransactionBody() {
             <p>
               {getListTransactionSellerError
                 ? getListTransactionSellerError
-                : "Error..."}
+                : ""}
             </p>
           )
         ) : getListTransactionBuyerResult ? (
@@ -130,9 +127,7 @@ export default function TransactionBody() {
           <CardLoading transaction col="1" count="2" />
         ) : (
           <p>
-            {getListTransactionBuyerError
-              ? getListTransactionBuyerError
-              : "Error..."}
+            {getListTransactionBuyerError ? getListTransactionBuyerError : ""}
           </p>
         )}
       </section>
