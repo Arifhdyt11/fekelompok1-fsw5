@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListProductSeller } from "store/actions/productAction";
 import { getListWishlistSeller } from "store/actions/wishlistAction";
 
-import Button from "elements/Button";
 import DraftProduct from "./DraftProduct";
 import { io } from "socket.io-client";
 import Sold from "./Sold";
 import { getListTransactionSeller } from "store/actions/transactionAction";
-import { Link } from "react-router-dom";
+import { getListSize } from "store/actions/sizeAction";
 function ProductBody() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
+
   //--------------------TOTAL PRODUCT--------------
   const { getListProductSellerResult } = useSelector(
     (state) => state.ProductReducer
@@ -21,6 +21,10 @@ function ProductBody() {
 
   useEffect(() => {
     dispatch(getListProductSeller());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getListSize());
   }, [dispatch]);
 
   if (getListProductSellerResult) {
@@ -34,14 +38,35 @@ function ProductBody() {
     ).length;
   }
 
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setTotal(countProduct);
+    }
+  }, [countProduct]);
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setDraft(countDraft);
+    }
+  }, [countDraft]);
   //------------------TOTAL WISHLIST------------------
 
   const { getListWishlistSellerResult } = useSelector(
     (state) => state.WishlistReducer
   );
+  useEffect(() => {
+    dispatch(getListWishlistSeller());
+  }, [dispatch]);
+
   if (getListWishlistSellerResult) {
     var countWishlist = getListWishlistSellerResult.data.length;
   }
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setWishlist(countWishlist);
+    }
+  }, [countWishlist]);
 
   useEffect(() => {
     const socket = io(process.env.REACT_APP_SOCKET);
@@ -56,10 +81,6 @@ function ProductBody() {
         });
       }
     });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnecting");
-    });
   }, [dispatch]);
 
   //-----------------------------TOTAL SOLD-------------------------------
@@ -67,9 +88,21 @@ function ProductBody() {
     (state) => state.TransactionReducer
   );
 
-  // useEffect(() => {
-  //   dispatch(getListTransactionSeller());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getListTransactionSeller());
+  }, [dispatch]);
+
+  if (getListTransactionSellerResult) {
+    var countSold = getListTransactionSellerResult.data.filter(
+      (item) => item.status === "success"
+    ).length;
+  }
+
+  useEffect(() => {
+    if (user.data.role === "SELLER") {
+      setSold(countSold);
+    }
+  }, [countSold]);
 
   useEffect(() => {
     if (user.data.role === "SELLER") {
@@ -79,23 +112,15 @@ function ProductBody() {
           dispatch(getListTransactionSeller());
         });
       });
-      socket.on("disconnect", () => {
-        console.log("Socket disconnecting");
-      });
     }
-  }, [dispatch, getListTransactionSeller]);
-
-  if (getListTransactionSellerResult) {
-    var countSold = getListTransactionSellerResult.data.filter(
-      (item) => item.status === "success"
-    ).length;
-  }
+  }, [dispatch]);
 
   // --------------------------------------------------------------
+
   const [total, setTotal] = useState(null);
-  const [draft, setDraft] = useState("");
-  const [wishlist, setWishlist] = useState("");
-  const [sold, setSold] = useState("");
+  const [draft, setDraft] = useState(null);
+  const [wishlist, setWishlist] = useState(null);
+  const [sold, setSold] = useState(null);
 
   const [show, setShow] = useState(<ProductList />);
 
@@ -115,7 +140,6 @@ function ProductBody() {
       setSold("");
     }
     if (itShow === "Diminati") {
-      dispatch(getListWishlistSeller());
       setShow(<Wishlist />);
       setTotal("");
       setDraft("");
@@ -123,7 +147,6 @@ function ProductBody() {
       setSold("");
     }
     if (itShow === "Terjual") {
-      dispatch(getListTransactionSeller());
       setShow(<Sold />);
       setTotal("");
       setDraft("");
