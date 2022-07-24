@@ -290,11 +290,7 @@ export default function ProfilePage() {
                 </div>
               </form>
               {loadingUpdate ? (
-                <Button
-                  className="btn btn-dark borderRadius mt-4 "
-                  isBlock
-                  isLoading
-                ></Button>
+                ""
               ) : user ? (
                 user.data.registeredVia === "auth-form" ? (
                   <button

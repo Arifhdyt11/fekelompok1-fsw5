@@ -226,18 +226,18 @@ export default function ModalStock({ productId }) {
                 </Button> */}
                 {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
                   <Button
-                    className="btn ms-2 w-100"
+                    className="btn w-100"
                     hasShadow
                     isPrimary
                     isLoading
                   ></Button>
                 ) : getListSizeResult ? (
-                  <Button className="btn ms-2 w-100" hasShadow isPrimary>
+                  <Button className="btn w-100" hasShadow isPrimary>
                     Submit Stock
                   </Button>
                 ) : getListSizeLoading ? (
                   <Button
-                    className="btn ms-2 w-100"
+                    className="btn w-100"
                     hasShadow
                     isPrimary
                     isLoading

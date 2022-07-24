@@ -34,7 +34,6 @@ export default function Galery({ productId }) {
     setActive(size);
     window.scrollTo(0, 300);
   };
-
   return (
     <>
       <section className="container section-galery-product">
@@ -169,7 +168,11 @@ export default function Galery({ productId }) {
                       role="alert"
                       style={{ cursor: "context-menu" }}
                     >
-                      Mohon Maaf Stock Product Tidak Tersedia
+                      {isAuthenticated
+                        ? user.data.role === "SELLER"
+                          ? "Silahkan Tambahkan Stock"
+                          : "Mohon Maaf Product Tidak Tersedia"
+                        : "Mohon Maaf Product Tidak Tersedia"}
                     </div>
                   ) : isAuthenticated ? (
                     user.data.role === "SELLER" ? (
@@ -298,16 +301,15 @@ export default function Galery({ productId }) {
                   ) : isAuthenticated ? (
                     user.data.role === "SELLER" ? (
                       ""
+                    ) : location.state ? (
+                      <h5>Stock : {location.state.item.stock}</h5>
                     ) : (
-                      <h5>
-                        Stock :{" "}
-                        {location.state ? location.state.item.stock : ""}
-                      </h5>
+                      ""
                     )
+                  ) : location.state ? (
+                    <h5>Stock : {location.state.item.stock}</h5>
                   ) : (
-                    <h5>
-                      Stock : {location.state ? location.state.item.stock : ""}
-                    </h5>
+                    ""
                   )
                 ) : getListSizeLoading ? (
                   <Button isLoading></Button>

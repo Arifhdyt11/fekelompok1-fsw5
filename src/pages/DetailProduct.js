@@ -23,10 +23,10 @@ function ShowDetailProduct() {
       <Galery productId={id} />
       <section className="container section-detail-product mt-5 mb-5">
         <div className="row">
-          <div className="col-lg-5 order-sm-5 mb-5 mb-lg-0 d-flex align-items-center">
+          <div className="col-lg-5 order-md-5 mb-5 mb-lg-0 d-flex align-items-center">
             <ActionDetail id={id} />
           </div>
-          <div className="col-lg-7 order-sm-1 ">
+          <div className="col-lg-7 order-md-1 ">
             <DescriptionProduct />
           </div>
         </div>
@@ -79,8 +79,7 @@ export default function DetailProduct() {
       socket.on("add-products", () => {
         dispatch(getProductId(id));
       });
-      socket.on("update-products", (message) => {
-        console.log("test : ", message);
+      socket.on("update-products", () => {
         dispatch(getProductId(id));
       });
       socket.on("delete-products", () => {
