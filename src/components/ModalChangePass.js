@@ -1,8 +1,14 @@
+import Button from "elements/Button";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "store/actions/changePassword";
+import { handleSwal } from "utils/sweetAlert";
 
 function ModalChangePass() {
+  const { changePasswordLoading } = useSelector(
+    (state) => state.ChangePasswordReducer
+  );
+
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,7 +16,14 @@ function ModalChangePass() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(changePassword({ oldPassword: oldPassword, password: password }));
+    if (password.length <= 7) {
+      handleSwal("Password cannot be less than 8!", "error");
+    }
+    if (password.length >= 8) {
+      dispatch(
+        changePassword({ oldPassword: oldPassword, password: password })
+      );
+    }
   };
 
   return (
@@ -60,23 +73,25 @@ function ModalChangePass() {
                   required
                 />
               </div>
-              {/* <div className="mb-3">
-                <label className="form-label">Confirm New Password</label>
-                <input type="password" className="form-control" />
-              </div> */}
             </div>
 
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Save changes
-              </button>
+              {changePasswordLoading ? (
+                <Button className="btn" isPrimary isLoading></Button>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Save changes
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

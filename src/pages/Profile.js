@@ -7,19 +7,10 @@ import Button from "elements/Button";
 import ModalChangePass from "components/ModalChangePass";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserDetail } from "store/actions/authAction";
-import Swal from "sweetalert2";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { getKota, getProvinsi } from "store/actions/cityAction";
-
-function handleError(message) {
-  return Swal.fire({
-    icon: "error",
-    title: message,
-    showConfirmButton: false,
-    timer: 1500,
-  });
-}
+import { handleHeaderSwal, handleSwal } from "utils/sweetAlert";
 
 export default function ProfilePage() {
   useEffect(() => {
@@ -88,13 +79,12 @@ export default function ProfilePage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (kota === "") {
-      handleError("City cannot be empty");
     }
     if (phone === "") {
-      handleError("Phone Number cannot be empty");
+      handleSwal("Phone Number cannot be empty", "error");
     }
     if (phone.length <= 8) {
-      handleError("Phone Number cannot be less than 9");
+      handleSwal("Phone Number cannot be less than 9", "error");
     }
     const update = {
       name: document.getElementById("nameInput").value,
@@ -105,15 +95,13 @@ export default function ProfilePage() {
       image,
     };
     if (phone.length >= 9) {
-      Swal.fire({
-        title: "Data sudah benar ?",
-        text: "Apakah anda yakin ingin menyimpan data ini ?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya, Simpan!",
-      }).then((result) => {
+      handleHeaderSwal(
+        "Data sudah benar ?",
+        "Apakah anda yakin ingin menyimpan data ini ?",
+        "warning",
+        true,
+        "Ya, Simpan!"
+      ).then((result) => {
         if (result.isConfirmed) {
           dispatch(updateUserDetail(update));
         }

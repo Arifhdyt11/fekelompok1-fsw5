@@ -10,8 +10,6 @@ import { io } from "socket.io-client";
 import Sold from "./Sold";
 import { getListTransactionSeller } from "store/actions/transactionAction";
 import { getListSize } from "store/actions/sizeAction";
-import { update } from "lodash";
-import Button from "elements/Button";
 function ProductBody() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.AuthReducer);
