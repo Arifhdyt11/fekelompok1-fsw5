@@ -161,10 +161,10 @@ export default function ProfilePage() {
             <div className="col-md-11 col-sm-12 mb-4 ">
               <form onSubmit={handleSubmit}>
                 <div className="mb-3 text-center">
+                  <p className="text-center">
+                    Klik gambar untuk mengubah foto profile
+                  </p>
                   <label htmlFor="file-input" id="preview">
-                    <p className="text-center">
-                      Klik gambar untuk mengubah foto profile
-                    </p>
                     <img
                       id="filePhoto"
                       className="display-none uploadImageInput m-2"

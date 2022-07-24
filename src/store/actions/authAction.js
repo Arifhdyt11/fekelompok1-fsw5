@@ -125,7 +125,9 @@ export const updateUserDetail = (data) => async (dispatch) => {
     user: JSON.parse(localStorage.getItem("user")),
     status: true,
   });
+  console.log(dispatch);
   try {
+    console.log(data);
     var formdata = new FormData();
     if (data.image) {
       formdata.append("image", data.image);
@@ -147,13 +149,14 @@ export const updateUserDetail = (data) => async (dispatch) => {
     const result = await response.json();
     if (result.data.role === "SELLER") {
       handleSwal("Data Berhasil Di Update", "success").then(function () {
-        window.location.href = "/seller";
+        window.location = "/seller";
       });
     } else {
       handleSwal("Data Berhasil Di Update", "success").then(function () {
-        window.location.href = "/";
+        window.location = "/";
       });
     }
+    console.log(result);
     dispatch({
       type: UPDATE_PROFILE,
       loading: false,
@@ -188,7 +191,6 @@ export const loginWithGoogle = (accessToken) => async (dispatch) => {
     });
     const result = await response.json();
 
-    // profile
     const userInfo = await fetch(`${process.env.REACT_APP_HOST}/profile`, {
       method: "GET",
       headers: {
