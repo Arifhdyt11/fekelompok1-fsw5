@@ -213,13 +213,13 @@ export default function ModalStock({ productId }) {
                 />
               </div>
               <div className="col-lg-3 col-md-4 col-sm-12 mt-auto d-flex justify-content-around">
-                {/* <Button
+                <Button
                   className="btn me-2 w-100 d-block d-sm-none"
                   isSecondary
                   onClick={handleClose}
                 >
                   Clear
-                </Button> */}
+                </Button>
                 {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
                   <Button
                     className="btn w-100"
