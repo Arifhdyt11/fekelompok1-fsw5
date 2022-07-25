@@ -128,7 +128,7 @@ export default function WishlistProduct() {
                                   alt=""
                                 />
                               </div>
-                              <div className="col-9 ps-3 align-self-center">
+                              <div className="col-9 ps-0 ps-md-3 align-self-center">
                                 <p className="seller-name-wishlist">
                                   {item.products
                                     ? item.products.userAsSeller.name
