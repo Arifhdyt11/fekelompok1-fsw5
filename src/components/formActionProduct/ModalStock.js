@@ -8,7 +8,6 @@ import {
   addSize,
   deleteSize,
   detailSize,
-  getListSize,
   updateSize,
 } from "store/actions/sizeAction";
 import { DETAIL_SIZE } from "store/types";
@@ -55,30 +54,27 @@ export default function ModalStock({ productId }) {
 
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [addSizeResult, dispatch]);
+  }, [addSizeResult]);
 
   useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [updateSizeResult, dispatch]);
+  }, [updateSizeResult]);
 
   useEffect(() => {
     if (deleteSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [deleteSizeResult, dispatch]);
+  }, [deleteSizeResult]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -217,13 +213,13 @@ export default function ModalStock({ productId }) {
                 />
               </div>
               <div className="col-lg-3 col-md-4 col-sm-12 mt-auto d-flex justify-content-around">
-                {/* <Button
+                <Button
                   className="btn me-2 w-100 d-block d-sm-none"
                   isSecondary
                   onClick={handleClose}
                 >
                   Clear
-                </Button> */}
+                </Button>
                 {addSizeLoading || updateSizeLoading || deleteSizeLoading ? (
                   <Button
                     className="btn w-100"
