@@ -77,6 +77,15 @@ function ProductBody() {
         socket.on("delete-wishlist", () => {
           dispatch(getListWishlistSeller());
         });
+        socket.on("add-sizes", () => {
+          dispatch(getListSize());
+        });
+        socket.on("update-sizes", () => {
+          dispatch(getListSize());
+        });
+        socket.on("delete-sizes", () => {
+          dispatch(getListSize());
+        });
       }
     });
   }, [dispatch]);

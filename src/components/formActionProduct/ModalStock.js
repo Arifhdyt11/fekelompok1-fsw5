@@ -8,7 +8,6 @@ import {
   addSize,
   deleteSize,
   detailSize,
-  getListSize,
   updateSize,
 } from "store/actions/sizeAction";
 import { DETAIL_SIZE } from "store/types";
@@ -55,30 +54,27 @@ export default function ModalStock({ productId }) {
 
   useEffect(() => {
     if (addSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [addSizeResult, dispatch]);
+  }, [addSizeResult]);
 
   useEffect(() => {
     if (updateSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [updateSizeResult, dispatch]);
+  }, [updateSizeResult]);
 
   useEffect(() => {
     if (deleteSizeResult) {
-      dispatch(getListSize());
       setId("");
       setSize("");
       setStock("");
     }
-  }, [deleteSizeResult, dispatch]);
+  }, [deleteSizeResult]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
