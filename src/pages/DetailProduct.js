@@ -78,20 +78,49 @@ export default function DetailProduct() {
           socket.on("update-transaction", () => {
             dispatch(getListTransactionBuyer());
           });
-          socket.on("delete-products", () => {
+          socket.on("add-products", () => {
             dispatch(getProductId(id));
           });
           socket.on("update-products", () => {
             dispatch(getProductId(id));
             dispatch(getListSize());
           });
-          socket.on("add-products", () => {
+          socket.on("delete-products", () => {
             dispatch(getProductId(id));
           });
+          socket.on("add-sizes", () => {
+            dispatch(getListSize());
+          });
+          socket.on("update-sizes", () => {
+            dispatch(getListSize());
+          });
+          socket.on("delete-sizes", () => {
+            dispatch(getListSize());
+          });
         }
+      } else {
+        socket.on("add-products", () => {
+          dispatch(getProductId(id));
+        });
+        socket.on("update-products", () => {
+          dispatch(getProductId(id));
+          dispatch(getListSize());
+        });
+        socket.on("delete-products", () => {
+          dispatch(getProductId(id));
+        });
+        socket.on("add-sizes", () => {
+          dispatch(getListSize());
+        });
+        socket.on("update-sizes", () => {
+          dispatch(getListSize());
+        });
+        socket.on("delete-sizes", () => {
+          dispatch(getListSize());
+        });
       }
     });
-  }, [getProductId, getListTransactionBuyer]);
+  }, [getProductId, getListSize, getListTransactionBuyer]);
 
   return (
     <>
