@@ -16,6 +16,7 @@ export default function FormAddProduct() {
   const { user } = useSelector((state) => state.AuthReducer);
 
   const {
+    getListProductSellerResult,
     addProductResult,
     addProductLoading,
     updateProductResult,
@@ -167,12 +168,26 @@ export default function FormAddProduct() {
     }
   }, [updateProductLoading, dispatch]);
 
+  useEffect(() => {
+    dispatch(getListProductSeller());
+  }, [dispatch]);
+
   const oldImage = [];
+
+  if (getListProductSellerResult) {
+    var countPublished = getListProductSellerResult.data.filter(
+      (item) => item.status === "published"
+    ).length;
+  }
+  // console.log(countPublished);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (images == "" || images2 == "" || images3 == "" || images4 == "") {
+    if (countPublished >= 4 && status === "published") {
+      handleSwal("Batas Produk Di Terbitkan Adalah 4", "warning");
+    }
+    if (images == "" && images2 == "" && images3 == "" && images4 == "") {
       handleSwal("Images cannot be empty", "error");
     }
     if (description === "") {
@@ -246,17 +261,19 @@ export default function FormAddProduct() {
         (images != "" || images2 != "" || images3 != "" || images4 != "")
       ) {
         if (status === "published") {
-          handleHeaderSwal(
-            "Data sudah benar ?",
-            "Apakah anda yakin ingin menyimpan data ini ?",
-            "warning",
-            true,
-            "Ya, Simpan!"
-          ).then((result) => {
-            if (result.isConfirmed) {
-              dispatch(updateProduct(SwalUpdateProduct));
-            }
-          });
+          if (countPublished < 4) {
+            handleHeaderSwal(
+              "Data sudah benar ?",
+              "Apakah anda yakin ingin menyimpan data ini ?",
+              "warning",
+              true,
+              "Ya, Simpan!"
+            ).then((result) => {
+              if (result.isConfirmed) {
+                dispatch(updateProduct(SwalUpdateProduct));
+              }
+            });
+          }
         } else {
           handleHeaderSwal(
             "Data sudah benar ?",
@@ -287,20 +304,23 @@ export default function FormAddProduct() {
         price !== "" &&
         price >= 1 &&
         categoryId !== "" &&
-        description !== ""
+        description !== "" &&
+        (images != "" || images2 != "" || images3 != "" || images4 != "")
       ) {
         if (status === "published") {
-          handleHeaderSwal(
-            "Data sudah benar ?",
-            "Apakah anda yakin ingin menyimpan data ini ?",
-            "warning",
-            true,
-            "Ya, Simpan!"
-          ).then((result) => {
-            if (result.isConfirmed) {
-              dispatch(addProduct(SwalAddProduct));
-            }
-          });
+          if (countPublished < 4) {
+            handleHeaderSwal(
+              "Data sudah benar ?",
+              "Apakah anda yakin ingin menyimpan data ini ?",
+              "warning",
+              true,
+              "Ya, Simpan!"
+            ).then((result) => {
+              if (result.isConfirmed) {
+                dispatch(addProduct(SwalAddProduct));
+              }
+            });
+          }
         } else {
           handleHeaderSwal(
             "Data sudah benar ?",

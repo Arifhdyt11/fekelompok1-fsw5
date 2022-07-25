@@ -2,10 +2,8 @@ import ModalStock from "components/formActionProduct/ModalStock";
 import Button from "elements/Button";
 import { formatPrice, titleShorten } from "utils/defaultFormat";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-import { getListSize } from "store/actions/sizeAction";
 import { Fade } from "react-reveal";
 function ProductItem({
   id,

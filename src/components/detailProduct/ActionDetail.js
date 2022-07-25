@@ -6,10 +6,11 @@ import { formatPrice } from "utils/defaultFormat";
 
 import Button from "elements/Button";
 import ModalNegoBuyer from "./ModalNegoBuyer";
-import { handleHeaderSwal } from "utils/sweetAlert";
+import { handleHeaderSwal, handleSwal } from "utils/sweetAlert";
 
 import {
   deleteProduct,
+  getListProductSeller,
   getProductIdSeller,
   updateProduct,
 } from "store/actions/productAction";
@@ -30,9 +31,9 @@ function CheckButton({
   const { isAuthenticated, user } = useSelector((state) => state.AuthReducer);
 
   const {
-    updateProductResult,
+    getListProductSellerResult,
+
     updateProductLoading,
-    deleteProductResult,
     deleteProductLoading,
   } = useSelector((state) => state.ProductReducer);
 
@@ -101,11 +102,11 @@ function CheckButton({
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (updateProductResult) {
-        dispatch(getProductIdSeller(id));
+      if (user.data.role === "SELLER") {
+        dispatch(getListProductSeller());
       }
     }
-  }, [updateProductResult, dispatch]);
+  }, [dispatch]);
 
   const productId = parseInt(id);
 
@@ -137,28 +138,40 @@ function CheckButton({
     });
   };
 
+  if (getListProductSellerResult) {
+    var countPublished = getListProductSellerResult.data.filter(
+      (item) => item.status === "published"
+    ).length;
+  }
+
+  console.log(countPublished);
+
   const handleTerbitkan = () => {
-    handleHeaderSwal(
-      "Terbitkan Product",
-      "Apakah anda yakin ingin menerbitkan product ini ?",
-      "warning",
-      true,
-      "Ya, Terbitkan Product!"
-    ).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(
-          updateProduct({
-            id: id,
-            image: getProductIdSellerResult.image,
-            name: getProductIdSellerResult.name,
-            price: getProductIdSellerResult.price,
-            description: getProductIdSellerResult.description,
-            categoryId: getProductIdSellerResult.categoryId,
-            status: "published",
-          })
-        );
-      }
-    });
+    if (countPublished >= 4) {
+      handleSwal("Batas Produk Di Terbitkan Adalah 4", "warning");
+    } else {
+      handleHeaderSwal(
+        "Terbitkan Product",
+        "Apakah anda yakin ingin menerbitkan product ini ?",
+        "warning",
+        true,
+        "Ya, Terbitkan Product!"
+      ).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(
+            updateProduct({
+              id: id,
+              image: getProductIdSellerResult.image,
+              name: getProductIdSellerResult.name,
+              price: getProductIdSellerResult.price,
+              description: getProductIdSellerResult.description,
+              categoryId: getProductIdSellerResult.categoryId,
+              status: "published",
+            })
+          );
+        }
+      });
+    }
   };
 
   if (isAuthenticated) {
